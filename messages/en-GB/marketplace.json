@@ -1,0 +1,91 @@
+{
+  "home": {
+    "title": "Find your perfect car",
+    "subtitle": "Search across our network of local rental companies",
+    "searchPlaceholder": "Where are you going?"
+  },
+  "cars": {
+    "title": "Available cars",
+    "perDay": "{price} / day",
+    "seats": "{count} seats",
+    "noResults": "No cars match your filters.",
+    "noResultsHint": "Try adjusting your dates or filters.",
+    "clearFilters": "Clear filters",
+    "filters": {
+      "title": "Filters",
+      "type": "Vehicle type",
+      "seats": "Seats",
+      "transmission": "Transmission",
+      "dates": "Dates",
+      "from": "Pick-up date",
+      "to": "Drop-off date"
+    },
+    "types": {
+      "car": "Car",
+      "suv": "SUV",
+      "van": "Van",
+      "truck": "Truck",
+      "motorcycle": "Motorcycle"
+    },
+    "transmission": {
+      "automatic": "Automatic",
+      "manual": "Manual"
+    },
+    "fuel": {
+      "petrol": "Petrol",
+      "diesel": "Diesel",
+      "electric": "Electric",
+      "hybrid": "Hybrid"
+    }
+  },
+  "carDetail": {
+    "bookNow": "Book now",
+    "pricePerDay": "{price} per day",
+    "specs": "Specifications",
+    "year": "Year",
+    "type": "Type",
+    "transmission": "Transmission",
+    "fuel": "Fuel",
+    "seats": "Seats",
+    "availability": "Availability",
+    "notAvailable": "This car is not available for the selected dates."
+  },
+  "booking": {
+    "title": "Complete your booking",
+    "subtitle": "Fill in your details to confirm the reservation",
+    "guestName": "Full name",
+    "guestEmail": "Email address",
+    "guestPhone": "Phone number",
+    "startDate": "Pick-up date",
+    "endDate": "Drop-off date",
+    "summary": "Booking summary",
+    "totalPrice": "Total",
+    "nights": "{count, plural, one {# day} other {# days}}",
+    "confirm": "Confirm booking",
+    "confirming": "Confirming…",
+    "successTitle": "Booking confirmed!",
+    "successMessage": "Your confirmation has been sent to {email}.",
+    "viewBooking": "View my booking"
+  },
+  "reservationStatus": {
+    "title": "Your reservation",
+    "status": {
+      "draft": "Pending",
+      "confirmed": "Confirmed",
+      "active": "Active — enjoy your trip!",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "vehicle": "Vehicle",
+    "dates": "Dates",
+    "total": "Total",
+    "reference": "Reference"
+  },
+  "companies": {
+    "title": "Rental companies",
+    "subtitle": "Browse our network of trusted local operators",
+    "searchPlaceholder": "Search companies…",
+    "noResults": "No companies found.",
+    "viewFleet": "View fleet"
+  }
+}
