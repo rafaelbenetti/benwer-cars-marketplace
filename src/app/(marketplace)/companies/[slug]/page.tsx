@@ -4,7 +4,6 @@ import { CompanyBanner } from "@/components/layout/CompanyBanner";
 import { Footer } from "@/components/layout/Footer";
 import { CarListView } from "@/components/features/CarListView";
 import { companiesApi } from "@/services/api";
-import type { Vehicle } from "@/types/vehicle";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -37,10 +36,6 @@ async function CompanyPage({ params }: Props) {
     /* fallback to slug-only display */
   }
 
-  function buildCarHref(vehicle: Vehicle) {
-    return `/companies/${slug}/cars/${vehicle.id}`;
-  }
-
   return (
     <>
       <MarketplaceHeader />
@@ -52,7 +47,7 @@ async function CompanyPage({ params }: Props) {
         />
       ) : null}
       <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
-        <CarListView companySlug={slug} buildHref={buildCarHref} />
+        <CarListView companySlug={slug} />
       </main>
       <Footer />
     </>

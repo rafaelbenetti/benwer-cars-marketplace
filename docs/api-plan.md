@@ -80,6 +80,18 @@ company data but not on global listing).
 ### Vehicles
 
 ```
+GET  /v1/public/vehicles
+```
+
+Response: `Vehicle[]` — every public vehicle across all marketplace-listed companies.
+Each item includes `companySlug` and `companyName` so the global home page can
+attribute cars to their operator.
+
+Query params: `?type=&minSeats=&transmission=&from=&to=&q=`
+
+---
+
+```
 GET  /v1/public/companies/{slug}/vehicles
 ```
 

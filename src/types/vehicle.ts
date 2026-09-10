@@ -3,6 +3,7 @@ import type { VehicleStatus, VehicleType, TransmissionType, FuelType } from "@/e
 export interface Vehicle {
   id: string;
   companySlug: string;
+  companyName?: string;
   brand: string;
   model: string;
   year: number;

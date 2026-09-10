@@ -5,9 +5,7 @@ import { TenantHeader } from "@/components/layout/TenantHeader";
 import { CompanyBanner } from "@/components/layout/CompanyBanner";
 import { Footer } from "@/components/layout/Footer";
 import { CarListView } from "@/components/features/CarListView";
-import { CompanyListView } from "@/components/features/CompanyListView";
 import { companiesApi } from "@/services/api";
-import type { Vehicle } from "@/types/vehicle";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers();
@@ -58,15 +56,12 @@ function MarketplaceHome() {
             Find your perfect car
           </h1>
           <p className="mt-3 text-base text-muted-foreground max-w-xl">
-            Search across our network of trusted local rental companies.
+            Browse cars from every rental company in our network.
           </p>
         </div>
       </section>
       <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10">
-        <h2 className="text-xl font-semibold text-foreground mb-6">
-          Rental companies
-        </h2>
-        <CompanyListView />
+        <CarListView />
       </main>
       <Footer />
     </>
@@ -79,10 +74,6 @@ async function TenantHome({ companySlug }: { companySlug: string }) {
     company = await companiesApi.getBySlug(companySlug);
   } catch {
     /* fall back to slug-only display */
-  }
-
-  function buildCarHref(vehicle: Vehicle) {
-    return `/cars/${vehicle.id}`;
   }
 
   return (
@@ -99,7 +90,7 @@ async function TenantHome({ companySlug }: { companySlug: string }) {
         />
       ) : null}
       <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
-        <CarListView companySlug={companySlug} buildHref={buildCarHref} />
+        <CarListView companySlug={companySlug} tenant />
       </main>
       <Footer />
     </>
