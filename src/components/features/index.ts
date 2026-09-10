@@ -6,4 +6,7 @@ export { FilterBar } from "./FilterBar";
 export { CarPhotoGallery } from "./CarPhotoGallery";
 export { CarSpecsTable } from "./CarSpecsTable";
 export { BookingWidget } from "./BookingWidget";
+export { BookingForm } from "./BookingForm";
+export { BookingSummary } from "./BookingSummary";
+export { ReservationStatus } from "./ReservationStatus";
 export { CompanyCard } from "./CompanyCard";
