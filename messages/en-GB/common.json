@@ -1,0 +1,26 @@
+{
+  "errors": {
+    "unknown": "Something went wrong. Please try again.",
+    "network": "Can't reach the server. Check your connection.",
+    "vehicle": {
+      "not_found": "This vehicle is no longer available."
+    },
+    "company": {
+      "not_found": "This company could not be found."
+    },
+    "reservation": {
+      "overlap": "This vehicle is already booked for those dates.",
+      "not_found": "Reservation not found. Check your confirmation link."
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "cars": "Cars",
+    "companies": "Companies"
+  },
+  "actions": {
+    "retry": "Try again",
+    "back": "Go back",
+    "viewAll": "View all"
+  }
+}

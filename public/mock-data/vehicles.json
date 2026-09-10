@@ -1,0 +1,53 @@
+[
+  {
+    "id": "v1",
+    "companySlug": "denver-cars",
+    "brand": "Toyota",
+    "model": "Camry",
+    "year": 2023,
+    "type": "car",
+    "transmission": "automatic",
+    "fuel": "petrol",
+    "seats": 5,
+    "pricePerDay": 65,
+    "currency": "USD",
+    "status": "available",
+    "isPublic": true,
+    "photos": [],
+    "description": "Comfortable mid-size sedan. Perfect for city and highway driving."
+  },
+  {
+    "id": "v2",
+    "companySlug": "denver-cars",
+    "brand": "Ford",
+    "model": "Explorer",
+    "year": 2022,
+    "type": "suv",
+    "transmission": "automatic",
+    "fuel": "petrol",
+    "seats": 7,
+    "pricePerDay": 95,
+    "currency": "USD",
+    "status": "available",
+    "isPublic": true,
+    "photos": [],
+    "description": "Spacious SUV ideal for family trips and outdoor adventures."
+  },
+  {
+    "id": "v3",
+    "companySlug": "denver-cars",
+    "brand": "Tesla",
+    "model": "Model 3",
+    "year": 2024,
+    "type": "car",
+    "transmission": "automatic",
+    "fuel": "electric",
+    "seats": 5,
+    "pricePerDay": 110,
+    "currency": "USD",
+    "status": "available",
+    "isPublic": true,
+    "photos": [],
+    "description": "All-electric performance sedan with autopilot."
+  }
+]

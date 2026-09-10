@@ -1,0 +1,91 @@
+{
+  "home": {
+    "title": "Encuentra tu coche perfecto",
+    "subtitle": "Busca entre nuestra red de empresas de alquiler locales",
+    "searchPlaceholder": "¿A dónde vas?"
+  },
+  "cars": {
+    "title": "Coches disponibles",
+    "perDay": "{price} / día",
+    "seats": "{count} plazas",
+    "noResults": "Ningún coche coincide con tus filtros.",
+    "noResultsHint": "Prueba a ajustar las fechas o los filtros.",
+    "clearFilters": "Borrar filtros",
+    "filters": {
+      "title": "Filtros",
+      "type": "Tipo de vehículo",
+      "seats": "Plazas",
+      "transmission": "Transmisión",
+      "dates": "Fechas",
+      "from": "Fecha de recogida",
+      "to": "Fecha de devolución"
+    },
+    "types": {
+      "car": "Coche",
+      "suv": "SUV",
+      "van": "Furgoneta",
+      "truck": "Camión",
+      "motorcycle": "Moto"
+    },
+    "transmission": {
+      "automatic": "Automático",
+      "manual": "Manual"
+    },
+    "fuel": {
+      "petrol": "Gasolina",
+      "diesel": "Diésel",
+      "electric": "Eléctrico",
+      "hybrid": "Híbrido"
+    }
+  },
+  "carDetail": {
+    "bookNow": "Reservar ahora",
+    "pricePerDay": "{price} por día",
+    "specs": "Especificaciones",
+    "year": "Año",
+    "type": "Tipo",
+    "transmission": "Transmisión",
+    "fuel": "Combustible",
+    "seats": "Plazas",
+    "availability": "Disponibilidad",
+    "notAvailable": "Este coche no está disponible para las fechas seleccionadas."
+  },
+  "booking": {
+    "title": "Completa tu reserva",
+    "subtitle": "Rellena tus datos para confirmar la reserva",
+    "guestName": "Nombre completo",
+    "guestEmail": "Correo electrónico",
+    "guestPhone": "Número de teléfono",
+    "startDate": "Fecha de recogida",
+    "endDate": "Fecha de devolución",
+    "summary": "Resumen de la reserva",
+    "totalPrice": "Total",
+    "nights": "{count, plural, one {# día} other {# días}}",
+    "confirm": "Confirmar reserva",
+    "confirming": "Confirmando…",
+    "successTitle": "¡Reserva confirmada!",
+    "successMessage": "Tu confirmación ha sido enviada a {email}.",
+    "viewBooking": "Ver mi reserva"
+  },
+  "reservationStatus": {
+    "title": "Tu reserva",
+    "status": {
+      "draft": "Pendiente",
+      "confirmed": "Confirmada",
+      "active": "Activa — ¡disfruta del viaje!",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
+    },
+    "vehicle": "Vehículo",
+    "dates": "Fechas",
+    "total": "Total",
+    "reference": "Referencia"
+  },
+  "companies": {
+    "title": "Empresas de alquiler",
+    "subtitle": "Explora nuestra red de operadores locales de confianza",
+    "searchPlaceholder": "Buscar empresas…",
+    "noResults": "No se encontraron empresas.",
+    "viewFleet": "Ver flota"
+  }
+}

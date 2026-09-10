@@ -1,0 +1,26 @@
+{
+  "errors": {
+    "unknown": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "network": "No se puede conectar al servidor. Comprueba tu conexión.",
+    "vehicle": {
+      "not_found": "Este vehículo ya no está disponible."
+    },
+    "company": {
+      "not_found": "No se encontró esta empresa."
+    },
+    "reservation": {
+      "overlap": "Este vehículo ya está reservado para esas fechas.",
+      "not_found": "Reserva no encontrada. Comprueba el enlace de confirmación."
+    }
+  },
+  "nav": {
+    "home": "Inicio",
+    "cars": "Coches",
+    "companies": "Empresas"
+  },
+  "actions": {
+    "retry": "Intentar de nuevo",
+    "back": "Volver",
+    "viewAll": "Ver todo"
+  }
+}

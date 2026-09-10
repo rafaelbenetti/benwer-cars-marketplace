@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "slug": "denver-cars",
+    "name": "Denver Cars",
+    "description": "Premium car rentals in the heart of Denver.",
+    "location": "Denver, CO",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#0e7490",
+      "logoUrl": null
+    }
+  },
+  {
+    "id": "2",
+    "slug": "med-rentacar",
+    "name": "Med Rentacar",
+    "description": "Affordable rentals across the Mediterranean.",
+    "location": "Barcelona, Spain",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#7c3aed",
+      "logoUrl": null
+    }
+  }
+]
