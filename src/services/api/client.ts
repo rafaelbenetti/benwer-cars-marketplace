@@ -1,9 +1,15 @@
+import { env } from "@/env";
 import { ApiError } from "@/lib/errors";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+function baseUrl(): string {
+  if (typeof window === "undefined") {
+    return env.API_ORIGIN;
+  }
+  return env.NEXT_PUBLIC_API_URL;
+}
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`${BASE_URL}${path}`, {
+  const response = await fetch(`${baseUrl()}${path}`, {
     headers: { "Content-Type": "application/json", ...options?.headers },
     ...options,
   });
@@ -31,11 +37,5 @@ export const apiClient = {
       body: JSON.stringify(body),
       ...options,
     });
-  },
-};
-
-export const mockClient = {
-  get<T>(path: string): Promise<T> {
-    return fetch(path).then((r) => r.json() as Promise<T>);
   },
 };

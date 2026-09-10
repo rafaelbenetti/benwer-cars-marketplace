@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
-// next-intl is used without the createNextIntlPlugin wrapper so we can keep
-// clean URLs (no /en-GB/ prefix). Locale is resolved server-side via
-// getRequestConfig in src/i18n/request.ts and passed to layouts via
-// NextIntlClientProvider. See docs/engineering.md §i18n.
+const API_ORIGIN = process.env.API_ORIGIN ?? "http://localhost:8080";
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -12,6 +10,14 @@ const nextConfig: NextConfig = {
         hostname: "*.cloudfront.net",
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${API_ORIGIN}/:path*`,
+      },
+    ];
   },
 };
 

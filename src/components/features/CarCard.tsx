@@ -59,6 +59,7 @@ export function CarCard({ vehicle, href, className }: CarCardProps) {
           </p>
           <p className="text-xs text-muted-foreground mt-0.5">
             {vehicle.year} &middot; {formatType(vehicle.type)}
+            {vehicle.companyName ? ` · ${vehicle.companyName}` : ""}
           </p>
         </div>
 

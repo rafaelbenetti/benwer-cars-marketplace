@@ -5,10 +5,12 @@ import { vehiclesApi } from "@/services/api";
 import { QueryKeys } from "@/enums";
 import type { VehicleFilters } from "@/types/vehicle";
 
-export function useVehicles(companySlug: string, filters?: VehicleFilters) {
+export function useVehicles(companySlug: string | undefined, filters?: VehicleFilters) {
   return useQuery({
-    queryKey: [QueryKeys.VEHICLES, companySlug, filters],
-    queryFn: () => vehiclesApi.getByCompany(companySlug, filters),
-    enabled: Boolean(companySlug),
+    queryKey: [QueryKeys.VEHICLES, companySlug ?? "all", filters],
+    queryFn: () =>
+      companySlug
+        ? vehiclesApi.getByCompany(companySlug, filters)
+        : vehiclesApi.getAll(filters),
   });
 }
