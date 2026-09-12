@@ -3,8 +3,9 @@
     "id": "1",
     "slug": "denver-cars",
     "name": "Denver Cars",
-    "description": "Premium car rentals in the heart of Denver.",
-    "location": "Denver, CO",
+    "description": "Airport and city rentals from the heart of Málaga.",
+    "location": "Málaga",
+    "locationSlug": "malaga",
     "isPublic": true,
     "branding": {
       "primaryColor": "#0e7490",
@@ -15,11 +16,90 @@
     "id": "2",
     "slug": "med-rentacar",
     "name": "Med Rentacar",
-    "description": "Affordable rentals across the Mediterranean.",
-    "location": "Barcelona, Spain",
+    "description": "Coastal rentals along the Costa del Sol.",
+    "location": "Marbella",
+    "locationSlug": "marbella",
     "isPublic": true,
     "branding": {
       "primaryColor": "#7c3aed",
+      "logoUrl": null
+    }
+  },
+  {
+    "id": "3",
+    "slug": "costa-wheels",
+    "name": "Costa Wheels",
+    "description": "Compact cars a short walk from the beach.",
+    "location": "Torremolinos",
+    "locationSlug": "torremolinos",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#0369a1",
+      "logoUrl": null
+    }
+  },
+  {
+    "id": "4",
+    "slug": "nerja-rent",
+    "name": "Nerja Rent",
+    "description": "Local operators for the Axarquía coast.",
+    "location": "Nerja",
+    "locationSlug": "nerja",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#15803d",
+      "logoUrl": null
+    }
+  },
+  {
+    "id": "5",
+    "slug": "ronda-cars",
+    "name": "Ronda Cars",
+    "description": "Mountain-ready cars for inland Andalusia.",
+    "location": "Ronda",
+    "locationSlug": "ronda",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#b45309",
+      "logoUrl": null
+    }
+  },
+  {
+    "id": "6",
+    "slug": "estepona-drive",
+    "name": "Estepona Drive",
+    "description": "Family SUVs and convertibles on the western coast.",
+    "location": "Estepona",
+    "locationSlug": "estepona",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#be123c",
+      "logoUrl": null
+    }
+  },
+  {
+    "id": "7",
+    "slug": "malaga-center-rent",
+    "name": "Málaga Center Rent",
+    "description": "Walk-up rentals near Málaga old town and the port.",
+    "location": "Málaga",
+    "locationSlug": "malaga",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#4338ca",
+      "logoUrl": null
+    }
+  },
+  {
+    "id": "8",
+    "slug": "fuengirola-autos",
+    "name": "Fuengirola Autos",
+    "description": "Everyday rentals next to the promenade.",
+    "location": "Fuengirola",
+    "locationSlug": "fuengirola",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#0f766e",
       "logoUrl": null
     }
   }

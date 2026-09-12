@@ -1,38 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useCompanies } from "@/hooks/useCompanies";
-import { CompanyGridView } from "./CompanyGrid";
-import { Input } from "@/components/ui/Input";
+import { CompanyGridSkeleton, CompanyGridView } from "./CompanyGrid";
+import {
+  MarketplaceSearchBar,
+  MarketplaceSearchBarFallback,
+} from "./MarketplaceSearchBar";
+import { SearchParams } from "@/enums";
 import type { Company } from "@/types/company";
 
-export function CompanyListView() {
-  const [query, setQuery] = useState("");
-  const { data, isPending, isError, refetch } = useCompanies();
+interface CompanyListViewProps {
+  showSearchBar?: boolean;
+}
 
-  const filtered: Company[] = (data ?? []).filter(
-    (c) =>
-      !query ||
-      c.name.toLowerCase().includes(query.toLowerCase()) ||
-      (c.location?.toLowerCase().includes(query.toLowerCase()) ?? false),
-  );
+function filterByLocation(companies: Company[] | undefined, location: string | null) {
+  if (!companies) {
+    return companies;
+  }
+
+  if (!location) {
+    return companies;
+  }
+
+  return companies.filter((company) => company.locationSlug === location);
+}
+
+function CompanyResults({ showSearchBar }: { showSearchBar: boolean }) {
+  const searchParams = useSearchParams();
+  const location = searchParams.get(SearchParams.LOCATION);
+  const { data, isPending, isError, refetch } = useCompanies();
+  const companies = showSearchBar ? filterByLocation(data, location) : data;
 
   return (
     <div className="flex flex-col gap-6">
-      <Input
-        type="search"
-        placeholder="Search companies…"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        aria-label="Search rental companies"
-        className="max-w-sm"
-      />
+      {showSearchBar ? <MarketplaceSearchBar /> : null}
       <CompanyGridView
-        companies={query ? filtered : data}
+        companies={companies}
         isPending={isPending}
         isError={isError}
         onRetry={refetch}
       />
     </div>
+  );
+}
+
+export function CompanyListView({ showSearchBar = true }: CompanyListViewProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col gap-6">
+          {showSearchBar ? <MarketplaceSearchBarFallback /> : null}
+          <CompanyGridSkeleton />
+        </div>
+      }
+    >
+      <CompanyResults showSearchBar={showSearchBar} />
+    </Suspense>
   );
 }

@@ -9,6 +9,7 @@ export interface Company {
   name: string;
   description: string | null;
   location: string | null;
+  locationSlug: string | null;
   isPublic: boolean;
   branding: CompanyBranding;
 }

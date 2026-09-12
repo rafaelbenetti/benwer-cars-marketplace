@@ -12,3 +12,6 @@ export { ReservationStatus } from "./ReservationStatus";
 export { CompanyCard } from "./CompanyCard";
 export { CompanyGrid, CompanyGridSkeleton, CompanyGridView } from "./CompanyGrid";
 export { CompanyListView } from "./CompanyListView";
+export { MarketplaceSearchBar } from "./MarketplaceSearchBar";
+export { MarketplaceHeroSearch } from "./MarketplaceHeroSearch";
+export { BrowseByLocation } from "./BrowseByLocation";

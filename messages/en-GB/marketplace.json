@@ -2,7 +2,26 @@
   "home": {
     "title": "Find your perfect car",
     "subtitle": "Search across our network of local rental companies",
-    "searchPlaceholder": "Where are you going?"
+    "searchPlaceholder": "Where are you going?",
+    "companiesHeading": "Rental companies"
+  },
+  "search": {
+    "locationLabel": "Pick-up city",
+    "locationPlaceholder": "Search city",
+    "locationEmpty": "No matching city",
+    "locationTrigger": "Pick-up city, {city}",
+    "cityListLabel": "Cities in Málaga province",
+    "pickupLabel": "Pick-up",
+    "dropoffLabel": "Drop-off",
+    "pickupPlaceholder": "Add date",
+    "dropoffPlaceholder": "Add date",
+    "pickupTrigger": "Pick-up date, {date}",
+    "dropoffTrigger": "Drop-off date, {date}",
+    "calendarLabel": "Select dates",
+    "submit": "Search"
+  },
+  "browseLocation": {
+    "title": "Browse by location"
   },
   "cars": {
     "title": "Available cars",

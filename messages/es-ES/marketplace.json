@@ -2,7 +2,26 @@
   "home": {
     "title": "Encuentra tu coche perfecto",
     "subtitle": "Busca entre nuestra red de empresas de alquiler locales",
-    "searchPlaceholder": "¿A dónde vas?"
+    "searchPlaceholder": "¿A dónde vas?",
+    "companiesHeading": "Empresas de alquiler"
+  },
+  "search": {
+    "locationLabel": "Ciudad de recogida",
+    "locationPlaceholder": "Buscar ciudad",
+    "locationEmpty": "Ninguna ciudad coincide",
+    "locationTrigger": "Ciudad de recogida, {city}",
+    "cityListLabel": "Ciudades de la provincia de Málaga",
+    "pickupLabel": "Recogida",
+    "dropoffLabel": "Devolución",
+    "pickupPlaceholder": "Añadir fecha",
+    "dropoffPlaceholder": "Añadir fecha",
+    "pickupTrigger": "Fecha de recogida, {date}",
+    "dropoffTrigger": "Fecha de devolución, {date}",
+    "calendarLabel": "Seleccionar fechas",
+    "submit": "Buscar"
+  },
+  "browseLocation": {
+    "title": "Explorar por ciudad"
   },
   "cars": {
     "title": "Coches disponibles",

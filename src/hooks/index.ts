@@ -4,3 +4,4 @@ export { useCompany } from "./useCompany";
 export { useCompanies } from "./useCompanies";
 export { useCreateReservation } from "./useCreateReservation";
 export { useReservation } from "./useReservation";
+export { useMediaQuery } from "./useMediaQuery";

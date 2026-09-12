@@ -1,8 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import createNextIntlMiddleware from "next-intl/middleware";
-import { routing } from "@/i18n/routing";
-
-const intlMiddleware = createNextIntlMiddleware(routing);
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
@@ -11,7 +7,7 @@ export function middleware(request: NextRequest) {
   const isLocalhost = host.includes("localhost") || host.includes("127.0.0.1");
   const companySlug = resolveCompanySlug(host, marketplaceDomain, isLocalhost);
 
-  const response = intlMiddleware(request);
+  const response = NextResponse.next();
 
   if (companySlug) {
     response.headers.set("x-company-slug", companySlug);

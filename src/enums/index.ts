@@ -55,6 +55,12 @@ export enum NavRoutes {
   BOOKING_STATUS = "/booking/:token",
 }
 
+export enum SearchParams {
+  LOCATION = "location",
+  FROM = "from",
+  TO = "to",
+}
+
 export enum ErrorMessages {
   UNKNOWN = "errors.unknown",
   NETWORK = "errors.network",

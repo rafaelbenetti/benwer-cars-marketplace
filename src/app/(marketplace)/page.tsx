@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { Footer } from "@/components/layout/Footer";
+import { BrowseByLocation } from "@/components/features/BrowseByLocation";
 import { CompanyListView } from "@/components/features/CompanyListView";
+import { MarketplaceHeroSearch } from "@/components/features/MarketplaceHeroSearch";
 
 export const metadata: Metadata = {
   title: "Find Your Perfect Car",
@@ -14,25 +17,35 @@ export const metadata: Metadata = {
   },
 };
 
-function MarketplaceHomePage() {
+async function MarketplaceHomePage() {
+  const t = await getTranslations("home");
+
   return (
     <>
       <MarketplaceHeader />
-      <section className="bg-primary/5 border-b border-border py-16">
+      <section className="relative border-b border-border bg-primary/5 pt-16 pb-20 md:pb-24">
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
           <h1 className="text-4xl font-semibold tracking-tight text-foreground">
-            Find your perfect car
+            {t("title")}
           </h1>
-          <p className="mt-3 text-base text-muted-foreground max-w-xl">
-            Search across our network of trusted local rental companies.
+          <p className="mt-3 max-w-xl text-base text-muted-foreground">
+            {t("subtitle")}
           </p>
         </div>
       </section>
-      <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10">
-        <h2 className="text-xl font-semibold text-foreground mb-6">
-          Rental companies
-        </h2>
-        <CompanyListView />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+        <div className="-mt-8 md:-mt-10">
+          <MarketplaceHeroSearch />
+        </div>
+      </div>
+      <main className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-10 md:px-6 lg:px-8">
+        <BrowseByLocation />
+        <section className="flex flex-col gap-6">
+          <h2 className="text-xl font-semibold text-foreground">
+            {t("companiesHeading")}
+          </h2>
+          <CompanyListView showSearchBar={false} />
+        </section>
       </main>
       <Footer />
     </>
