@@ -34,7 +34,7 @@ export async function MarketplaceHome() {
           aria-hidden
           className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl"
         />
-        <div className="relative mx-auto max-w-7xl px-4 pt-16 pb-20 md:px-6 md:pt-20 md:pb-24 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 pt-16 pb-24 md:px-6 md:pt-20 md:pb-28 lg:px-8">
           <p className="text-xs font-medium uppercase tracking-wider text-primary">
             {t("eyebrow")}
           </p>
@@ -47,7 +47,7 @@ export async function MarketplaceHome() {
         </div>
       </section>
       <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-        <div className="-mt-8 md:-mt-10">
+        <div className="-mt-12 md:-mt-14">
           <MarketplaceHeroSearch className="shadow-md" />
         </div>
       </div>

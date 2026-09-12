@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { ChevronRight, MapPin } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import {
   FEATURED_CITY_SLUGS,
@@ -27,7 +27,7 @@ export async function BrowseByLocation() {
       {cities.length === 0 ? (
         <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {cities.map((city) => {
             const name = getCityDisplayName(city, locale);
             return (
@@ -35,19 +35,19 @@ export async function BrowseByLocation() {
                 key={city.slug}
                 href={buildCompaniesSearchHref({ location: city.slug })}
                 aria-label={t("cityAria", { city: name })}
-                className="group flex cursor-pointer flex-col gap-3 rounded-xl border border-border bg-surface p-4 transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 motion-safe:hover:shadow-md"
+                className="group flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3.5 transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 motion-safe:hover:shadow-md"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <MapPin size={18} aria-hidden />
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <MapPin size={16} aria-hidden />
                 </span>
-                <span>
-                  <span className="block text-base font-semibold text-foreground">
-                    {name}
-                  </span>
-                  <span className="mt-0.5 block text-xs text-muted-foreground">
-                    {t("region")}
-                  </span>
+                <span className="min-w-0 flex-1 truncate text-base font-semibold text-foreground">
+                  {name}
                 </span>
+                <ChevronRight
+                  size={16}
+                  aria-hidden
+                  className="shrink-0 text-subtle-foreground transition-transform motion-safe:group-hover:translate-x-0.5"
+                />
               </Link>
             );
           })}

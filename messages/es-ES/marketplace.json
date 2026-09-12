@@ -25,7 +25,6 @@
   "browseLocation": {
     "title": "Explorar por ciudad",
     "subtitle": "Ciudades populares de la provincia de Málaga",
-    "region": "Provincia de Málaga",
     "emptyTitle": "Aún no hay ubicaciones",
     "emptyDescription": "Las ciudades destacadas aparecerán aquí.",
     "cityAria": "Ver coches en {city}"

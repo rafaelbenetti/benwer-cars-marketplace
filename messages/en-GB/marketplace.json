@@ -25,7 +25,6 @@
   "browseLocation": {
     "title": "Browse by location",
     "subtitle": "Popular cities in Málaga province",
-    "region": "Málaga province",
     "emptyTitle": "No locations yet",
     "emptyDescription": "Featured cities will appear here.",
     "cityAria": "Browse cars in {city}"
