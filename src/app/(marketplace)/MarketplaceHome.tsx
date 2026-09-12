@@ -6,7 +6,7 @@ import { BrowseByLocation } from "@/components/features/BrowseByLocation";
 import { CompanyListView } from "@/components/features/CompanyListView";
 import { MarketplaceHeroSearch } from "@/components/features/MarketplaceHeroSearch";
 
-export const metadata: Metadata = {
+export const marketplaceHomeMetadata: Metadata = {
   title: "Find Your Perfect Car",
   description:
     "Browse and book cars from local rental companies near you. Search across our network of trusted operators.",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-async function MarketplaceHomePage() {
+export async function MarketplaceHome() {
   const t = await getTranslations("home");
 
   return (
@@ -51,5 +51,3 @@ async function MarketplaceHomePage() {
     </>
   );
 }
-
-export default MarketplaceHomePage;

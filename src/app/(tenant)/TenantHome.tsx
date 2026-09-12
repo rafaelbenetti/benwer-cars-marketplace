@@ -8,7 +8,7 @@ import { CarListView } from "@/components/features/CarListView";
 import { companiesApi } from "@/services/api";
 import type { Vehicle } from "@/types/vehicle";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateTenantMetadata(): Promise<Metadata> {
   const headersList = await headers();
   const slug = headersList.get("x-company-slug");
   if (!slug) return { title: "Cars" };
@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-async function TenantHomePage() {
+export async function TenantHome() {
   const headersList = await headers();
   const companySlug = headersList.get("x-company-slug");
 
@@ -36,8 +36,8 @@ async function TenantHomePage() {
     return (
       <>
         <MarketplaceHeader />
-        <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-12">
-          <p className="text-muted-foreground text-sm">Company not found.</p>
+        <main className="mx-auto max-w-7xl px-4 py-12 md:px-6 lg:px-8">
+          <p className="text-sm text-muted-foreground">Company not found.</p>
         </main>
         <Footer />
       </>
@@ -68,12 +68,10 @@ async function TenantHomePage() {
           location={company.location}
         />
       ) : null}
-      <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
+      <main className="mx-auto max-w-7xl px-4 py-8 md:px-6 lg:px-8">
         <CarListView companySlug={companySlug} buildHref={buildCarHref} />
       </main>
       <Footer />
     </>
   );
 }
-
-export default TenantHomePage;
