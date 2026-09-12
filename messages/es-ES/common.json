@@ -16,7 +16,25 @@
   "nav": {
     "home": "Inicio",
     "cars": "Coches",
-    "companies": "Empresas"
+    "companies": "Empresas",
+    "mainAria": "Navegación principal",
+    "footerAria": "Navegación del pie de página"
+  },
+  "brand": {
+    "name": "Benwer Cars",
+    "shortName": "Benwer",
+    "homeAria": "Benwer Cars, inicio"
+  },
+  "locale": {
+    "label": "Idioma",
+    "en": "EN",
+    "es": "ES",
+    "enName": "English",
+    "esName": "Español"
+  },
+  "footer": {
+    "tagline": "Encuentra y reserva coches de empresas de alquiler locales.",
+    "copyright": "© {year} Benwer Cars. Todos los derechos reservados."
   },
   "actions": {
     "retry": "Intentar de nuevo",

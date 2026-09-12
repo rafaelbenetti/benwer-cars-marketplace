@@ -1,6 +1,7 @@
 "use client";
 
 import { Building2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CompanyCard } from "./CompanyCard";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -14,12 +15,14 @@ interface CompanyGridProps {
 }
 
 export function CompanyGrid({ companies, className }: CompanyGridProps) {
+  const t = useTranslations("companies");
+
   if (companies.length === 0) {
     return (
       <EmptyState
         icon={<Building2 size={40} />}
-        title="No companies found"
-        description="Try adjusting your search."
+        title={t("noResults")}
+        description={t("noResultsHint")}
       />
     );
   }
@@ -27,7 +30,7 @@ export function CompanyGrid({ companies, className }: CompanyGridProps) {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5",
+        "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3",
         className,
       )}
     >
@@ -36,6 +39,7 @@ export function CompanyGrid({ companies, className }: CompanyGridProps) {
           key={company.id}
           company={company}
           href={`/companies/${company.slug}`}
+          viewFleetLabel={t("viewFleet")}
         />
       ))}
     </div>
@@ -44,12 +48,15 @@ export function CompanyGrid({ companies, className }: CompanyGridProps) {
 
 export function CompanyGridSkeleton({ count = 6 }: { count?: number }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="rounded-xl border border-border bg-surface p-5 flex flex-col gap-4">
+        <div
+          key={i}
+          className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-5"
+        >
           <div className="flex items-start gap-3">
             <Skeleton className="h-10 w-10 rounded-lg" />
-            <div className="flex flex-col gap-1.5 flex-1">
+            <div className="flex flex-1 flex-col gap-1.5">
               <Skeleton className="h-5 w-3/4" />
               <Skeleton className="h-3 w-1/2" />
             </div>

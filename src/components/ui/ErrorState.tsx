@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Button } from "./Button";
 
@@ -8,6 +11,8 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({ message, onRetry, className }: ErrorStateProps) {
+  const t = useTranslations();
+
   return (
     <div
       className={cn(
@@ -15,10 +20,10 @@ export function ErrorState({ message, onRetry, className }: ErrorStateProps) {
         className,
       )}
     >
-      <p className="text-sm text-danger">{message ?? "Something went wrong."}</p>
+      <p className="text-sm text-danger">{message ?? t("errors.unknown")}</p>
       {onRetry ? (
         <Button variant="secondary" size="sm" onClick={onRetry}>
-          Try again
+          {t("actions.retry")}
         </Button>
       ) : null}
     </div>

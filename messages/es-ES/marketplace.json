@@ -3,7 +3,9 @@
     "title": "Encuentra tu coche perfecto",
     "subtitle": "Busca entre nuestra red de empresas de alquiler locales",
     "searchPlaceholder": "¿A dónde vas?",
-    "companiesHeading": "Empresas de alquiler"
+    "eyebrow": "Málaga · Costa del Sol",
+    "companiesHeading": "Empresas destacadas",
+    "companiesSubtitle": "Operadores locales de confianza en la provincia de Málaga"
   },
   "search": {
     "locationLabel": "Ciudad de recogida",
@@ -21,7 +23,12 @@
     "submit": "Buscar"
   },
   "browseLocation": {
-    "title": "Explorar por ciudad"
+    "title": "Explorar por ciudad",
+    "subtitle": "Ciudades populares de la provincia de Málaga",
+    "region": "Provincia de Málaga",
+    "emptyTitle": "Aún no hay ubicaciones",
+    "emptyDescription": "Las ciudades destacadas aparecerán aquí.",
+    "cityAria": "Ver coches en {city}"
   },
   "cars": {
     "title": "Coches disponibles",
@@ -104,7 +111,9 @@
     "title": "Empresas de alquiler",
     "subtitle": "Explora nuestra red de operadores locales de confianza",
     "searchPlaceholder": "Buscar empresas…",
-    "noResults": "No se encontraron empresas.",
+    "noResults": "No se encontraron empresas",
+    "noResultsHint": "Prueba con otra ciudad o fechas.",
+    "emptyDescription": "Aún no hay empresas de alquiler listadas.",
     "viewFleet": "Ver flota"
   }
 }

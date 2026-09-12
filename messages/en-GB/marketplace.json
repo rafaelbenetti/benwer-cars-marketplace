@@ -3,7 +3,9 @@
     "title": "Find your perfect car",
     "subtitle": "Search across our network of local rental companies",
     "searchPlaceholder": "Where are you going?",
-    "companiesHeading": "Rental companies"
+    "eyebrow": "Málaga · Costa del Sol",
+    "companiesHeading": "Featured companies",
+    "companiesSubtitle": "Trusted local operators across Málaga province"
   },
   "search": {
     "locationLabel": "Pick-up city",
@@ -21,7 +23,12 @@
     "submit": "Search"
   },
   "browseLocation": {
-    "title": "Browse by location"
+    "title": "Browse by location",
+    "subtitle": "Popular cities in Málaga province",
+    "region": "Málaga province",
+    "emptyTitle": "No locations yet",
+    "emptyDescription": "Featured cities will appear here.",
+    "cityAria": "Browse cars in {city}"
   },
   "cars": {
     "title": "Available cars",
@@ -104,7 +111,9 @@
     "title": "Rental companies",
     "subtitle": "Browse our network of trusted local operators",
     "searchPlaceholder": "Search companies…",
-    "noResults": "No companies found.",
+    "noResults": "No companies found",
+    "noResultsHint": "Try a different city or dates.",
+    "emptyDescription": "No rental companies are listed yet.",
     "viewFleet": "View fleet"
   }
 }

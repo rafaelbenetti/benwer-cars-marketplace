@@ -48,7 +48,7 @@ function MarketplaceSearchForm({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "rounded-2xl border border-border bg-surface p-2 shadow-sm md:p-2.5",
+        "rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
         className,
       )}
     >
@@ -100,7 +100,7 @@ export function MarketplaceSearchBarFallback({ className }: MarketplaceSearchBar
   return (
     <div
       className={cn(
-        "rounded-2xl border border-border bg-surface p-2 shadow-sm md:p-2.5",
+        "rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
         className,
       )}
     >

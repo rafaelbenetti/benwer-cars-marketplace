@@ -4,10 +4,14 @@ import {
   MarketplaceSearchBarFallback,
 } from "./MarketplaceSearchBar";
 
-export function MarketplaceHeroSearch() {
+interface MarketplaceHeroSearchProps {
+  className?: string;
+}
+
+export function MarketplaceHeroSearch({ className }: MarketplaceHeroSearchProps) {
   return (
-    <Suspense fallback={<MarketplaceSearchBarFallback />}>
-      <MarketplaceSearchBar />
+    <Suspense fallback={<MarketplaceSearchBarFallback className={className} />}>
+      <MarketplaceSearchBar className={className} />
     </Suspense>
   );
 }
