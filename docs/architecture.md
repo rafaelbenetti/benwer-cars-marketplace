@@ -122,8 +122,10 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
 Services call live first when an API URL is configured, via `withMockFallback`.
 Mock is used only when the live URL is unset or the API is clearly unreachable
 (network / DNS / timeout). HTTP 4xx and 5xx from a reachable API are surfaced
-as `ApiError`. Mappers accept live field names (`make`, `dailyRate`, `fuelType`,
-`category`, `{ available, conflicts }`) and the api-plan aliases.
+as `ApiError`. List responses are `{ data, page }` (`unwrapList` reads
+`response.data`; raw arrays remain a fallback). Mappers accept marketplace
+aliases (`brand`, `type`, `pricePerDay`, `fuel`, `unavailableDates`) and admin
+names (`make`, `category`, `dailyRate`, `fuelType`, `{ available, conflicts }`).
 
 ## Per-tenant branding
 

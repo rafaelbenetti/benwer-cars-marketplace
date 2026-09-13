@@ -293,7 +293,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PublicCompany"][] | components["schemas"]["PublicCompanyPage"] | null;
+                    "application/json": components["schemas"]["PublicCompanyPage"] | components["schemas"]["PublicCompany"][] | null;
                 };
             };
             default: components["responses"]["Problem"];
@@ -351,7 +351,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PublicVehicle"][] | components["schemas"]["PublicVehiclePage"] | null;
+                    "application/json": components["schemas"]["PublicVehiclePage"] | components["schemas"]["PublicVehicle"][] | null;
                 };
             };
             default: components["responses"]["Problem"];
@@ -402,7 +402,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PublicAvailability"] | components["schemas"]["PublicAvailability"][] | components["schemas"]["PublicAvailabilityPage"];
+                    "application/json": components["schemas"]["PublicAvailability"][] | components["schemas"]["PublicAvailabilityPage"] | components["schemas"]["PublicAvailability"];
                 };
             };
             default: components["responses"]["Problem"];

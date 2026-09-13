@@ -26,13 +26,62 @@ function offsetForIndex(index: number, total: number): { lat: number; lng: numbe
   };
 }
 
+function hasCoordinates(
+  company: Company,
+): company is Company & { latitude: number; longitude: number } {
+  return company.latitude != null && company.longitude != null;
+}
+
+function cityForCompany(company: Company): MappableMalagaCity | null {
+  if (company.locationSlug) {
+    const mapped = getMappableCity(company.locationSlug);
+    if (mapped) {
+      return hasCoordinates(company)
+        ? { ...mapped, lat: company.latitude, lng: company.longitude }
+        : mapped;
+    }
+  }
+
+  if (hasCoordinates(company)) {
+    return {
+      slug: company.locationSlug ?? company.slug,
+      nameEn: company.location ?? company.name,
+      nameEs: company.location ?? company.name,
+      lat: company.latitude,
+      lng: company.longitude,
+    };
+  }
+
+  return null;
+}
+
 export function toCompanyMapPins(
   companies: Company[],
   hrefFor: (company: Company) => string,
 ): CompanyMapPin[] {
+  const pins: CompanyMapPin[] = [];
   const grouped = new Map<string, Company[]>();
 
   for (const company of companies) {
+    if (hasCoordinates(company)) {
+      const city = cityForCompany(company);
+      if (!city) {
+        continue;
+      }
+
+      pins.push({
+        id: company.id,
+        slug: company.slug,
+        name: company.name,
+        city,
+        lat: company.latitude,
+        lng: company.longitude,
+        vehicleCount: company.vehicleCount,
+        href: hrefFor(company),
+      });
+      continue;
+    }
+
     if (!company.locationSlug || !getMappableCity(company.locationSlug)) {
       continue;
     }
@@ -41,8 +90,6 @@ export function toCompanyMapPins(
     existing.push(company);
     grouped.set(company.locationSlug, existing);
   }
-
-  const pins: CompanyMapPin[] = [];
 
   for (const [locationSlug, group] of grouped) {
     const city = getMappableCity(locationSlug);

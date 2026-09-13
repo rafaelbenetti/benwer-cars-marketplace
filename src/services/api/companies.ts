@@ -1,4 +1,3 @@
-import { toApiLocation } from "@/data/malagaCities";
 import type { Company, CompanyListFilters } from "@/types/company";
 import { getOpenApiClient } from "./client";
 import { withMockFallback } from "./fallback";
@@ -11,39 +10,16 @@ async function fetchLiveCompanies(filters?: CompanyListFilters): Promise<Company
     params: {
       query: {
         q: filters?.q,
+        location: filters?.location,
+        from: filters?.from,
+        to: filters?.to,
+        cursor: filters?.cursor,
+        limit: filters?.limit,
       },
     },
   });
 
-  const companies = applyCompanyListFilters(mapCompanyList(data), {
-    location: toApiLocation(filters?.location) ?? filters?.location,
-    q: filters?.q,
-  });
-
-  if (!filters?.from || !filters.to) {
-    return companies;
-  }
-
-  const { vehiclesApi } = await import("./vehicles");
-  const fleets = await Promise.all(
-    companies.map(async (company) => {
-      const vehicles = await vehiclesApi.getByCompany(company.slug, {
-        from: filters.from,
-        to: filters.to,
-      });
-      return {
-        company: {
-          ...company,
-          vehicleCount: vehicles.length,
-        },
-        vehicleCount: vehicles.length,
-      };
-    }),
-  );
-
-  return fleets
-    .filter((fleet) => fleet.vehicleCount > 0)
-    .map((fleet) => fleet.company);
+  return applyCompanyListFilters(mapCompanyList(data), filters);
 }
 
 export const companiesApi = {

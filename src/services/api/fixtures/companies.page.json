@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "id": "c0000000-0000-7000-8000-000000000001",
+      "slug": "med-rentacar",
+      "name": "Autoalquiler Mediterráneo",
+      "description": "Coastal rentals along the Costa del Sol.",
+      "location": "Málaga",
+      "locationSlug": "malaga",
+      "latitude": 36.7213,
+      "longitude": -4.4214,
+      "vehicleCount": 12,
+      "isPublic": true,
+      "branding": {
+        "primaryColor": "#7c3aed",
+        "logoUrl": null
+      }
+    },
+    {
+      "id": "c0000000-0000-7000-8000-000000000003",
+      "slug": "benetti-cars",
+      "name": "Benetti Premium Cars",
+      "description": "Premium fleet from Málaga city.",
+      "location": "Málaga",
+      "locationSlug": "malaga",
+      "latitude": 36.718,
+      "longitude": -4.42,
+      "vehicleCount": 8,
+      "isPublic": true,
+      "branding": {
+        "primaryColor": "#0e7490",
+        "logoUrl": null
+      }
+    }
+  ],
+  "page": {
+    "total": 2,
+    "nextCursor": null
+  }
+}

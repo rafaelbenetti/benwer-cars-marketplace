@@ -9,7 +9,6 @@ import {
   MarketplaceSearchBar,
   MarketplaceSearchBarFallback,
 } from "./MarketplaceSearchBar";
-import { toApiLocation } from "@/data/malagaCities";
 import { SearchParams } from "@/enums";
 
 interface CompanyListViewProps {
@@ -31,7 +30,7 @@ function CompanyResults({
   const { data, isPending, isError, error, refetch } = useCompanies(
     showSearchBar
       ? {
-          location: toApiLocation(location),
+          location: location || undefined,
           from: from || undefined,
           to: to || undefined,
         }

@@ -1,4 +1,4 @@
-import { toApiLocation } from "@/data/malagaCities";
+import { isProvinceWideLocation } from "@/data/malagaCities";
 import { ReservationStatus } from "@/enums";
 import { ApiError } from "@/lib/errors";
 import {
@@ -131,7 +131,11 @@ export const mockCompaniesApi = {
 
     return companies
       .filter((company) => {
-        if (filters?.location && company.locationSlug !== filters.location) {
+        if (
+          filters?.location &&
+          !isProvinceWideLocation(filters.location) &&
+          company.locationSlug !== filters.location
+        ) {
           return false;
         }
 
@@ -254,7 +258,10 @@ export const mockVehiclesApi = {
       loadAvailability(),
       allReservations(),
     ]);
-    const location = toApiLocation(filters?.location);
+    const location =
+      filters?.location && !isProvinceWideLocation(filters.location)
+        ? filters.location
+        : undefined;
     const companiesBySlug = new Map(companies.map((company) => [company.slug, company]));
 
     const filtered = vehicles.filter((vehicle) => {

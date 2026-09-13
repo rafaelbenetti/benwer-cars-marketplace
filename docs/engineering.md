@@ -106,7 +106,7 @@ import { mockClient } from "./client";
 
 export const vehiclesApi = {
   getByCompany(companySlug: string): Promise<Vehicle[]> {
-    return mockClient.get<Vehicle[]>("/mock-data/vehicles.json");
+    return mockClient.get<{ data: Vehicle[] }>("/mock-data/vehicles.json");
   },
 };
 ```

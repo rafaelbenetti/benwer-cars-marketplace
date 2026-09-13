@@ -41,12 +41,12 @@ export function unwrapList<T>(payload: unknown): T[] {
     return [];
   }
 
-  if (Array.isArray(payload)) {
-    return payload as T[];
-  }
-
   if (isRecord(payload) && Array.isArray(payload.data)) {
     return payload.data as T[];
+  }
+
+  if (Array.isArray(payload)) {
+    return payload as T[];
   }
 
   return [];
@@ -125,21 +125,21 @@ function inferLocationSlug(
   return getCityByName(locationSlug)?.slug ?? getCityByName(location)?.slug ?? null;
 }
 
+function isHttpUrl(value: string): boolean {
+  return /^https?:\/\//i.test(value);
+}
+
 function readPhotoUrl(value: unknown): string | undefined {
-  if (typeof value === "string" && value.trim()) {
-    return value;
-  }
+  const raw = typeof value === "string" && value.trim()
+    ? value.trim()
+    : isRecord(value)
+      ? readString(value.url) ??
+        readString(value.src) ??
+        readString(value.href) ??
+        readString(value.photoUrl)
+      : undefined;
 
-  if (!isRecord(value)) {
-    return undefined;
-  }
-
-  return (
-    readString(value.url) ??
-    readString(value.src) ??
-    readString(value.href) ??
-    readString(value.photoUrl)
-  );
+  return raw && isHttpUrl(raw) ? raw : undefined;
 }
 
 function readPhotos(row: Record<string, unknown>): string[] {
@@ -181,6 +181,8 @@ export function mapCompany(raw: unknown): Company {
     description: readString(row.description) ?? null,
     location,
     locationSlug,
+    latitude: readNumber(row.latitude) ?? readNumber(row.lat) ?? null,
+    longitude: readNumber(row.longitude) ?? readNumber(row.lng) ?? null,
     vehicleCount: readNumber(row.vehicleCount) ?? readNumber(row.fleetSize) ?? null,
     isPublic: readBoolean(row.isPublic) ?? true,
     branding: {

@@ -11,6 +11,7 @@ import {
   mapReservation,
   mapVehicle,
   mapVehicleList,
+  unwrapList,
 } from "./mappers";
 
 const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
@@ -18,6 +19,18 @@ const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
 function loadFixture(name: string): unknown {
   return JSON.parse(readFileSync(join(fixturesDir, name), "utf8"));
 }
+
+describe("unwrapList", () => {
+  it("reads response.data from a page envelope", () => {
+    expect(unwrapList({ data: [{ id: "1" }], page: { total: 1, nextCursor: null } })).toEqual([
+      { id: "1" },
+    ]);
+  });
+
+  it("falls back to a raw array", () => {
+    expect(unwrapList([{ id: "1" }])).toEqual([{ id: "1" }]);
+  });
+});
 
 describe("mapCompanyList", () => {
   it("maps the live companies array", () => {
@@ -32,6 +45,22 @@ describe("mapCompanyList", () => {
     expect(companies[0]?.name).toBe("Autoalquiler Mediterráneo");
     expect(companies[0]?.branding.primaryColor).toBe("#7c3aed");
     expect(companies[0]?.locationSlug).toBeNull();
+  });
+
+  it("maps a { data, page } companies envelope with location and coordinates", () => {
+    const companies = mapCompanyList(loadFixture("companies.page.json"));
+
+    expect(companies.map((company) => company.slug)).toEqual([
+      "med-rentacar",
+      "benetti-cars",
+    ]);
+    expect(companies[0]).toMatchObject({
+      location: "Málaga",
+      locationSlug: "malaga",
+      latitude: 36.7213,
+      longitude: -4.4214,
+      vehicleCount: 12,
+    });
   });
 });
 
@@ -91,6 +120,18 @@ describe("mapVehicleList", () => {
       "https://cdn.example/b.jpg",
     ]);
   });
+
+  it("maps marketplace aliases and drops photo object keys", () => {
+    const vehicles = mapVehicleList(loadFixture("vehicles.page.json"));
+    expect(vehicles).toHaveLength(1);
+    expect(vehicles[0]).toMatchObject({
+      brand: "Peugeot",
+      type: VehicleType.CAR,
+      pricePerDay: 33,
+      fuel: "petrol",
+      photos: ["https://cdn.example/a.jpg", "https://cdn.example/b.jpg"],
+    });
+  });
 });
 
 describe("mapAvailability", () => {
@@ -136,6 +177,18 @@ describe("mapAvailability", () => {
     });
     expect(rows).toHaveLength(1);
   });
+
+  it("maps a fleet availability list envelope", () => {
+    const rows = mapAvailabilityList(loadFixture("availability.list.json"), {
+      from: "2026-09-20",
+      to: "2026-09-22",
+    });
+
+    expect(rows).toEqual([
+      { vehicleId: "v1", unavailableDates: ["2026-09-20", "2026-09-21"] },
+      { vehicleId: "v2", unavailableDates: [] },
+    ]);
+  });
 });
 
 describe("mapReservation", () => {
@@ -177,6 +230,17 @@ describe("mapReservation", () => {
     expect(reservation.status).toBe(ReservationStatus.CONFIRMED);
     expect(reservation.totalPrice).toBe(99);
     expect(reservation.guestName).toBe("Alex Guest");
+    expect(reservation.companySlug).toBe("med-rentacar");
+  });
+
+  it("maps nested vehicle and company on a token lookup", () => {
+    const reservation = mapReservation(loadFixture("reservation.nested.json"));
+
+    expect(reservation.token).toBe("nested-token");
+    expect(reservation.vehicle?.brand).toBe("Peugeot");
+    expect(reservation.vehicle?.photos).toEqual(["https://cdn.example/car.jpg"]);
+    expect(reservation.company?.slug).toBe("med-rentacar");
+    expect(reservation.company?.latitude).toBe(36.72);
     expect(reservation.companySlug).toBe("med-rentacar");
   });
 });

@@ -1,0 +1,37 @@
+{
+  "id": "res-nested",
+  "token": "nested-token",
+  "status": "confirmed",
+  "vehicleId": "v1",
+  "startDate": "2026-12-01",
+  "endDate": "2026-12-04",
+  "totalPrice": 99,
+  "currency": "EUR",
+  "guestName": "Alex Guest",
+  "guestEmail": "alex@example.com",
+  "guestPhone": "+34600000000",
+  "companySlug": "med-rentacar",
+  "createdAt": "2026-09-01T10:00:00.000Z",
+  "vehicle": {
+    "id": "v1",
+    "brand": "Peugeot",
+    "model": "208",
+    "type": "car",
+    "pricePerDay": 33,
+    "fuel": "petrol",
+    "photos": ["https://cdn.example/car.jpg"]
+  },
+  "company": {
+    "slug": "med-rentacar",
+    "name": "Autoalquiler Mediterráneo",
+    "location": "Málaga",
+    "locationSlug": "malaga",
+    "latitude": 36.72,
+    "longitude": -4.42,
+    "vehicleCount": 12,
+    "branding": {
+      "primaryColor": "#7c3aed",
+      "logoUrl": null
+    }
+  }
+}

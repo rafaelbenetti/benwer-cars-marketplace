@@ -1,5 +1,3 @@
-import { toApiLocation } from "@/data/malagaCities";
-import { VehicleType } from "@/enums";
 import type {
   MarketplaceSearchFilters,
   MarketplaceVehicle,
@@ -13,18 +11,6 @@ import { applyVehicleListFilters } from "./filters";
 import { mapVehicle, mapVehicleList } from "./mappers";
 import { mockVehiclesApi } from "./mock";
 
-function toApiVehicleType(type?: VehicleType): string | undefined {
-  if (type === VehicleType.SUV) {
-    return "suv";
-  }
-
-  if (type === VehicleType.VAN) {
-    return "van";
-  }
-
-  return undefined;
-}
-
 async function fetchLiveVehicles(
   companySlug: string,
   filters?: VehicleFilters,
@@ -36,9 +22,14 @@ async function fetchLiveVehicles(
         path: { slug: companySlug },
         query: {
           q: filters?.q,
-          type: toApiVehicleType(filters?.type),
+          type: filters?.type,
+          seats: filters?.seats,
+          transmission: filters?.transmission,
           from: filters?.from,
           to: filters?.to,
+          sort: filters?.sort,
+          cursor: filters?.cursor,
+          limit: filters?.limit,
         },
       },
     },
@@ -86,7 +77,7 @@ export const vehiclesApi = {
 async function searchLiveMarketplace(
   filters?: MarketplaceSearchFilters,
 ): Promise<MarketplaceVehicle[]> {
-  const location = toApiLocation(filters?.location);
+  const location = filters?.location;
   const selectedSlugs = filters?.companySlugs?.length
     ? filters.companySlugs
     : filters?.companySlug
@@ -102,6 +93,9 @@ async function searchLiveMarketplace(
       ).flatMap((company) => (company ? [company] : []))
     : await companiesApi.getAll({
         location,
+        from: filters?.from,
+        to: filters?.to,
+        q: filters?.q,
       });
 
   const fleets = await Promise.all(

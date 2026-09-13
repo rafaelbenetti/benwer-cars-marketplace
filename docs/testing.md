@@ -5,7 +5,7 @@ Testing Library** for unit tests. See [tech-decisions.md](./tech-decisions.md).
 
 Vitest is installed for mapper/service tests (`npm test`). RTL is not installed
 yet — do not import it until it exists. Live public response snapshots live in
-`src/services/api/fixtures/`.
+`src/services/api/fixtures/` (page envelopes plus older raw-array shapes).
 
 ---
 

@@ -60,20 +60,14 @@ Response: `{ data: Company[], page: { total, nextCursor } }`
 
 Query params: `?q=` (search by name/location), `?location=&from=&to=`, `?cursor=&limit=`.
 
-Returns companies where `isPublic = true`.
+Returns companies where `isPublic = true`. Seed companies for
+`location=malaga` include `med-rentacar` and `benetti-cars`.
 
-**Coordinate / fleet gap (marketplace map):** company records do not yet include
-`latitude`, `longitude`, or `vehicleCount`. The marketplace geocodes pins from
-`locationSlug` against `src/data/malagaCityCoordinates.ts` (Málaga-province city
-centroids; companies in the same city are offset slightly). `vehicleCount` is
-derived in the mock layer from listed vehicles (and the current `from`/`to`
-window). Add these fields to `Company` when the API can supply them:
-
-```
-latitude: number | null
-longitude: number | null
-vehicleCount: number | null
-```
+Company fields include `slug`, branding, `location` / `locationSlug`, optional
+`latitude` / `longitude`, and `vehicleCount`. The marketplace map prefers API
+coordinates and falls back to `src/data/malagaCityCoordinates.ts` city
+centroids when lat/lng are omitted. The mock layer still derives `vehicleCount`
+from listed vehicles (and the current `from`/`to` window).
 
 ---
 
@@ -122,7 +116,8 @@ GET  /v1/public/companies/{slug}/availability
 Query params: `?from=&to=&vehicleId=` (vehicleId optional — if omitted, returns for
 all public vehicles in the company).
 
-Response: `{ vehicleId: string, unavailableDates: string[] }[]`
+Response: `[{ vehicleId, unavailableDates, available }]` (required `from`/`to`;
+`vehicleId` optional). Clients also accept a `{ data, page }` envelope.
 
 ---
 
@@ -218,20 +213,22 @@ Allow the marketplace origins: `marketplace.benwer.es`, `*.benwer.es`, and
 
 ---
 
-## 8. Live API notes (marketplace client, 2026-09-13)
+## 8. Live API notes (marketplace client)
 
-Recorded against `GET /v1/public/*` on the running API. Swagger
-(`/swagger/doc.json`) still documents **admin** routes only — public paths are
-not in the spec yet. The marketplace commits `openapi/public.json` and
-`src/services/api/fixtures/*` from these shapes.
+**Source of truth:** [benwer-cars-api#13](https://github.com/rafaelbenetti/benwer-cars-api/pull/13)
+(`cursor/marketplace-public-api-e739`). The marketplace prefers the live API
+whenever `API_ORIGIN` / `NEXT_PUBLIC_API_URL` is set. Mock JSON is used only
+when those are unset or the API is unreachable.
 
-| Observed | Marketplace handling | API follow-up |
-| --- | --- | --- |
-| Companies are a bare array (`id`, `slug`, `name`, `isPublic`, `branding`, `defaultLocale`, `currency`). No `location`, `locationSlug`, `description`, `latitude`, `longitude`, `vehicleCount`. | Mapper keeps those fields optional. Location filter is client-side **only when** a company has `locationSlug` (inferred from `location` / city name when present). `from`/`to` company filtering fans out to each company's vehicles. | Add location + coordinates + fleet count; support `location` / `from` / `to` query params; paginate as `{ data, page }`. |
-| `GET /v1/public/companies?q=` works. `location` / `from` / `to` are ignored. | Send `q` only; apply the rest client-side. | Honour `location`, `from`, `to`, `cursor`, `limit`. |
-| Vehicles use `make`, `dailyRate`, `fuelType`, `category` (`economy` / `sedan` / `suv` / …), `available`. No `photos`, `currency`, `companySlug`, `brand`, `pricePerDay`. | Robust mapper + photo fallbacks. Currency defaults to `EUR`. | Align names or document aliases; add `photos` / `photoUrl`; include `companySlug` + `currency`. |
-| `type=suv` and `q=` work. `type=car` returns `null`. `seats`, `transmission`, `sort`, `limit` ignored. `from`/`to` filters booked cars. | Never send `type=car`. Send `q`, `from`, `to`, and `type` only for `suv`/`van`. Re-apply type/seats/transmission/sort client-side. Treat `null` as `[]`. | Accept marketplace `type=car` (economy+sedan); support seats/transmission/sort; never return bare `null`. |
-| Availability requires `vehicleId` and returns `{ available, vehicleId }` (optional `conflicts`), not `unavailableDates[]`. | Always send `vehicleId`. Expand `conflicts` or the queried window when `available: false`. | Add fleet-wide availability and `unavailableDates` (or keep conflicts and document them in swagger). |
-| `GET /v1/public/vehicles` is 404. Multi-company search is not a single endpoint. | Fan-out: companies list → per-company vehicles. | Add a public mixed-fleet search (or document that clients must fan-out). |
-| Reservation validation uses RFC 9457 + `errors[]` (`vehicleID`, `after_start`). Unknown vehicle currently 500 `internal_error`. | Field aliases + `after_start` → `reservation.invalid_dates`. Domain errors are not mocked away. | Return `404 vehicle.not_found` / `409 reservation.overlap`; publish create + token GET in swagger. |
-| Public routes are missing from swagger. | `npm run generate:api` uses `openapi/public.json` until swagger includes `/public/`. | Add public paths to `make swag`. |
+| Contract | Marketplace handling |
+| --- | --- |
+| List endpoints return `{ data, page }`, not raw arrays. | `unwrapList` reads `payload.data` first. Raw arrays (older deploys) still unwrap. `public/mock-data/*.json` uses the same envelope. |
+| Companies accept `location`, `from`/`to`, `q`, cursor pagination. Fields include `slug`, branding, `location`/`locationSlug`, optional lat/lng, `vehicleCount`. `location=malaga` seeds include `med-rentacar` and `benetti-cars`. | Live client sends those query params, including province-wide `malaga`. Client-side city filtering skips `malaga`. Map pins prefer API coordinates. |
+| Vehicles expose aliases `brand`, `type`, `pricePerDay`, `fuel` plus admin names (`make`, `category`, `dailyRate`, `fuelType`). Photos may be CDN URLs or object keys without S3. | Mapper prefers marketplace aliases, then admin names. Only `http(s)` photo URLs are passed to `next/image`; bare keys are dropped (designed fallbacks apply). |
+| Availability: required `from`/`to`; optional `vehicleId`; shape `[{ vehicleId, unavailableDates, available }]`. | One GET; `mapAvailabilityList` accepts a raw array, `{ data }`, or a single legacy `{ available, vehicleId, conflicts }` object. |
+| Guest POST reservations + GET by token with nested `vehicle` + `company`. `409 reservation.overlap`. RFC 9457 validation. | `mapReservation` reads nested resources, `grandTotal`/`totalAmount`, and `customer`. Field aliases (`vehicleID`, `after_start`). Empty 409 → `reservation.overlap`. |
+| CORS allows `localhost:3002`. | Local marketplace talks to `API_ORIGIN=http://localhost:8080` via the `/api` rewrite. |
+
+`npm run generate:api` uses `openapi/public.json` until production swagger
+includes `/public/` paths. Keep the raw-array unwrap so an older Railway
+deploy does not blank the marketplace.

@@ -1,3 +1,4 @@
+import { isProvinceWideLocation } from "@/data/malagaCities";
 import { VehicleStatus } from "@/enums";
 import type { Company, CompanyListFilters } from "@/types/company";
 import type { Vehicle, VehicleFilters } from "@/types/vehicle";
@@ -71,14 +72,18 @@ export function applyCompanyListFilters(
   companies: Company[],
   filters?: CompanyListFilters,
 ): Company[] {
+  const cityFilter =
+    filters?.location && !isProvinceWideLocation(filters.location)
+      ? filters.location
+      : undefined;
   const locationEnabled =
-    Boolean(filters?.location) && companies.some((company) => company.locationSlug);
+    Boolean(cityFilter) && companies.some((company) => company.locationSlug);
 
   return companies.filter((company) => {
     if (
       locationEnabled &&
       company.locationSlug &&
-      company.locationSlug !== filters?.location
+      company.locationSlug !== cityFilter
     ) {
       return false;
     }

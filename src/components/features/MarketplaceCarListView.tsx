@@ -16,7 +16,6 @@ import {
   getCityDisplayName,
   isProvinceWideLocation,
   resolveCitySlug,
-  toApiLocation,
 } from "@/data/malagaCities";
 import { NavRoutes, SearchParams } from "@/enums";
 import { formatSearchDate, hasCompleteSearchDates, parseIsoDate } from "@/lib/dates";
@@ -55,12 +54,12 @@ function MarketplaceCarListContent() {
   const companiesQuery = useCompanies(
     hasDates
       ? {
-          location: toApiLocation(location),
+          location,
           from: filters.from,
           to: filters.to,
         }
       : {
-          location: toApiLocation(location),
+          location,
         },
   );
 

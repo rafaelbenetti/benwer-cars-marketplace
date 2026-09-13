@@ -3,7 +3,7 @@
   "info": {
     "title": "Benwer Cars Public API",
     "version": "1.0.0",
-    "description": "Unauthenticated /v1/public/* contract used by the marketplace. Hand-maintained from the live API plus swagger definitions until public paths land in swagger/doc.json."
+    "description": "Unauthenticated /v1/public/* contract used by the marketplace. Source of truth: benwer-cars-api PR #13 (cursor/marketplace-public-api-e739). List endpoints return { data, page }. Raw arrays remain in oneOf only as a fallback."
   },
   "servers": [
     { "url": "http://localhost:8080" },
@@ -28,8 +28,8 @@
               "application/json": {
                 "schema": {
                   "oneOf": [
-                    { "type": "array", "items": { "$ref": "#/components/schemas/PublicCompany" } },
                     { "$ref": "#/components/schemas/PublicCompanyPage" },
+                    { "type": "array", "items": { "$ref": "#/components/schemas/PublicCompany" } },
                     { "type": "null" }
                   ]
                 }
@@ -83,8 +83,8 @@
               "application/json": {
                 "schema": {
                   "oneOf": [
-                    { "type": "array", "items": { "$ref": "#/components/schemas/PublicVehicle" } },
                     { "$ref": "#/components/schemas/PublicVehiclePage" },
+                    { "type": "array", "items": { "$ref": "#/components/schemas/PublicVehicle" } },
                     { "type": "null" }
                   ]
                 }
@@ -131,9 +131,9 @@
               "application/json": {
                 "schema": {
                   "oneOf": [
-                    { "$ref": "#/components/schemas/PublicAvailability" },
                     { "type": "array", "items": { "$ref": "#/components/schemas/PublicAvailability" } },
-                    { "$ref": "#/components/schemas/PublicAvailabilityPage" }
+                    { "$ref": "#/components/schemas/PublicAvailabilityPage" },
+                    { "$ref": "#/components/schemas/PublicAvailability" }
                   ]
                 }
               }

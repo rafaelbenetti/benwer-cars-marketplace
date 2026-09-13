@@ -10,6 +10,8 @@ export interface Company {
   description: string | null;
   location: string | null;
   locationSlug: string | null;
+  latitude: number | null;
+  longitude: number | null;
   vehicleCount: number | null;
   isPublic: boolean;
   branding: CompanyBranding;
