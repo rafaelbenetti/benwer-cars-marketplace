@@ -6,6 +6,23 @@ const DATE_LOCALES = {
   "es-ES": es,
 } as const;
 
+export function hasCompleteSearchDates(
+  from: string | undefined,
+  to: string | undefined,
+): boolean {
+  if (!from || !to) {
+    return false;
+  }
+
+  const start = parseIsoDate(from);
+  const end = parseIsoDate(to);
+  if (!start || !end) {
+    return false;
+  }
+
+  return end >= start;
+}
+
 export function parseIsoDate(value: string): Date | null {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return null;

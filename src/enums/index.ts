@@ -67,6 +67,7 @@ export enum SearchParams {
   Q = "q",
   CAR_ID = "carId",
   COMPANY_SLUG = "companySlug",
+  COMPANIES = "companies",
 }
 
 export enum ErrorMessages {

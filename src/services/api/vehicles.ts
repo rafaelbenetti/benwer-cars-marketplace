@@ -66,11 +66,19 @@ async function searchLiveMarketplace(
   filters?: MarketplaceSearchFilters,
 ): Promise<MarketplaceVehicle[]> {
   const location = toApiLocation(filters?.location);
-  const companies = filters?.companySlug
-    ? await companiesApi
-        .getBySlug(filters.companySlug)
-        .then((company) => [company])
-        .catch(() => [])
+  const selectedSlugs = filters?.companySlugs?.length
+    ? filters.companySlugs
+    : filters?.companySlug
+      ? [filters.companySlug]
+      : [];
+  const companies = selectedSlugs.length
+    ? (
+        await Promise.all(
+          selectedSlugs.map((slug) =>
+            companiesApi.getBySlug(slug).catch(() => null),
+          ),
+        )
+      ).flatMap((company) => (company ? [company] : []))
     : await companiesApi.getAll({
         location,
         from: filters?.from,

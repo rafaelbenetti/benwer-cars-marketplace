@@ -5,3 +5,4 @@ export { Field } from "./Field";
 export { Skeleton } from "./Skeleton";
 export { EmptyState } from "./EmptyState";
 export { ErrorState } from "./ErrorState";
+export { Sheet } from "./Sheet";

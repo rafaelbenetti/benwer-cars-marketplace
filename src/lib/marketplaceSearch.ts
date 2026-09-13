@@ -1,5 +1,6 @@
 import { NavRoutes, SearchParams } from "@/enums";
 import { DEFAULT_CITY_SLUG } from "@/data/malagaCities";
+import { serializeCompanySlugs } from "@/lib/vehicleFilters";
 
 export function appendSearchParams(
   path: string,
@@ -9,6 +10,7 @@ export function appendSearchParams(
     to?: string;
     view?: string;
     companySlug?: string;
+    companySlugs?: string[];
   },
 ): string {
   const params = new URLSearchParams();
@@ -29,8 +31,14 @@ export function appendSearchParams(
     params.set(SearchParams.VIEW, input.view);
   }
 
-  if (input?.companySlug) {
-    params.set(SearchParams.COMPANY_SLUG, input.companySlug);
+  const companySlugs = input?.companySlugs?.length
+    ? input.companySlugs
+    : input?.companySlug
+      ? [input.companySlug]
+      : [];
+
+  if (companySlugs.length) {
+    params.set(SearchParams.COMPANIES, serializeCompanySlugs(companySlugs));
   }
 
   const query = params.toString();
@@ -42,12 +50,14 @@ export function buildCarsSearchHref(input: {
   from?: string;
   to?: string;
   companySlug?: string;
+  companySlugs?: string[];
 }): string {
   return appendSearchParams(NavRoutes.CARS, {
     location: input.location || DEFAULT_CITY_SLUG,
     from: input.from,
     to: input.to,
     companySlug: input.companySlug,
+    companySlugs: input.companySlugs,
   });
 }
 

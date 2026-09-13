@@ -51,7 +51,8 @@
     "pickupTrigger": "Fecha de recogida, {date}",
     "dropoffTrigger": "Fecha de devolución, {date}",
     "calendarLabel": "Seleccionar fechas",
-    "submit": "Buscar"
+    "submit": "Buscar",
+    "datesRequired": "Añade las fechas de recogida y devolución para buscar"
   },
   "browseLocation": {
     "title": "Explorar por ciudad",
@@ -87,6 +88,11 @@
     "searchSubtitle": "Coches de todas las empresas locales de la provincia de Málaga",
     "searchEmptyTitle": "Ningún coche coincide con esta búsqueda",
     "searchEmptyHint": "Prueba otras fechas u otra ubicación en la provincia de Málaga. Todas las ciudades siguen en la lista, aunque hoy no haya flota.",
+    "datesNeededTitle": "¿Cuándo necesitas un coche?",
+    "datesNeededHint": "Elige las fechas de recogida y devolución para ver los coches libres entonces — no mostramos toda la flota sin fechas.",
+    "addDates": "Añadir fechas",
+    "companiesSelected": "{count, plural, one {# empresa seleccionada} other {# empresas seleccionadas}}",
+    "clearCompanies": "Quitar empresas",
     "resultsInProvince": "{count, plural, one {# coche en la provincia de Málaga} other {# coches en la provincia de Málaga}}",
     "resultsInCity": "{count, plural, one {# coche en {city}} other {# coches en {city}}}",
     "allCompanies": "Todas las empresas",
@@ -115,7 +121,11 @@
       "company": "Empresa",
       "dates": "Fechas",
       "from": "Fecha de recogida",
-      "to": "Fecha de devolución"
+      "to": "Fecha de devolución",
+      "appliedCount": "{count, plural, one {# aplicado} other {# aplicados}}",
+      "openAria": "Filtros, {count, plural, one {# aplicado} other {# aplicados}}",
+      "close": "Cerrar filtros",
+      "done": "Listo"
     },
     "types": {
       "car": "Coche",

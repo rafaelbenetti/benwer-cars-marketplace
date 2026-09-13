@@ -30,6 +30,7 @@ export interface VehicleFilters {
   cursor?: string;
   limit?: number;
   companySlug?: string;
+  companySlugs?: string[];
 }
 
 export interface MarketplaceSearchFilters extends VehicleFilters {

@@ -16,6 +16,11 @@ interface DateRangePopoverProps {
   from: string;
   to: string;
   onChange: (next: { from: string; to: string }) => void;
+  invalid?: boolean;
+  required?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  describedBy?: string;
 }
 
 function SearchFieldDivider() {
@@ -27,11 +32,28 @@ function SearchFieldDivider() {
   );
 }
 
-export function DateRangePopover({ from, to, onChange }: DateRangePopoverProps) {
+export function DateRangePopover({
+  from,
+  to,
+  onChange,
+  invalid = false,
+  required = false,
+  open,
+  onOpenChange,
+  describedBy,
+}: DateRangePopoverProps) {
   const t = useTranslations("search");
   const locale = useLocale();
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [open, setOpen] = useState(false);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const isOpen = open ?? uncontrolledOpen;
+
+  function setOpen(next: boolean) {
+    if (open === undefined) {
+      setUncontrolledOpen(next);
+    }
+    onOpenChange?.(next);
+  }
 
   const fromDate = parseIsoDate(from);
   const toDate = parseIsoDate(to);
@@ -60,7 +82,7 @@ export function DateRangePopover({ from, to, onChange }: DateRangePopoverProps) 
   }
 
   return (
-    <Popover.Root open={open} onOpenChange={setOpen}>
+    <Popover.Root open={isOpen} onOpenChange={setOpen}>
       <Popover.Anchor asChild>
         <div className="flex min-w-0 flex-1 flex-col md:flex-row md:items-stretch">
           <div className="min-w-0 md:flex-1">
@@ -69,9 +91,13 @@ export function DateRangePopover({ from, to, onChange }: DateRangePopoverProps) 
               label={t("pickupLabel")}
               value={fromValue}
               isPlaceholder={!fromDate}
-              isActive={open}
-              aria-expanded={open}
+              isActive={isOpen}
+              tone={invalid && !fromDate ? "warning" : "default"}
+              aria-expanded={isOpen}
               aria-haspopup="dialog"
+              aria-invalid={invalid && !fromDate}
+              aria-required={required || undefined}
+              aria-describedby={describedBy}
               aria-label={t("pickupTrigger", { date: fromValue })}
               onClick={() => setOpen(true)}
             />
@@ -83,9 +109,13 @@ export function DateRangePopover({ from, to, onChange }: DateRangePopoverProps) 
               label={t("dropoffLabel")}
               value={toValue}
               isPlaceholder={!toDate}
-              isActive={open}
-              aria-expanded={open}
+              isActive={isOpen}
+              tone={invalid && !toDate ? "warning" : "default"}
+              aria-expanded={isOpen}
               aria-haspopup="dialog"
+              aria-invalid={invalid && !toDate}
+              aria-required={required || undefined}
+              aria-describedby={describedBy}
               aria-label={t("dropoffTrigger", { date: toValue })}
               onClick={() => setOpen(true)}
             />

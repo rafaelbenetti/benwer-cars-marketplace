@@ -8,13 +8,23 @@ interface SearchFieldSegmentProps
   value: string;
   isPlaceholder?: boolean;
   isActive?: boolean;
+  tone?: "default" | "warning";
 }
 
 export const SearchFieldSegment = forwardRef<
   HTMLButtonElement,
   SearchFieldSegmentProps
 >(function SearchFieldSegment(
-  { icon, label, value, isPlaceholder = false, isActive = false, className, ...props },
+  {
+    icon,
+    label,
+    value,
+    isPlaceholder = false,
+    isActive = false,
+    tone = "default",
+    className,
+    ...props
+  },
   ref,
 ) {
   return (
@@ -26,6 +36,7 @@ export const SearchFieldSegment = forwardRef<
         "hover:bg-surface-hover",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         isActive && "bg-surface-hover ring-2 ring-ring",
+        tone === "warning" && "bg-warning-soft hover:bg-warning-soft",
         className,
       )}
       {...props}
