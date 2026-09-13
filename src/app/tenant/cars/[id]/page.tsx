@@ -1,7 +1,6 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { TenantHeader } from "@/components/layout/TenantHeader";
 import { Footer } from "@/components/layout/Footer";
 import { CarPhotoGallery } from "@/components/features/CarPhotoGallery";

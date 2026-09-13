@@ -31,6 +31,10 @@ tenant-host requests so the public URLs stay `/` and `/cars/[id]`. The prefix
 is `tenant`, not `_tenant`: Next.js treats `_`-prefixed folders as private and
 excludes them from routing.
 
+Locale is cookie-based (`NEXT_LOCALE`) with no URL prefix. Proxy does not run
+next-intl path routing: this app has no `[locale]` segment, and next-intl's
+middleware would rewrite `/` to `/en-GB`, which 404s.
+
 ### Wildcard DNS
 
 `*.benwer.es` must point to the marketplace deployment (wildcard `A`/`CNAME`).
