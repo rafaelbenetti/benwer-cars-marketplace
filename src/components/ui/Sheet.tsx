@@ -30,7 +30,7 @@ export function Sheet({
         <Dialog.Overlay className="fixed inset-0 z-[60] bg-foreground/40" />
         <Dialog.Content
           className={cn(
-            "fixed inset-y-0 left-0 z-[60] flex h-full w-full max-w-sm flex-col bg-surface shadow-md",
+            "fixed inset-y-0 left-0 z-[60] flex h-full w-full max-w-full flex-col bg-surface shadow-md sm:max-w-sm",
             "border-r border-border outline-none",
           )}
         >
@@ -55,7 +55,9 @@ export function Sheet({
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-4">{children}</div>
           {footer ? (
-            <div className="border-t border-border px-4 py-3">{footer}</div>
+            <div className="border-t border-border px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+              {footer}
+            </div>
           ) : null}
         </Dialog.Content>
       </Dialog.Portal>

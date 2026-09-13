@@ -34,8 +34,9 @@ export function TenantNav() {
           href={link.href}
           aria-current={link.isActive ? "page" : undefined}
           className={cn(
-            "inline-flex cursor-pointer items-center rounded-full px-3 py-1.5 text-sm transition-colors",
+            "inline-flex cursor-pointer items-center rounded-full px-2.5 py-1.5 text-sm whitespace-nowrap transition-colors",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            link.href === NavRoutes.HOME && "max-sm:hidden",
             link.isActive
               ? "bg-primary/10 font-medium text-primary"
               : "text-muted-foreground hover:bg-surface-hover hover:text-foreground",

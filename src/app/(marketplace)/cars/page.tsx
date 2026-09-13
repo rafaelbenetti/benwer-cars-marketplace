@@ -25,7 +25,7 @@ function CarsSearchPage() {
     <>
       <MarketplaceHeader />
       <MarketplaceSearchHeader />
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 px-4 py-8 md:px-6 md:py-10 lg:px-8">
+      <main className="mx-auto flex w-full max-w-7xl min-w-0 flex-1 flex-col gap-6 px-4 py-6 md:gap-8 md:px-6 md:py-10 lg:px-8">
         <MarketplaceCarListView />
       </main>
       <Footer />

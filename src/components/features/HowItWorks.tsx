@@ -10,12 +10,12 @@ export async function HowItWorks() {
   ];
 
   return (
-    <section className="flex flex-col gap-10">
+    <section className="flex flex-col gap-6 md:gap-10">
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-2 text-center">
         <h2 className="text-xl font-semibold text-foreground">{t("title")}</h2>
         <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
       </div>
-      <ol className="relative grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+      <ol className="relative grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
         <div
           aria-hidden
           className="pointer-events-none absolute top-5 right-[16.666%] left-[16.666%] hidden h-px bg-border md:block"

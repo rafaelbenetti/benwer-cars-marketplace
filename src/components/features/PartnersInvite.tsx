@@ -14,7 +14,7 @@ export async function PartnersInvite() {
   return (
     <section
       id="partners"
-      className="rounded-2xl border border-border bg-surface px-6 py-10 text-foreground sm:px-10 sm:py-12 lg:px-14 lg:py-14"
+      className="rounded-2xl border border-border bg-surface px-4 py-8 text-foreground sm:px-10 sm:py-12 lg:px-14 lg:py-14"
     >
       <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
         {t("eyebrow")}

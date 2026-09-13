@@ -97,7 +97,7 @@ export function CompanyFilterGroup({
               <label
                 htmlFor={checkboxId}
                 className={cn(
-                  "flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm",
+                  "flex min-h-11 cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm",
                   "hover:bg-surface-hover",
                   isSelected && "bg-primary/5",
                 )}

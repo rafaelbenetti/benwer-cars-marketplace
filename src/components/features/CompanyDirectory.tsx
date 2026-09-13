@@ -103,6 +103,7 @@ export function CompanyDirectory({
             variant={showMapPane ? "ghost" : "secondary"}
             size="sm"
             aria-pressed={!showMapPane}
+            className="min-h-11"
             onClick={() => setMobileView("list")}
           >
             <List size={16} aria-hidden />
@@ -113,6 +114,7 @@ export function CompanyDirectory({
             variant={showMapPane ? "secondary" : "ghost"}
             size="sm"
             aria-pressed={showMapPane}
+            className="min-h-11"
             onClick={() => setMobileView("map")}
           >
             <MapPinned size={16} aria-hidden />

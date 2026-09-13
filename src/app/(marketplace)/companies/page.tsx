@@ -30,7 +30,7 @@ async function CompaniesPage() {
           aria-hidden
           className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl"
         />
-        <div className="relative mx-auto max-w-7xl px-4 pt-10 pb-16 md:px-6 md:pt-14 md:pb-24 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 pt-8 pb-12 md:px-6 md:pt-14 md:pb-24 lg:px-8">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">
             {t("title")}
           </h1>
@@ -39,7 +39,7 @@ async function CompaniesPage() {
           </p>
         </div>
       </section>
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 px-4 pb-16 md:px-6 lg:px-8">
+      <main className="mx-auto flex w-full max-w-7xl min-w-0 flex-1 flex-col gap-6 px-4 pb-12 md:gap-8 md:px-6 md:pb-16 lg:px-8">
         <div className="relative z-10 -mt-10 md:-mt-14">
           <CompanyListView />
         </div>

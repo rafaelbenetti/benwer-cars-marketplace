@@ -42,11 +42,17 @@ export function CookieBanner() {
             {t("policy")}
           </Link>
         </p>
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Button variant="secondary" onClick={() => accept("necessary")}>
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+          <Button
+            variant="secondary"
+            className="min-h-11 w-full sm:w-auto"
+            onClick={() => accept("necessary")}
+          >
             {t("necessary")}
           </Button>
-          <Button onClick={() => accept("all")}>{t("accept")}</Button>
+          <Button className="min-h-11 w-full sm:w-auto" onClick={() => accept("all")}>
+            {t("accept")}
+          </Button>
         </div>
       </div>
     </div>
