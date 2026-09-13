@@ -251,7 +251,20 @@ export function mapReservation(raw: unknown, fallbackSlug?: string): GuestReserv
       "",
     companySlug,
     createdAt: readString(row.createdAt) ?? new Date().toISOString(),
-    vehicle: row.vehicle ? mapVehicle(row.vehicle, companySlug) : null,
+    vehicle: row.vehicle
+      ? mapVehicle(row.vehicle, { companySlug, currency: readString(row.currency) })
+      : readString(row.vehicleMake) || readString(row.vehicleModel)
+        ? mapVehicle(
+            {
+              id: readString(row.vehicleId) ?? readString(row.vehicleID),
+              make: readString(row.vehicleMake),
+              model: readString(row.vehicleModel),
+              dailyRate: readNumber(row.dailyRate),
+              currency: readString(row.currency),
+            },
+            { companySlug, currency: readString(row.currency) },
+          )
+        : null,
     company: row.company ? mapCompany(row.company) : null,
   };
 }

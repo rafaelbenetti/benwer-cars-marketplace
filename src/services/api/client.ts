@@ -3,7 +3,7 @@ import { env } from "@/env";
 import { ApiError, type FieldError } from "@/lib/errors";
 import type { paths } from "./schema";
 
-const LIVE_TIMEOUT_MS = 8000;
+const LIVE_TIMEOUT_MS = 25000;
 
 interface ProblemBody {
   code?: string;
@@ -39,10 +39,22 @@ function normalizeFieldError(error: { field?: string; code?: string }): FieldErr
   return { field, code };
 }
 
+function problemCode(status: number, body: ProblemBody): string {
+  if (body.code) {
+    return body.code;
+  }
+
+  if (status === 409) {
+    return "reservation.overlap";
+  }
+
+  return "unknown";
+}
+
 export function throwApiError(status: number, body: ProblemBody): never {
   throw new ApiError(
     status,
-    body.code ?? "unknown",
+    problemCode(status, body),
     (body.errors ?? []).map(normalizeFieldError),
     body.detail,
   );

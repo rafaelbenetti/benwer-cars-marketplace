@@ -139,6 +139,21 @@ describe("mapAvailability", () => {
 });
 
 describe("mapReservation", () => {
+  it("maps a live created reservation with vehicleMake and totalAmount", () => {
+    const reservation = mapReservation(
+      loadFixture("reservation.created.json"),
+      "med-rentacar",
+    );
+
+    expect(reservation.token).toBe("92eb9cbbf4a9ab48390901ac54f1c411");
+    expect(reservation.status).toBe(ReservationStatus.CONFIRMED);
+    expect(reservation.totalPrice).toBe(165);
+    expect(reservation.guestName).toBe("Maria Liveqa");
+    expect(reservation.vehicle?.brand).toBe("Peugeot");
+    expect(reservation.vehicle?.model).toBe("208");
+    expect(reservation.companySlug).toBe("med-rentacar");
+  });
+
   it("maps swagger-like reservation totals and customer fields", () => {
     const reservation = mapReservation(
       {
