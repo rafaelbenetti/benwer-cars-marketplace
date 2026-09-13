@@ -19,7 +19,30 @@ async function fetchLiveCompanies(filters?: CompanyListFilters): Promise<Company
     },
   });
 
-  return applyCompanyListFilters(mapCompanyList(data), filters);
+  return applyCompanyListFilters(
+    await enrichMissingLogos(mapCompanyList(data)),
+    filters,
+  );
+}
+
+async function enrichMissingLogos(companies: Company[]): Promise<Company[]> {
+  return Promise.all(
+    companies.map(async (company) => {
+      if (company.branding.logoUrl || !company.slug) {
+        return company;
+      }
+
+      try {
+        const { data } = await getOpenApiClient().GET("/v1/public/companies/{slug}", {
+          params: { path: { slug: company.slug } },
+        });
+        const detail = mapCompany(data);
+        return detail.branding.logoUrl ? detail : company;
+      } catch {
+        return company;
+      }
+    }),
+  );
 }
 
 export const companiesApi = {

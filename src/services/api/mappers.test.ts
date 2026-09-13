@@ -82,16 +82,16 @@ describe("mapCompany", () => {
 
   it("rewrites LocalStack logo hosts to same-origin /localstack paths", () => {
     const company = mapCompany({
-      slug: "denver-cars",
-      name: "Denver Cars",
+      slug: "med-rentacar",
+      name: "Autoalquiler Mediterráneo",
       branding: {
-        primaryColor: "#0e7490",
-        logoUrl: "http://localhost:4566/public-benwer-cars/seed/logos/denver.png",
+        primaryColor: "#7c3aed",
+        logoUrl: "http://localhost:4566/public-benwer-cars/seed/logos/med-rentacar.svg",
       },
     });
 
     expect(company.branding.logoUrl).toBe(
-      "/localstack/public-benwer-cars/seed/logos/denver.png",
+      "/localstack/public-benwer-cars/seed/logos/med-rentacar.svg",
     );
   });
 

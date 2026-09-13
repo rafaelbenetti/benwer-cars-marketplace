@@ -19,6 +19,7 @@ import {
 } from "@/data/malagaCities";
 import { NavRoutes, SearchParams } from "@/enums";
 import { formatSearchDate, hasCompleteSearchDates, parseIsoDate } from "@/lib/dates";
+import { resolveCardCompany } from "@/lib/companyIdentity";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
 import {
   applyVehicleFilters,
@@ -27,7 +28,6 @@ import {
   parseBrowseParams,
   parseVehicleFilters,
 } from "@/lib/vehicleFilters";
-import type { MarketplaceVehicle } from "@/types/vehicle";
 import type { Vehicle } from "@/types/vehicle";
 
 const RESULTS_GRID_CLASS = "sm:grid-cols-2 xl:grid-cols-3";
@@ -102,8 +102,7 @@ function MarketplaceCarListContent() {
   }
 
   function companyFor(vehicle: Vehicle) {
-    const marketplaceVehicle = vehicle as MarketplaceVehicle;
-    return marketplaceVehicle.company ?? null;
+    return resolveCardCompany(vehicle, companiesQuery.data);
   }
 
   function clearAdvancedFilters() {

@@ -4,13 +4,18 @@ import { buttonVariants } from "@/components/ui/Button";
 import { env } from "@/env";
 import { cn } from "@/lib/utils";
 
+const DEFAULT_PLANS_URL = "https://cars.benwer.es";
+
 export async function PartnersInvite() {
   const t = await getTranslations("partners");
-  const plansHref = env.NEXT_PUBLIC_MARKETING_URL;
+  const plansHref = env.NEXT_PUBLIC_MARKETING_URL || DEFAULT_PLANS_URL;
   const demoHref = env.NEXT_PUBLIC_ADMIN_DEMO_URL;
 
   return (
-    <section className="rounded-3xl bg-foreground px-6 py-10 text-background sm:px-10 sm:py-12 lg:px-14 lg:py-14">
+    <section
+      id="partners"
+      className="rounded-3xl bg-foreground px-6 py-10 text-background sm:px-10 sm:py-12 lg:px-14 lg:py-14"
+    >
       <p className="text-xs font-medium uppercase tracking-[0.18em] text-background/70">
         {t("eyebrow")}
       </p>

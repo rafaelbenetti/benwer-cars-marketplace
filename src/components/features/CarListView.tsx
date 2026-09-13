@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useCompany } from "@/hooks/useCompany";
 import { useVehicles } from "@/hooks/useVehicles";
 import { CarGridSkeleton, CarGridView } from "./CarGrid";
 import { DateRangePopover } from "./DateRangePopover";
@@ -12,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { Sheet } from "@/components/ui/Sheet";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { formatSearchDate, parseIsoDate } from "@/lib/dates";
+import { resolveCardCompany } from "@/lib/companyIdentity";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
 import {
   applyVehicleFilters,
@@ -42,6 +44,8 @@ function CarListViewContent({ companySlug, hrefBase }: CarListViewProps) {
     companySlug,
     filters,
   );
+  const companyQuery = useCompany(companySlug);
+  const directory = companyQuery.data ? [companyQuery.data] : [];
 
   const hasFilters = hasActiveAdvancedFilters(filters);
   const appliedCount = countAdvancedFilters(filters);
@@ -140,6 +144,7 @@ function CarListViewContent({ companySlug, hrefBase }: CarListViewProps) {
             error={error}
             onRetry={refetch}
             buildHref={buildHref}
+            companyFor={(vehicle) => resolveCardCompany(vehicle, directory)}
             onClearFilters={hasFilters ? clearAdvancedFilters : undefined}
             className={RESULTS_GRID_CLASS}
           />

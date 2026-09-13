@@ -7,6 +7,7 @@ import {
   VehicleType,
 } from "@/enums";
 import { listingRangeDates } from "@/lib/dates";
+import { toPublicMediaSrc } from "@/lib/media";
 import type { AvailabilityQuery, AvailabilityRange } from "@/types/availability";
 import type { Company } from "@/types/company";
 import type { GuestReservation } from "@/types/reservation";
@@ -125,28 +126,8 @@ function inferLocationSlug(
   return getCityByName(locationSlug)?.slug ?? getCityByName(location)?.slug ?? null;
 }
 
-function isHttpUrl(value: string): boolean {
-  return /^https?:\/\//i.test(value);
-}
-
-const LOCALSTACK_ORIGIN = /^https?:\/\/(?:localhost|127\.0\.0\.1):4566/i;
-
 function toPublicPhotoSrc(value: string): string | undefined {
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return undefined;
-  }
-
-  if (LOCALSTACK_ORIGIN.test(trimmed)) {
-    const path = trimmed.replace(LOCALSTACK_ORIGIN, "");
-    return path.startsWith("/") ? `/localstack${path}` : `/localstack/${path}`;
-  }
-
-  if (trimmed.startsWith("/") && !trimmed.startsWith("//")) {
-    return trimmed;
-  }
-
-  return isHttpUrl(trimmed) ? trimmed : undefined;
+  return toPublicMediaSrc(value);
 }
 
 function readPhotoUrl(value: unknown): string | undefined {
@@ -207,7 +188,13 @@ export function mapCompany(raw: unknown): Company {
     isPublic: readBoolean(row.isPublic) ?? true,
     branding: {
       primaryColor: readString(branding.primaryColor) ?? "",
-      logoUrl: readPhotoUrl(branding.logoUrl) ?? readPhotoUrl(branding.logo) ?? null,
+      logoUrl:
+        readPhotoUrl(branding.logoUrl) ??
+        readPhotoUrl(branding.logoURL) ??
+        readPhotoUrl(branding.logo) ??
+        readPhotoUrl(row.logoUrl) ??
+        readPhotoUrl(row.logo) ??
+        null,
     },
   };
 }

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { shouldSkipImageOptimization } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import type { Company } from "@/types/company";
 
@@ -19,9 +18,9 @@ const SIZE_CLASS = {
 } as const;
 
 const SIZE_PX = {
-  sm: "28px",
-  md: "48px",
-  lg: "56px",
+  sm: 28,
+  md: 48,
+  lg: 56,
 } as const;
 
 export function CompanyMark({
@@ -36,7 +35,7 @@ export function CompanyMark({
     return (
       <span
         className={cn(
-          "relative shrink-0 overflow-hidden border border-border bg-surface",
+          "relative flex shrink-0 items-center justify-center overflow-hidden border border-border bg-surface",
           SIZE_CLASS[size],
           className,
         )}
@@ -44,10 +43,10 @@ export function CompanyMark({
         <Image
           src={logoUrl}
           alt=""
-          fill
-          unoptimized={shouldSkipImageOptimization(logoUrl)}
-          className="absolute inset-0 size-full object-contain p-0.5"
-          sizes={SIZE_PX[size]}
+          width={SIZE_PX[size]}
+          height={SIZE_PX[size]}
+          unoptimized
+          className="h-full w-full object-contain p-0.5"
           onError={() => setFailed(true)}
         />
       </span>
