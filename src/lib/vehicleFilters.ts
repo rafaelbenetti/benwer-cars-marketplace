@@ -52,12 +52,51 @@ function parseSeats(value: string | null): number | undefined {
   return seats;
 }
 
+export function serializeCompanySlugs(slugs: string[]): string {
+  return [...new Set(slugs.filter(Boolean))].sort().join(",");
+}
+
+export function parseCompanySlugsParam(value: string | null): string[] | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const slugs = value
+    .split(",")
+    .map((slug) => slug.trim())
+    .filter(Boolean);
+
+  return slugs.length ? slugs : undefined;
+}
+
+export function parseCompanySlugs(
+  searchParams: Pick<URLSearchParams, "get">,
+): string[] | undefined {
+  const fromList = parseCompanySlugsParam(searchParams.get(SearchParams.COMPANIES));
+  if (fromList) {
+    return fromList;
+  }
+
+  const legacy = searchParams.get(SearchParams.COMPANY_SLUG);
+  return legacy ? [legacy] : undefined;
+}
+
+function applyCompanySlugs(params: URLSearchParams, slugs: string[] | undefined) {
+  params.delete(SearchParams.COMPANIES);
+  params.delete(SearchParams.COMPANY_SLUG);
+
+  if (slugs?.length) {
+    params.set(SearchParams.COMPANIES, serializeCompanySlugs(slugs));
+  }
+}
+
 export function parseVehicleFilters(
   searchParams: Pick<URLSearchParams, "get">,
 ): VehicleFilters {
   const from = searchParams.get(SearchParams.FROM) || undefined;
   const to = searchParams.get(SearchParams.TO) || undefined;
   const q = searchParams.get(SearchParams.Q) || undefined;
+  const companySlugs = parseCompanySlugs(searchParams);
 
   return {
     type: parseVehicleType(searchParams.get(SearchParams.TYPE)),
@@ -66,7 +105,8 @@ export function parseVehicleFilters(
     from,
     to,
     q,
-    companySlug: searchParams.get(SearchParams.COMPANY_SLUG) || undefined,
+    companySlugs,
+    companySlug: companySlugs?.[0],
   };
 }
 
@@ -82,7 +122,7 @@ export function applyVehicleFilters(
   setOrDelete(next, SearchParams.SEATS, filters.seats?.toString());
   setOrDelete(next, SearchParams.TRANSMISSION, filters.transmission);
   setOrDelete(next, SearchParams.Q, filters.q);
-  setOrDelete(next, SearchParams.COMPANY_SLUG, filters.companySlug);
+  applyCompanySlugs(next, filters.companySlugs ?? (filters.companySlug ? [filters.companySlug] : undefined));
 
   return next;
 }
@@ -95,8 +135,41 @@ export function hasActiveVehicleFilters(filters: VehicleFilters): boolean {
       filters.from ||
       filters.to ||
       filters.q ||
-      filters.companySlug,
+      filters.companySlug ||
+      filters.companySlugs?.length,
   );
+}
+
+export function hasActiveAdvancedFilters(filters: VehicleFilters): boolean {
+  return Boolean(
+    filters.type ||
+      filters.seats ||
+      filters.transmission ||
+      filters.q ||
+      filters.companySlugs?.length,
+  );
+}
+
+export function countAdvancedFilters(filters: VehicleFilters): number {
+  let count = 0;
+
+  if (filters.type) {
+    count += 1;
+  }
+  if (filters.seats) {
+    count += 1;
+  }
+  if (filters.transmission) {
+    count += 1;
+  }
+  if (filters.q) {
+    count += 1;
+  }
+  if (filters.companySlugs?.length) {
+    count += filters.companySlugs.length;
+  }
+
+  return count;
 }
 
 export function parseBrowseParams(searchParams: Pick<URLSearchParams, "get">): {

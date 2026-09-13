@@ -308,7 +308,12 @@ export const mockVehiclesApi = {
         return false;
       }
 
-      if (filters?.companySlug && company.slug !== filters.companySlug) {
+      const selectedSlugs = filters?.companySlugs?.length
+        ? filters.companySlugs
+        : filters?.companySlug
+          ? [filters.companySlug]
+          : [];
+      if (selectedSlugs.length && !selectedSlugs.includes(company.slug)) {
         return false;
       }
 

@@ -1,8 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { CompanyCombobox } from "./CompanyCombobox";
 import { DateRangePopover } from "./DateRangePopover";
+import { FilterChip, FilterGroup } from "./FilterControls";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
@@ -12,22 +12,15 @@ import {
   hasActiveVehicleFilters,
 } from "@/lib/vehicleFilters";
 import { TransmissionType } from "@/enums";
-import type { Company } from "@/types/company";
 import type { VehicleFilters } from "@/types/vehicle";
 
 interface FilterBarProps {
   filters: VehicleFilters;
   onChange: (filters: VehicleFilters) => void;
-  companies?: Company[];
   className?: string;
 }
 
-export function FilterBar({
-  filters,
-  onChange,
-  companies,
-  className,
-}: FilterBarProps) {
+export function FilterBar({ filters, onChange, className }: FilterBarProps) {
   const t = useTranslations("cars");
   const hasActiveFilters = hasActiveVehicleFilters(filters);
 
@@ -56,20 +49,6 @@ export function FilterBar({
             })
           }
         />
-        {companies ? (
-          <div className="min-w-0 md:flex-1">
-            <CompanyCombobox
-              value={filters.companySlug}
-              companies={companies}
-              onChange={(companySlug) =>
-                onChange({
-                  ...filters,
-                  companySlug,
-                })
-              }
-            />
-          </div>
-        ) : null}
         {hasActiveFilters ? (
           <Button
             type="button"
@@ -168,49 +147,5 @@ export function FilterBarSkeleton({ className }: { className?: string }) {
         </div>
       </div>
     </div>
-  );
-}
-
-function FilterGroup({
-  legend,
-  children,
-}: {
-  legend: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <fieldset>
-      <legend className="mb-1.5 text-xs font-medium text-muted-foreground">
-        {legend}
-      </legend>
-      <div className="flex flex-wrap gap-1.5">{children}</div>
-    </fieldset>
-  );
-}
-
-function FilterChip({
-  pressed,
-  onClick,
-  children,
-}: {
-  pressed: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={pressed}
-      onClick={onClick}
-      className={cn(
-        "min-h-8 cursor-pointer rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        pressed
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-border bg-surface text-muted-foreground hover:border-border-strong hover:text-foreground",
-      )}
-    >
-      {children}
-    </button>
   );
 }

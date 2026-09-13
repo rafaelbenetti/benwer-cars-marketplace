@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -9,16 +9,17 @@ import { DateRangePopover } from "./DateRangePopover";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { DEFAULT_CITY_SLUG, resolveCitySlug } from "@/data/malagaCities";
-import { SearchParams } from "@/enums";
-import {
-  buildCarsSearchHref,
-  buildCompaniesSearchHref,
-} from "@/lib/marketplaceSearch";
+import { NavRoutes, SearchParams } from "@/enums";
+import { hasCompleteSearchDates } from "@/lib/dates";
+import { buildCompaniesSearchHref } from "@/lib/marketplaceSearch";
+import { applyVehicleFilters, parseVehicleFilters } from "@/lib/vehicleFilters";
 import { cn } from "@/lib/utils";
 
 interface MarketplaceSearchBarProps {
   className?: string;
   target?: "cars" | "companies";
+  datesOpen?: boolean;
+  onDatesOpenChange?: (open: boolean) => void;
 }
 
 function MarketplaceSearchForm({
@@ -28,6 +29,8 @@ function MarketplaceSearchForm({
   initialTo,
   view,
   target = "cars",
+  datesOpen,
+  onDatesOpenChange,
 }: MarketplaceSearchBarProps & {
   initialLocation: string;
   initialFrom: string;
@@ -36,24 +39,56 @@ function MarketplaceSearchForm({
 }) {
   const t = useTranslations("search");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const hintId = useId();
+  const requireDates = target === "cars";
   const [location, setLocation] = useState(initialLocation);
   const [from, setFrom] = useState(initialFrom);
   const [to, setTo] = useState(initialTo);
+  const [showDateHint, setShowDateHint] = useState(false);
+  const [internalDatesOpen, setInternalDatesOpen] = useState(false);
+  const isDatesOpen = datesOpen ?? internalDatesOpen;
+  const hasDates = hasCompleteSearchDates(from, to);
+
+  function handleDatesOpenChange(next: boolean) {
+    if (datesOpen === undefined) {
+      setInternalDatesOpen(next);
+    }
+    onDatesOpenChange?.(next);
+  }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const next = {
-      location: location || DEFAULT_CITY_SLUG,
+    if (requireDates && !hasDates) {
+      setShowDateHint(true);
+      handleDatesOpenChange(true);
+      return;
+    }
+
+    handleDatesOpenChange(false);
+
+    if (target === "companies") {
+      router.push(
+        buildCompaniesSearchHref({
+          location: location || DEFAULT_CITY_SLUG,
+          from,
+          to,
+          view,
+        }),
+      );
+      return;
+    }
+
+    const next = applyVehicleFilters(searchParams, {
+      ...parseVehicleFilters(searchParams),
       from,
       to,
-      view,
-    };
-    router.push(
-      target === "companies"
-        ? buildCompaniesSearchHref(next)
-        : buildCarsSearchHref(next),
-    );
+    });
+    next.set(SearchParams.LOCATION, location || DEFAULT_CITY_SLUG);
+    router.push(`${NavRoutes.CARS}?${next.toString()}`);
   }
+
+  const dateHint = requireDates && !hasDates ? t("datesRequired") : null;
 
   return (
     <form
@@ -74,18 +109,42 @@ function MarketplaceSearchForm({
         <DateRangePopover
           from={from}
           to={to}
+          required={requireDates}
+          invalid={showDateHint && !hasDates}
+          open={isDatesOpen}
+          onOpenChange={handleDatesOpenChange}
+          describedBy={dateHint ? hintId : undefined}
           onChange={(next) => {
             setFrom(next.from);
             setTo(next.to);
+            if (hasCompleteSearchDates(next.from, next.to)) {
+              setShowDateHint(false);
+            }
           }}
         />
         <div className="md:ml-1.5 md:self-center">
-          <Button type="submit" size="lg" className="h-11 w-full shrink-0 md:min-w-28 md:w-auto">
+          <Button
+            type="submit"
+            size="lg"
+            className="h-11 w-full shrink-0 md:min-w-28 md:w-auto"
+            aria-describedby={dateHint ? hintId : undefined}
+          >
             <Search size={16} aria-hidden />
             {t("submit")}
           </Button>
         </div>
       </div>
+      {dateHint ? (
+        <p
+          id={hintId}
+          className={cn(
+            "px-3 pt-2 pb-1 text-xs",
+            showDateHint ? "text-warning" : "text-muted-foreground",
+          )}
+        >
+          {dateHint}
+        </p>
+      ) : null}
     </form>
   );
 }
@@ -93,6 +152,8 @@ function MarketplaceSearchForm({
 export function MarketplaceSearchBar({
   className,
   target = "cars",
+  datesOpen,
+  onDatesOpenChange,
 }: MarketplaceSearchBarProps) {
   const searchParams = useSearchParams();
   const locationParam = searchParams.get(SearchParams.LOCATION);
@@ -109,6 +170,8 @@ export function MarketplaceSearchBar({
       initialTo={toParam}
       view={viewParam || undefined}
       target={target}
+      datesOpen={datesOpen}
+      onDatesOpenChange={onDatesOpenChange}
     />
   );
 }

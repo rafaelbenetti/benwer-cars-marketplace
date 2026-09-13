@@ -101,6 +101,7 @@ interface CarGridViewProps {
   emptyTitle?: string;
   emptyHint?: string;
   emptyActionLabel?: string;
+  className?: string;
 }
 
 export function CarGridView({
@@ -115,10 +116,11 @@ export function CarGridView({
   emptyTitle,
   emptyHint,
   emptyActionLabel,
+  className,
 }: CarGridViewProps) {
   const t = useTranslations();
 
-  if (isPending) return <CarGridSkeleton />;
+  if (isPending) return <CarGridSkeleton className={className} />;
   if (isError) {
     return <ErrorState message={t(getErrorKey(error))} onRetry={onRetry} />;
   }
@@ -131,6 +133,7 @@ export function CarGridView({
       emptyTitle={emptyTitle}
       emptyHint={emptyHint}
       emptyActionLabel={emptyActionLabel}
+      className={className}
     />
   );
 }
