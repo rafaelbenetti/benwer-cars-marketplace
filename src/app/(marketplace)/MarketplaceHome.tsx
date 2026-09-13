@@ -34,21 +34,21 @@ export async function MarketplaceHome() {
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-12 px-4 py-10 md:gap-24 md:px-6 md:py-20 lg:px-8">
         <HowItWorks />
         <section className="flex flex-col gap-8">
-          <div className="flex flex-wrap items-end justify-between gap-x-3 gap-y-2">
-            <div className="min-w-0 flex flex-col gap-1">
-              <h2 className="text-xl font-semibold text-foreground">
+          <div className="flex flex-col gap-1">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+              <h2 className="min-w-0 text-xl font-semibold text-foreground">
                 {t("companiesHeading")}
               </h2>
-              <p className="text-sm text-muted-foreground">
-                {t("companiesSubtitle")}
-              </p>
+              <Link
+                href={NavRoutes.COMPANIES}
+                className="shrink-0 cursor-pointer text-sm font-medium text-primary transition-colors hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                {t("viewAllCompanies")}
+              </Link>
             </div>
-            <Link
-              href={NavRoutes.COMPANIES}
-              className="shrink-0 cursor-pointer text-sm font-medium text-primary transition-colors hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            >
-              {t("viewAllCompanies")}
-            </Link>
+            <p className="text-sm text-muted-foreground">
+              {t("companiesSubtitle")}
+            </p>
           </div>
           <CompanyListView showSearchBar={false} limit={6} />
         </section>
