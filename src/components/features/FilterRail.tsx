@@ -88,23 +88,6 @@ export function FilterRail({
         ))}
       </FilterGroup>
 
-      <FilterGroup legend={t("filters.seats")}>
-        {FILTER_SEAT_OPTIONS.map((seats) => (
-          <FilterChip
-            key={seats}
-            pressed={filters.seats === seats}
-            onClick={() =>
-              onChange({
-                ...filters,
-                seats: filters.seats === seats ? undefined : seats,
-              })
-            }
-          >
-            {t("seatsPlus", { count: seats })}
-          </FilterChip>
-        ))}
-      </FilterGroup>
-
       <FilterGroup legend={t("filters.transmission")}>
         {[TransmissionType.AUTOMATIC, TransmissionType.MANUAL].map((value) => (
           <FilterChip
@@ -118,6 +101,23 @@ export function FilterRail({
             }
           >
             {t(`transmission.${value}`)}
+          </FilterChip>
+        ))}
+      </FilterGroup>
+
+      <FilterGroup legend={t("filters.seats")}>
+        {FILTER_SEAT_OPTIONS.map((seats) => (
+          <FilterChip
+            key={seats}
+            pressed={filters.seats === seats}
+            onClick={() =>
+              onChange({
+                ...filters,
+                seats: filters.seats === seats ? undefined : seats,
+              })
+            }
+          >
+            {t("seatsPlus", { count: seats })}
           </FilterChip>
         ))}
       </FilterGroup>
@@ -151,6 +151,10 @@ export function FilterRailSkeleton({ className }: { className?: string }) {
         <Skeleton className="h-8 w-16 rounded-full" />
         <Skeleton className="h-8 w-14 rounded-full" />
         <Skeleton className="h-8 w-16 rounded-full" />
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        <Skeleton className="h-8 w-24 rounded-full" />
+        <Skeleton className="h-8 w-20 rounded-full" />
       </div>
       <div className="flex flex-wrap gap-1.5">
         <Skeleton className="h-8 w-10 rounded-full" />

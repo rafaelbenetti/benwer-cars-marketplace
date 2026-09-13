@@ -84,13 +84,8 @@
   },
   "cars": {
     "title": "Coches disponibles",
-    "searchTitle": "Coches disponibles",
-    "searchSubtitle": "Coches de todas las empresas locales de la provincia de Málaga",
     "searchEmptyTitle": "Ningún coche coincide con esta búsqueda",
     "searchEmptyHint": "Prueba otras fechas u otra ubicación en la provincia de Málaga. Todas las ciudades siguen en la lista, aunque hoy no haya flota.",
-    "datesNeededTitle": "¿Cuándo necesitas un coche?",
-    "datesNeededHint": "Elige las fechas de recogida y devolución para ver los coches disponibles para tu viaje.",
-    "addDates": "Añadir fechas",
     "companiesSelected": "{count, plural, one {# empresa seleccionada} other {# empresas seleccionadas}}",
     "clearCompanies": "Quitar empresas",
     "resultsInProvince": "{count, plural, one {# coche en la provincia de Málaga} other {# coches en la provincia de Málaga}}",

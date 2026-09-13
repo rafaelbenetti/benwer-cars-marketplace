@@ -88,7 +88,7 @@ function MarketplaceSearchForm({
     router.push(`${NavRoutes.CARS}?${next.toString()}`);
   }
 
-  const dateHint = requireDates && !hasDates ? t("datesRequired") : null;
+  const dateHint = requireDates && showDateHint && !hasDates ? t("datesRequired") : null;
 
   return (
     <form
@@ -135,13 +135,7 @@ function MarketplaceSearchForm({
         </div>
       </div>
       {dateHint ? (
-        <p
-          id={hintId}
-          className={cn(
-            "px-3 pt-2 pb-1 text-xs",
-            showDateHint ? "text-warning" : "text-muted-foreground",
-          )}
-        >
+        <p id={hintId} className="px-3 pt-2 pb-1 text-xs text-warning">
           {dateHint}
         </p>
       ) : null}
