@@ -29,8 +29,22 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Environment (Vercel / production)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`NEXT_PUBLIC_API_URL` and `API_ORIGIN` must be the **API origin only** — no
+`/v1` path prefix. Generated client paths already start with `/v1/public/...`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Env | Wrong | Right |
+| --- | --- | --- |
+| `NEXT_PUBLIC_API_URL` | `https://cars-api.benwer.es/v1` | `https://cars-api.benwer.es` |
+| `API_ORIGIN` | `https://cars-api.benwer.es/v1` | `https://cars-api.benwer.es` |
+
+A `/v1` suffix is concatenated onto `/v1/public/...` and the browser calls
+`/v1/v1/public/companies/...` (HTTP 404). That used to trip mock fallback
+(stock Corolla/SUV photos and mock ids like `v-med-1`).
+
+The client also strips a trailing `/v1` and collapses `/v1/v1` so either form
+of the env still works after deploy. Set the origin-only values in Vercel
+anyway.
+
+See `.env.example` and `docs/architecture.md`.

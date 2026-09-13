@@ -1,3 +1,4 @@
+import { joinApiUrl } from "@/lib/publicApiProxy";
 import { ApiError } from "@/lib/errors";
 import { isLiveApiConfigured, liveApiBaseUrl } from "./client";
 
@@ -22,7 +23,7 @@ export function buildMarketplaceContactBody(payload: ContactPayload) {
 
 function contactUrl(): string {
   const origin = liveApiBaseUrl();
-  return origin ? `${origin.replace(/\/$/, "")}/v1/contact` : "";
+  return origin ? joinApiUrl(origin, "/v1/contact") : "";
 }
 
 export const contactApi = {
