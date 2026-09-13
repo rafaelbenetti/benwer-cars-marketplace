@@ -1,5 +1,5 @@
-import { toApiLocation } from "@/data/malagaCities";
-import { ReservationStatus, VehicleStatus } from "@/enums";
+import { isProvinceWideLocation } from "@/data/malagaCities";
+import { ReservationStatus } from "@/enums";
 import { ApiError } from "@/lib/errors";
 import {
   availabilityCalendarWindow,
@@ -24,6 +24,11 @@ import type {
 } from "@/types/vehicle";
 import { mockClient } from "./client";
 import {
+  isListedVehicle,
+  matchesVehicleFilters,
+  sortVehicles,
+} from "./filters";
+import {
   mapAvailabilityList,
   mapCompanyList,
   mapReservation,
@@ -42,52 +47,6 @@ let seedReservationsPromise: Promise<GuestReservation[]> | null = null;
 
 function normalize(value: string): string {
   return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
-}
-
-function isListedVehicle(vehicle: Vehicle): boolean {
-  return vehicle.isPublic && vehicle.status === VehicleStatus.AVAILABLE;
-}
-
-function matchesVehicleFilters(vehicle: Vehicle, filters?: VehicleFilters): boolean {
-  if (!filters) {
-    return true;
-  }
-
-  if (filters.type && vehicle.type !== filters.type) {
-    return false;
-  }
-
-  if (filters.transmission && vehicle.transmission !== filters.transmission) {
-    return false;
-  }
-
-  if (filters.seats && vehicle.seats < filters.seats) {
-    return false;
-  }
-
-  if (filters.q) {
-    const query = normalize(filters.q);
-    const haystack = normalize(
-      `${vehicle.brand} ${vehicle.model} ${vehicle.description ?? ""}`,
-    );
-    if (!haystack.includes(query)) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function sortVehicles(vehicles: Vehicle[], sort?: string): Vehicle[] {
-  if (sort === "pricePerDay:desc") {
-    return [...vehicles].sort((a, b) => b.pricePerDay - a.pricePerDay);
-  }
-
-  if (sort === "pricePerDay:asc") {
-    return [...vehicles].sort((a, b) => a.pricePerDay - b.pricePerDay);
-  }
-
-  return vehicles;
 }
 
 function isVehicleFree(
@@ -141,7 +100,7 @@ async function loadSeedReservations(): Promise<GuestReservation[]> {
     seedReservationsPromise = mockClient
       .get<unknown>(MOCK_RESERVATIONS)
       .then((payload) =>
-        unwrapList(payload).map(mapReservation),
+        unwrapList(payload).map((row) => mapReservation(row)),
       )
       .catch(() => []);
   }
@@ -172,7 +131,11 @@ export const mockCompaniesApi = {
 
     return companies
       .filter((company) => {
-        if (filters?.location && company.locationSlug !== filters.location) {
+        if (
+          filters?.location &&
+          !isProvinceWideLocation(filters.location) &&
+          company.locationSlug !== filters.location
+        ) {
           return false;
         }
 
@@ -295,7 +258,10 @@ export const mockVehiclesApi = {
       loadAvailability(),
       allReservations(),
     ]);
-    const location = toApiLocation(filters?.location);
+    const location =
+      filters?.location && !isProvinceWideLocation(filters.location)
+        ? filters.location
+        : undefined;
     const companiesBySlug = new Map(companies.map((company) => [company.slug, company]));
 
     const filtered = vehicles.filter((vehicle) => {

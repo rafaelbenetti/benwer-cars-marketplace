@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Car, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { IconButton } from "@/components/ui/Button";
+import { CarPhoto } from "./CarPhoto";
 
 interface CarPhotoGalleryProps {
   photos: string[];
@@ -40,16 +40,19 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-surface-muted group">
-        {activePhoto ? (
-          <Image
-            src={activePhoto}
-            alt={t("photoAlt", { name: alt, index: activeIndex + 1 })}
-            fill
-            priority
-            className="object-cover"
-            sizes="(min-width: 1024px) 60vw, 100vw"
-          />
-        ) : null}
+        <CarPhoto
+          src={activePhoto}
+          alt={t("photoAlt", { name: alt, index: activeIndex + 1 })}
+          priority
+          className="object-cover"
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          fallback={
+            <div className="flex h-full w-full flex-col items-center justify-center gap-2">
+              <Car size={28} className="text-primary/40" aria-hidden />
+              <p className="text-sm text-muted-foreground">{t("photoEmpty")}</p>
+            </div>
+          }
+        />
 
         {photos.length > 1 ? (
           <>
@@ -89,12 +92,16 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
                   : "border-transparent hover:border-border-strong",
               )}
             >
-              <Image
+              <CarPhoto
                 src={photo}
                 alt={`${alt} thumbnail ${i + 1}`}
-                fill
                 className="object-cover"
                 sizes="96px"
+                fallback={
+                  <div className="flex h-full w-full items-center justify-center bg-surface-muted">
+                    <Car size={16} className="text-primary/30" aria-hidden />
+                  </div>
+                }
               />
             </button>
           ))}

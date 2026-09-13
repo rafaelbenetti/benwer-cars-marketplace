@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { Car } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { Vehicle } from "@/types/vehicle";
+import { CarPhoto } from "./CarPhoto";
 
 interface BookingVehiclePreviewProps {
   vehicle: Vehicle;
@@ -31,20 +31,18 @@ export function BookingVehiclePreview({
           thumbClass,
         )}
       >
-        {photo ? (
-          <Image
-            src={photo}
-            alt={name}
-            fill
-            className="object-cover"
-            sizes={size === "md" ? "144px" : "96px"}
-          />
-        ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-1 bg-primary/5">
-            <Car size={size === "md" ? 28 : 20} className="text-primary/40" aria-hidden />
-            <span className="sr-only">{t("photoEmpty")}</span>
-          </div>
-        )}
+        <CarPhoto
+          src={photo}
+          alt={name}
+          className="object-cover"
+          sizes={size === "md" ? "144px" : "96px"}
+          fallback={
+            <div className="flex h-full w-full flex-col items-center justify-center gap-1 bg-primary/5">
+              <Car size={size === "md" ? 28 : 20} className="text-primary/40" aria-hidden />
+              <span className="sr-only">{t("photoEmpty")}</span>
+            </div>
+          }
+        />
       </div>
       <div className="min-w-0">
         <p className="truncate text-sm font-semibold text-foreground">{name}</p>

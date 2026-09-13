@@ -1,0 +1,38 @@
+[
+  {
+    "id": "c0000000-0000-7000-8000-000000000001",
+    "slug": "med-rentacar",
+    "name": "Autoalquiler Mediterr\u00e1neo",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#7c3aed",
+      "logoUrl": null
+    },
+    "defaultLocale": "es-ES",
+    "currency": "EUR"
+  },
+  {
+    "id": "c0000000-0000-7000-8000-000000000003",
+    "slug": "benetti-cars",
+    "name": "Benetti Premium Cars",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#0e7490",
+      "logoUrl": null
+    },
+    "defaultLocale": "es-ES",
+    "currency": "EUR"
+  },
+  {
+    "id": "c0000000-0000-7000-8000-000000000004",
+    "slug": "sol-y-playa",
+    "name": "Sol y Playa Rent a Car",
+    "isPublic": true,
+    "branding": {
+      "primaryColor": "#ea580c",
+      "logoUrl": null
+    },
+    "defaultLocale": "es-ES",
+    "currency": "EUR"
+  }
+]

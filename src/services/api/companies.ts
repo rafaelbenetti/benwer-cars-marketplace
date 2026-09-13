@@ -1,27 +1,31 @@
 import type { Company, CompanyListFilters } from "@/types/company";
-import { apiClient } from "./client";
+import { getOpenApiClient } from "./client";
 import { withMockFallback } from "./fallback";
+import { applyCompanyListFilters } from "./filters";
 import { mapCompany, mapCompanyList } from "./mappers";
 import { mockCompaniesApi } from "./mock";
-import { PublicApiPaths } from "./paths";
-import { toSearchParams } from "./query";
+
+async function fetchLiveCompanies(filters?: CompanyListFilters): Promise<Company[]> {
+  const { data } = await getOpenApiClient().GET("/v1/public/companies", {
+    params: {
+      query: {
+        q: filters?.q,
+        location: filters?.location,
+        from: filters?.from,
+        to: filters?.to,
+        cursor: filters?.cursor,
+        limit: filters?.limit,
+      },
+    },
+  });
+
+  return applyCompanyListFilters(mapCompanyList(data), filters);
+}
 
 export const companiesApi = {
   getAll(filters?: CompanyListFilters): Promise<Company[]> {
     return withMockFallback(
-      () =>
-        apiClient
-          .get(
-            `${PublicApiPaths.companies}${toSearchParams({
-              q: filters?.q,
-              location: filters?.location,
-              from: filters?.from,
-              to: filters?.to,
-              cursor: filters?.cursor,
-              limit: filters?.limit,
-            })}`,
-          )
-          .then(mapCompanyList),
+      () => fetchLiveCompanies(filters),
       () => mockCompaniesApi.getAll(filters),
       "companies.list",
     );
@@ -29,7 +33,12 @@ export const companiesApi = {
 
   getBySlug(slug: string): Promise<Company> {
     return withMockFallback(
-      () => apiClient.get(PublicApiPaths.company(slug)).then(mapCompany),
+      () =>
+        getOpenApiClient()
+          .GET("/v1/public/companies/{slug}", {
+            params: { path: { slug } },
+          })
+          .then(({ data }) => mapCompany(data)),
       () => mockCompaniesApi.getBySlug(slug),
       "companies.detail",
     );

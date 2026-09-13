@@ -1,14 +1,31 @@
-[
-  {
-    "vehicleId": "v1",
-    "unavailableDates": ["2026-09-20", "2026-09-21", "2026-09-22"]
-  },
-  {
-    "vehicleId": "v-med-1",
-    "unavailableDates": ["2026-10-01", "2026-10-02", "2026-10-03"]
-  },
-  {
-    "vehicleId": "v-estepona-2",
-    "unavailableDates": ["2026-09-18", "2026-09-19"]
+{
+  "data": [
+    {
+      "vehicleId": "v1",
+      "unavailableDates": [
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22"
+      ]
+    },
+    {
+      "vehicleId": "v-med-1",
+      "unavailableDates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03"
+      ]
+    },
+    {
+      "vehicleId": "v-estepona-2",
+      "unavailableDates": [
+        "2026-09-18",
+        "2026-09-19"
+      ]
+    }
+  ],
+  "page": {
+    "total": 3,
+    "nextCursor": null
   }
-]
+}

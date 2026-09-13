@@ -1,7 +1,25 @@
+import createClient, { type Middleware } from "openapi-fetch";
 import { env } from "@/env";
-import { ApiError } from "@/lib/errors";
+import { ApiError, type FieldError } from "@/lib/errors";
+import type { paths } from "./schema";
 
-const LIVE_TIMEOUT_MS = 8000;
+const LIVE_TIMEOUT_MS = 25000;
+
+interface ProblemBody {
+  code?: string;
+  detail?: string;
+  errors?: { field?: string; code?: string }[];
+}
+
+const FIELD_ALIASES: Record<string, string> = {
+  vehicleID: "vehicleId",
+  vehicle_id: "vehicleId",
+};
+
+const CODE_ALIASES: Record<string, string> = {
+  after_start: "reservation.invalid_dates",
+  invalid_dates: "reservation.invalid_dates",
+};
 
 function liveApiBaseUrl(): string {
   if (typeof window === "undefined") {
@@ -15,45 +33,71 @@ export function isLiveApiConfigured(): boolean {
   return Boolean(liveApiBaseUrl());
 }
 
-interface ProblemBody {
-  code?: string;
-  detail?: string;
-  errors?: { field: string; code: string }[];
+function normalizeFieldError(error: { field?: string; code?: string }): FieldError {
+  const field = error.field ? (FIELD_ALIASES[error.field] ?? error.field) : "";
+  const code = error.code ? (CODE_ALIASES[error.code] ?? error.code) : "unknown";
+  return { field, code };
 }
 
-async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`${liveApiBaseUrl()}${path}`, {
-    cache: "no-store",
-    signal: options?.signal ?? AbortSignal.timeout(LIVE_TIMEOUT_MS),
-    ...options,
-    headers: { "Content-Type": "application/json", ...options?.headers },
-  });
-
-  if (!response.ok) {
-    const body = (await response.json().catch(() => ({}))) as ProblemBody;
-    throw new ApiError(
-      response.status,
-      body.code ?? "unknown",
-      body.errors ?? [],
-      body.detail,
-    );
+function problemCode(status: number, body: ProblemBody): string {
+  if (body.code) {
+    return body.code;
   }
 
-  return response.json() as Promise<T>;
+  if (status === 409) {
+    return "reservation.overlap";
+  }
+
+  return "unknown";
 }
 
-export const apiClient = {
-  get<T>(path: string, options?: RequestInit): Promise<T> {
-    return request<T>(path, { method: "GET", ...options });
-  },
-  post<T>(path: string, body: unknown, options?: RequestInit): Promise<T> {
-    return request<T>(path, {
-      method: "POST",
-      body: JSON.stringify(body),
-      ...options,
+export function throwApiError(status: number, body: ProblemBody): never {
+  throw new ApiError(
+    status,
+    problemCode(status, body),
+    (body.errors ?? []).map(normalizeFieldError),
+    body.detail,
+  );
+}
+
+const problemMiddleware: Middleware = {
+  onRequest({ request }) {
+    const headers = new Headers(request.headers);
+    if (!headers.has("Accept")) {
+      headers.set("Accept", "application/json");
+    }
+
+    return new Request(request, {
+      headers,
+      cache: "no-store",
+      signal: request.signal ?? AbortSignal.timeout(LIVE_TIMEOUT_MS),
     });
   },
+  async onResponse({ response }) {
+    if (response.ok) {
+      return response;
+    }
+
+    const body = (await response.clone().json().catch(() => ({}))) as ProblemBody;
+    throwApiError(response.status, body);
+  },
 };
+
+let cached:
+  | { baseUrl: string; client: ReturnType<typeof createClient<paths>> }
+  | null = null;
+
+export function getOpenApiClient() {
+  const baseUrl = liveApiBaseUrl();
+  if (cached && cached.baseUrl === baseUrl) {
+    return cached.client;
+  }
+
+  const client = createClient<paths>({ baseUrl });
+  client.use(problemMiddleware);
+  cached = { baseUrl, client };
+  return client;
+}
 
 function mockUrl(path: string): string {
   if (path.startsWith("http://") || path.startsWith("https://")) {

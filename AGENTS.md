@@ -2,7 +2,9 @@
 
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
 
@@ -76,6 +78,7 @@ Open `http://localhost:3002`. Copy `.env.example` → `.env.local`. Sample:
 ```bash
 NEXT_PUBLIC_API_URL=http://localhost:3002/api
 API_ORIGIN=http://localhost:8080
+LOCALSTACK_ORIGIN=http://localhost:4566
 NEXT_PUBLIC_APP_URL=http://localhost:3002
 NEXT_PUBLIC_MARKETPLACE_DOMAIN=benwer.es
 NEXT_PUBLIC_ENV=local
@@ -95,9 +98,10 @@ mode** (no subdomain). To test tenant mode locally, set a custom `hosts` entry:
 
 ## Not yet scaffolded — build before importing
 
-- ❌ **MSW** — not set up; current client is `mockClient.get` over `public/mock-data/*.json`.
-- ❌ **Real typed API client** — `apiClient` shell exists; generate from OpenAPI spec once public endpoints are live.
-- ❌ **Vitest + RTL** — install before writing unit tests.
+- ❌ **MSW** — not set up; `mockClient.get` over `public/mock-data/*.json` remains the offline fallback.
+- ✅ **Typed public API client** — `openapi-fetch` + `src/services/api/schema.d.ts` (`npm run generate:api`).
+- ❌ **RTL** — install before writing component unit tests.
+- ✅ **Vitest** — mapper tests via `npm test`.
 - ❌ **Sentry** — `@/lib/logger` exists as a `console.error` wrapper; wire Sentry when configured.
 - ❌ **react-hook-form + zod** — install before building `BookingForm`.
 - ❌ **nuqs** — install before adding URL-synced filters.
