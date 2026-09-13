@@ -1,0 +1,15 @@
+{
+  "id": "7e000000-0000-7000-8000-000000000006",
+  "make": "Peugeot",
+  "model": "208",
+  "year": 2021,
+  "color": "silver",
+  "fuelType": "petrol",
+  "category": "economy",
+  "dailyRate": 33,
+  "deposit": 140,
+  "seats": 5,
+  "transmission": "manual",
+  "description": null,
+  "available": true
+}

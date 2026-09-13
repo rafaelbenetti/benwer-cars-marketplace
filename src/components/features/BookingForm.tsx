@@ -1,93 +1,41 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import Link from "next/link";
+import { useFormContext } from "react-hook-form";
+import { useTranslations } from "next-intl";
+import { BookingDateFields } from "./BookingDateFields";
 import { Field } from "@/components/ui/Field";
-import { useCreateReservation } from "@/hooks/useCreateReservation";
-import { getErrorKey } from "@/lib/errors";
-import { logError } from "@/lib/logger";
-import type { Vehicle } from "@/types/vehicle";
-
-const schema = z
-  .object({
-    guestName: z.string().min(2, "Name must be at least 2 characters"),
-    guestEmail: z.string().email("Enter a valid email address"),
-    guestPhone: z.string().min(7, "Enter a valid phone number"),
-    startDate: z.string().min(1, "Select a pick-up date"),
-    endDate: z.string().min(1, "Select a drop-off date"),
-  })
-  .refine((data) => data.endDate > data.startDate, {
-    message: "Drop-off must be after pick-up",
-    path: ["endDate"],
-  });
-
-type FormValues = z.infer<typeof schema>;
+import { Input } from "@/components/ui/Input";
+import type { BookingFormValues } from "@/lib/bookingSchema";
 
 interface BookingFormProps {
-  vehicle: Vehicle;
-  companySlug: string;
-  defaultFrom?: string;
-  defaultTo?: string;
+  carHref: string;
 }
 
-export function BookingForm({
-  vehicle,
-  companySlug,
-  defaultFrom = "",
-  defaultTo = "",
-}: BookingFormProps) {
-  const router = useRouter();
-
+export function BookingForm({ carHref }: BookingFormProps) {
+  const t = useTranslations("booking");
   const {
     register,
-    handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      guestName: "",
-      guestEmail: "",
-      guestPhone: "",
-      startDate: defaultFrom,
-      endDate: defaultTo,
-    },
-  });
-
-  const { mutate, isPending } = useCreateReservation({
-    companySlug,
-    onSuccess: (reservation) => {
-      router.push(`/booking/${reservation.token}`);
-    },
-  });
-
-  function onSubmit(values: FormValues) {
-    mutate({
-      vehicleId: vehicle.id,
-      startDate: values.startDate,
-      endDate: values.endDate,
-      guestName: values.guestName,
-      guestEmail: values.guestEmail,
-      guestPhone: values.guestPhone,
-    });
-  }
-
-  function onError() {
-    toast.error("Please fix the errors above before submitting.");
-  }
+  } = useFormContext<BookingFormValues>();
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit, onError)}
-      className="flex flex-col gap-5"
-      noValidate
-    >
+    <div className="flex flex-col gap-6 rounded-2xl border border-border bg-surface p-5 shadow-sm md:p-6">
+      <BookingDateFields />
+      <Link
+        href={carHref}
+        className="w-fit cursor-pointer text-sm font-medium text-primary transition-colors hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      >
+        {t("changeDates")}
+      </Link>
+
+      <div>
+        <h2 className="text-xl font-semibold text-foreground">{t("details")}</h2>
+        <p className="mt-1 text-sm text-muted-foreground">{t("detailsHint")}</p>
+      </div>
+
       <Field
-        label="Full name"
+        label={t("guestName")}
         htmlFor="guestName"
         error={errors.guestName?.message}
         required
@@ -96,13 +44,16 @@ export function BookingForm({
           id="guestName"
           type="text"
           autoComplete="name"
+          placeholder={t("guestNamePlaceholder")}
+          className="h-11"
           {...register("guestName")}
         />
       </Field>
 
       <Field
-        label="Email address"
+        label={t("guestEmail")}
         htmlFor="guestEmail"
+        hint={t("guestEmailHint")}
         error={errors.guestEmail?.message}
         required
       >
@@ -110,13 +61,18 @@ export function BookingForm({
           id="guestEmail"
           type="email"
           autoComplete="email"
+          inputMode="email"
+          spellCheck={false}
+          placeholder={t("guestEmailPlaceholder")}
+          className="h-11"
           {...register("guestEmail")}
         />
       </Field>
 
       <Field
-        label="Phone number"
+        label={t("guestPhone")}
         htmlFor="guestPhone"
+        hint={t("guestPhoneHint")}
         error={errors.guestPhone?.message}
         required
       >
@@ -124,41 +80,12 @@ export function BookingForm({
           id="guestPhone"
           type="tel"
           autoComplete="tel"
+          inputMode="tel"
+          placeholder={t("guestPhonePlaceholder")}
+          className="h-11"
           {...register("guestPhone")}
         />
       </Field>
-
-      <div className="grid grid-cols-2 gap-4">
-        <Field
-          label="Pick-up date"
-          htmlFor="startDate"
-          error={errors.startDate?.message}
-          required
-        >
-          <Input
-            id="startDate"
-            type="date"
-            {...register("startDate")}
-          />
-        </Field>
-
-        <Field
-          label="Drop-off date"
-          htmlFor="endDate"
-          error={errors.endDate?.message}
-          required
-        >
-          <Input
-            id="endDate"
-            type="date"
-            {...register("endDate")}
-          />
-        </Field>
-      </div>
-
-      <Button type="submit" isLoading={isPending} className="w-full mt-2">
-        {isPending ? "Confirming…" : "Confirm booking"}
-      </Button>
-    </form>
+    </div>
   );
 }

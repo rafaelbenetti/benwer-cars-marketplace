@@ -1,59 +1,74 @@
 import Link from "next/link";
-import { MapPin, Car } from "lucide-react";
+import { ChevronRight, MapPin } from "lucide-react";
+import { CompanyMark } from "./CompanyMark";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 import type { Company } from "@/types/company";
 
 interface CompanyCardProps {
   company: Company;
   href: string;
+  viewFleetLabel: string;
+  fleetHint?: string;
+  isHighlighted?: boolean;
+  onHighlight?: (slug: string | null) => void;
   className?: string;
 }
 
-export function CompanyCard({ company, href, className }: CompanyCardProps) {
+export function CompanyCard({
+  company,
+  href,
+  viewFleetLabel,
+  fleetHint,
+  isHighlighted = false,
+  onHighlight,
+  className,
+}: CompanyCardProps) {
   return (
-    <div
+    <Link
+      id={`company-${company.slug}`}
+      href={href}
+      onMouseEnter={() => onHighlight?.(company.slug)}
+      onMouseLeave={() => onHighlight?.(null)}
+      onFocus={() => onHighlight?.(company.slug)}
+      onBlur={() => onHighlight?.(null)}
       className={cn(
-        "flex flex-col gap-4 rounded-xl border border-border bg-surface p-5",
+        "group flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border bg-surface",
+        "transition-[box-shadow,transform] duration-200",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-sm",
+        isHighlighted && "border-primary ring-2 ring-primary/20",
         className,
       )}
     >
-      <div className="flex items-start gap-3">
-        <div
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-          style={{ backgroundColor: `${company.branding.primaryColor}20` }}
-        >
-          <Car
-            size={20}
-            style={{ color: company.branding.primaryColor }}
+      <div className="flex flex-1 flex-col gap-4 p-5">
+        <div className="flex items-start gap-3">
+          <CompanyMark company={company} size="md" />
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-base font-semibold text-foreground">
+              {company.name}
+            </h3>
+            {company.location ? (
+              <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
+                <MapPin size={12} aria-hidden />
+                {company.location}
+              </p>
+            ) : null}
+          </div>
+        </div>
+
+        {fleetHint ? (
+          <p className="text-sm text-muted-foreground">{fleetHint}</p>
+        ) : null}
+
+        <span className="mt-auto inline-flex h-8 w-fit items-center gap-1.5 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors group-hover:bg-primary-hover">
+          {viewFleetLabel}
+          <ChevronRight
+            size={16}
             aria-hidden
+            className="transition-transform motion-safe:group-hover:translate-x-0.5"
           />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-base font-semibold text-foreground truncate">
-            {company.name}
-          </p>
-          {company.location ? (
-            <p className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
-              <MapPin size={12} aria-hidden />
-              {company.location}
-            </p>
-          ) : null}
-        </div>
+        </span>
       </div>
-
-      {company.description ? (
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {company.description}
-        </p>
-      ) : null}
-
-      <Link
-        href={href}
-        className="inline-flex h-8 items-center justify-center rounded-md border border-border bg-surface px-3 text-xs font-medium text-foreground hover:bg-surface-hover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-      >
-        View fleet
-      </Link>
-    </div>
+    </Link>
   );
 }

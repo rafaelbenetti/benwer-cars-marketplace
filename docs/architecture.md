@@ -54,6 +54,7 @@ distinguish subdomain requests from the main marketplace host.
 ### Global marketplace (`marketplace.benwer.es`)
 ```
 /                         Company search + featured listings
+/cars                     Mixed-fleet search results (all companies)
 /companies                All companies
 /companies/[slug]         Company page — their car grid
 /companies/[slug]/cars/[id]  Car detail (company context from URL)
@@ -70,29 +71,32 @@ src/
   app/
     (marketplace)/        Global marketplace routes (layout wraps these)
       page.tsx             Company search home (/)
+      cars/page.tsx        Mixed-fleet search results
       companies/
         page.tsx
         [slug]/
           page.tsx
           cars/[id]/page.tsx
     tenant/               Internal prefix only — public URLs stay / and /cars/[id]
+      layout.tsx           Per-company --primary branding
       page.tsx             Company home (rewritten from /)
       cars/[id]/page.tsx   Car detail (rewritten from /cars/[id])
     book/
       page.tsx
     booking/[token]/
       page.tsx
-    layout.tsx            Root layout — branding injection
+    layout.tsx            Root layout — i18n, query, SEO, cookie banner
     globals.css           Tailwind v4 entry + design tokens
   components/
     ui/                   Shared primitives (Button, Badge, Field, Skeleton, …)
     layout/               MarketplaceHeader, Footer, CompanyBanner
-    features/             CarCard, CarGrid, BookingForm, ReservationStatus
+    features/             CarCard, CarGrid, BookingForm, ReservationStatus, CompaniesMap
   hooks/                  React Query hooks
   services/api/           One file per domain + index barrel + client
+  data/                   malagaCities, malagaCityCoordinates (map fallback)
   enums/                  Business string constants
   types/                  Shared domain types
-  lib/                    logger, utils (cn/cva), errors (ApiError, getErrorKey)
+  lib/                    logger, utils (cn/cva), errors, companyMap, marketplaceSearch
   i18n/                   next-intl routing + request config
   proxy.ts                Mode detection + tenant rewrites — host → x-company-slug
 messages/
@@ -123,11 +127,19 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
 ### Current client
 
 `src/services/api/client.ts` exposes:
-- `mockClient.get<T>(path)` — fetches `public/mock-data/*.json`. Used in dev until the
-  API public endpoints are live.
-- `apiClient.get/post<T>` — real HTTP client targeting `NEXT_PUBLIC_API_URL`. Used for
-  live reservation creation/lookup endpoints now; will replace `mockClient` entirely
-  once the API is live.
+- `getOpenApiClient()` — `openapi-fetch` client typed from `schema.d.ts`
+  (`npm run generate:api`). No credentials middleware; public routes only.
+  Browser uses `NEXT_PUBLIC_API_URL` (typically the `/api` rewrite); the server
+  prefers `API_ORIGIN`. Requests use `cache: "no-store"`.
+- `mockClient.get<T>(path)` — reads `public/mock-data/*.json`.
+
+Services call live first when an API URL is configured, via `withMockFallback`.
+Mock is used only when the live URL is unset or the API is clearly unreachable
+(network / DNS / timeout). HTTP 4xx and 5xx from a reachable API are surfaced
+as `ApiError`. List responses are `{ data, page }` (`unwrapList` reads
+`response.data`; raw arrays remain a fallback). Mappers accept marketplace
+aliases (`brand`, `type`, `pricePerDay`, `fuel`, `unavailableDates`) and admin
+names (`make`, `category`, `dailyRate`, `fuelType`, `{ available, conflicts }`).
 
 ## Per-tenant branding
 

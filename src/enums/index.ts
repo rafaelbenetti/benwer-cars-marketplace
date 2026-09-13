@@ -44,15 +44,35 @@ export enum QueryKeys {
 
 export enum StorageKeys {
   LOCALE = "NEXT_LOCALE",
+  COOKIE_CONSENT = "benwer-cookie-consent",
 }
 
 export enum NavRoutes {
   HOME = "/",
+  CARS = "/cars",
   COMPANIES = "/companies",
   COMPANY = "/companies/:slug",
   CAR_DETAIL = "/cars/:id",
   BOOK = "/book",
   BOOKING_STATUS = "/booking/:token",
+  PRIVACY = "/privacy",
+  TERMS = "/terms",
+  COOKIES = "/cookies",
+  CONTACT = "/contact",
+}
+
+export enum SearchParams {
+  LOCATION = "location",
+  FROM = "from",
+  TO = "to",
+  VIEW = "view",
+  TYPE = "type",
+  SEATS = "seats",
+  TRANSMISSION = "transmission",
+  Q = "q",
+  CAR_ID = "carId",
+  COMPANY_SLUG = "companySlug",
+  COMPANIES = "companies",
 }
 
 export enum ErrorMessages {
@@ -62,4 +82,5 @@ export enum ErrorMessages {
   COMPANY_NOT_FOUND = "errors.company.not_found",
   RESERVATION_OVERLAP = "errors.reservation.overlap",
   RESERVATION_NOT_FOUND = "errors.reservation.not_found",
+  RESERVATION_INVALID_DATES = "errors.reservation.invalid_dates",
 }

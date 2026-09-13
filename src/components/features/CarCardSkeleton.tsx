@@ -9,22 +9,29 @@ export function CarCardSkeleton({ className }: CarCardSkeletonProps) {
   return (
     <div
       className={cn(
-        "flex flex-col rounded-xl border border-border bg-surface overflow-hidden",
+        "flex flex-col overflow-hidden rounded-xl border border-border bg-surface",
         className,
       )}
     >
-      <Skeleton className="aspect-[4/3] rounded-none" />
-      <div className="flex flex-col gap-3 p-4">
+      <Skeleton className="aspect-[16/10] rounded-none" />
+      <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="flex flex-col gap-2">
           <Skeleton className="h-5 w-3/4" />
-          <Skeleton className="h-4 w-1/2" />
+          <Skeleton className="h-3 w-1/2" />
+        </div>
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-7 w-7 rounded-lg" />
+          <Skeleton className="h-3 w-24" />
         </div>
         <div className="flex gap-2">
-          <Skeleton className="h-5 w-12" />
-          <Skeleton className="h-5 w-14" />
-          <Skeleton className="h-5 w-16" />
+          <Skeleton className="h-5 w-16 rounded-full" />
+          <Skeleton className="h-5 w-20 rounded-full" />
+          <Skeleton className="h-5 w-16 rounded-full" />
         </div>
-        <Skeleton className="h-6 w-24 mt-1" />
+        <div className="mt-auto flex items-end justify-between border-t border-border pt-3">
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-4 w-20" />
+        </div>
       </div>
     </div>
   );

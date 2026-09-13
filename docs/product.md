@@ -33,7 +33,7 @@ operators and have no account. The experience must be simple, visual, and fast.
 | --- | --- | --- |
 | **Home** | Tenant | Company hero + car grid + date search |
 | **Home** | Marketplace | Company search + featured listings |
-| **Companies** | Marketplace | Browse all participating companies |
+| **Companies** | Marketplace | Browse participating companies on a Málaga-province map and list |
 | **Company page** | Marketplace | One company's car grid (same layout as tenant home) |
 | **Car detail** | Both | Photos, specs, price, availability calendar, booking CTA |
 | **Book** | Both | Guest booking form (name, email, phone, dates) |

@@ -1,0 +1,15 @@
+{
+  "id": "01a09a9f-c7fd-7160-9a4b-ee2cd2aedc2e",
+  "token": "92eb9cbbf4a9ab48390901ac54f1c411",
+  "guestName": "Maria Liveqa",
+  "guestEmail": "maria.liveqa@example.com",
+  "vehicleId": "7e000000-0000-7000-8000-000000000006",
+  "vehicleMake": "Peugeot",
+  "vehicleModel": "208",
+  "startDate": "2026-12-01",
+  "endDate": "2026-12-05",
+  "dailyRate": 33,
+  "totalDays": 5,
+  "totalAmount": 165,
+  "status": "confirmed"
+}

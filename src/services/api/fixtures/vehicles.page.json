@@ -1,0 +1,37 @@
+{
+  "data": [
+    {
+      "id": "v-alias-1",
+      "companySlug": "med-rentacar",
+      "brand": "Peugeot",
+      "make": "ShouldNotWin",
+      "model": "208",
+      "year": 2021,
+      "type": "car",
+      "category": "economy",
+      "pricePerDay": 33,
+      "dailyRate": 99,
+      "fuel": "petrol",
+      "fuelType": "diesel",
+      "seats": 5,
+      "transmission": "manual",
+      "currency": "EUR",
+      "isPublic": true,
+      "available": true,
+      "photos": [
+        "https://cdn.example/a.jpg",
+        "vehicles/bare-key.jpg",
+        {
+          "url": "https://cdn.example/b.jpg"
+        },
+        {
+          "url": "uploads/also-a-key.png"
+        }
+      ]
+    }
+  ],
+  "page": {
+    "total": 1,
+    "nextCursor": null
+  }
+}

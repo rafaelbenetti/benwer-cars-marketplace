@@ -1,21 +1,60 @@
 import type { MetadataRoute } from "next";
 import { companiesApi, vehiclesApi } from "@/services/api";
+import { absoluteUrl } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://marketplace.benwer.es";
-
+  const now = new Date();
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: appUrl, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
-    { url: `${appUrl}/companies`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
+    {
+      url: absoluteUrl("/"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 1,
+    },
+    {
+      url: absoluteUrl("/cars"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: absoluteUrl("/companies"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: absoluteUrl("/contact"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
+      url: absoluteUrl("/privacy"),
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
+    {
+      url: absoluteUrl("/terms"),
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
+    {
+      url: absoluteUrl("/cookies"),
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
   ];
 
   try {
     const companies = await companiesApi.getAll();
-
     const companyRoutes: MetadataRoute.Sitemap = companies.map((company) => ({
-      url: `${appUrl}/companies/${company.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
+      url: absoluteUrl(`/companies/${company.slug}`),
+      lastModified: now,
+      changeFrequency: "daily",
       priority: 0.8,
     }));
 
@@ -25,14 +64,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const vehicles = await vehiclesApi.getByCompany(company.slug);
         for (const vehicle of vehicles) {
           vehicleRoutes.push({
-            url: `${appUrl}/companies/${company.slug}/cars/${vehicle.id}`,
-            lastModified: new Date(),
-            changeFrequency: "daily",
+            url: absoluteUrl(`/companies/${company.slug}/cars/${vehicle.id}`),
+            lastModified: now,
+            changeFrequency: "weekly",
             priority: 0.7,
           });
         }
       } catch {
-        /* skip if company vehicles unavailable */
+        /* skip a company whose fleet cannot be listed */
       }
     }
 

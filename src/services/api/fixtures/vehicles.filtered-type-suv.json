@@ -1,0 +1,32 @@
+[
+  {
+    "id": "7e000000-0000-7000-8000-000000000011",
+    "make": "SEAT",
+    "model": "Ateca",
+    "year": 2023,
+    "color": "grey",
+    "fuelType": "petrol",
+    "category": "suv",
+    "dailyRate": 65,
+    "deposit": 300,
+    "seats": 5,
+    "transmission": "manual",
+    "description": null,
+    "available": true
+  },
+  {
+    "id": "7e000000-0000-7000-8000-000000000012",
+    "make": "Toyota",
+    "model": "C-HR",
+    "year": 2024,
+    "color": "red",
+    "fuelType": "hybrid",
+    "category": "suv",
+    "dailyRate": 68,
+    "deposit": 310,
+    "seats": 5,
+    "transmission": "manual",
+    "description": null,
+    "available": true
+  }
+]

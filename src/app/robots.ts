@@ -1,16 +1,16 @@
 import type { MetadataRoute } from "next";
+import { absoluteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://marketplace.benwer.es";
-
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/book", "/booking/"],
+        disallow: ["/book", "/booking/", "/api/"],
       },
     ],
-    sitemap: `${appUrl}/sitemap.xml`,
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: absoluteUrl("/"),
   };
 }
