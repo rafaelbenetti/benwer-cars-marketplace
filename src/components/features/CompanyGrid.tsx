@@ -106,9 +106,8 @@ export function CompanyGridSkeleton({
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="overflow-hidden rounded-xl border border-border bg-surface"
+          className="overflow-hidden rounded-2xl border border-border bg-surface"
         >
-          <Skeleton className="h-1.5 w-full rounded-none" />
           <div className="flex flex-col gap-4 p-5">
             <div className="flex items-start gap-3">
               <Skeleton className="h-12 w-12 rounded-xl" />

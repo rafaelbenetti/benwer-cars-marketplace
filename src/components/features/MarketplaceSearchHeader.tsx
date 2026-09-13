@@ -10,17 +10,17 @@ export async function MarketplaceSearchHeader() {
       <section className="marketplace-search-hero relative w-full overflow-hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute -left-16 -top-20 h-72 w-72 rounded-full bg-primary/30 blur-3xl"
+          className="pointer-events-none absolute -left-16 -top-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -bottom-24 -right-10 h-80 w-80 rounded-full bg-accent/25 blur-3xl"
+          className="pointer-events-none absolute -bottom-24 -right-10 h-80 w-80 rounded-full bg-info/15 blur-3xl"
         />
         <div className="relative mx-auto max-w-7xl px-4 pt-10 pb-20 md:px-6 md:pt-20 md:pb-28 lg:px-8">
-          <p className="text-xs font-medium uppercase tracking-wider text-primary">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
             {t("eyebrow")}
           </p>
-          <h1 className="marketplace-search-hero-title mt-3 text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+          <h1 className="marketplace-search-hero-title mt-3 text-3xl font-medium tracking-tight sm:text-4xl lg:text-5xl">
             {t("title")}
           </h1>
           <p className="marketplace-search-hero-subtitle mt-4 max-w-xl text-sm md:text-base">

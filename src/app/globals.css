@@ -1,65 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f7fb;
+  --background: #fafaf9;
   --surface: #ffffff;
-  --surface-muted: #e8eef6;
-  --surface-hover: #dfe7f2;
-  --foreground: #0b1220;
-  --muted-foreground: #334155;
-  --subtle-foreground: #64748b;
-  --border: #d5dee9;
-  --border-strong: #b6c3d4;
-  --ring: #06b6d4;
-  --primary: #06b6d4;
-  --primary-hover: #0891b2;
+  --surface-muted: #f5f5f4;
+  --surface-hover: #f0fdfa;
+  --foreground: #0f172a;
+  --muted-foreground: #64748b;
+  --subtle-foreground: #94a3b8;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --ring: #0d9488;
+  --primary: #0d9488;
+  --primary-hover: #0f766e;
   --primary-foreground: #ffffff;
-  --secondary: #0b1220;
+  --secondary: #0f172a;
   --secondary-hover: #1e293b;
   --secondary-foreground: #ffffff;
-  --accent: #7c3aed;
-  --accent-hover: #6d28d9;
+  --accent: #14b8a6;
+  --accent-hover: #0d9488;
   --accent-foreground: #ffffff;
-  --accent-soft: #7c3aed18;
+  --accent-soft: #14b8a618;
   --success: #16a34a;
   --success-soft: #16a34a14;
   --warning: #d97706;
   --warning-soft: #d9770614;
   --danger: #dc2626;
   --danger-soft: #dc262614;
-  --info: #06b6d4;
-  --info-soft: #06b6d418;
+  --info: #0ea5e9;
+  --info-soft: #0ea5e918;
 }
 
 .dark {
-  --background: #070b14;
-  --surface: #0b1220;
-  --surface-muted: #121a2b;
-  --surface-hover: #1e293b;
-  --foreground: #f8fafc;
-  --muted-foreground: #cbd5e1;
-  --subtle-foreground: #94a3b8;
-  --border: #1e293b;
-  --border-strong: #334155;
-  --ring: #22d3ee;
-  --primary: #22d3ee;
-  --primary-hover: #67e8f9;
-  --primary-foreground: #0b1220;
-  --secondary: #e2e8f0;
-  --secondary-hover: #f8fafc;
-  --secondary-foreground: #0b1220;
-  --accent: #a78bfa;
-  --accent-hover: #8b5cf6;
-  --accent-foreground: #0b1220;
-  --accent-soft: #7c3aed30;
+  --background: #1c1917;
+  --surface: #292524;
+  --surface-muted: #35302c;
+  --surface-hover: #44403c;
+  --foreground: #fafaf9;
+  --muted-foreground: #a8a29e;
+  --subtle-foreground: #78716c;
+  --border: #44403c;
+  --border-strong: #57534e;
+  --ring: #2dd4bf;
+  --primary: #2dd4bf;
+  --primary-hover: #5eead4;
+  --primary-foreground: #042f2e;
+  --secondary: #f5f5f4;
+  --secondary-hover: #fafaf9;
+  --secondary-foreground: #1c1917;
+  --accent: #14b8a6;
+  --accent-hover: #2dd4bf;
+  --accent-foreground: #042f2e;
+  --accent-soft: #14b8a630;
   --success: #4ade80;
   --success-soft: #4ade8020;
   --warning: #fbbf24;
   --warning-soft: #fbbf2420;
   --danger: #f87171;
   --danger-soft: #f8717120;
-  --info: #22d3ee;
-  --info-soft: #22d3ee20;
+  --info: #38bdf8;
+  --info-soft: #38bdf820;
 }
 
 @theme inline {
@@ -100,15 +100,34 @@ body {
 }
 
 .marketplace-search-hero {
-  background-image: linear-gradient(to bottom right, #070b14, #0b1220, #083344);
+  background-image: linear-gradient(to bottom right, #f0fdfa, #ffffff, #f8fafc);
 }
 
 .marketplace-search-hero-title {
-  color: #ffffff;
+  color: var(--foreground);
 }
 
 .marketplace-search-hero-subtitle {
-  color: #cbd5e1;
+  color: var(--muted-foreground);
+}
+
+.marketplace-search-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 8px 30px rgb(15 23 42 / 0.04);
+}
+
+.dark .marketplace-search-hero {
+  background-image: linear-gradient(
+    to bottom right,
+    color-mix(in oklab, var(--primary) 16%, var(--background)),
+    var(--surface),
+    color-mix(in oklab, var(--info) 12%, var(--background))
+  );
+}
+
+.dark .marketplace-search-card {
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.28);
 }
 
 .marketplace-day-picker.rdp-root {

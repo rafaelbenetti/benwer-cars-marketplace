@@ -31,9 +31,9 @@ export async function MarketplaceHome() {
     <>
       <MarketplaceHeader />
       <MarketplaceSearchHeader />
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-16 px-4 py-12 md:gap-20 md:px-6 md:py-16 lg:px-8">
+      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-20 px-4 py-16 md:gap-24 md:px-6 md:py-20 lg:px-8">
         <HowItWorks />
-        <section className="flex flex-col gap-6">
+        <section className="flex flex-col gap-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex flex-col gap-1">
               <h2 className="text-xl font-semibold text-foreground">

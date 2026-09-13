@@ -32,15 +32,14 @@ export function CompanyCard({
       onFocus={() => onHighlight?.(company.slug)}
       onBlur={() => onHighlight?.(null)}
       className={cn(
-        "group flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-surface",
+        "group flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border bg-surface",
         "transition-[box-shadow,transform] duration-200",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        "motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md",
-        isHighlighted && "border-primary ring-2 ring-primary/30",
+        "motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-sm",
+        isHighlighted && "border-primary ring-2 ring-primary/20",
         className,
       )}
     >
-      <div aria-hidden className="h-1.5 bg-primary/20" />
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div className="flex items-start gap-3">
           <CompanyMark company={company} size="md" />
