@@ -12,14 +12,14 @@
     "viewAllCompanies": "View all companies"
   },
   "partners": {
-    "eyebrow": "One platform. More bookings.",
-    "title": "Replace your outdated website. Get booked online.",
-    "description": "Built for independent rental operators in Málaga. Publish your fleet, keep availability live, and appear on the Benwer marketplace — without rebuilding your site.",
-    "cta": "See plans",
-    "ctaAria": "See plans on the Benwer marketing site (opens in a new tab)",
-    "demo": "View live demo",
-    "demoAria": "View the live admin demo (opens in a new tab)",
-    "footnote": "No setup fee to explore. Made for independent operators across Málaga province."
+    "eyebrow": "For car rental companies",
+    "title": "List your rental fleet on Benwer",
+    "description": "Benwer is only for car rental companies — not other local businesses. Publish your cars, keep availability live, and get booked online on the marketplace without rebuilding your website.",
+    "cta": "See plans for rental companies",
+    "ctaAria": "See plans for car rental companies on the Benwer marketing site (opens in a new tab)",
+    "demo": "View rental admin demo",
+    "demoAria": "View the live car rental admin demo (opens in a new tab)",
+    "footnote": "Car rental companies only. No setup fee to explore."
   },
   "seo": {
     "companyTitle": "{name} — Car rentals",

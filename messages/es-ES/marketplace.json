@@ -12,14 +12,14 @@
     "viewAllCompanies": "Ver todas las empresas"
   },
   "partners": {
-    "eyebrow": "Una plataforma. Más reservas.",
-    "title": "Sustituye tu web anticuada. Recibe reservas online.",
-    "description": "Pensado para operadores de alquiler independientes en Málaga. Publica tu flota, mantén la disponibilidad en directo y aparece en el marketplace Benwer — sin reconstruir tu web.",
-    "cta": "Ver planes",
-    "ctaAria": "Ver planes en la web de Benwer (se abre en una pestaña nueva)",
-    "demo": "Ver demo en directo",
-    "demoAria": "Ver la demo del admin en directo (se abre en una pestaña nueva)",
-    "footnote": "Sin cuota de alta para explorar. Hecho para operadores independientes en la provincia de Málaga."
+    "eyebrow": "Para empresas de alquiler de coches",
+    "title": "Publica tu flota de alquiler en Benwer",
+    "description": "Benwer es solo para empresas de alquiler de coches, no para otros negocios locales. Publica tus coches, mantén la disponibilidad al día y recibe reservas online en el marketplace sin reconstruir tu web.",
+    "cta": "Ver planes para alquileres",
+    "ctaAria": "Ver planes para empresas de alquiler de coches en el sitio de Benwer (se abre en una pestaña nueva)",
+    "demo": "Ver demo del panel de alquiler",
+    "demoAria": "Ver la demo del panel de administración de alquiler de coches (se abre en una pestaña nueva)",
+    "footnote": "Solo empresas de alquiler de coches. Sin coste de alta para explorar."
   },
   "seo": {
     "companyTitle": "{name} — Alquiler de coches",
