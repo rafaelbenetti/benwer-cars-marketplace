@@ -127,14 +127,17 @@ function CarPhotoFallback({
   return (
     <div
       className={cn(
-        "car-photo-fallback relative flex h-full flex-col items-center justify-center gap-3 px-4",
+        "car-photo-fallback relative flex h-full flex-col items-center justify-center px-4",
         FALLBACK_TONE[type],
       )}
     >
-      <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-surface/80 text-primary shadow-sm">
-        <Icon size={28} aria-hidden />
-      </span>
-      <p className="relative z-10 text-center text-xs font-medium text-muted-foreground">
+      <Icon
+        size={88}
+        aria-hidden
+        className="relative z-10 text-primary/20"
+        strokeWidth={1.25}
+      />
+      <p className="absolute inset-x-3 bottom-3 z-10 text-center text-xs font-medium text-muted-foreground">
         {emptyLabel}
       </p>
     </div>
