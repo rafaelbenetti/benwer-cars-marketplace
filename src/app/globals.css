@@ -163,8 +163,13 @@
   color: var(--subtle-foreground);
 }
 
+.marketplace-map .leaflet-container a,
 .marketplace-map .leaflet-control-attribution a {
   color: var(--primary);
+}
+
+.marketplace-map .leaflet-popup-content a.marketplace-map-popup-cta {
+  color: var(--primary-foreground);
 }
 
 .marketplace-map .leaflet-popup-content-wrapper {
@@ -207,6 +212,8 @@
 .marketplace-map-pin.is-selected .marketplace-map-pin-dot,
 .marketplace-map-pin.is-highlighted .marketplace-map-pin-dot {
   box-shadow: 0 0 0 3px var(--ring);
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -18,8 +18,16 @@ import "leaflet/dist/leaflet.css";
 const CAR_PIN_SVG =
   '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>';
 
-const LIGHT_TILES = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
-const DARK_TILES = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+const LIGHT_BASE_TILES =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}";
+const LIGHT_LABEL_TILES =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}";
+const DARK_BASE_TILES =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}";
+const DARK_LABEL_TILES =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}";
+const TILE_ATTRIBUTION =
+  "Tiles © Esri — Esri, HERE, Garmin, FAO, NOAA, USGS";
 
 interface CompaniesMapCanvasProps {
   pins: CompanyMapPin[];
@@ -146,6 +154,10 @@ function CompanyMarker({
   );
 
   useEffect(() => {
+    markerRef.current?.setIcon(icon);
+  }, [icon]);
+
+  useEffect(() => {
     const marker = markerRef.current;
     if (!marker) {
       return;
@@ -198,10 +210,8 @@ export function CompaniesMapCanvas({
   const t = useTranslations("map");
   const locale = useLocale();
   const selectedPin = pins.find((pin) => pin.slug === selectedSlug) ?? null;
-  const tileUrl =
-    typeof document !== "undefined" && document.documentElement.classList.contains("dark")
-      ? DARK_TILES
-      : LIGHT_TILES;
+  const isDark =
+    typeof document !== "undefined" && document.documentElement.classList.contains("dark");
 
   return (
     <MapContainer
@@ -216,9 +226,10 @@ export function CompaniesMapCanvas({
       aria-label={t("regionAria")}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url={tileUrl}
+        attribution={TILE_ATTRIBUTION}
+        url={isDark ? DARK_BASE_TILES : LIGHT_BASE_TILES}
       />
+      <TileLayer url={isDark ? DARK_LABEL_TILES : LIGHT_LABEL_TILES} />
       <InvalidateSize />
       <FitPins pins={pins} locationSlug={locationSlug} />
       <FocusSelectedPin pin={selectedPin} />

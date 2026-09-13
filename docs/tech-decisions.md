@@ -74,11 +74,11 @@ infrastructure concern, not a frontend concern.
 ### Marketplace availability map
 
 `/companies` uses **Leaflet + react-leaflet** (dynamically imported with `ssr: false`) and
-Carto raster tiles on OpenStreetMap data. No API key. MapLibre / react-map-gl was
-considered for vector styling, but Next.js 16’s bundler still has worker-loading
-issues with MapLibre; Leaflet is smaller, stable with the App Router, and the
-premium feel comes from custom pins, popovers, and filter sync rather than the
-engine.
+Esri Canvas Light/Dark Gray raster tiles (no API key). Carto’s public `basemaps.cartocdn.com`
+tiles now watermark “API KEY REQUIRED”, so they were rejected. MapLibre / react-map-gl was
+considered for vector styling, but Next.js 16’s bundler still has worker-loading issues with
+MapLibre; Leaflet is smaller, stable with the App Router, and the premium feel comes from
+custom pins, popovers, and filter sync rather than the engine.
 
 Company pins are geocoded from `locationSlug` → `src/data/malagaCityCoordinates.ts`.
 The public API does not yet return `latitude` / `longitude` (or `vehicleCount`).

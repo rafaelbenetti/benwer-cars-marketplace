@@ -34,7 +34,7 @@ export function CompanyMapPinCard({ pin, locale, onClose }: CompanyMapPinCardPro
         <Link
           href={pin.href}
           className={cn(
-            "inline-flex h-8 flex-1 cursor-pointer items-center justify-center gap-2 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors",
+            "marketplace-map-popup-cta inline-flex h-8 flex-1 cursor-pointer items-center justify-center gap-2 rounded-md bg-primary px-3 text-xs font-medium transition-colors",
             "hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           )}
         >
