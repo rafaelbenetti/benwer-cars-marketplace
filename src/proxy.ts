@@ -1,17 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
 import createNextIntlMiddleware from "next-intl/middleware";
 import { routing } from "@/i18n/routing";
+import {
+  isTenantHostPublicPath,
+  isTenantInternalPath,
+  toTenantInternalPath,
+} from "@/lib/tenantRouting";
 
 const intlMiddleware = createNextIntlMiddleware(routing);
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
   const marketplaceDomain = process.env.NEXT_PUBLIC_MARKETPLACE_DOMAIN ?? "benwer.es";
 
   const isLocalhost = host.includes("localhost") || host.includes("127.0.0.1");
   const companySlug = resolveCompanySlug(host, marketplaceDomain, isLocalhost);
+  const pathname = request.nextUrl.pathname;
 
-  const response = intlMiddleware(request);
+  const requestHeaders = new Headers(request.headers);
+  if (companySlug) {
+    requestHeaders.set("x-company-slug", companySlug);
+  }
+
+  if (!companySlug && isTenantInternalPath(pathname)) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (companySlug && isTenantHostPublicPath(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = toTenantInternalPath(pathname);
+    const response = NextResponse.rewrite(url, {
+      request: { headers: requestHeaders },
+    });
+    response.headers.set("x-company-slug", companySlug);
+    return response;
+  }
+
+  const intlRequest = companySlug
+    ? new NextRequest(request, { headers: requestHeaders })
+    : request;
+  const response = intlMiddleware(intlRequest);
 
   if (companySlug) {
     response.headers.set("x-company-slug", companySlug);

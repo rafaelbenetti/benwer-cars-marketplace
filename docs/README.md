@@ -21,7 +21,7 @@ here conflicts with older code, the docs win and the code should be migrated.
 ## The 10-second version
 
 - **Stack:** Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · React Query · next-intl.
-- **Two modes, one codebase.** Middleware detects subdomain vs. global marketplace; injects `x-company-slug` header.
+- **Two modes, one codebase.** Proxy detects subdomain vs. global marketplace; injects `x-company-slug` header.
 - **Server Components by default.** `"use client"` only for interactivity, browser APIs, React Query, or local state.
 - **Layered data flow:** Component → React Query hook (`src/hooks`) → API service (`src/services/api`) → client.
 - **No hardcoding:** colors from semantic Tailwind tokens; text from i18n; business strings from enums.
@@ -39,4 +39,4 @@ Several pieces are chosen but not yet scaffolded — do not import them until th
 - ❌ Real HTTP client — `apiClient` is wired in `src/services/api/client.ts`; services switch to it once the API public endpoints are live.
 - ✅ next-intl — wired with shared ICU messages under `messages/<locale>/{common,marketplace}.json`. Two locales: **British English (`en-GB`)** and **Spain Spanish (`es-ES`)**.
 - ✅ Semantic Tailwind tokens — defined in `src/app/globals.css`; per-tenant `--primary` override supported.
-- ✅ Middleware mode detection — `src/middleware.ts` injects `x-company-slug` from host header.
+- ✅ Mode detection — `src/proxy.ts` injects `x-company-slug` from the host header and rewrites tenant traffic to `/tenant`.
