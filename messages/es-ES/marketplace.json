@@ -1,11 +1,24 @@
 {
   "home": {
     "title": "Encuentra tu coche perfecto",
-    "subtitle": "Busca entre nuestra red de empresas de alquiler locales",
+    "subtitle": "Compara flotas locales y reserva en minutos — sin crear cuenta.",
     "searchPlaceholder": "¿A dónde vas?",
     "eyebrow": "Málaga · Costa del Sol",
     "companiesHeading": "Empresas destacadas",
-    "companiesSubtitle": "Operadores locales de confianza en la provincia de Málaga"
+    "companiesSubtitle": "Operadores locales de confianza en la provincia de Málaga",
+    "trustLocal": "Empresas locales",
+    "trustGuest": "Reserva como invitado",
+    "trustArea": "Provincia de Málaga"
+  },
+  "howItWorks": {
+    "title": "Cómo funciona",
+    "subtitle": "Busca, compara y reserva en tres pasos.",
+    "searchTitle": "Busca",
+    "searchBody": "Elige ciudad y fechas",
+    "compareTitle": "Compara",
+    "compareBody": "Explora flotas locales de confianza",
+    "bookTitle": "Reserva",
+    "bookBody": "Confirma con tu nombre y correo"
   },
   "search": {
     "locationLabel": "Ciudad de recogida",
@@ -73,11 +86,13 @@
     "fuel": "Combustible",
     "seats": "Plazas",
     "availability": "Disponibilidad",
-    "notAvailable": "Este coche no está disponible para las fechas seleccionadas."
+    "notAvailable": "Este coche no está disponible para las fechas seleccionadas.",
+    "breadcrumbAria": "Ruta de navegación"
   },
   "booking": {
     "title": "Completa tu reserva",
     "subtitle": "Rellena tus datos para confirmar la reserva",
+    "details": "Tus datos",
     "guestName": "Nombre completo",
     "guestEmail": "Correo electrónico",
     "guestPhone": "Número de teléfono",
@@ -113,6 +128,7 @@
     "noResults": "No se encontraron empresas",
     "noResultsHint": "Prueba con otra ciudad o fechas.",
     "emptyDescription": "Aún no hay empresas de alquiler listadas.",
-    "viewFleet": "Ver flota"
+    "viewFleet": "Ver flota",
+    "backToList": "Todas las empresas"
   }
 }

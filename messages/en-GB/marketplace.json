@@ -1,11 +1,24 @@
 {
   "home": {
     "title": "Find your perfect car",
-    "subtitle": "Search across our network of local rental companies",
+    "subtitle": "Compare local fleets and book in minutes — no account needed.",
     "searchPlaceholder": "Where are you going?",
     "eyebrow": "Málaga · Costa del Sol",
     "companiesHeading": "Featured companies",
-    "companiesSubtitle": "Trusted local operators across Málaga province"
+    "companiesSubtitle": "Trusted local operators across Málaga province",
+    "trustLocal": "Local companies",
+    "trustGuest": "Book as a guest",
+    "trustArea": "Málaga province"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Search, compare, and book in three steps.",
+    "searchTitle": "Search",
+    "searchBody": "Choose your city and dates",
+    "compareTitle": "Compare",
+    "compareBody": "Browse trusted local fleets",
+    "bookTitle": "Book",
+    "bookBody": "Confirm with your name and email"
   },
   "search": {
     "locationLabel": "Pick-up city",
@@ -73,11 +86,13 @@
     "fuel": "Fuel",
     "seats": "Seats",
     "availability": "Availability",
-    "notAvailable": "This car is not available for the selected dates."
+    "notAvailable": "This car is not available for the selected dates.",
+    "breadcrumbAria": "Breadcrumb"
   },
   "booking": {
     "title": "Complete your booking",
     "subtitle": "Fill in your details to confirm the reservation",
+    "details": "Your details",
     "guestName": "Full name",
     "guestEmail": "Email address",
     "guestPhone": "Phone number",
@@ -113,6 +128,7 @@
     "noResults": "No companies found",
     "noResultsHint": "Try a different city or dates.",
     "emptyDescription": "No rental companies are listed yet.",
-    "viewFleet": "View fleet"
+    "viewFleet": "View fleet",
+    "backToList": "All companies"
   }
 }

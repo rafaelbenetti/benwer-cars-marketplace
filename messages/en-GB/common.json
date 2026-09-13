@@ -34,6 +34,7 @@
   },
   "footer": {
     "tagline": "Find and book cars from local rental companies.",
+    "trust": "Guest booking · Local operators · Málaga",
     "copyright": "© {year} Benwer Cars. All rights reserved."
   },
   "actions": {

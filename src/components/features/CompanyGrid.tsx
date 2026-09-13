@@ -52,17 +52,15 @@ export function CompanyGridSkeleton({ count = 6 }: { count?: number }) {
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-5"
+          className="overflow-hidden rounded-xl border border-border bg-surface"
         >
-          <div className="flex items-start gap-3">
-            <Skeleton className="h-10 w-10 rounded-lg" />
-            <div className="flex flex-1 flex-col gap-1.5">
-              <Skeleton className="h-5 w-3/4" />
-              <Skeleton className="h-3 w-1/2" />
-            </div>
+          <Skeleton className="h-28 w-full rounded-none" />
+          <div className="flex flex-col gap-3 p-5">
+            <Skeleton className="h-5 w-3/4" />
+            <Skeleton className="h-3 w-1/2" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-4 w-24" />
           </div>
-          <Skeleton className="h-8 w-full" />
-          <Skeleton className="h-8 w-24" />
         </div>
       ))}
     </div>

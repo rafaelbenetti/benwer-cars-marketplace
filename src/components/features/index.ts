@@ -15,3 +15,4 @@ export { CompanyListView } from "./CompanyListView";
 export { MarketplaceSearchBar } from "./MarketplaceSearchBar";
 export { MarketplaceHeroSearch } from "./MarketplaceHeroSearch";
 export { BrowseByLocation } from "./BrowseByLocation";
+export { HowItWorks } from "./HowItWorks";

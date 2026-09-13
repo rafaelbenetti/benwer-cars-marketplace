@@ -17,6 +17,7 @@ export async function Footer() {
             {tBrand("name")}
           </p>
           <p className="text-sm text-muted-foreground">{tFooter("tagline")}</p>
+          <p className="text-xs text-muted-foreground">{tFooter("trust")}</p>
           <p className="text-xs text-subtle-foreground">
             {tFooter("copyright", { year })}
           </p>
