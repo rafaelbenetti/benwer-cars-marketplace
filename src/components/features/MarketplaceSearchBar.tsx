@@ -22,10 +22,12 @@ function MarketplaceSearchForm({
   initialLocation,
   initialFrom,
   initialTo,
+  view,
 }: MarketplaceSearchBarProps & {
   initialLocation: string;
   initialFrom: string;
   initialTo: string;
+  view?: string;
 }) {
   const t = useTranslations("search");
   const router = useRouter();
@@ -40,6 +42,7 @@ function MarketplaceSearchForm({
         location: location || DEFAULT_CITY_SLUG,
         from,
         to,
+        view,
       }),
     );
   }
@@ -84,14 +87,16 @@ export function MarketplaceSearchBar({ className }: MarketplaceSearchBarProps) {
   const locationParam = searchParams.get(SearchParams.LOCATION);
   const fromParam = searchParams.get(SearchParams.FROM) ?? "";
   const toParam = searchParams.get(SearchParams.TO) ?? "";
+  const viewParam = searchParams.get(SearchParams.VIEW) ?? "";
 
   return (
     <MarketplaceSearchForm
-      key={`${locationParam ?? ""}|${fromParam}|${toParam}`}
+      key={`${locationParam ?? ""}|${fromParam}|${toParam}|${viewParam}`}
       className={className}
       initialLocation={resolveCitySlug(locationParam)}
       initialFrom={fromParam}
       initialTo={toParam}
+      view={viewParam || undefined}
     />
   );
 }

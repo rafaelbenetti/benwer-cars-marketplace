@@ -8,14 +8,28 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { cn } from "@/lib/utils";
 import { getErrorKey } from "@/lib/errors";
+import { buildCompanyHref } from "@/lib/marketplaceSearch";
 import type { Company } from "@/types/company";
 
 interface CompanyGridProps {
   companies: Company[];
+  buildHref?: (company: Company) => string;
+  selectedSlug?: string | null;
+  onHighlight?: (slug: string | null) => void;
+  fleetHint?: (company: Company) => string;
+  viewFleetLabel?: string;
   className?: string;
 }
 
-export function CompanyGrid({ companies, className }: CompanyGridProps) {
+export function CompanyGrid({
+  companies,
+  buildHref,
+  selectedSlug,
+  onHighlight,
+  fleetHint,
+  viewFleetLabel,
+  className,
+}: CompanyGridProps) {
   const t = useTranslations("companies");
 
   if (companies.length === 0) {
@@ -39,8 +53,11 @@ export function CompanyGrid({ companies, className }: CompanyGridProps) {
         <CompanyCard
           key={company.id}
           company={company}
-          href={`/companies/${company.slug}`}
-          viewFleetLabel={t("viewFleet")}
+          href={buildHref?.(company) ?? buildCompanyHref(company.slug)}
+          viewFleetLabel={viewFleetLabel ?? t("viewFleet")}
+          fleetHint={fleetHint?.(company)}
+          isHighlighted={selectedSlug === company.slug}
+          onHighlight={onHighlight}
         />
       ))}
     </div>

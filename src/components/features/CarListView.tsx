@@ -10,11 +10,21 @@ import type { VehicleFilters, Vehicle } from "@/types/vehicle";
 interface CarListViewProps {
   companySlug: string;
   hrefBase: string;
+  initialFrom?: string;
+  initialTo?: string;
 }
 
-export function CarListView({ companySlug, hrefBase }: CarListViewProps) {
+export function CarListView({
+  companySlug,
+  hrefBase,
+  initialFrom,
+  initialTo,
+}: CarListViewProps) {
   const t = useTranslations("cars");
-  const [filters, setFilters] = useState<VehicleFilters>({});
+  const [filters, setFilters] = useState<VehicleFilters>({
+    from: initialFrom,
+    to: initialTo,
+  });
   const { data, isPending, isError, error, refetch } = useVehicles(
     companySlug,
     filters,

@@ -123,6 +123,7 @@ export function mapCompany(raw: unknown): Company {
     description: readString(row.description) ?? null,
     location: readString(row.location) ?? null,
     locationSlug: readString(row.locationSlug) ?? null,
+    vehicleCount: readNumber(row.vehicleCount) ?? readNumber(row.fleetSize) ?? null,
     isPublic: readBoolean(row.isPublic) ?? true,
     branding: {
       primaryColor: readString(branding.primaryColor) ?? "",

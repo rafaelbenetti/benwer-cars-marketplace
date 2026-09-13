@@ -7,6 +7,9 @@ interface CompanyCardProps {
   company: Company;
   href: string;
   viewFleetLabel: string;
+  fleetHint?: string;
+  isHighlighted?: boolean;
+  onHighlight?: (slug: string | null) => void;
   className?: string;
 }
 
@@ -14,15 +17,24 @@ export function CompanyCard({
   company,
   href,
   viewFleetLabel,
+  fleetHint,
+  isHighlighted = false,
+  onHighlight,
   className,
 }: CompanyCardProps) {
   return (
     <Link
+      id={`company-${company.slug}`}
       href={href}
+      onMouseEnter={() => onHighlight?.(company.slug)}
+      onMouseLeave={() => onHighlight?.(null)}
+      onFocus={() => onHighlight?.(company.slug)}
+      onBlur={() => onHighlight?.(null)}
       className={cn(
         "group flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-surface transition-shadow",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         "motion-safe:hover:shadow-md",
+        isHighlighted && "border-primary ring-2 ring-primary/30",
         className,
       )}
     >
@@ -48,6 +60,10 @@ export function CompanyCard({
           <p className="line-clamp-2 text-sm text-muted-foreground">
             {company.description}
           </p>
+        ) : null}
+
+        {fleetHint ? (
+          <p className="text-xs text-muted-foreground">{fleetHint}</p>
         ) : null}
 
         <span className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary">

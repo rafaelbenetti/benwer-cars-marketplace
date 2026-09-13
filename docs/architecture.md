@@ -75,12 +75,13 @@ src/
   components/
     ui/                   Shared primitives (Button, Badge, Field, Skeleton, …)
     layout/               MarketplaceHeader, Footer, CompanyBanner
-    features/             CarCard, CarGrid, BookingForm, ReservationStatus
+    features/             CarCard, CarGrid, BookingForm, ReservationStatus, CompaniesMap
   hooks/                  React Query hooks
   services/api/           One file per domain + index barrel + client
+  data/                   malagaCities, malagaCityCoordinates (map fallback)
   enums/                  Business string constants
   types/                  Shared domain types
-  lib/                    logger, utils (cn/cva), errors (ApiError, getErrorKey)
+  lib/                    logger, utils (cn/cva), errors, companyMap, marketplaceSearch
   i18n/                   next-intl routing + request config
   middleware.ts           Mode detection — host → company slug → x-company-slug header
 messages/

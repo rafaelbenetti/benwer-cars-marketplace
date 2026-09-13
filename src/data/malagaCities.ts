@@ -1,8 +1,15 @@
+import {
+  getCityCoordinates,
+  type CityCoordinates,
+} from "./malagaCityCoordinates";
+
 export interface MalagaCity {
   slug: string;
   nameEn: string;
   nameEs: string;
 }
+
+export type MappableMalagaCity = MalagaCity & CityCoordinates;
 
 export const DEFAULT_CITY_SLUG = "malaga";
 
@@ -129,6 +136,16 @@ function normalizeSearch(value: string): string {
 
 export function getCityBySlug(slug: string): MalagaCity | null {
   return MALAGA_CITIES.find((city) => city.slug === slug) ?? null;
+}
+
+export function getMappableCity(slug: string): MappableMalagaCity | null {
+  const city = getCityBySlug(slug);
+  const coordinates = getCityCoordinates(slug);
+  if (!city || !coordinates) {
+    return null;
+  }
+
+  return { ...city, ...coordinates };
 }
 
 export function resolveCitySlug(slug: string | null): string {

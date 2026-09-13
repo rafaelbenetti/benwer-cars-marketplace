@@ -164,41 +164,66 @@ export const mockCompaniesApi = {
       allReservations(),
     ]);
 
-    return companies.filter((company) => {
-      if (filters?.location && company.locationSlug !== filters.location) {
-        return false;
-      }
-
-      if (filters?.q) {
-        const query = normalize(filters.q);
-        const haystack = normalize(
-          `${company.name} ${company.location ?? ""} ${company.description ?? ""}`,
-        );
-        if (!haystack.includes(query)) {
+    return companies
+      .filter((company) => {
+        if (filters?.location && company.locationSlug !== filters.location) {
           return false;
         }
-      }
 
-      if (filters?.from && filters?.to) {
-        const hasOpenVehicle = vehicles.some(
-          (vehicle) =>
-            vehicle.companySlug === company.slug &&
-            isListedVehicle(vehicle) &&
-            isVehicleFree(
+        if (filters?.q) {
+          const query = normalize(filters.q);
+          const haystack = normalize(
+            `${company.name} ${company.location ?? ""} ${company.description ?? ""}`,
+          );
+          if (!haystack.includes(query)) {
+            return false;
+          }
+        }
+
+        if (filters?.from && filters?.to) {
+          const hasOpenVehicle = vehicles.some(
+            (vehicle) =>
+              vehicle.companySlug === company.slug &&
+              isListedVehicle(vehicle) &&
+              isVehicleFree(
+                vehicle.id,
+                filters.from ?? "",
+                filters.to ?? "",
+                availability,
+                reservations,
+              ),
+          );
+          if (!hasOpenVehicle) {
+            return false;
+          }
+        }
+
+        return true;
+      })
+      .map((company) => ({
+        ...company,
+        vehicleCount: vehicles.filter((vehicle) => {
+          if (vehicle.companySlug !== company.slug || !isListedVehicle(vehicle)) {
+            return false;
+          }
+
+          if (
+            filters?.from &&
+            filters?.to &&
+            !isVehicleFree(
               vehicle.id,
-              filters.from ?? "",
-              filters.to ?? "",
+              filters.from,
+              filters.to,
               availability,
               reservations,
-            ),
-        );
-        if (!hasOpenVehicle) {
-          return false;
-        }
-      }
+            )
+          ) {
+            return false;
+          }
 
-      return true;
-    });
+          return true;
+        }).length,
+      }));
   },
 
   async getBySlug(slug: string): Promise<Company> {

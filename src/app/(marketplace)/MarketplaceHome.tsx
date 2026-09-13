@@ -8,6 +8,7 @@ import { BrowseByLocation } from "@/components/features/BrowseByLocation";
 import { CompanyListView } from "@/components/features/CompanyListView";
 import { HowItWorks } from "@/components/features/HowItWorks";
 import { MarketplaceHeroSearch } from "@/components/features/MarketplaceHeroSearch";
+import { MarketplaceMapTeaser } from "@/components/features/MarketplaceMapTeaser";
 import { NavRoutes } from "@/enums";
 
 export async function generateMarketplaceHomeMetadata(): Promise<Metadata> {
@@ -69,6 +70,7 @@ export async function MarketplaceHome() {
       </div>
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-12 px-4 py-12 md:px-6 md:py-16 lg:px-8">
         <HowItWorks />
+        <MarketplaceMapTeaser />
         <BrowseByLocation />
         <section className="flex flex-col gap-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
