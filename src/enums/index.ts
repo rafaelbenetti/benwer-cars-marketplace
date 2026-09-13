@@ -59,6 +59,7 @@ export enum SearchParams {
   LOCATION = "location",
   FROM = "from",
   TO = "to",
+  VIEW = "view",
   CAR_ID = "carId",
   COMPANY_SLUG = "companySlug",
 }

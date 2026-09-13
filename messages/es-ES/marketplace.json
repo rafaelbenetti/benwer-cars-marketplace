@@ -42,6 +42,27 @@
     "emptyDescription": "Las ciudades destacadas aparecerán aquí.",
     "cityAria": "Ver coches en {city}"
   },
+  "map": {
+    "teaserTitle": "Mira dónde puedes recoger",
+    "teaserSubtitle": "Flotas locales en toda la provincia de Málaga — abre el mapa y ve directo a una empresa.",
+    "teaserCta": "Abrir el mapa",
+    "teaserCityAria": "Ver empresas en el mapa de {city}",
+    "listLabel": "Lista",
+    "mapLabel": "Mapa",
+    "viewToggleAria": "Mostrar empresas en lista o en el mapa",
+    "regionAria": "Mapa de empresas de alquiler en la provincia de Málaga",
+    "pinAria": "{name} en {city}",
+    "fleetHint": "{count, plural, one {# coche disponible} other {# coches disponibles}}",
+    "fleetHintUnknown": "Ver coches disponibles",
+    "viewFleet": "Ver flota",
+    "closePin": "Cerrar",
+    "loading": "Cargando empresas…",
+    "errorDescription": "No se pudo cargar el mapa. Consulta la lista.",
+    "emptyTitle": "No hay empresas en el mapa",
+    "emptyDescription": "Prueba con otra ciudad o fechas para ver flotas disponibles.",
+    "resultsCount": "{count, plural, one {# empresa en la provincia de Málaga} other {# empresas en la provincia de Málaga}}",
+    "resultsInCity": "{count, plural, one {# empresa en {city}} other {# empresas en {city}}}"
+  },
   "cars": {
     "title": "Coches disponibles",
     "perDay": "{price} / día",
@@ -150,7 +171,7 @@
   },
   "companies": {
     "title": "Empresas de alquiler",
-    "subtitle": "Explora nuestra red de operadores locales de confianza",
+    "subtitle": "Explora operadores locales de confianza en Málaga — en el mapa o en la lista",
     "searchPlaceholder": "Buscar empresas…",
     "noResults": "No se encontraron empresas",
     "noResultsHint": "Prueba con otra ciudad o fechas.",

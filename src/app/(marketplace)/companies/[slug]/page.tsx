@@ -6,9 +6,15 @@ import { Footer } from "@/components/layout/Footer";
 import { CarListView } from "@/components/features/CarListView";
 import { companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
+import { appendSearchParams } from "@/lib/marketplaceSearch";
 
 interface Props {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{
+    location?: string;
+    from?: string;
+    to?: string;
+  }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -28,8 +34,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-async function CompanyPage({ params }: Props) {
-  const { slug } = await params;
+async function CompanyPage({ params, searchParams }: Props) {
+  const [{ slug }, query] = await Promise.all([params, searchParams]);
   const t = await getTranslations("companies");
 
   let company = null;
@@ -46,11 +52,20 @@ async function CompanyPage({ params }: Props) {
         name={company?.name ?? slug}
         description={company?.description}
         location={company?.location}
-        backHref={NavRoutes.COMPANIES}
+        backHref={appendSearchParams(NavRoutes.COMPANIES, {
+          location: query.location,
+          from: query.from,
+          to: query.to,
+        })}
         backLabel={t("backToList")}
       />
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 md:px-6 lg:px-8">
-        <CarListView companySlug={slug} hrefBase={`/companies/${slug}/cars`} />
+        <CarListView
+          companySlug={slug}
+          hrefBase={`/companies/${slug}/cars`}
+          initialFrom={query.from}
+          initialTo={query.to}
+        />
       </main>
       <Footer />
     </>

@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useCompanies } from "@/hooks/useCompanies";
+import { CompanyDirectory } from "./CompanyDirectory";
 import { CompanyGridSkeleton, CompanyGridView } from "./CompanyGrid";
 import {
   MarketplaceSearchBar,
@@ -29,15 +30,30 @@ function CompanyResults({ showSearchBar }: { showSearchBar: boolean }) {
       : undefined,
   );
 
-  return (
-    <div className="flex flex-col gap-6">
-      {showSearchBar ? <MarketplaceSearchBar /> : null}
+  if (!showSearchBar) {
+    return (
       <CompanyGridView
         companies={data}
         isPending={isPending}
         isError={isError}
         error={error}
         onRetry={refetch}
+      />
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      <MarketplaceSearchBar />
+      <CompanyDirectory
+        companies={data}
+        isPending={isPending}
+        isError={isError}
+        error={error}
+        onRetry={refetch}
+        location={location}
+        from={from}
+        to={to}
       />
     </div>
   );

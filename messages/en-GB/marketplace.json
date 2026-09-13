@@ -42,6 +42,27 @@
     "emptyDescription": "Featured cities will appear here.",
     "cityAria": "Browse cars in {city}"
   },
+  "map": {
+    "teaserTitle": "See where you can pick up",
+    "teaserSubtitle": "Local fleets across Málaga province — open the map and jump straight to a company.",
+    "teaserCta": "Open the map",
+    "teaserCityAria": "See companies on the map in {city}",
+    "listLabel": "List",
+    "mapLabel": "Map",
+    "viewToggleAria": "Show companies as a list or map",
+    "regionAria": "Map of rental companies in Málaga province",
+    "pinAria": "{name} in {city}",
+    "fleetHint": "{count, plural, one {# car available} other {# cars available}}",
+    "fleetHintUnknown": "View available cars",
+    "viewFleet": "View fleet",
+    "closePin": "Close",
+    "loading": "Loading companies…",
+    "errorDescription": "The map could not be loaded. Browse the list instead.",
+    "emptyTitle": "No companies on the map",
+    "emptyDescription": "Try another city or dates to see available fleets.",
+    "resultsCount": "{count, plural, one {# company across Málaga province} other {# companies across Málaga province}}",
+    "resultsInCity": "{count, plural, one {# company in {city}} other {# companies in {city}}}"
+  },
   "cars": {
     "title": "Available cars",
     "perDay": "{price} / day",
@@ -150,7 +171,7 @@
   },
   "companies": {
     "title": "Rental companies",
-    "subtitle": "Browse our network of trusted local operators",
+    "subtitle": "Browse trusted local operators across Málaga — on the map or in the list",
     "searchPlaceholder": "Search companies…",
     "noResults": "No companies found",
     "noResultsHint": "Try a different city or dates.",

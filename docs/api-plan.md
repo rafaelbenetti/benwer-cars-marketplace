@@ -58,9 +58,22 @@ GET  /v1/public/companies
 
 Response: `{ data: Company[], page: { total, nextCursor } }`
 
-Query params: `?q=` (search by name/location), `?cursor=&limit=`.
+Query params: `?q=` (search by name/location), `?location=&from=&to=`, `?cursor=&limit=`.
 
 Returns companies where `isPublic = true`.
+
+**Coordinate / fleet gap (marketplace map):** company records do not yet include
+`latitude`, `longitude`, or `vehicleCount`. The marketplace geocodes pins from
+`locationSlug` against `src/data/malagaCityCoordinates.ts` (Málaga-province city
+centroids; companies in the same city are offset slightly). `vehicleCount` is
+derived in the mock layer from listed vehicles (and the current `from`/`to`
+window). Add these fields to `Company` when the API can supply them:
+
+```
+latitude: number | null
+longitude: number | null
+vehicleCount: number | null
+```
 
 ---
 
