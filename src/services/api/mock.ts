@@ -343,6 +343,13 @@ export const mockReservationsApi = {
         ? crypto.randomUUID()
         : `mock-${Date.now()}`;
 
+    let company = null;
+    try {
+      company = await mockCompaniesApi.getBySlug(companySlug);
+    } catch {
+      company = null;
+    }
+
     const reservation: GuestReservation = {
       id: token,
       token,
@@ -358,6 +365,7 @@ export const mockReservationsApi = {
       companySlug,
       createdAt: new Date().toISOString(),
       vehicle,
+      company,
     };
 
     createdReservations.set(token, reservation);
@@ -367,7 +375,7 @@ export const mockReservationsApi = {
   async getByToken(token: string): Promise<GuestReservation> {
     const created = createdReservations.get(token);
     if (created) {
-      return created;
+      return hydrateReservation(created);
     }
 
     const seeded = await loadSeedReservations();
@@ -376,6 +384,25 @@ export const mockReservationsApi = {
       throw new ApiError(404, "reservation.not_found");
     }
 
-    return found;
+    return hydrateReservation(found);
   },
 };
+
+async function hydrateReservation(
+  reservation: GuestReservation,
+): Promise<GuestReservation> {
+  const [vehicle, company] = await Promise.all([
+    reservation.vehicle
+      ? Promise.resolve(reservation.vehicle)
+      : mockVehiclesApi
+          .getById(reservation.companySlug, reservation.vehicleId)
+          .catch(() => null),
+    reservation.company
+      ? Promise.resolve(reservation.company)
+      : mockCompaniesApi
+          .getBySlug(reservation.companySlug)
+          .catch(() => null),
+  ]);
+
+  return { ...reservation, vehicle, company };
+}

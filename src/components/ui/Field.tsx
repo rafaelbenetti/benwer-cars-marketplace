@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement } from "react";
 import { cn } from "@/lib/utils";
 
 interface FieldProps {
@@ -19,6 +20,21 @@ export function Field({
   children,
   className,
 }: FieldProps) {
+  const errorId = htmlFor ? `${htmlFor}-error` : undefined;
+  const hintId = htmlFor ? `${htmlFor}-hint` : undefined;
+  const describedBy = error ? errorId : hint ? hintId : undefined;
+  const control = isValidElement<{
+    "aria-invalid"?: boolean;
+    "aria-describedby"?: string;
+    "aria-required"?: boolean;
+  }>(children)
+    ? cloneElement(children, {
+        "aria-invalid": Boolean(error) || undefined,
+        "aria-describedby": describedBy,
+        "aria-required": required || undefined,
+      })
+    : children;
+
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       <label
@@ -32,12 +48,14 @@ export function Field({
           </span>
         ) : null}
       </label>
-      {children}
+      {control}
       {hint && !error ? (
-        <p className="text-xs text-muted-foreground">{hint}</p>
+        <p id={hintId} className="text-xs text-muted-foreground">
+          {hint}
+        </p>
       ) : null}
       {error ? (
-        <p className="text-xs text-danger" role="alert">
+        <p id={errorId} className="text-xs text-danger" role="alert">
           {error}
         </p>
       ) : null}
