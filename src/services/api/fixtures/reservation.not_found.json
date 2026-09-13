@@ -1,0 +1,7 @@
+{
+  "type": "about:blank",
+  "title": "Not Found",
+  "status": 404,
+  "code": "reservation.not_found",
+  "detail": "reservation not found"
+}

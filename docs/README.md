@@ -34,9 +34,10 @@ here conflicts with older code, the docs win and the code should be migrated.
 Several pieces are chosen but not yet scaffolded — do not import them until they exist:
 
 - ❌ Sentry (via `@/lib/logger`) — scaffold exists as a `console.error` wrapper. Wire Sentry when configured.
-- ❌ Vitest + React Testing Library — chosen for unit tests, not installed yet. See [testing.md](./testing.md).
+- ❌ React Testing Library — chosen for component unit tests, not installed yet. See [testing.md](./testing.md).
 - ❌ MSW — chosen mock/dev layer; not set up yet. Only a read-only `mockClient.get` over `public/mock-data/*.json` exists.
-- ❌ Real HTTP client — `apiClient` is wired in `src/services/api/client.ts`; services switch to it once the API public endpoints are live.
+- ✅ Vitest — installed for mapper/service unit tests (`npm test`).
+- ✅ Public API client — `openapi-fetch` + generated `paths` (`npm run generate:api`) targets `/v1/public/*` when `NEXT_PUBLIC_API_URL` / `API_ORIGIN` is set; services fall back to `mockClient` only if the live API is unset or unreachable.
 - ✅ next-intl — wired with shared ICU messages under `messages/<locale>/{common,marketplace}.json`. Two locales: **British English (`en-GB`)** and **Spain Spanish (`es-ES`)**.
 - ✅ Semantic Tailwind tokens — defined in `src/app/globals.css`; per-tenant `--primary` override supported.
 - ✅ Mode detection — `src/proxy.ts` injects `x-company-slug` from the host header and rewrites tenant traffic to `/tenant`.

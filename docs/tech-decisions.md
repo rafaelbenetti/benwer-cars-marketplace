@@ -16,6 +16,7 @@ decisions and differences.
 | Icons | lucide-react | current |
 | i18n | next-intl + ICU messages | current |
 | Toasts | sonner | 2 |
+| Maps | Leaflet + react-leaflet | 1.9 / 5 |
 
 ## Planned additions
 
@@ -71,6 +72,19 @@ brand colour.
 The API uses **Resend** to send a transactional confirmation email on reservation
 creation. The email contains a link to `/booking/[token]`. This is an API
 infrastructure concern, not a frontend concern.
+
+### Marketplace availability map
+
+`/companies` uses **Leaflet + react-leaflet** (dynamically imported with `ssr: false`) and
+Esri Canvas Light/Dark Gray raster tiles (no API key). Carto’s public `basemaps.cartocdn.com`
+tiles now watermark “API KEY REQUIRED”, so they were rejected. MapLibre / react-map-gl was
+considered for vector styling, but Next.js 16’s bundler still has worker-loading issues with
+MapLibre; Leaflet is smaller, stable with the App Router, and the premium feel comes from
+custom pins, popovers, and filter sync rather than the engine.
+
+Company pins are geocoded from `locationSlug` → `src/data/malagaCityCoordinates.ts`.
+The public API does not yet return `latitude` / `longitude` (or `vehicleCount`).
+When it does, prefer those fields and keep the city table as a fallback.
 
 ### SEO
 

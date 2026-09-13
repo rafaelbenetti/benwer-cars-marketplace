@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "vehicleId": "v1",
+      "unavailableDates": ["2026-09-20", "2026-09-21"],
+      "available": false
+    },
+    {
+      "vehicleId": "v2",
+      "unavailableDates": [],
+      "available": true
+    }
+  ],
+  "page": {
+    "total": 2,
+    "nextCursor": null
+  }
+}

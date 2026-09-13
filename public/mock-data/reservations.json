@@ -1,0 +1,23 @@
+{
+  "data": [
+    {
+      "id": "res-demo-1",
+      "token": "demo-malaga-booking",
+      "status": "confirmed",
+      "vehicleId": "v1",
+      "startDate": "2026-10-10",
+      "endDate": "2026-10-14",
+      "totalPrice": 168,
+      "currency": "EUR",
+      "guestName": "Alex Guest",
+      "guestEmail": "alex@example.com",
+      "guestPhone": "+34600000000",
+      "companySlug": "denver-cars",
+      "createdAt": "2026-09-01T10:00:00.000Z"
+    }
+  ],
+  "page": {
+    "total": 1,
+    "nextCursor": null
+  }
+}

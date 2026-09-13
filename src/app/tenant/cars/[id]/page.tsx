@@ -1,42 +1,79 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { getLocale, getTranslations } from "next-intl/server";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { TenantHeader } from "@/components/layout/TenantHeader";
 import { Footer } from "@/components/layout/Footer";
-import { CarPhotoGallery } from "@/components/features/CarPhotoGallery";
-import { CarSpecsTable } from "@/components/features/CarSpecsTable";
-import { BookingWidget } from "@/components/features/BookingWidget";
+import { CarDetailView } from "@/components/features/CarDetailView";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { vehiclesApi, companiesApi } from "@/services/api";
+import { NavRoutes } from "@/enums";
+import { appendSearchParams } from "@/lib/marketplaceSearch";
+import { prefetchAvailabilityState } from "@/lib/prefetchAvailability";
+import { absoluteUrl, buildPageMetadata, carProductJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{
+    from?: string;
+    to?: string;
+  }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const [{ id }, headersList] = await Promise.all([params, headers()]);
   const slug = headersList.get("x-company-slug") ?? "";
+  const locale = await getLocale();
+  const t = await getTranslations("carDetail");
+  const tMeta = await getTranslations("seo");
+  const tBrand = await getTranslations("brand");
+  const tCars = await getTranslations("cars");
+  const path = `/cars/${id}`;
 
   try {
     const vehicle = await vehiclesApi.getById(slug, id);
-    return {
-      title: `${vehicle.brand} ${vehicle.model} (${vehicle.year})`,
-      description:
-        vehicle.description ??
-        `Rent a ${vehicle.brand} ${vehicle.model} — ${vehicle.seats} seats, ${vehicle.transmission}.`,
-      openGraph: {
-        title: `${vehicle.brand} ${vehicle.model}`,
-        description: vehicle.description ?? undefined,
-        images: vehicle.photos[0] ? [vehicle.photos[0]] : [],
-      },
-    };
+    const transmission = tCars(`transmission.${vehicle.transmission}`);
+    const description =
+      vehicle.description ??
+      tMeta("carDescriptionSpecs", {
+        brand: vehicle.brand,
+        model: vehicle.model,
+        seats: vehicle.seats,
+        transmission,
+      });
+
+    return buildPageMetadata({
+      title: tMeta("carTitleTenant", {
+        brand: vehicle.brand,
+        model: vehicle.model,
+        year: vehicle.year,
+      }),
+      description,
+      path,
+      siteName: tBrand("name"),
+      locale,
+      images: vehicle.photos,
+    });
   } catch {
-    return { title: "Car detail" };
+    return buildPageMetadata({
+      title: t("metaTitle"),
+      description: tCars("title"),
+      path,
+      siteName: tBrand("name"),
+      locale,
+    });
   }
 }
 
-async function TenantCarDetailPage({ params }: Props) {
-  const [{ id }, headersList] = await Promise.all([params, headers()]);
+async function TenantCarDetailPage({ params, searchParams }: Props) {
+  const [{ id }, query, headersList] = await Promise.all([
+    params,
+    searchParams,
+    headers(),
+  ]);
   const companySlug = headersList.get("x-company-slug");
+  const t = await getTranslations("carDetail");
 
   if (!companySlug) notFound();
 
@@ -54,43 +91,50 @@ async function TenantCarDetailPage({ params }: Props) {
     /* fallback gracefully */
   }
 
+  const dehydratedState = await prefetchAvailabilityState(companySlug, id);
+  const tMeta = await getTranslations("seo");
+  const tCars = await getTranslations("cars");
+  const transmission = tCars(`transmission.${vehicle.transmission}`);
+  const productDescription =
+    vehicle.description ??
+    tMeta("carDescriptionSpecs", {
+      brand: vehicle.brand,
+      model: vehicle.model,
+      seats: vehicle.seats,
+      transmission,
+    });
+
   return (
     <>
+      <JsonLd
+        data={carProductJsonLd({
+          vehicle,
+          companyName: company?.name ?? companySlug,
+          description: productDescription,
+          url: absoluteUrl(`/cars/${id}`),
+        })}
+      />
       <TenantHeader
         companyName={company?.name ?? companySlug}
         logoUrl={company?.branding.logoUrl}
       />
-      <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 flex flex-col gap-6">
-            <div>
-              <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-                {vehicle.brand} {vehicle.model}
-              </h1>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {vehicle.year}
-              </p>
-            </div>
-            <CarPhotoGallery
-              photos={vehicle.photos}
-              alt={`${vehicle.brand} ${vehicle.model}`}
-            />
-            {vehicle.description ? (
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {vehicle.description}
-              </p>
-            ) : null}
-            <div>
-              <h2 className="text-lg font-semibold text-foreground mb-3">
-                Specifications
-              </h2>
-              <CarSpecsTable vehicle={vehicle} />
-            </div>
-          </div>
-          <div>
-            <BookingWidget vehicle={vehicle} companySlug={companySlug} />
-          </div>
-        </div>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 pb-28 md:px-6 lg:px-8 lg:pb-16">
+        <HydrationBoundary state={dehydratedState}>
+          <CarDetailView
+            vehicle={vehicle}
+            companySlug={companySlug}
+            companyName={company?.name}
+            companyWebsiteUrl={company?.websiteUrl}
+            isTenant
+            initialFrom={query.from}
+            initialTo={query.to}
+            backHref={appendSearchParams(NavRoutes.HOME, {
+              from: query.from,
+              to: query.to,
+            })}
+            backLabel={t("backToFleet")}
+          />
+        </HydrationBoundary>
       </main>
       <Footer />
     </>

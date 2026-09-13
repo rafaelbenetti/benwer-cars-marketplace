@@ -1,0 +1,13 @@
+{
+  "type": "about:blank",
+  "title": "Bad Request",
+  "status": 400,
+  "code": "validation_error",
+  "detail": "endDate must be after startDate",
+  "errors": [
+    {
+      "field": "endDate",
+      "code": "after_start"
+    }
+  ]
+}

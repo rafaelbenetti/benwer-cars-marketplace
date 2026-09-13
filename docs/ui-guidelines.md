@@ -147,6 +147,8 @@ Same approach as admin web: `cva` for variants, `cn` for class merge.
 | **ReservationStatus** | Token-based status display; shows vehicle, dates, total, status badge. |
 | **CompanyCard** | Company name, location, fleet size, "View fleet" CTA. |
 | **CompanyGrid** | Responsive grid of `CompanyCard`s. |
+| **CompaniesMap** | Leaflet map of company pins for the current location/date filters. |
+| **CompanyDirectory** | Companies page map + list (side-by-side on desktop, toggle on mobile). |
 
 ---
 

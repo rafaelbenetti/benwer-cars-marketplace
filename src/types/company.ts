@@ -9,6 +9,22 @@ export interface Company {
   name: string;
   description: string | null;
   location: string | null;
+  locationSlug: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  vehicleCount: number | null;
   isPublic: boolean;
+  websiteUrl: string | null;
+  email: string | null;
+  phone: string | null;
   branding: CompanyBranding;
+}
+
+export interface CompanyListFilters {
+  location?: string;
+  from?: string;
+  to?: string;
+  q?: string;
+  cursor?: string;
+  limit?: number;
 }
