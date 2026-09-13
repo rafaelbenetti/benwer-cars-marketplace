@@ -1,15 +1,56 @@
 import { NavRoutes, SearchParams } from "@/enums";
+import { appendSearchParams } from "@/lib/marketplaceSearch";
 
 export function buildBookHref(input: {
   companySlug: string;
   carId: string;
-  from: string;
-  to: string;
+  from?: string;
+  to?: string;
 }): string {
   const params = new URLSearchParams();
   params.set(SearchParams.COMPANY_SLUG, input.companySlug);
   params.set(SearchParams.CAR_ID, input.carId);
-  params.set(SearchParams.FROM, input.from);
-  params.set(SearchParams.TO, input.to);
+  if (input.from) {
+    params.set(SearchParams.FROM, input.from);
+  }
+  if (input.to) {
+    params.set(SearchParams.TO, input.to);
+  }
   return `${NavRoutes.BOOK}?${params.toString()}`;
+}
+
+export function buildCarDetailHref(input: {
+  companySlug: string;
+  carId: string;
+  from?: string;
+  to?: string;
+  isTenant?: boolean;
+}): string {
+  const path = input.isTenant
+    ? `/cars/${input.carId}`
+    : `${NavRoutes.COMPANIES}/${input.companySlug}/cars/${input.carId}`;
+
+  return appendSearchParams(path, {
+    from: input.from,
+    to: input.to,
+  });
+}
+
+export function buildFleetHref(input: {
+  companySlug: string;
+  from?: string;
+  to?: string;
+  isTenant?: boolean;
+}): string {
+  if (input.isTenant) {
+    return appendSearchParams(NavRoutes.HOME, {
+      from: input.from,
+      to: input.to,
+    });
+  }
+
+  return appendSearchParams(`${NavRoutes.COMPANIES}/${input.companySlug}`, {
+    from: input.from,
+    to: input.to,
+  });
 }

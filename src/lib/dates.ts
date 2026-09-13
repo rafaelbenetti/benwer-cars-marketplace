@@ -37,6 +37,15 @@ export function startOfToday(): Date {
   return startOfDay(new Date());
 }
 
+export function addCalendarDays(iso: string, days: number): string | null {
+  const date = parseIsoDate(iso);
+  if (!date) {
+    return null;
+  }
+
+  return toIsoDate(addDays(date, days));
+}
+
 export function countRentalDays(from: string, to: string): number {
   const start = parseIsoDate(from);
   const end = parseIsoDate(to);

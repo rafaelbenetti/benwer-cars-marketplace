@@ -1,11 +1,16 @@
-import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
+import { headers } from "next/headers";
 import type { Metadata } from "next";
+import { Car } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
+import { TenantHeader } from "@/components/layout/TenantHeader";
 import { Footer } from "@/components/layout/Footer";
-import { BookingForm } from "@/components/features/BookingForm";
-import { BookingSummary } from "@/components/features/BookingSummary";
-import { vehiclesApi } from "@/services/api";
+import { BookingView } from "@/components/features/BookingView";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { companiesApi, vehiclesApi } from "@/services/api";
+import { NavRoutes } from "@/enums";
+import { buildCarDetailHref, buildFleetHref } from "@/lib/booking";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("booking");
@@ -25,45 +30,97 @@ interface Props {
 }
 
 async function BookPage({ searchParams }: Props) {
-  const { carId, companySlug, from, to } = await searchParams;
+  const { carId, companySlug: querySlug, from, to } = await searchParams;
   const t = await getTranslations("booking");
+  const headersList = await headers();
+  const tenantSlug = headersList.get("x-company-slug");
+  const isTenant = Boolean(tenantSlug);
+  const companySlug = tenantSlug ?? querySlug ?? "";
 
-  if (!carId || !companySlug) notFound();
+  if (!carId || !companySlug) {
+    return (
+      <BookingChrome isTenant={isTenant} companyName={companySlug}>
+        <EmptyState
+          icon={<Car size={40} />}
+          title={t("missingTitle")}
+          description={t("missingDescription")}
+          actionLabel={t("browseCars")}
+          actionHref={isTenant ? NavRoutes.HOME : NavRoutes.COMPANIES}
+        />
+      </BookingChrome>
+    );
+  }
 
   let vehicle;
   try {
     vehicle = await vehiclesApi.getById(companySlug, carId);
   } catch {
-    notFound();
+    return (
+      <BookingChrome isTenant={isTenant} companyName={companySlug}>
+        <EmptyState
+          icon={<Car size={40} />}
+          title={t("vehicleMissingTitle")}
+          description={t("vehicleMissingDescription")}
+          actionLabel={t("viewFleet")}
+          actionHref={buildFleetHref({ companySlug, from, to, isTenant })}
+        />
+      </BookingChrome>
+    );
   }
 
+  let company = null;
+  try {
+    company = await companiesApi.getBySlug(companySlug);
+  } catch {
+    company = null;
+  }
+
+  const carHref = buildCarDetailHref({
+    companySlug,
+    carId,
+    from,
+    to,
+    isTenant,
+  });
+
+  return (
+    <BookingChrome
+      isTenant={isTenant}
+      companyName={company?.name ?? companySlug}
+      logoUrl={company?.branding.logoUrl}
+    >
+      <BookingView
+        vehicle={vehicle}
+        company={company}
+        companySlug={companySlug}
+        defaultFrom={from}
+        defaultTo={to}
+        carHref={carHref}
+      />
+    </BookingChrome>
+  );
+}
+
+function BookingChrome({
+  children,
+  isTenant,
+  companyName,
+  logoUrl,
+}: {
+  children: ReactNode;
+  isTenant: boolean;
+  companyName?: string;
+  logoUrl?: string | null;
+}) {
   return (
     <>
-      <MarketplaceHeader />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 md:px-6 lg:px-8">
-        <h1 className="mb-8 text-3xl font-semibold tracking-tight text-foreground">
-          {t("title")}
-        </h1>
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <h2 className="mb-4 text-base font-semibold text-foreground">
-              {t("details")}
-            </h2>
-            <BookingForm
-              vehicle={vehicle}
-              companySlug={companySlug}
-              defaultFrom={from ?? ""}
-              defaultTo={to ?? ""}
-            />
-          </div>
-          <div className="lg:col-span-2">
-            <BookingSummary
-              vehicle={vehicle}
-              from={from}
-              to={to}
-            />
-          </div>
-        </div>
+      {isTenant ? (
+        <TenantHeader companyName={companyName ?? ""} logoUrl={logoUrl} />
+      ) : (
+        <MarketplaceHeader />
+      )}
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 pb-28 md:px-6 lg:px-8 lg:pb-16">
+        {children}
       </main>
       <Footer />
     </>
