@@ -1,3 +1,4 @@
+export { BrandLogo } from "./BrandLogo";
 export { MarketplaceHeader } from "./MarketplaceHeader";
 export { MarketplaceNav } from "./MarketplaceNav";
 export { LocaleSwitcher } from "./LocaleSwitcher";

@@ -11,6 +11,7 @@ import { ErrorState } from "@/components/ui/ErrorState";
 import {
   getCityBySlug,
   getCityDisplayName,
+  isProvinceWideLocation,
 } from "@/data/malagaCities";
 import { NavRoutes, SearchParams } from "@/enums";
 import { toCompanyMapPins } from "@/lib/companyMap";
@@ -52,7 +53,8 @@ export function CompanyDirectory({
   const [highlightedSlug, setHighlightedSlug] = useState<string | null>(null);
 
   const showMapPane = isDesktop || searchParams.get(SearchParams.VIEW) === "map";
-  const city = location ? getCityBySlug(location) : null;
+  const city =
+    location && !isProvinceWideLocation(location) ? getCityBySlug(location) : null;
 
   const pins = useMemo(
     () =>
@@ -139,7 +141,7 @@ export function CompanyDirectory({
             pins={pins}
             selectedSlug={selectedSlug}
             highlightedSlug={highlightedSlug}
-            locationSlug={location}
+            locationSlug={isProvinceWideLocation(location) ? null : location}
             isPending={isPending}
             isError={isError}
             error={error}

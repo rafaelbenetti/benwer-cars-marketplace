@@ -13,6 +13,18 @@ export type MappableMalagaCity = MalagaCity & CityCoordinates;
 
 export const DEFAULT_CITY_SLUG = "malaga";
 
+export function isProvinceWideLocation(slug: string | null | undefined): boolean {
+  return !slug || slug === DEFAULT_CITY_SLUG;
+}
+
+export function toApiLocation(slug: string | null | undefined): string | undefined {
+  if (!slug || isProvinceWideLocation(slug)) {
+    return undefined;
+  }
+
+  return slug;
+}
+
 export const FEATURED_CITY_SLUGS = [
   "malaga",
   "marbella",
@@ -166,11 +178,19 @@ export function filterCities(query: string): MalagaCity[] {
     return MALAGA_CITIES;
   }
 
-  return MALAGA_CITIES.filter((city) => {
-    return (
-      normalizeSearch(city.nameEn).includes(normalized) ||
-      normalizeSearch(city.nameEs).includes(normalized) ||
-      city.slug.includes(normalized)
-    );
+  const matches = normalized
+    ? MALAGA_CITIES.filter((city) => {
+        return (
+          normalizeSearch(city.nameEn).includes(normalized) ||
+          normalizeSearch(city.nameEs).includes(normalized) ||
+          city.slug.includes(normalized)
+        );
+      })
+    : MALAGA_CITIES;
+
+  return [...matches].sort((a, b) => {
+    const aProvince = isProvinceWideLocation(a.slug) ? 0 : 1;
+    const bProvince = isProvinceWideLocation(b.slug) ? 0 : 1;
+    return aProvince - bProvince;
   });
 }

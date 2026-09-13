@@ -53,7 +53,7 @@ async function BookPage({ searchParams }: Props) {
           title={t("missingTitle")}
           description={t("missingDescription")}
           actionLabel={t("browseCars")}
-          actionHref={isTenant ? NavRoutes.HOME : NavRoutes.COMPANIES}
+          actionHref={isTenant ? NavRoutes.HOME : NavRoutes.CARS}
         />
       </BookingChrome>
     );

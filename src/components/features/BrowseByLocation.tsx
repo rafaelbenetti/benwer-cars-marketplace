@@ -6,7 +6,7 @@ import {
   getCityBySlug,
   getCityDisplayName,
 } from "@/data/malagaCities";
-import { buildCompaniesSearchHref } from "@/lib/marketplaceSearch";
+import { buildCarsSearchHref } from "@/lib/marketplaceSearch";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export async function BrowseByLocation() {
@@ -33,7 +33,7 @@ export async function BrowseByLocation() {
             return (
               <Link
                 key={city.slug}
-                href={buildCompaniesSearchHref({ location: city.slug })}
+                href={buildCarsSearchHref({ location: city.slug })}
                 aria-label={t("cityAria", { city: name })}
                 className="group flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3.5 transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 motion-safe:hover:shadow-md"
               >

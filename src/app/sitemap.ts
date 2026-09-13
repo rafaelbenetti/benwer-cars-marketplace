@@ -12,10 +12,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: absoluteUrl("/companies"),
+      url: absoluteUrl("/cars"),
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.9,
+    },
+    {
+      url: absoluteUrl("/companies"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.8,
     },
   ];
 

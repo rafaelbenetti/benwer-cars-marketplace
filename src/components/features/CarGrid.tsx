@@ -7,6 +7,7 @@ import { CarCardSkeleton } from "./CarCardSkeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { getErrorKey } from "@/lib/errors";
+import type { Company } from "@/types/company";
 import type { Vehicle } from "@/types/vehicle";
 import { cn } from "@/lib/utils";
 
@@ -33,14 +34,22 @@ export function CarGridSkeleton({ count = 8, className }: CarGridLoadingProps) {
 interface CarGridProps {
   vehicles: Vehicle[];
   buildHref: (vehicle: Vehicle) => string;
+  companyFor?: (vehicle: Vehicle) => Pick<Company, "name" | "slug" | "branding"> | null;
   onClearFilters?: () => void;
+  emptyTitle?: string;
+  emptyHint?: string;
+  emptyActionLabel?: string;
   className?: string;
 }
 
 export function CarGrid({
   vehicles,
   buildHref,
+  companyFor,
   onClearFilters,
+  emptyTitle,
+  emptyHint,
+  emptyActionLabel,
   className,
 }: CarGridProps) {
   const t = useTranslations("cars");
@@ -49,10 +58,13 @@ export function CarGrid({
     return (
       <EmptyState
         icon={<Car size={40} />}
-        title={onClearFilters ? t("noResults") : t("emptyTitle")}
-        description={onClearFilters ? t("noResultsHint") : t("emptyHint")}
-        actionLabel={onClearFilters ? t("clearFilters") : undefined}
+        title={emptyTitle ?? (onClearFilters ? t("noResults") : t("emptyTitle"))}
+        description={emptyHint ?? (onClearFilters ? t("noResultsHint") : t("emptyHint"))}
+        actionLabel={
+          emptyActionLabel ?? (onClearFilters ? t("clearFilters") : undefined)
+        }
         onAction={onClearFilters}
+        className="rounded-2xl border border-dashed border-border bg-surface px-6"
       />
     );
   }
@@ -66,9 +78,10 @@ export function CarGrid({
     >
       {vehicles.map((vehicle, index) => (
         <CarCard
-          key={vehicle.id}
+          key={`${vehicle.companySlug}-${vehicle.id}`}
           vehicle={vehicle}
           href={buildHref(vehicle)}
+          company={companyFor?.(vehicle)}
           priority={index === 0}
         />
       ))}
@@ -83,7 +96,11 @@ interface CarGridViewProps {
   error?: unknown;
   onRetry: () => void;
   buildHref: (vehicle: Vehicle) => string;
+  companyFor?: (vehicle: Vehicle) => Pick<Company, "name" | "slug" | "branding"> | null;
   onClearFilters?: () => void;
+  emptyTitle?: string;
+  emptyHint?: string;
+  emptyActionLabel?: string;
 }
 
 export function CarGridView({
@@ -93,7 +110,11 @@ export function CarGridView({
   error,
   onRetry,
   buildHref,
+  companyFor,
   onClearFilters,
+  emptyTitle,
+  emptyHint,
+  emptyActionLabel,
 }: CarGridViewProps) {
   const t = useTranslations();
 
@@ -105,7 +126,11 @@ export function CarGridView({
     <CarGrid
       vehicles={vehicles ?? []}
       buildHref={buildHref}
+      companyFor={companyFor}
       onClearFilters={onClearFilters}
+      emptyTitle={emptyTitle}
+      emptyHint={emptyHint}
+      emptyActionLabel={emptyActionLabel}
     />
   );
 }

@@ -1,4 +1,5 @@
 import type { VehicleStatus, VehicleType, TransmissionType, FuelType } from "@/enums";
+import type { Company } from "./company";
 
 export interface Vehicle {
   id: string;
@@ -28,4 +29,13 @@ export interface VehicleFilters {
   sort?: string;
   cursor?: string;
   limit?: number;
+  companySlug?: string;
+}
+
+export interface MarketplaceSearchFilters extends VehicleFilters {
+  location?: string;
+}
+
+export interface MarketplaceVehicle extends Vehicle {
+  company: Company;
 }

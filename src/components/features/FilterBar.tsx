@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { CompanyCombobox } from "./CompanyCombobox";
 import { DateRangePopover } from "./DateRangePopover";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -11,15 +12,22 @@ import {
   hasActiveVehicleFilters,
 } from "@/lib/vehicleFilters";
 import { TransmissionType } from "@/enums";
+import type { Company } from "@/types/company";
 import type { VehicleFilters } from "@/types/vehicle";
 
 interface FilterBarProps {
   filters: VehicleFilters;
   onChange: (filters: VehicleFilters) => void;
+  companies?: Company[];
   className?: string;
 }
 
-export function FilterBar({ filters, onChange, className }: FilterBarProps) {
+export function FilterBar({
+  filters,
+  onChange,
+  companies,
+  className,
+}: FilterBarProps) {
   const t = useTranslations("cars");
   const hasActiveFilters = hasActiveVehicleFilters(filters);
 
@@ -48,6 +56,20 @@ export function FilterBar({ filters, onChange, className }: FilterBarProps) {
             })
           }
         />
+        {companies ? (
+          <div className="min-w-0 md:flex-1">
+            <CompanyCombobox
+              value={filters.companySlug}
+              companies={companies}
+              onChange={(companySlug) =>
+                onChange({
+                  ...filters,
+                  companySlug,
+                })
+              }
+            />
+          </div>
+        ) : null}
         {hasActiveFilters ? (
           <Button
             type="button"
