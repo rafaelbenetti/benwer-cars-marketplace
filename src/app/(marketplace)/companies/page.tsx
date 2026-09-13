@@ -25,7 +25,7 @@ async function CompaniesPage() {
   return (
     <>
       <MarketplaceHeader />
-      <section className="relative w-full overflow-hidden border-b border-border bg-gradient-to-br from-primary/10 via-background to-accent-soft">
+      <section className="relative w-full overflow-hidden border-b border-border bg-gradient-to-br from-primary/5 via-background to-info/5">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl"

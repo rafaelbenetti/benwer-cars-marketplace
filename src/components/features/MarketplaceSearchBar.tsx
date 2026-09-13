@@ -92,7 +92,7 @@ function MarketplaceSearchForm({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "w-full rounded-2xl border-2 border-primary/30 bg-surface p-2 shadow-[0_22px_50px_color-mix(in_oklab,var(--foreground)_20%,transparent),0_10px_28px_color-mix(in_oklab,var(--primary)_18%,transparent)] md:p-2.5",
+        "marketplace-search-card w-full rounded-2xl p-2 md:p-2.5",
         className,
       )}
     >
@@ -133,7 +133,7 @@ function MarketplaceSearchForm({
           <Button
             type="submit"
             size="lg"
-            className="h-11 w-full shrink-0 md:min-w-28 md:w-auto"
+            className="h-11 w-full shrink-0 rounded-xl md:min-w-28 md:w-auto"
             aria-describedby={dateHint ? hintId : undefined}
           >
             <Search size={16} aria-hidden />
@@ -184,7 +184,7 @@ export function MarketplaceSearchBarFallback({
   return (
     <div
       className={cn(
-        "w-full rounded-2xl border-2 border-primary/30 bg-surface p-2 shadow-[0_22px_50px_color-mix(in_oklab,var(--foreground)_20%,transparent),0_10px_28px_color-mix(in_oklab,var(--primary)_18%,transparent)] md:p-2.5",
+        "marketplace-search-card w-full rounded-2xl p-2 md:p-2.5",
         className,
       )}
     >
