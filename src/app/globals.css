@@ -1,51 +1,57 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #faf6f1;
   --surface: #ffffff;
-  --surface-muted: #f1f5f9;
-  --surface-hover: #f8fafc;
-  --foreground: #0f172a;
-  --muted-foreground: #475569;
-  --subtle-foreground: #64748b;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --ring: #0891b2;
-  --primary: #0e7490;
-  --primary-hover: #155e75;
+  --surface-muted: #f3ebe3;
+  --surface-hover: #efe6db;
+  --foreground: #0b1f33;
+  --muted-foreground: #4a5d73;
+  --subtle-foreground: #6b7c90;
+  --border: #e8ddd0;
+  --border-strong: #d4c4b0;
+  --ring: #ea580c;
+  --primary: #ea580c;
+  --primary-hover: #c2410c;
   --primary-foreground: #ffffff;
+  --secondary: #0f766e;
+  --secondary-hover: #0d9488;
+  --secondary-foreground: #ffffff;
   --success: #16a34a;
   --success-soft: #16a34a14;
   --warning: #d97706;
   --warning-soft: #d9770614;
   --danger: #dc2626;
   --danger-soft: #dc262614;
-  --info: #2563eb;
-  --info-soft: #2563eb14;
+  --info: #0f766e;
+  --info-soft: #0f766e14;
 }
 
 .dark {
-  --background: #0b1220;
-  --surface: #0f172a;
-  --surface-muted: #1e293b;
-  --surface-hover: #1e293b;
-  --foreground: #f1f5f9;
-  --muted-foreground: #cbd5e1;
-  --subtle-foreground: #94a3b8;
-  --border: #1e293b;
-  --border-strong: #334155;
-  --ring: #22d3ee;
-  --primary: #22d3ee;
-  --primary-hover: #06b6d4;
-  --primary-foreground: #0b1220;
+  --background: #0b1f33;
+  --surface: #12263d;
+  --surface-muted: #1a334d;
+  --surface-hover: #23405c;
+  --foreground: #faf6f1;
+  --muted-foreground: #d4c4b0;
+  --subtle-foreground: #b8a894;
+  --border: #2a4159;
+  --border-strong: #3d5670;
+  --ring: #fb923c;
+  --primary: #fb923c;
+  --primary-hover: #f97316;
+  --primary-foreground: #0b1f33;
+  --secondary: #2dd4bf;
+  --secondary-hover: #5eead4;
+  --secondary-foreground: #0b1f33;
   --success: #4ade80;
   --success-soft: #4ade8020;
   --warning: #fbbf24;
   --warning-soft: #fbbf2420;
   --danger: #f87171;
   --danger-soft: #f8717120;
-  --info: #60a5fa;
-  --info-soft: #60a5fa20;
+  --info: #2dd4bf;
+  --info-soft: #2dd4bf20;
 }
 
 @theme inline {
@@ -62,6 +68,9 @@
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
   --color-warning: var(--warning);
@@ -70,6 +79,12 @@
   --color-danger-soft: var(--danger-soft);
   --color-info: var(--info);
   --color-info-soft: var(--info-soft);
+}
+
+html,
+body {
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 .marketplace-day-picker.rdp-root {
