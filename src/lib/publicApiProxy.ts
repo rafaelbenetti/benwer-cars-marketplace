@@ -1,7 +1,21 @@
 export const SAME_ORIGIN_API_PREFIX = "/api";
 
+export function collapseDuplicateV1Path(url: string): string {
+  return url.replace(/\/v1\/(?:v1\/)+/gi, "/v1/");
+}
+
 export function normalizeApiBaseUrl(raw: string): string {
-  return raw.trim().replace(/\/+$/, "").replace(/\/v1$/i, "");
+  let url = raw.trim().replace(/\/+$/, "");
+  while (/\/v1$/i.test(url)) {
+    url = url.replace(/\/v1$/i, "");
+  }
+  return url;
+}
+
+export function joinApiUrl(base: string, path: string): string {
+  const origin = normalizeApiBaseUrl(base);
+  const suffix = path.startsWith("/") ? path : `/${path}`;
+  return collapseDuplicateV1Path(`${origin}${suffix}`);
 }
 
 export function isSameOriginApiBase(base: string, pageOrigin: string): boolean {
@@ -23,14 +37,13 @@ export function isSameOriginApiBase(base: string, pageOrigin: string): boolean {
 export function resolveBrowserApiBaseUrl(
   configured: string,
   publicEnv: "local" | "staging" | "production",
-  pageOrigin: string,
 ): string {
   const base = normalizeApiBaseUrl(configured);
-  if (base && isSameOriginApiBase(base, pageOrigin)) {
+  if (base) {
     return base;
   }
 
-  if (base || publicEnv !== "local") {
+  if (publicEnv !== "local") {
     return SAME_ORIGIN_API_PREFIX;
   }
 

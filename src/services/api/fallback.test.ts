@@ -29,6 +29,22 @@ describe("withMockFallback", () => {
     expect(mock).not.toHaveBeenCalled();
   });
 
+  it("does not treat a /v1/v1 404 as an excuse to show mock stock photos", async () => {
+    const mock = vi.fn(async () => [{ id: "v-med-1" }]);
+
+    await expect(
+      withMockFallback(
+        async () => {
+          throw new ApiError(404, "unknown");
+        },
+        mock,
+        "vehicles.detail",
+      ),
+    ).rejects.toBeInstanceOf(ApiError);
+
+    expect(mock).not.toHaveBeenCalled();
+  });
+
   it("does not treat mapper TypeErrors as an excuse to show mock stock photos", async () => {
     const mock = vi.fn(async () => [{ id: "mock" }]);
 

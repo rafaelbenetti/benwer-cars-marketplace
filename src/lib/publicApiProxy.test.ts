@@ -1,9 +1,12 @@
+import createClient from "openapi-fetch";
 import { describe, expect, it } from "vitest";
 import {
   SAME_ORIGIN_API_PREFIX,
+  collapseDuplicateV1Path,
   isAllowedPublicApiProxyPath,
   isSameOriginApiBase,
   isUnreachableError,
+  joinApiUrl,
   normalizeApiBaseUrl,
   resolveBrowserApiBaseUrl,
   shouldUseMockFallback,
@@ -17,6 +20,9 @@ describe("normalizeApiBaseUrl", () => {
     expect(normalizeApiBaseUrl("https://cars-api.benwer.es/v1/")).toBe(
       "https://cars-api.benwer.es",
     );
+    expect(normalizeApiBaseUrl("https://cars-api.benwer.es/v1/v1")).toBe(
+      "https://cars-api.benwer.es",
+    );
   });
 
   it("keeps a same-origin /api prefix", () => {
@@ -27,35 +33,83 @@ describe("normalizeApiBaseUrl", () => {
   });
 });
 
+describe("joinApiUrl", () => {
+  it("joins like openapi-fetch without producing /v1/v1", () => {
+    expect(
+      joinApiUrl(
+        "https://cars-api.benwer.es/v1",
+        "/v1/public/companies/med-rentacar",
+      ),
+    ).toBe("https://cars-api.benwer.es/v1/public/companies/med-rentacar");
+    expect(
+      joinApiUrl(
+        "https://cars-api.benwer.es/v1",
+        "/v1/public/companies/med-rentacar/vehicles",
+      ),
+    ).toBe("https://cars-api.benwer.es/v1/public/companies/med-rentacar/vehicles");
+    expect(joinApiUrl("https://cars-api.benwer.es", "/v1/public/companies")).toBe(
+      "https://cars-api.benwer.es/v1/public/companies",
+    );
+  });
+
+  it("collapses a concatenated /v1/v1 path", () => {
+    expect(
+      collapseDuplicateV1Path(
+        "https://cars-api.benwer.es/v1/v1/public/companies/med-rentacar",
+      ),
+    ).toBe("https://cars-api.benwer.es/v1/public/companies/med-rentacar");
+  });
+
+  it("openapi-fetch hits /v1/public once after the /v1 suffix is stripped", async () => {
+    const seen: string[] = [];
+    const client = createClient({
+      baseUrl: normalizeApiBaseUrl("https://cars-api.benwer.es/v1"),
+      fetch: async (input) => {
+        seen.push(String(input instanceof Request ? input.url : input));
+        return new Response("{}", {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      },
+    });
+
+    await client.GET("/v1/public/companies/{slug}" as never, {
+      params: { path: { slug: "med-rentacar" } },
+    } as never);
+
+    expect(seen[0]).toBe(
+      "https://cars-api.benwer.es/v1/public/companies/med-rentacar",
+    );
+  });
+});
+
 describe("resolveBrowserApiBaseUrl", () => {
   it("keeps a same-origin marketplace /api URL", () => {
     expect(
       resolveBrowserApiBaseUrl(
         "https://marketplace.benwer.es/api",
         "production",
-        "https://marketplace.benwer.es",
       ),
     ).toBe("https://marketplace.benwer.es/api");
   });
 
-  it("rewrites a cross-origin cars-api URL to the same-origin BFF", () => {
+  it("uses the API origin when the env still has a /v1 suffix", () => {
     expect(
       resolveBrowserApiBaseUrl(
         "https://cars-api.benwer.es/v1",
         "production",
-        "https://marketplace.benwer.es",
       ),
-    ).toBe(SAME_ORIGIN_API_PREFIX);
+    ).toBe("https://cars-api.benwer.es");
   });
 
   it("uses the BFF in production even when the public API URL is unset", () => {
     expect(
-      resolveBrowserApiBaseUrl("", "production", "https://marketplace.benwer.es"),
+      resolveBrowserApiBaseUrl("", "production"),
     ).toBe(SAME_ORIGIN_API_PREFIX);
   });
 
   it("stays on mock in local when no API URL is configured", () => {
-    expect(resolveBrowserApiBaseUrl("", "local", "http://localhost:3002")).toBe("");
+    expect(resolveBrowserApiBaseUrl("", "local")).toBe("");
   });
 
   it("treats a relative /api base as same-origin", () => {

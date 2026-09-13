@@ -21,7 +21,7 @@ export async function withMockFallback<T>(
   try {
     return await live();
   } catch (error) {
-    if (!isUnreachableError(error) || !allowMock) {
+    if (!allowMock || !isUnreachableError(error)) {
       throw error;
     }
 
