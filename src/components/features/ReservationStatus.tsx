@@ -139,11 +139,32 @@ export function ReservationStatus({
         </div>
       </div>
 
+      <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface-muted/60 p-5">
+        <h2 className="text-sm font-semibold text-foreground">{t("nextTitle")}</h2>
+        <ol className="flex flex-col gap-3">
+          <li className="flex items-start gap-3 text-sm text-muted-foreground">
+            <Mail size={16} className="mt-0.5 shrink-0 text-primary" aria-hidden />
+            <span>{t("nextEmail", { email: data.guestEmail })}</span>
+          </li>
+          <li className="flex items-start gap-3 text-sm text-muted-foreground">
+            <CalendarDays size={16} className="mt-0.5 shrink-0 text-primary" aria-hidden />
+            <span>{t("nextPickup")}</span>
+          </li>
+        </ol>
+      </div>
+
       <div className="flex flex-col items-center gap-4 text-center">
-        <p className="flex items-start gap-2 text-sm text-muted-foreground">
-          <Mail size={16} className="mt-0.5 shrink-0 text-primary" aria-hidden />
-          <span>{t("trustCopy")}</span>
-        </p>
+        <ul className="flex flex-wrap justify-center gap-2">
+          <li className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+            <Mail size={14} className="text-primary" aria-hidden />
+            {t("trustEmail")}
+          </li>
+          <li className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+            <CheckCircle2 size={14} className="text-primary" aria-hidden />
+            {t("trustPickup")}
+          </li>
+        </ul>
+        <p className="max-w-md text-sm text-muted-foreground">{t("trustCopy")}</p>
         <Link
           href={fleetHref}
           className="inline-flex h-11 cursor-pointer items-center justify-center rounded-md border border-border bg-surface px-6 text-sm font-medium text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"

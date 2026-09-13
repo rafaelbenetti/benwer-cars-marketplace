@@ -1,15 +1,17 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { TenantHeader } from "@/components/layout/TenantHeader";
 import { Footer } from "@/components/layout/Footer";
 import { CarDetailView } from "@/components/features/CarDetailView";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { vehiclesApi, companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
 import { prefetchAvailabilityState } from "@/lib/prefetchAvailability";
+import { absoluteUrl, buildPageMetadata, carProductJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -22,23 +24,45 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const [{ id }, headersList] = await Promise.all([params, headers()]);
   const slug = headersList.get("x-company-slug") ?? "";
+  const locale = await getLocale();
   const t = await getTranslations("carDetail");
+  const tMeta = await getTranslations("seo");
+  const tBrand = await getTranslations("brand");
+  const tCars = await getTranslations("cars");
+  const path = `/cars/${id}`;
 
   try {
     const vehicle = await vehiclesApi.getById(slug, id);
-    return {
-      title: `${vehicle.brand} ${vehicle.model} (${vehicle.year})`,
-      description:
-        vehicle.description ??
-        `Rent a ${vehicle.brand} ${vehicle.model} — ${vehicle.seats} seats, ${vehicle.transmission}.`,
-      openGraph: {
-        title: `${vehicle.brand} ${vehicle.model}`,
-        description: vehicle.description ?? undefined,
-        images: vehicle.photos[0] ? [vehicle.photos[0]] : [],
-      },
-    };
+    const transmission = tCars(`transmission.${vehicle.transmission}`);
+    const description =
+      vehicle.description ??
+      tMeta("carDescriptionSpecs", {
+        brand: vehicle.brand,
+        model: vehicle.model,
+        seats: vehicle.seats,
+        transmission,
+      });
+
+    return buildPageMetadata({
+      title: tMeta("carTitleTenant", {
+        brand: vehicle.brand,
+        model: vehicle.model,
+        year: vehicle.year,
+      }),
+      description,
+      path,
+      siteName: tBrand("name"),
+      locale,
+      images: vehicle.photos,
+    });
   } catch {
-    return { title: t("metaTitle") };
+    return buildPageMetadata({
+      title: t("metaTitle"),
+      description: tCars("title"),
+      path,
+      siteName: tBrand("name"),
+      locale,
+    });
   }
 }
 
@@ -68,9 +92,28 @@ async function TenantCarDetailPage({ params, searchParams }: Props) {
   }
 
   const dehydratedState = await prefetchAvailabilityState(companySlug, id);
+  const tMeta = await getTranslations("seo");
+  const tCars = await getTranslations("cars");
+  const transmission = tCars(`transmission.${vehicle.transmission}`);
+  const productDescription =
+    vehicle.description ??
+    tMeta("carDescriptionSpecs", {
+      brand: vehicle.brand,
+      model: vehicle.model,
+      seats: vehicle.seats,
+      transmission,
+    });
 
   return (
     <>
+      <JsonLd
+        data={carProductJsonLd({
+          vehicle,
+          companyName: company?.name ?? companySlug,
+          description: productDescription,
+          url: absoluteUrl(`/cars/${id}`),
+        })}
+      />
       <TenantHeader
         companyName={company?.name ?? companySlug}
         logoUrl={company?.branding.logoUrl}

@@ -1,15 +1,17 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { Footer } from "@/components/layout/Footer";
 import { CarDetailView } from "@/components/features/CarDetailView";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { vehiclesApi, companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
 import { appendSearchParams, buildCompanyHref } from "@/lib/marketplaceSearch";
 import { prefetchAvailabilityState } from "@/lib/prefetchAvailability";
+import { absoluteUrl, buildPageMetadata, carProductJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ slug: string; id: string }>;
@@ -22,25 +24,46 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, id } = await params;
+  const locale = await getLocale();
   const t = await getTranslations("carDetail");
+  const tMeta = await getTranslations("seo");
+  const tBrand = await getTranslations("brand");
+  const tCars = await getTranslations("cars");
+  const path = `/companies/${slug}/cars/${id}`;
+
   try {
     const [vehicle, company] = await Promise.all([
       vehiclesApi.getById(slug, id),
       companiesApi.getBySlug(slug),
     ]);
-    return {
-      title: `${vehicle.brand} ${vehicle.model} — ${company.name}`,
-      description:
-        vehicle.description ??
-        `Rent a ${vehicle.brand} ${vehicle.model} from ${company.name}.`,
-      openGraph: {
-        title: `${vehicle.brand} ${vehicle.model} — ${company.name}`,
-        description: vehicle.description ?? undefined,
-        images: vehicle.photos[0] ? [vehicle.photos[0]] : [],
-      },
-    };
+    const description =
+      vehicle.description ??
+      tMeta("carDescription", {
+        brand: vehicle.brand,
+        model: vehicle.model,
+        company: company.name,
+      });
+
+    return buildPageMetadata({
+      title: tMeta("carTitle", {
+        brand: vehicle.brand,
+        model: vehicle.model,
+        company: company.name,
+      }),
+      description,
+      path,
+      siteName: tBrand("name"),
+      locale,
+      images: vehicle.photos,
+    });
   } catch {
-    return { title: t("metaTitle") };
+    return buildPageMetadata({
+      title: t("metaTitle"),
+      description: tCars("title"),
+      path,
+      siteName: tBrand("name"),
+      locale,
+    });
   }
 }
 
@@ -70,9 +93,25 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
     to: query.to,
   };
   const companyHref = buildCompanyHref(slug, browse);
+  const tMeta = await getTranslations("seo");
+  const productDescription =
+    vehicle.description ??
+    tMeta("carDescription", {
+      brand: vehicle.brand,
+      model: vehicle.model,
+      company: company?.name ?? slug,
+    });
 
   return (
     <>
+      <JsonLd
+        data={carProductJsonLd({
+          vehicle,
+          companyName: company?.name ?? slug,
+          description: productDescription,
+          url: absoluteUrl(`/companies/${slug}/cars/${id}`),
+        })}
+      />
       <MarketplaceHeader />
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 pb-28 md:px-6 lg:px-8 lg:pb-16">
         <nav

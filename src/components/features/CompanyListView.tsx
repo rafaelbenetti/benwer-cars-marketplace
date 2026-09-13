@@ -13,9 +13,16 @@ import { SearchParams } from "@/enums";
 
 interface CompanyListViewProps {
   showSearchBar?: boolean;
+  limit?: number;
 }
 
-function CompanyResults({ showSearchBar }: { showSearchBar: boolean }) {
+function CompanyResults({
+  showSearchBar,
+  limit,
+}: {
+  showSearchBar: boolean;
+  limit?: number;
+}) {
   const searchParams = useSearchParams();
   const location = searchParams.get(SearchParams.LOCATION);
   const from = searchParams.get(SearchParams.FROM);
@@ -33,7 +40,7 @@ function CompanyResults({ showSearchBar }: { showSearchBar: boolean }) {
   if (!showSearchBar) {
     return (
       <CompanyGridView
-        companies={data}
+        companies={limit ? data?.slice(0, limit) : data}
         isPending={isPending}
         isError={isError}
         error={error}
@@ -59,17 +66,20 @@ function CompanyResults({ showSearchBar }: { showSearchBar: boolean }) {
   );
 }
 
-export function CompanyListView({ showSearchBar = true }: CompanyListViewProps) {
+export function CompanyListView({
+  showSearchBar = true,
+  limit,
+}: CompanyListViewProps) {
   return (
     <Suspense
       fallback={
         <div className="flex flex-col gap-6">
           {showSearchBar ? <MarketplaceSearchBarFallback /> : null}
-          <CompanyGridSkeleton />
+          <CompanyGridSkeleton count={limit ?? 6} />
         </div>
       }
     >
-      <CompanyResults showSearchBar={showSearchBar} />
+      <CompanyResults showSearchBar={showSearchBar} limit={limit} />
     </Suspense>
   );
 }

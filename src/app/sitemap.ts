@@ -1,0 +1,52 @@
+import type { MetadataRoute } from "next";
+import { companiesApi, vehiclesApi } from "@/services/api";
+import { absoluteUrl } from "@/lib/seo";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const now = new Date();
+  const staticRoutes: MetadataRoute.Sitemap = [
+    {
+      url: absoluteUrl("/"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 1,
+    },
+    {
+      url: absoluteUrl("/companies"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+  ];
+
+  try {
+    const companies = await companiesApi.getAll();
+    const companyRoutes: MetadataRoute.Sitemap = companies.map((company) => ({
+      url: absoluteUrl(`/companies/${company.slug}`),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.8,
+    }));
+
+    const vehicleRoutes: MetadataRoute.Sitemap = [];
+    for (const company of companies) {
+      try {
+        const vehicles = await vehiclesApi.getByCompany(company.slug);
+        for (const vehicle of vehicles) {
+          vehicleRoutes.push({
+            url: absoluteUrl(`/companies/${company.slug}/cars/${vehicle.id}`),
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.7,
+          });
+        }
+      } catch {
+        /* skip a company whose fleet cannot be listed */
+      }
+    }
+
+    return [...staticRoutes, ...companyRoutes, ...vehicleRoutes];
+  } catch {
+    return staticRoutes;
+  }
+}
