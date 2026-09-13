@@ -34,8 +34,21 @@ export const apiClient = {
   },
 };
 
+function mockUrl(path: string): string {
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
+  if (typeof window !== "undefined") {
+    return path;
+  }
+
+  const origin = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3002";
+  return new URL(path, origin).toString();
+}
+
 export const mockClient = {
   get<T>(path: string): Promise<T> {
-    return fetch(path).then((r) => r.json() as Promise<T>);
+    return fetch(mockUrl(path)).then((r) => r.json() as Promise<T>);
   },
 };
