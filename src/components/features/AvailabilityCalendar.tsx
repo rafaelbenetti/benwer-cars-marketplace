@@ -158,6 +158,7 @@ export function AvailabilityCalendar({
             modifiersClassNames={{ unavailable: "rdp-unavailable" }}
             startMonth={today}
             endMonth={availabilityEndMonth(today)}
+            navLayout="around"
             resetOnSelect
             className="marketplace-day-picker w-full"
             aria-label={t("calendarLabel")}

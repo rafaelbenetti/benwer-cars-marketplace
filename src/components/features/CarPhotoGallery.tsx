@@ -22,7 +22,7 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
     return (
       <div
         className={cn(
-          "relative flex aspect-[16/9] flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-primary/5",
+          "relative flex aspect-[16/9] flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-surface-muted",
           className,
         )}
       >
