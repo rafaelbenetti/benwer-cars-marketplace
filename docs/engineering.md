@@ -205,8 +205,9 @@ useMutation({
 - Server Components by default; keep client bundles small.
 - **Never use raw `<img>`** — use `next/image` with explicit dimensions.
   Car photos come from CloudFront, or LocalStack (`http://localhost:4566/**` /
-  `http://127.0.0.1:4566/**`) in local QA; `remotePatterns` is configured in
-  `next.config.ts`.
+  `http://127.0.0.1:4566/**`) in local QA. `next.config.ts` sets
+  `images.remotePatterns` for those hosts and `images.dangerouslyAllowLocalIP`
+  so Next.js 16 can optimize LocalStack URLs that resolve to private IPs.
 - One LCP image per page (hero car photo) gets `priority`.
 - `next/font` with `display: "swap"`; no CSS `@import` fonts.
 - Defer booking form and calendar with `next/dynamic`.

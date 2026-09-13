@@ -60,7 +60,9 @@ Response: `{ data: Company[], page: { total, nextCursor } }`
 
 Query params: `?q=` (search by name/location), `?location=&from=&to=`, `?cursor=&limit=`.
 
-Returns companies where `isPublic = true`. Seed companies for
+Returns companies where `isPublic = true`. The current API seed exposes **3 `isPublic` companies** (2 in Málaga
+province). A sparse marketplace directory is expected until more companies
+are published — not a client filter bug. Seed companies for
 `location=malaga` include `med-rentacar` and `benetti-cars`.
 
 Company fields include `slug`, branding, `location` / `locationSlug`, optional
