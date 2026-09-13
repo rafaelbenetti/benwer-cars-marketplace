@@ -1,0 +1,417 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Benwer Cars Public API",
+    "version": "1.0.0",
+    "description": "Unauthenticated /v1/public/* contract used by the marketplace. Hand-maintained from the live API plus swagger definitions until public paths land in swagger/doc.json."
+  },
+  "servers": [
+    { "url": "http://localhost:8080" },
+    { "url": "https://cars-api.benwer.es" }
+  ],
+  "paths": {
+    "/v1/public/companies": {
+      "get": {
+        "operationId": "listPublicCompanies",
+        "parameters": [
+          { "name": "q", "in": "query", "schema": { "type": "string" } },
+          { "name": "location", "in": "query", "schema": { "type": "string" } },
+          { "name": "from", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "to", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public companies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "type": "array", "items": { "$ref": "#/components/schemas/PublicCompany" } },
+                    { "$ref": "#/components/schemas/PublicCompanyPage" },
+                    { "type": "null" }
+                  ]
+                }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Problem" }
+        }
+      }
+    },
+    "/v1/public/companies/{slug}": {
+      "get": {
+        "operationId": "getPublicCompany",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company profile",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PublicCompany" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Problem" }
+        }
+      }
+    },
+    "/v1/public/companies/{slug}/vehicles": {
+      "get": {
+        "operationId": "listPublicVehicles",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "q", "in": "query", "schema": { "type": "string" } },
+          { "name": "type", "in": "query", "schema": { "type": "string" } },
+          { "name": "category", "in": "query", "schema": { "type": "string" } },
+          { "name": "seats", "in": "query", "schema": { "type": "integer" } },
+          { "name": "minSeats", "in": "query", "schema": { "type": "integer" } },
+          { "name": "transmission", "in": "query", "schema": { "type": "string" } },
+          { "name": "from", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "to", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "sort", "in": "query", "schema": { "type": "string" } },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public vehicles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "type": "array", "items": { "$ref": "#/components/schemas/PublicVehicle" } },
+                    { "$ref": "#/components/schemas/PublicVehiclePage" },
+                    { "type": "null" }
+                  ]
+                }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Problem" }
+        }
+      }
+    },
+    "/v1/public/companies/{slug}/vehicles/{id}": {
+      "get": {
+        "operationId": "getPublicVehicle",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle detail",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PublicVehicle" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Problem" }
+        }
+      }
+    },
+    "/v1/public/companies/{slug}/availability": {
+      "get": {
+        "operationId": "getPublicAvailability",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "from", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } },
+          { "name": "to", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } },
+          { "name": "vehicleId", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Availability for a vehicle or fleet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/PublicAvailability" },
+                    { "type": "array", "items": { "$ref": "#/components/schemas/PublicAvailability" } },
+                    { "$ref": "#/components/schemas/PublicAvailabilityPage" }
+                  ]
+                }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Problem" }
+        }
+      }
+    },
+    "/v1/public/companies/{slug}/reservations": {
+      "post": {
+        "operationId": "createPublicReservation",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateGuestReservation" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created reservation",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PublicReservation" }
+              }
+            }
+          },
+          "201": {
+            "description": "Created reservation",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PublicReservation" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Problem" }
+        }
+      }
+    },
+    "/v1/public/reservations/{token}": {
+      "get": {
+        "operationId": "getPublicReservation",
+        "parameters": [
+          { "name": "token", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reservation by public token",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PublicReservation" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Problem" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PublicCompanyBranding": {
+        "type": "object",
+        "properties": {
+          "primaryColor": { "type": "string" },
+          "logoUrl": { "type": "string", "nullable": true }
+        }
+      },
+      "PublicCompany": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "slug": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "location": { "type": "string", "nullable": true },
+          "locationSlug": { "type": "string", "nullable": true },
+          "city": { "type": "string", "nullable": true },
+          "citySlug": { "type": "string", "nullable": true },
+          "latitude": { "type": "number", "nullable": true },
+          "longitude": { "type": "number", "nullable": true },
+          "vehicleCount": { "type": "integer", "nullable": true },
+          "fleetSize": { "type": "integer", "nullable": true },
+          "isPublic": { "type": "boolean" },
+          "defaultLocale": { "type": "string" },
+          "currency": { "type": "string" },
+          "branding": { "$ref": "#/components/schemas/PublicCompanyBranding" }
+        }
+      },
+      "PublicCompanyPage": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PublicCompany" }
+          },
+          "page": { "$ref": "#/components/schemas/Page" }
+        }
+      },
+      "PublicPhoto": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string" },
+          "src": { "type": "string" },
+          "href": { "type": "string" },
+          "photoUrl": { "type": "string" }
+        }
+      },
+      "PublicVehicle": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "companySlug": { "type": "string" },
+          "companyName": { "type": "string" },
+          "make": { "type": "string" },
+          "brand": { "type": "string" },
+          "model": { "type": "string" },
+          "year": { "type": "integer" },
+          "color": { "type": "string" },
+          "fuelType": { "type": "string" },
+          "fuel": { "type": "string" },
+          "category": { "type": "string" },
+          "type": { "type": "string" },
+          "dailyRate": { "type": "number" },
+          "pricePerDay": { "type": "number" },
+          "deposit": { "type": "number" },
+          "seats": { "type": "integer", "nullable": true },
+          "transmission": { "type": "string", "nullable": true },
+          "description": { "type": "string", "nullable": true },
+          "currency": { "type": "string" },
+          "photos": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "oneOf": [
+                { "type": "string" },
+                { "$ref": "#/components/schemas/PublicPhoto" }
+              ]
+            }
+          },
+          "photoUrl": { "type": "string", "nullable": true },
+          "imageUrl": { "type": "string", "nullable": true },
+          "available": { "type": "boolean" },
+          "status": { "type": "string" },
+          "isPublic": { "type": "boolean" }
+        }
+      },
+      "PublicVehiclePage": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PublicVehicle" }
+          },
+          "page": { "$ref": "#/components/schemas/Page" }
+        }
+      },
+      "AvailabilityConflict": {
+        "type": "object",
+        "properties": {
+          "startDate": { "type": "string" },
+          "endDate": { "type": "string" },
+          "reservationId": { "type": "string" }
+        }
+      },
+      "PublicAvailability": {
+        "type": "object",
+        "properties": {
+          "vehicleId": { "type": "string" },
+          "available": { "type": "boolean" },
+          "unavailableDates": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "conflicts": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AvailabilityConflict" }
+          }
+        }
+      },
+      "PublicAvailabilityPage": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PublicAvailability" }
+          },
+          "page": { "$ref": "#/components/schemas/Page" }
+        }
+      },
+      "CreateGuestReservation": {
+        "type": "object",
+        "required": ["vehicleId", "startDate", "endDate", "guestName", "guestEmail", "guestPhone"],
+        "properties": {
+          "vehicleId": { "type": "string" },
+          "startDate": { "type": "string", "format": "date" },
+          "endDate": { "type": "string", "format": "date" },
+          "guestName": { "type": "string" },
+          "guestEmail": { "type": "string", "format": "email" },
+          "guestPhone": { "type": "string" }
+        }
+      },
+      "PublicCustomer": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "phone": { "type": "string" },
+          "phoneNumber": { "type": "string" }
+        }
+      },
+      "PublicReservation": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "token": { "type": "string" },
+          "status": { "type": "string" },
+          "vehicleId": { "type": "string" },
+          "startDate": { "type": "string" },
+          "endDate": { "type": "string" },
+          "totalPrice": { "type": "number" },
+          "grandTotal": { "type": "number" },
+          "totalAmount": { "type": "number" },
+          "total": { "type": "number" },
+          "currency": { "type": "string" },
+          "guestName": { "type": "string" },
+          "guestEmail": { "type": "string" },
+          "guestPhone": { "type": "string" },
+          "companySlug": { "type": "string" },
+          "createdAt": { "type": "string" },
+          "customer": { "$ref": "#/components/schemas/PublicCustomer" },
+          "vehicle": { "$ref": "#/components/schemas/PublicVehicle" },
+          "company": { "$ref": "#/components/schemas/PublicCompany" }
+        }
+      },
+      "Page": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "integer" },
+          "nextCursor": { "type": "string", "nullable": true }
+        }
+      },
+      "FieldError": {
+        "type": "object",
+        "properties": {
+          "field": { "type": "string" },
+          "code": { "type": "string" }
+        }
+      },
+      "Problem": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "title": { "type": "string" },
+          "status": { "type": "integer" },
+          "code": { "type": "string" },
+          "detail": { "type": "string" },
+          "errors": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FieldError" }
+          }
+        }
+      }
+    },
+    "responses": {
+      "Problem": {
+        "description": "RFC 9457 problem details",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Problem" }
+          }
+        }
+      }
+    }
+  }
+}

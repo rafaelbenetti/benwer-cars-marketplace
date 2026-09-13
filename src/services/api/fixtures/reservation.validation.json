@@ -1,0 +1,33 @@
+{
+  "type": "about:blank",
+  "title": "Bad Request",
+  "status": 400,
+  "code": "validation_error",
+  "detail": "request failed validation",
+  "errors": [
+    {
+      "field": "guestName",
+      "code": "required"
+    },
+    {
+      "field": "guestEmail",
+      "code": "required"
+    },
+    {
+      "field": "guestPhone",
+      "code": "required"
+    },
+    {
+      "field": "vehicleID",
+      "code": "required"
+    },
+    {
+      "field": "startDate",
+      "code": "required"
+    },
+    {
+      "field": "endDate",
+      "code": "required"
+    }
+  ]
+}

@@ -2,11 +2,10 @@ import type {
   CreateGuestReservationPayload,
   GuestReservation,
 } from "@/types/reservation";
-import { apiClient } from "./client";
+import { getOpenApiClient } from "./client";
 import { withMockFallback } from "./fallback";
 import { mapReservation } from "./mappers";
 import { mockReservationsApi } from "./mock";
-import { PublicApiPaths } from "./paths";
 
 export const reservationsApi = {
   create(
@@ -15,9 +14,12 @@ export const reservationsApi = {
   ): Promise<GuestReservation> {
     return withMockFallback(
       () =>
-        apiClient
-          .post(PublicApiPaths.reservations(companySlug), payload)
-          .then(mapReservation),
+        getOpenApiClient()
+          .POST("/v1/public/companies/{slug}/reservations", {
+            params: { path: { slug: companySlug } },
+            body: payload,
+          })
+          .then(({ data }) => mapReservation(data, companySlug)),
       () => mockReservationsApi.create(companySlug, payload),
       "reservations.create",
     );
@@ -26,9 +28,11 @@ export const reservationsApi = {
   getByToken(token: string): Promise<GuestReservation> {
     return withMockFallback(
       () =>
-        apiClient
-          .get(PublicApiPaths.reservationByToken(token))
-          .then(mapReservation),
+        getOpenApiClient()
+          .GET("/v1/public/reservations/{token}", {
+            params: { path: { token } },
+          })
+          .then(({ data }) => mapReservation(data)),
       () => mockReservationsApi.getByToken(token),
       "reservations.lookup",
     );

@@ -150,6 +150,27 @@ export function getCityBySlug(slug: string): MalagaCity | null {
   return MALAGA_CITIES.find((city) => city.slug === slug) ?? null;
 }
 
+export function getCityByName(value: string | null | undefined): MalagaCity | null {
+  if (!value) {
+    return null;
+  }
+
+  const normalized = normalizeSearch(value.trim());
+  if (!normalized) {
+    return null;
+  }
+
+  return (
+    MALAGA_CITIES.find((city) => city.slug === normalized) ??
+    MALAGA_CITIES.find(
+      (city) =>
+        normalizeSearch(city.nameEn) === normalized ||
+        normalizeSearch(city.nameEs) === normalized,
+    ) ??
+    null
+  );
+}
+
 export function getMappableCity(slug: string): MappableMalagaCity | null {
   const city = getCityBySlug(slug);
   const coordinates = getCityCoordinates(slug);

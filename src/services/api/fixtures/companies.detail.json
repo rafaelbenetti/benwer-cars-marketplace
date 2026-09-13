@@ -1,0 +1,12 @@
+{
+  "id": "c0000000-0000-7000-8000-000000000001",
+  "slug": "med-rentacar",
+  "name": "Autoalquiler Mediterr\u00e1neo",
+  "isPublic": true,
+  "branding": {
+    "primaryColor": "#7c3aed",
+    "logoUrl": null
+  },
+  "defaultLocale": "es-ES",
+  "currency": "EUR"
+}

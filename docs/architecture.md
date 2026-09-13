@@ -113,15 +113,17 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
 ### Current client
 
 `src/services/api/client.ts` exposes:
-- `apiClient.get/post<T>` — live HTTP client. Browser uses `NEXT_PUBLIC_API_URL`
-  (typically the `/api` rewrite); the server prefers `API_ORIGIN`. Requests use
-  `cache: "no-store"`.
+- `getOpenApiClient()` — `openapi-fetch` client typed from `schema.d.ts`
+  (`npm run generate:api`). No credentials middleware; public routes only.
+  Browser uses `NEXT_PUBLIC_API_URL` (typically the `/api` rewrite); the server
+  prefers `API_ORIGIN`. Requests use `cache: "no-store"`.
 - `mockClient.get<T>(path)` — reads `public/mock-data/*.json`.
 
 Services call live first when an API URL is configured, via `withMockFallback`.
-Network failures, timeouts, 5xx, and 4xx without an RFC 9457 `code` fall back to
-mock data so local/demo still works. Domain errors (`company.not_found`,
-`reservation.overlap`, field validation) are **not** swallowed.
+Mock is used only when the live URL is unset or the API is clearly unreachable
+(network / DNS / timeout). HTTP 4xx and 5xx from a reachable API are surfaced
+as `ApiError`. Mappers accept live field names (`make`, `dailyRate`, `fuelType`,
+`category`, `{ available, conflicts }`) and the api-plan aliases.
 
 ## Per-tenant branding
 

@@ -1,3 +1,4 @@
+import { getCityByName, getCityBySlug } from "@/data/malagaCities";
 import {
   FuelType,
   ReservationStatus,
@@ -5,7 +6,8 @@ import {
   VehicleStatus,
   VehicleType,
 } from "@/enums";
-import type { AvailabilityRange } from "@/types/availability";
+import { listingRangeDates } from "@/lib/dates";
+import type { AvailabilityQuery, AvailabilityRange } from "@/types/availability";
 import type { Company } from "@/types/company";
 import type { GuestReservation } from "@/types/reservation";
 import type { Vehicle } from "@/types/vehicle";
@@ -15,7 +17,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function readString(value: unknown): string | undefined {
-  return typeof value === "string" ? value : undefined;
+  return typeof value === "string" && value.trim() ? value : undefined;
 }
 
 function readNumber(value: unknown): number | undefined {
@@ -31,7 +33,7 @@ function readStringArray(value: unknown): string[] | undefined {
     return undefined;
   }
 
-  return value.filter((item): item is string => typeof item === "string");
+  return value.filter((item): item is string => typeof item === "string" && item.length > 0);
 }
 
 export function unwrapList<T>(payload: unknown): T[] {
@@ -112,17 +114,73 @@ function mapReservationStatus(status: string | undefined): ReservationStatus {
   return ReservationStatus.CONFIRMED;
 }
 
+function inferLocationSlug(
+  locationSlug: string | undefined,
+  location: string | undefined,
+): string | null {
+  if (locationSlug && getCityBySlug(locationSlug)) {
+    return locationSlug;
+  }
+
+  return getCityByName(locationSlug)?.slug ?? getCityByName(location)?.slug ?? null;
+}
+
+function readPhotoUrl(value: unknown): string | undefined {
+  if (typeof value === "string" && value.trim()) {
+    return value;
+  }
+
+  if (!isRecord(value)) {
+    return undefined;
+  }
+
+  return (
+    readString(value.url) ??
+    readString(value.src) ??
+    readString(value.href) ??
+    readString(value.photoUrl)
+  );
+}
+
+function readPhotos(row: Record<string, unknown>): string[] {
+  const collected: string[] = [];
+
+  if (Array.isArray(row.photos)) {
+    for (const item of row.photos) {
+      const url = readPhotoUrl(item);
+      if (url) {
+        collected.push(url);
+      }
+    }
+  }
+
+  const single = readString(row.photoUrl) ?? readString(row.imageUrl);
+  if (single) {
+    collected.push(single);
+  }
+
+  return [...new Set(collected)];
+}
+
 export function mapCompany(raw: unknown): Company {
   const row = isRecord(raw) ? raw : {};
   const branding = isRecord(row.branding) ? row.branding : {};
+  const location =
+    readString(row.location) ??
+    readString(row.city) ??
+    null;
+  const locationSlug = inferLocationSlug(
+    readString(row.locationSlug) ?? readString(row.citySlug),
+    location ?? undefined,
+  );
 
   return {
     id: readString(row.id) ?? readString(row.slug) ?? "",
     slug: readString(row.slug) ?? "",
     name: readString(row.name) ?? readString(row.slug) ?? "",
     description: readString(row.description) ?? null,
-    location: readString(row.location) ?? null,
-    locationSlug: readString(row.locationSlug) ?? null,
+    location,
+    locationSlug,
     vehicleCount: readNumber(row.vehicleCount) ?? readNumber(row.fleetSize) ?? null,
     isPublic: readBoolean(row.isPublic) ?? true,
     branding: {
@@ -132,7 +190,14 @@ export function mapCompany(raw: unknown): Company {
   };
 }
 
-export function mapVehicle(raw: unknown, fallbackSlug?: string): Vehicle {
+export interface VehicleMapOptions {
+  companySlug?: string;
+  currency?: string;
+}
+
+export function mapVehicle(raw: unknown, options?: VehicleMapOptions | string): Vehicle {
+  const fallbackSlug = typeof options === "string" ? options : options?.companySlug;
+  const fallbackCurrency = typeof options === "string" ? undefined : options?.currency;
   const row = isRecord(raw) ? raw : {};
 
   return {
@@ -146,42 +211,98 @@ export function mapVehicle(raw: unknown, fallbackSlug?: string): Vehicle {
     fuel: mapFuel(readString(row.fuel) ?? readString(row.fuelType)),
     seats: readNumber(row.seats) ?? 5,
     pricePerDay: readNumber(row.pricePerDay) ?? readNumber(row.dailyRate) ?? 0,
-    currency: readString(row.currency) || "EUR",
+    currency: readString(row.currency) || fallbackCurrency || "EUR",
     status: mapVehicleStatus(readString(row.status), readBoolean(row.available)),
     isPublic: readBoolean(row.isPublic) ?? true,
-    photos: readStringArray(row.photos) ?? [],
+    photos: readPhotos(row),
     description: readString(row.description) ?? null,
   };
 }
 
-export function mapReservation(raw: unknown): GuestReservation {
+export function mapReservation(raw: unknown, fallbackSlug?: string): GuestReservation {
   const row = isRecord(raw) ? raw : {};
+  const customer = isRecord(row.customer) ? row.customer : {};
+  const companySlug =
+    readString(row.companySlug) ??
+    (isRecord(row.company) ? readString(row.company.slug) : undefined) ??
+    fallbackSlug ??
+    "";
 
   return {
     id: readString(row.id) ?? readString(row.token) ?? "",
-    token: readString(row.token) ?? "",
+    token: readString(row.token) ?? readString(row.id) ?? "",
     status: mapReservationStatus(readString(row.status)),
-    vehicleId: readString(row.vehicleId) ?? "",
+    vehicleId: readString(row.vehicleId) ?? readString(row.vehicleID) ?? "",
     startDate: readString(row.startDate) ?? "",
     endDate: readString(row.endDate) ?? "",
-    totalPrice: readNumber(row.totalPrice) ?? readNumber(row.total) ?? 0,
+    totalPrice:
+      readNumber(row.totalPrice) ??
+      readNumber(row.grandTotal) ??
+      readNumber(row.totalAmount) ??
+      readNumber(row.total) ??
+      0,
     currency: readString(row.currency) || "EUR",
-    guestName: readString(row.guestName) ?? "",
-    guestEmail: readString(row.guestEmail) ?? "",
-    guestPhone: readString(row.guestPhone) ?? "",
-    companySlug: readString(row.companySlug) ?? "",
+    guestName: readString(row.guestName) ?? readString(customer.name) ?? "",
+    guestEmail: readString(row.guestEmail) ?? readString(customer.email) ?? "",
+    guestPhone:
+      readString(row.guestPhone) ??
+      readString(customer.phone) ??
+      readString(customer.phoneNumber) ??
+      "",
+    companySlug,
     createdAt: readString(row.createdAt) ?? new Date().toISOString(),
-    vehicle: row.vehicle ? mapVehicle(row.vehicle, readString(row.companySlug)) : null,
+    vehicle: row.vehicle ? mapVehicle(row.vehicle, companySlug) : null,
     company: row.company ? mapCompany(row.company) : null,
   };
 }
 
-export function mapAvailability(raw: unknown): AvailabilityRange {
+function datesFromConflicts(conflicts: unknown): string[] {
+  if (!Array.isArray(conflicts)) {
+    return [];
+  }
+
+  const dates = new Set<string>();
+
+  for (const item of conflicts) {
+    if (!isRecord(item)) {
+      continue;
+    }
+
+    const from = readString(item.startDate);
+    const to = readString(item.endDate);
+    if (!from || !to) {
+      continue;
+    }
+
+    for (const date of listingRangeDates(from, to)) {
+      dates.add(date);
+    }
+  }
+
+  return [...dates];
+}
+
+export function mapAvailability(
+  raw: unknown,
+  range?: Pick<AvailabilityQuery, "from" | "to">,
+): AvailabilityRange {
   const row = isRecord(raw) ? raw : {};
+  const explicit = readStringArray(row.unavailableDates) ?? [];
+  const fromConflicts = datesFromConflicts(row.conflicts);
+  const unavailable = [...new Set([...explicit, ...fromConflicts])];
+
+  if (
+    unavailable.length === 0 &&
+    readBoolean(row.available) === false &&
+    range?.from &&
+    range.to
+  ) {
+    unavailable.push(...listingRangeDates(range.from, range.to));
+  }
 
   return {
     vehicleId: readString(row.vehicleId) ?? "",
-    unavailableDates: readStringArray(row.unavailableDates) ?? [],
+    unavailableDates: unavailable,
   };
 }
 
@@ -191,14 +312,25 @@ export function mapCompanyList(payload: unknown): Company[] {
     .filter((company) => company.slug && company.isPublic);
 }
 
-export function mapVehicleList(payload: unknown, fallbackSlug?: string): Vehicle[] {
+export function mapVehicleList(
+  payload: unknown,
+  options?: VehicleMapOptions | string,
+): Vehicle[] {
   return unwrapList(payload)
-    .map((row) => mapVehicle(row, fallbackSlug))
+    .map((row) => mapVehicle(row, options))
     .filter((vehicle) => vehicle.id && vehicle.isPublic);
 }
 
-export function mapAvailabilityList(payload: unknown): AvailabilityRange[] {
+export function mapAvailabilityList(
+  payload: unknown,
+  range?: Pick<AvailabilityQuery, "from" | "to">,
+): AvailabilityRange[] {
+  if (isRecord(payload) && !Array.isArray(payload) && !Array.isArray(payload.data)) {
+    const row = mapAvailability(payload, range);
+    return row.vehicleId ? [row] : [];
+  }
+
   return unwrapList(payload)
-    .map(mapAvailability)
+    .map((row) => mapAvailability(row, range))
     .filter((row) => row.vehicleId);
 }

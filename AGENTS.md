@@ -95,9 +95,10 @@ mode** (no subdomain). To test tenant mode locally, set a custom `hosts` entry:
 
 ## Not yet scaffolded — build before importing
 
-- ❌ **MSW** — not set up; current client is `mockClient.get` over `public/mock-data/*.json`.
-- ❌ **Real typed API client** — `apiClient` shell exists; generate from OpenAPI spec once public endpoints are live.
-- ❌ **Vitest + RTL** — install before writing unit tests.
+- ❌ **MSW** — not set up; `mockClient.get` over `public/mock-data/*.json` remains the offline fallback.
+- ✅ **Typed public API client** — `openapi-fetch` + `src/services/api/schema.d.ts` (`npm run generate:api`).
+- ❌ **RTL** — install before writing component unit tests.
+- ✅ **Vitest** — mapper tests via `npm test`.
 - ❌ **Sentry** — `@/lib/logger` exists as a `console.error` wrapper; wire Sentry when configured.
 - ❌ **react-hook-form + zod** — install before building `BookingForm`.
 - ❌ **nuqs** — install before adding URL-synced filters.

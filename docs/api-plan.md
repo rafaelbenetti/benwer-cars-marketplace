@@ -215,3 +215,23 @@ Allow the marketplace origins: `marketplace.benwer.es`, `*.benwer.es`, and
 - [ ] All `/v1/public/` endpoints implemented, rate-limited, CORS-allowed.
 - [ ] Resend integration for guest reservation confirmation email.
 - [ ] Public endpoints in the OpenAPI spec (for client generation).
+
+---
+
+## 8. Live API notes (marketplace client, 2026-09-13)
+
+Recorded against `GET /v1/public/*` on the running API. Swagger
+(`/swagger/doc.json`) still documents **admin** routes only — public paths are
+not in the spec yet. The marketplace commits `openapi/public.json` and
+`src/services/api/fixtures/*` from these shapes.
+
+| Observed | Marketplace handling | API follow-up |
+| --- | --- | --- |
+| Companies are a bare array (`id`, `slug`, `name`, `isPublic`, `branding`, `defaultLocale`, `currency`). No `location`, `locationSlug`, `description`, `latitude`, `longitude`, `vehicleCount`. | Mapper keeps those fields optional. Location filter is client-side **only when** a company has `locationSlug` (inferred from `location` / city name when present). `from`/`to` company filtering fans out to each company's vehicles. | Add location + coordinates + fleet count; support `location` / `from` / `to` query params; paginate as `{ data, page }`. |
+| `GET /v1/public/companies?q=` works. `location` / `from` / `to` are ignored. | Send `q` only; apply the rest client-side. | Honour `location`, `from`, `to`, `cursor`, `limit`. |
+| Vehicles use `make`, `dailyRate`, `fuelType`, `category` (`economy` / `sedan` / `suv` / …), `available`. No `photos`, `currency`, `companySlug`, `brand`, `pricePerDay`. | Robust mapper + photo fallbacks. Currency defaults to `EUR`. | Align names or document aliases; add `photos` / `photoUrl`; include `companySlug` + `currency`. |
+| `type=suv` and `q=` work. `type=car` returns `null`. `seats`, `transmission`, `sort`, `limit` ignored. `from`/`to` filters booked cars. | Never send `type=car`. Send `q`, `from`, `to`, and `type` only for `suv`/`van`. Re-apply type/seats/transmission/sort client-side. Treat `null` as `[]`. | Accept marketplace `type=car` (economy+sedan); support seats/transmission/sort; never return bare `null`. |
+| Availability requires `vehicleId` and returns `{ available, vehicleId }` (optional `conflicts`), not `unavailableDates[]`. | Always send `vehicleId`. Expand `conflicts` or the queried window when `available: false`. | Add fleet-wide availability and `unavailableDates` (or keep conflicts and document them in swagger). |
+| `GET /v1/public/vehicles` is 404. Multi-company search is not a single endpoint. | Fan-out: companies list → per-company vehicles. | Add a public mixed-fleet search (or document that clients must fan-out). |
+| Reservation validation uses RFC 9457 + `errors[]` (`vehicleID`, `after_start`). Unknown vehicle currently 500 `internal_error`. | Field aliases + `after_start` → `reservation.invalid_dates`. Domain errors are not mocked away. | Return `404 vehicle.not_found` / `409 reservation.overlap`; publish create + token GET in swagger. |
+| Public routes are missing from swagger. | `npm run generate:api` uses `openapi/public.json` until swagger includes `/public/`. | Add public paths to `make swag`. |

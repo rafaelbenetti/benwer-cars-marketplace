@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Bike, Bus, Car, CarFront, ChevronRight, Fuel, Truck, Users, Zap } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
+import { CarPhoto } from "./CarPhoto";
 import { CompanyMark } from "./CompanyMark";
 import type { Company } from "@/types/company";
 import type { Vehicle } from "@/types/vehicle";
@@ -60,18 +60,16 @@ export function CarCard({
       )}
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-surface-muted">
-        {primaryPhoto ? (
-          <Image
-            src={primaryPhoto}
-            alt={name}
-            fill
-            priority={priority}
-            className="object-cover transition-transform duration-200 motion-safe:group-hover:scale-[1.03]"
-            sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 100vw"
-          />
-        ) : (
-          <CarPhotoFallback type={vehicle.type} emptyLabel={tDetail("photoEmpty")} />
-        )}
+        <CarPhoto
+          src={primaryPhoto}
+          alt={name}
+          priority={priority}
+          className="object-cover transition-transform duration-200 motion-safe:group-hover:scale-[1.03]"
+          sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 100vw"
+          fallback={
+            <CarPhotoFallback type={vehicle.type} emptyLabel={tDetail("photoEmpty")} />
+          }
+        />
         <Badge
           variant="default"
           className="absolute left-3 top-3 border border-border bg-surface/90 backdrop-blur-sm"
