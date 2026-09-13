@@ -2,23 +2,24 @@
 
 import { Suspense, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { SlidersHorizontal } from "lucide-react";
+import { Car, SlidersHorizontal } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCompanies } from "@/hooks/useCompanies";
 import { useMarketplaceVehicles } from "@/hooks/useMarketplaceVehicles";
 import { CarGridSkeleton, CarGridView } from "./CarGrid";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { FilterRail, FilterRailSkeleton } from "./FilterRail";
 import { Button } from "@/components/ui/Button";
 import { Sheet } from "@/components/ui/Sheet";
 import { Skeleton } from "@/components/ui/Skeleton";
 import {
-  getCityBySlug,
-  getCityDisplayName,
   isProvinceWideLocation,
   resolveCitySlug,
 } from "@/data/malagaCities";
 import { NavRoutes, SearchParams } from "@/enums";
 import { formatSearchDate, hasCompleteSearchDates, parseIsoDate } from "@/lib/dates";
+import { resolveCardCompany } from "@/lib/companyIdentity";
+import { locationLabelFromSlug } from "@/lib/locationOptions";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
 import {
   applyVehicleFilters,
@@ -27,7 +28,6 @@ import {
   parseBrowseParams,
   parseVehicleFilters,
 } from "@/lib/vehicleFilters";
-import type { MarketplaceVehicle } from "@/types/vehicle";
 import type { Vehicle } from "@/types/vehicle";
 
 const RESULTS_GRID_CLASS = "sm:grid-cols-2 xl:grid-cols-3";
@@ -68,11 +68,13 @@ function MarketplaceCarListContent() {
   const fromDate = filters.from ? parseIsoDate(filters.from) : null;
   const toDate = filters.to ? parseIsoDate(filters.to) : null;
   const count = data?.length ?? 0;
-  const city = !isProvinceWideLocation(location) ? getCityBySlug(location) : null;
-  const placeLabel = city
+  const cityLabel = !isProvinceWideLocation(location)
+    ? locationLabelFromSlug(location, locale)
+    : null;
+  const placeLabel = cityLabel
     ? t("resultsInCity", {
         count,
-        city: getCityDisplayName(city, locale),
+        city: cityLabel,
       })
     : t("resultsInProvince", { count });
   const resultsLabel =
@@ -102,8 +104,7 @@ function MarketplaceCarListContent() {
   }
 
   function companyFor(vehicle: Vehicle) {
-    const marketplaceVehicle = vehicle as MarketplaceVehicle;
-    return marketplaceVehicle.company ?? null;
+    return resolveCardCompany(vehicle, companiesQuery.data);
   }
 
   function clearAdvancedFilters() {
@@ -173,11 +174,18 @@ function MarketplaceCarListContent() {
               companyFor={companyFor}
               emptyTitle={t("searchEmptyTitle")}
               emptyHint={t("searchEmptyHint")}
-              emptyActionLabel={hasFilters ? t("clearFilters") : undefined}
+              emptyActionLabel={hasFilters ? t("clearFilters") : t("browseCompanies")}
+              emptyActionHref={hasFilters ? undefined : NavRoutes.COMPANIES}
               onClearFilters={hasFilters ? clearAdvancedFilters : undefined}
               className={RESULTS_GRID_CLASS}
             />
-          ) : null}
+          ) : (
+            <EmptyState
+              icon={<Car size={28} />}
+              title={t("datesRequiredTitle")}
+              description={t("datesRequiredHint")}
+            />
+          )}
         </div>
       </div>
       <Sheet

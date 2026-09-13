@@ -1,5 +1,6 @@
-import { Building2, CalendarDays, Search } from "lucide-react";
+import { ArrowUpRight, Building2, Search } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { cn } from "@/lib/utils";
 
 export async function HowItWorks() {
   const t = await getTranslations("howItWorks");
@@ -7,7 +8,7 @@ export async function HowItWorks() {
   const steps = [
     { icon: Search, title: t("searchTitle"), body: t("searchBody") },
     { icon: Building2, title: t("compareTitle"), body: t("compareBody") },
-    { icon: CalendarDays, title: t("bookTitle"), body: t("bookBody") },
+    { icon: ArrowUpRight, title: t("continueTitle"), body: t("continueBody") },
   ];
 
   return (
@@ -19,22 +20,31 @@ export async function HowItWorks() {
       <ol className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
         {steps.map((step, index) => {
           const Icon = step.icon;
+          const isLast = index === steps.length - 1;
+
           return (
             <li
               key={step.title}
-              className="flex gap-4 rounded-xl border border-border bg-surface p-5"
+              className={cn(
+                "relative overflow-hidden rounded-2xl border border-primary/15 bg-surface p-5 shadow-sm",
+                isLast && "bg-gradient-to-br from-surface via-surface to-primary/10",
+              )}
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <Icon size={18} aria-hidden />
-              </span>
-              <div className="min-w-0">
-                <p className="text-xs font-medium uppercase tracking-wider text-subtle-foreground">
+              <span
+                aria-hidden
+                className="absolute left-0 top-0 h-full w-1 bg-primary"
+              />
+              <div className="flex gap-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
                   {index + 1}
-                </p>
-                <h3 className="mt-1 text-base font-semibold text-foreground">
-                  {step.title}
-                </h3>
-                <p className="mt-1 text-sm text-muted-foreground">{step.body}</p>
+                </span>
+                <div className="min-w-0">
+                  <p className="flex items-center gap-1.5 text-base font-semibold text-foreground">
+                    {step.title}
+                    <Icon size={16} className="text-primary" aria-hidden />
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground">{step.body}</p>
+                </div>
               </div>
             </li>
           );

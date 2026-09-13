@@ -71,8 +71,6 @@ function MarketplaceSearchForm({
       router.push(
         buildCompaniesSearchHref({
           location: location || DEFAULT_CITY_SLUG,
-          from,
-          to,
           view,
         }),
       );
@@ -94,34 +92,43 @@ function MarketplaceSearchForm({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "w-full rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
+        "w-full rounded-2xl border-2 border-primary/30 bg-surface p-2 shadow-[0_22px_50px_color-mix(in_oklab,var(--foreground)_20%,transparent),0_10px_28px_color-mix(in_oklab,var(--primary)_18%,transparent)] md:p-2.5",
         className,
       )}
     >
       <div className="flex flex-col gap-1 md:flex-row md:items-stretch md:gap-0">
         <div className="min-w-0 md:flex-1">
-          <CityCombobox value={location} onChange={setLocation} />
+          <CityCombobox
+            value={location}
+            onChange={setLocation}
+            from={target === "cars" ? from : undefined}
+            to={target === "cars" ? to : undefined}
+          />
         </div>
-        <div
-          aria-hidden
-          className="bg-border h-px w-full md:mx-0 md:my-1.5 md:h-auto md:w-px md:self-stretch"
-        />
-        <DateRangePopover
-          from={from}
-          to={to}
-          required={requireDates}
-          invalid={showDateHint && !hasDates}
-          open={isDatesOpen}
-          onOpenChange={handleDatesOpenChange}
-          describedBy={dateHint ? hintId : undefined}
-          onChange={(next) => {
-            setFrom(next.from);
-            setTo(next.to);
-            if (hasCompleteSearchDates(next.from, next.to)) {
-              setShowDateHint(false);
-            }
-          }}
-        />
+        {target === "cars" ? (
+          <>
+            <div
+              aria-hidden
+              className="bg-border h-px w-full md:mx-0 md:my-1.5 md:h-auto md:w-px md:self-stretch"
+            />
+            <DateRangePopover
+              from={from}
+              to={to}
+              required={requireDates}
+              invalid={showDateHint && !hasDates}
+              open={isDatesOpen}
+              onOpenChange={handleDatesOpenChange}
+              describedBy={dateHint ? hintId : undefined}
+              onChange={(next) => {
+                setFrom(next.from);
+                setTo(next.to);
+                if (hasCompleteSearchDates(next.from, next.to)) {
+                  setShowDateHint(false);
+                }
+              }}
+            />
+          </>
+        ) : null}
         <div className="md:ml-1.5 md:self-center">
           <Button
             type="submit"
@@ -170,18 +177,25 @@ export function MarketplaceSearchBar({
   );
 }
 
-export function MarketplaceSearchBarFallback({ className }: MarketplaceSearchBarProps) {
+export function MarketplaceSearchBarFallback({
+  className,
+  target = "cars",
+}: MarketplaceSearchBarProps) {
   return (
     <div
       className={cn(
-        "w-full rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
+        "w-full rounded-2xl border-2 border-primary/30 bg-surface p-2 shadow-[0_22px_50px_color-mix(in_oklab,var(--foreground)_20%,transparent),0_10px_28px_color-mix(in_oklab,var(--primary)_18%,transparent)] md:p-2.5",
         className,
       )}
     >
       <div className="flex flex-col gap-2 md:flex-row md:items-center">
         <Skeleton className="h-11 w-full md:flex-1" />
-        <Skeleton className="h-11 w-full md:flex-1" />
-        <Skeleton className="h-11 w-full md:flex-1" />
+        {target === "cars" ? (
+          <>
+            <Skeleton className="h-11 w-full md:flex-1" />
+            <Skeleton className="h-11 w-full md:flex-1" />
+          </>
+        ) : null}
         <Skeleton className="h-11 w-full md:w-28" />
       </div>
     </div>

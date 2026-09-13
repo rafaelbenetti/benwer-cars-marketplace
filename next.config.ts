@@ -9,6 +9,9 @@ const LOCALSTACK_ORIGIN = process.env.LOCALSTACK_ORIGIN ?? "http://localhost:456
 const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowLocalIP: true,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: "https",

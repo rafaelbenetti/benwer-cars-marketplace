@@ -1,16 +1,20 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { toPublicMediaSrc } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import type { Company } from "@/types/company";
 
 interface CompanyMarkProps {
   company: Pick<Company, "name" | "branding">;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
 const SIZE_CLASS = {
-  sm: "h-5 w-5 rounded-md text-[10px]",
+  sm: "h-7 w-7 rounded-lg text-[11px]",
   md: "h-12 w-12 rounded-xl text-lg",
+  lg: "h-14 w-14 rounded-xl text-xl",
 } as const;
 
 export function CompanyMark({
@@ -18,28 +22,32 @@ export function CompanyMark({
   size = "md",
   className,
 }: CompanyMarkProps) {
-  const initial = company.name.trim().charAt(0).toUpperCase() || "?";
+  const [failed, setFailed] = useState(false);
+  const logoSrc = company.branding.logoUrl
+    ? toPublicMediaSrc(company.branding.logoUrl)
+    : null;
 
-  if (company.branding.logoUrl) {
+  if (logoSrc && !failed) {
     return (
       <span
         className={cn(
-          "relative shrink-0 overflow-hidden border border-border bg-surface",
+          "relative flex shrink-0 items-center justify-center overflow-hidden border border-border bg-surface",
           SIZE_CLASS[size],
           className,
         )}
       >
-        <Image
-          src={company.branding.logoUrl}
+        {/* eslint-disable-next-line @next/next/no-img-element -- SVG logos skip the next/image optimizer */}
+        <img
+          src={logoSrc}
           alt=""
-          fill
-          unoptimized
-          className="object-contain p-0.5"
-          sizes={size === "sm" ? "20px" : "48px"}
+          className="h-full w-full object-contain p-0.5"
+          onError={() => setFailed(true)}
         />
       </span>
     );
   }
+
+  const initial = company.name.trim().charAt(0).toUpperCase() || "?";
 
   return (
     <span

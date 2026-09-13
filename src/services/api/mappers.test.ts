@@ -79,6 +79,60 @@ describe("mapCompany", () => {
     });
     expect(withCity.locationSlug).toBe("torremolinos");
   });
+
+  it("keeps location slugs outside the Málaga city list", () => {
+    const company = mapCompany({
+      slug: "valencia-drive",
+      name: "Valencia Drive",
+      location: "Valencia",
+      locationSlug: "valencia",
+      isPublic: true,
+    });
+
+    expect(company.locationSlug).toBe("valencia");
+    expect(company.location).toBe("Valencia");
+  });
+
+  it("rewrites LocalStack logo hosts to same-origin /localstack paths", () => {
+    const company = mapCompany({
+      slug: "med-rentacar",
+      name: "Autoalquiler Mediterráneo",
+      branding: {
+        primaryColor: "#7c3aed",
+        logoUrl: "http://localhost:4566/public-benwer-cars/seed/logos/med-rentacar.svg",
+      },
+    });
+
+    expect(company.branding.logoUrl).toBe(
+      "/localstack/public-benwer-cars/seed/logos/med-rentacar.svg",
+    );
+  });
+
+  it("keeps same-origin logo paths for mock and public assets", () => {
+    const company = mapCompany({
+      slug: "denver-cars",
+      name: "Denver Cars",
+      branding: {
+        logoUrl: "/mock-data/logos/denver-cars.svg",
+      },
+    });
+
+    expect(company.branding.logoUrl).toBe("/mock-data/logos/denver-cars.svg");
+  });
+
+  it("maps optional website and contact fields when the API sends them", () => {
+    const company = mapCompany({
+      slug: "med-rentacar",
+      name: "Autoalquiler Mediterráneo",
+      websiteUrl: "https://med.example",
+      email: "hello@med.example",
+      phone: "+34 600 000 000",
+    });
+
+    expect(company.websiteUrl).toBe("https://med.example");
+    expect(company.email).toBe("hello@med.example");
+    expect(company.phone).toBe("+34 600 000 000");
+  });
 });
 
 describe("mapVehicleList", () => {
@@ -96,10 +150,32 @@ describe("mapVehicleList", () => {
       currency: "EUR",
       companySlug: "med-rentacar",
       photos: [],
+      color: "silver",
+      deposit: 140,
+      category: "economy",
     });
     expect(vehicles.find((vehicle) => vehicle.model === "Ateca")?.type).toBe(
       VehicleType.SUV,
     );
+  });
+
+  it("maps mileage from currentMileage when present", () => {
+    const vehicle = mapVehicle({
+      id: "v-mileage",
+      make: "Toyota",
+      model: "Corolla",
+      currentMileage: 18420,
+      color: "white",
+      deposit: 300,
+      category: "compact",
+    });
+
+    expect(vehicle).toMatchObject({
+      mileage: 18420,
+      color: "white",
+      deposit: 300,
+      category: "compact",
+    });
   });
 
   it("treats a null vehicle list as empty", () => {
@@ -130,12 +206,14 @@ describe("mapVehicleList", () => {
         "http://localhost:4566/public-benwer-cars/seed/cars/7.jpg",
         "http://127.0.0.1:4566/public-benwer-cars/seed/cars/8.jpg",
         "vehicles/bare-key.jpg",
+        "/mock-data/cars/kept.jpg",
       ],
     });
 
     expect(vehicle.photos).toEqual([
       "/localstack/public-benwer-cars/seed/cars/7.jpg",
       "/localstack/public-benwer-cars/seed/cars/8.jpg",
+      "/mock-data/cars/kept.jpg",
     ]);
   });
 

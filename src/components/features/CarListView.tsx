@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useCompany } from "@/hooks/useCompany";
 import { useVehicles } from "@/hooks/useVehicles";
 import { CarGridSkeleton, CarGridView } from "./CarGrid";
 import { DateRangePopover } from "./DateRangePopover";
@@ -12,6 +13,8 @@ import { Button } from "@/components/ui/Button";
 import { Sheet } from "@/components/ui/Sheet";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { formatSearchDate, parseIsoDate } from "@/lib/dates";
+import { resolveCardCompany } from "@/lib/companyIdentity";
+import { NavRoutes } from "@/enums";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
 import {
   applyVehicleFilters,
@@ -27,9 +30,14 @@ const RESULTS_GRID_CLASS = "sm:grid-cols-2 xl:grid-cols-3";
 interface CarListViewProps {
   companySlug: string;
   hrefBase: string;
+  showDirectoryEmptyAction?: boolean;
 }
 
-function CarListViewContent({ companySlug, hrefBase }: CarListViewProps) {
+function CarListViewContent({
+  companySlug,
+  hrefBase,
+  showDirectoryEmptyAction = false,
+}: CarListViewProps) {
   const t = useTranslations("cars");
   const locale = useLocale();
   const router = useRouter();
@@ -42,6 +50,8 @@ function CarListViewContent({ companySlug, hrefBase }: CarListViewProps) {
     companySlug,
     filters,
   );
+  const companyQuery = useCompany(companySlug);
+  const directory = companyQuery.data ? [companyQuery.data] : [];
 
   const hasFilters = hasActiveAdvancedFilters(filters);
   const appliedCount = countAdvancedFilters(filters);
@@ -140,7 +150,14 @@ function CarListViewContent({ companySlug, hrefBase }: CarListViewProps) {
             error={error}
             onRetry={refetch}
             buildHref={buildHref}
+            companyFor={(vehicle) => resolveCardCompany(vehicle, directory)}
             onClearFilters={hasFilters ? clearAdvancedFilters : undefined}
+            emptyActionLabel={
+              hasFilters || !showDirectoryEmptyAction ? undefined : t("browseCompanies")
+            }
+            emptyActionHref={
+              hasFilters || !showDirectoryEmptyAction ? undefined : NavRoutes.COMPANIES
+            }
             className={RESULTS_GRID_CLASS}
           />
         </div>
@@ -199,10 +216,18 @@ function CarListViewFallback() {
   );
 }
 
-export function CarListView({ companySlug, hrefBase }: CarListViewProps) {
+export function CarListView({
+  companySlug,
+  hrefBase,
+  showDirectoryEmptyAction,
+}: CarListViewProps) {
   return (
     <Suspense fallback={<CarListViewFallback />}>
-      <CarListViewContent companySlug={companySlug} hrefBase={hrefBase} />
+      <CarListViewContent
+        companySlug={companySlug}
+        hrefBase={hrefBase}
+        showDirectoryEmptyAction={showDirectoryEmptyAction}
+      />
     </Suspense>
   );
 }

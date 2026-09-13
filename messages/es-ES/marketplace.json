@@ -1,15 +1,24 @@
 {
   "home": {
     "title": "Encuentra tu coche perfecto",
-    "subtitle": "Compara flotas locales y reserva en minutos — sin crear cuenta.",
+    "subtitle": "Compara flotas locales y continúa en la web de la empresa de alquiler.",
     "searchPlaceholder": "¿A dónde vas?",
     "eyebrow": "Málaga · Costa del Sol",
     "companiesHeading": "Empresas destacadas",
     "companiesSubtitle": "Operadores locales de confianza en la provincia de Málaga",
     "trustLocal": "Empresas locales",
-    "trustGuest": "Reserva como invitado",
+    "trustGuest": "Alquila en la web de la empresa",
     "trustArea": "Provincia de Málaga",
     "viewAllCompanies": "Ver todas las empresas"
+  },
+  "partners": {
+    "eyebrow": "Para empresas de alquiler de coches",
+    "title": "Convierte los días vacíos en reservas",
+    "description": "Los viajeros ya buscan coches en Benwer. Mantén tu flota al día en el marketplace y llena los días que, de otro modo, quedarían vacíos.",
+    "cta": "Ver planes",
+    "ctaAria": "Ver planes en el sitio de Benwer (se abre en una pestaña nueva)",
+    "demo": "Ver demo en vivo",
+    "demoAria": "Ver la demo en vivo (se abre en una pestaña nueva)"
   },
   "seo": {
     "companyTitle": "{name} — Alquiler de coches",
@@ -28,22 +37,24 @@
   },
   "howItWorks": {
     "title": "Cómo funciona",
-    "subtitle": "Busca, compara y reserva en tres pasos.",
+    "subtitle": "Encuentra un coche aquí y alquila en la web de la empresa.",
     "searchTitle": "Busca",
     "searchBody": "Elige ubicación y fechas",
     "compareTitle": "Compara",
-    "compareBody": "Explora coches de todas las flotas locales",
-    "bookTitle": "Reserva",
-    "bookBody": "Confirma con tu nombre y correo"
+    "compareBody": "Explora coches de flotas locales",
+    "continueTitle": "Continúa",
+    "continueBody": "Termina en la web de la empresa de alquiler"
   },
   "search": {
     "locationLabel": "Lugar de recogida",
-    "locationPlaceholder": "Buscar ciudad o provincia",
-    "locationEmpty": "Ninguna ciudad coincide",
+    "locationPlaceholder": "Buscar ubicaciones",
+    "locationEmpty": "Ninguna ubicación coincide",
     "locationTrigger": "Lugar de recogida, {city}",
-    "cityListLabel": "Ubicaciones de la provincia de Málaga",
-    "provinceSelected": "Provincia de Málaga",
-    "provinceHint": "Todos los municipios",
+    "cityListLabel": "Ubicaciones con coches disponibles",
+    "allLocations": "Todas las ubicaciones",
+    "allLocationsHint": "Todas las ciudades con coches disponibles",
+    "provinceSelected": "Todas las ubicaciones",
+    "provinceHint": "Todas las ciudades con coches disponibles",
     "pickupLabel": "Recogida",
     "dropoffLabel": "Devolución",
     "pickupPlaceholder": "Añadir fecha",
@@ -78,7 +89,7 @@
     "loading": "Cargando empresas…",
     "errorDescription": "No se pudo cargar el mapa. Consulta la lista.",
     "emptyTitle": "No hay empresas en el mapa",
-    "emptyDescription": "Prueba con otra ciudad o fechas para ver flotas disponibles.",
+    "emptyDescription": "Prueba otra ciudad de la provincia de Málaga.",
     "resultsCount": "{count, plural, one {# empresa en la provincia de Málaga} other {# empresas en la provincia de Málaga}}",
     "resultsInCity": "{count, plural, one {# empresa en {city}} other {# empresas en {city}}}"
   },
@@ -88,7 +99,7 @@
     "searchEmptyHint": "Prueba otras fechas u otra ubicación en la provincia de Málaga. Todas las ciudades siguen en la lista, aunque hoy no haya flota.",
     "companiesSelected": "{count, plural, one {# empresa seleccionada} other {# empresas seleccionadas}}",
     "clearCompanies": "Quitar empresas",
-    "resultsInProvince": "{count, plural, one {# coche en la provincia de Málaga} other {# coches en la provincia de Málaga}}",
+    "resultsInProvince": "{count, plural, one {# coche en todas las ubicaciones} other {# coches en todas las ubicaciones}}",
     "resultsInCity": "{count, plural, one {# coche en {city}} other {# coches en {city}}}",
     "allCompanies": "Todas las empresas",
     "companyPlaceholder": "Buscar empresas",
@@ -102,8 +113,11 @@
     "resultsForDates": "{count, plural, one {# coche} other {# coches}} · {from} – {to}",
     "emptyTitle": "Aún no hay coches",
     "emptyHint": "Esta flota no tiene coches públicos ahora mismo.",
-    "noResults": "Ningún coche coincide con tus filtros.",
-    "noResultsHint": "Prueba a ajustar las fechas o los filtros.",
+    "noResults": "Ningún coche coincide con esta búsqueda",
+    "noResultsHint": "Prueba otras fechas, otra ubicación o menos filtros.",
+    "datesRequiredTitle": "Añade tus fechas de viaje",
+    "datesRequiredHint": "Elige las fechas de recogida y devolución para ver coches. También puedes cambiar la ubicación en la búsqueda de arriba.",
+    "browseCompanies": "Ver empresas",
     "clearFilters": "Borrar filtros",
     "searchPlaceholder": "Buscar coches",
     "showFilters": "Mostrar filtros",
@@ -142,6 +156,9 @@
   },
   "carDetail": {
     "bookNow": "Reservar ahora",
+    "continueOnCompany": "Continuar en {company}",
+    "rentOnCompanySite": "Alquilar en la web de la empresa",
+    "handoffHint": "Completarás el alquiler en la web de la empresa.",
     "pricePerDay": "{price} por día",
     "specs": "Especificaciones",
     "year": "Año",
@@ -173,7 +190,13 @@
     "photoIndex": "{current} / {total}",
     "photoAlt": "{name}, foto {index}",
     "backToFleet": "Volver a la flota",
-    "metaTitle": "Detalle del coche"
+    "metaTitle": "Detalle del coche",
+    "about": "Sobre este coche",
+    "category": "Categoría",
+    "color": "Color",
+    "deposit": "Fianza",
+    "mileage": "Kilometraje",
+    "mileageValue": "{count, number} km"
   },
   "booking": {
     "title": "Completa tu reserva",
@@ -272,13 +295,151 @@
     "subtitle": "Explora operadores locales de confianza en Málaga — en el mapa o en la lista",
     "searchPlaceholder": "Buscar empresas…",
     "noResults": "No se encontraron empresas",
-    "noResultsHint": "Prueba otras fechas u otra ubicación en la provincia de Málaga.",
+    "noResultsHint": "Prueba otra ubicación en la provincia de Málaga.",
     "emptyTitle": "Aún no hay empresas listadas",
     "emptyDescription": "Aún no hay empresas de alquiler listadas.",
     "clearFilters": "Borrar búsqueda",
     "viewFleet": "Ver flota",
+    "visitWebsite": "Visitar la web",
+    "contact": "Contactar",
     "backToList": "Todas las empresas",
     "notFoundTitle": "Empresa no encontrada",
-    "notFoundDescription": "Esta empresa no está listada. Explora otras cerca."
+    "notFoundDescription": "Esta empresa no está listada. Explora otras cerca.",
+    "browseCars": "Ver coches",
+    "featuredEmpty": "Aún no hay empresas destacadas",
+    "featuredEmptyHint": "Vuelve pronto o explora coches de flotas locales."
+  },
+  "contact": {
+    "title": "Contacto",
+    "lede": "¿Tienes preguntas sobre el marketplace? Envíanos un mensaje y te responderemos por correo.",
+    "bookingHint": "Este formulario no sirve para reservar. Para alquilar un coche, continúa en la web de la empresa.",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "submit": "Enviar mensaje",
+    "success": "Gracias — te responderemos por correo.",
+    "privacyNote": "Solo usamos estos datos para responderte.",
+    "errors": {
+      "nameMin": "Introduce tu nombre (al menos 2 caracteres).",
+      "email": "Introduce un correo electrónico válido.",
+      "subjectMin": "Introduce un asunto (al menos 3 caracteres).",
+      "messageMin": "Introduce un mensaje (al menos 10 caracteres)."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Política de privacidad",
+      "lede": "Cómo tratamos los datos personales cuando usas el marketplace de Benwer Cars.",
+      "updated": "Última actualización: 13 de septiembre de 2026",
+      "sections": [
+        {
+          "title": "Quiénes somos",
+          "body": "Benwer Cars («Benwer», «nosotros») opera un marketplace para viajeros que quieren descubrir flotas de alquiler en la provincia de Málaga.\n\nEsta política cubre solo el sitio del marketplace. Si continúas a la web de una empresa para reservar, esa empresa es responsable de los datos que envíes allí."
+        },
+        {
+          "title": "Qué hace este marketplace",
+          "body": "Puedes buscar coches y empresas, comparar datos públicos de las flotas y continuar en la web de la empresa para completar el alquiler.\n\nBenwer no cobra ni crea un contrato de alquiler en el marketplace. El contrato es entre tú y la empresa."
+        },
+        {
+          "title": "Datos que recopilamos",
+          "body": "Según cómo uses el marketplace, podemos tratar:\n\n• Datos de búsqueda y uso — ubicación y fechas que introduces, páginas que visitas e información técnica básica como IP, navegador y dispositivo.\n• Preferencia de idioma — se guarda como cookie estrictamente necesaria para mostrar inglés o español.\n• Consentimiento de cookies — se guarda en tu dispositivo para recordar tu elección.\n• Mensajes de contacto — nombre, correo, asunto y mensaje si nos escribes. Los etiquetamos como procedentes del marketplace.\n\nNo te pedimos crear una cuenta en el marketplace. Los datos de reserva y pago los recoge la empresa en su propia web, según su política de privacidad."
+        },
+        {
+          "title": "Cómo usamos los datos",
+          "body": "Usamos los datos personales para operar y mejorar el marketplace, recordar el idioma y las cookies, responder a los mensajes, mantener el servicio seguro y cumplir obligaciones legales.\n\nNo vendemos tus datos personales."
+        },
+        {
+          "title": "Bases jurídicas (EEE / Reino Unido)",
+          "body": "Cuando corresponda, nos apoyamos en el interés legítimo (mantener un directorio público y proteger el sitio), el consentimiento (cookies opcionales, si se introducen), la obligación legal y los pasos necesarios para responderte cuando nos contactas."
+        },
+        {
+          "title": "Con quién compartimos datos",
+          "body": "Podemos usar proveedores de confianza para el alojamiento y el envío de correo. Tratan los datos siguiendo nuestras instrucciones.\n\nSi continúas a la web de una empresa, esa empresa será la responsable de los datos que envíes allí. No reenviamos tu mensaje del formulario a las empresas de alquiler salvo que nos lo pidas."
+        },
+        {
+          "title": "Cookies",
+          "body": "Usamos una cookie de idioma estrictamente necesaria y guardamos tu elección de cookies en tu dispositivo. Consulta la política de cookies. Las cookies opcionales permanecen desactivadas salvo que las aceptes."
+        },
+        {
+          "title": "Conservación",
+          "body": "Conservamos los mensajes de contacto el tiempo necesario para responder y para un seguimiento razonable. Los registros técnicos se guardan poco tiempo. Tu elección de cookies se mantiene hasta que la cambies o borres los datos del sitio."
+        },
+        {
+          "title": "Tus derechos",
+          "body": "Según tu ubicación, puedes tener derecho a acceder, rectificar, borrar, limitar o portar tus datos, y a oponerte a ciertos tratamientos. También puedes reclamar ante tu autoridad de control.\n\nPara ejercer tus derechos, usa la página de contacto."
+        },
+        {
+          "title": "Transferencias internacionales",
+          "body": "Si los datos se transfieren fuera de tu país, usamos garantías adecuadas, como cláusulas contractuales tipo u otros mecanismos equivalentes cuando la ley lo exige."
+        },
+        {
+          "title": "Cambios",
+          "body": "Podemos actualizar esta política. Publicaremos la versión revisada en esta página y actualizaremos la fecha de «Última actualización»."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Términos de uso",
+      "lede": "Las normas para usar el marketplace de Benwer Cars y descubrir flotas de alquiler.",
+      "updated": "Última actualización: 13 de septiembre de 2026",
+      "sections": [
+        {
+          "title": "El marketplace",
+          "body": "Benwer Cars ofrece un directorio público de empresas de alquiler y de las flotas que publican. Puedes comparar coches y continuar en la web de la empresa para terminar el alquiler.\n\nEstos términos se aplican al sitio del marketplace. No sustituyen los términos de la empresa, que rigen cuando reservas con ella."
+        },
+        {
+          "title": "Las reservas son con las empresas",
+          "body": "Benwer no alquila coches, no cobra ni firma un contrato de alquiler en el marketplace.\n\nSi continúas a la web de una empresa, la reserva, la fianza, el seguro y la recogida son entre tú y esa empresa. Lee sus términos antes de confirmar."
+        },
+        {
+          "title": "Anuncios y disponibilidad",
+          "body": "Los datos de flota, precios, fotos y disponibilidad los publican las empresas y pueden cambiar. Procuramos mostrar la información pública con precisión, pero no garantizamos que un coche siga disponible ni que un precio se mantenga hasta que la empresa lo confirme.\n\nLas fechas que introduces en el marketplace te ayudan a buscar. La disponibilidad final se confirma en la web de la empresa."
+        },
+        {
+          "title": "Uso aceptable",
+          "body": "Usa el marketplace de forma lícita. No extraigas datos de forma abusiva, no satures ni interfieras en el servicio, no envíes datos de contacto falsos ni uses el sitio para dañar a otras personas o negocios."
+        },
+        {
+          "title": "Responsabilidad",
+          "body": "El marketplace es un servicio de descubrimiento. En la medida que permita la ley, Benwer no responde de disputas de alquiler, del estado del vehículo ni de reservas hechas en la web de una empresa.\n\nNada en estos términos limita los derechos de consumo que no se puedan renunciar."
+        },
+        {
+          "title": "Cambios",
+          "body": "Podemos actualizar estos términos. La fecha de «Última actualización» de esta página indica la versión vigente. Seguir usando el sitio tras un cambio implica que aceptas los términos actualizados."
+        },
+        {
+          "title": "Contacto",
+          "body": "Las preguntas sobre estos términos o el marketplace se pueden enviar desde la página de contacto. Si ya has empezado una reserva, contacta directamente con la empresa de alquiler."
+        }
+      ]
+    },
+    "cookies": {
+      "title": "Política de cookies",
+      "lede": "Cómo usamos cookies y tecnologías similares en el marketplace.",
+      "updated": "Última actualización: 13 de septiembre de 2026",
+      "sections": [
+        {
+          "title": "Qué usamos",
+          "body": "Las cookies son pequeños archivos de texto que se guardan en tu dispositivo. También usamos almacenamiento similar, como el almacenamiento local, para recordar elecciones.\n\nEsta política cubre el marketplace de Benwer Cars. Cuando continúas a la web de una empresa, ese sitio puede instalar sus propias cookies."
+        },
+        {
+          "title": "Estrictamente necesarias",
+          "body": "Usamos una cookie de idioma para mostrar inglés o español. Es necesaria para que el marketplace funcione como esperas.\n\nTu elección del aviso de cookies se guarda en tu dispositivo para no preguntarte en cada visita. Ese almacenamiento no se usa para anunciarte."
+        },
+        {
+          "title": "Cookies opcionales",
+          "body": "Las cookies opcionales (por ejemplo, de analítica) permanecen desactivadas salvo que elijas Aceptar todas.\n\nHoy el marketplace no instala cookies de analítica ni de marketing. Si las añadimos más adelante, las describiremos aquí y seguirán exigiendo tu aceptación."
+        },
+        {
+          "title": "Cómo gestionarlas",
+          "body": "Usa el aviso para aceptar todas las cookies o quedarte solo con las necesarias. También puedes borrar cookies y datos del sitio en tu navegador. Bloquear la cookie de idioma puede restablecer el inglés o el español en la siguiente visita."
+        },
+        {
+          "title": "Más información",
+          "body": "Consulta la política de privacidad para ver cómo tratamos los datos personales, o envía un mensaje desde la página de contacto."
+        }
+      ]
+    }
   }
 }

@@ -26,6 +26,11 @@ export function MarketplaceNav() {
       label: t("companies"),
       isActive: pathname.startsWith(NavRoutes.COMPANIES),
     },
+    {
+      href: NavRoutes.CONTACT,
+      label: t("contact"),
+      isActive: pathname === NavRoutes.CONTACT,
+    },
   ];
 
   return (
@@ -38,6 +43,7 @@ export function MarketplaceNav() {
           className={cn(
             "inline-flex cursor-pointer items-center rounded-full px-3 py-1.5 text-sm transition-colors",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            link.href === NavRoutes.CONTACT && "max-sm:hidden",
             link.isActive
               ? "bg-primary/10 font-medium text-primary"
               : "text-muted-foreground hover:bg-surface-hover hover:text-foreground",

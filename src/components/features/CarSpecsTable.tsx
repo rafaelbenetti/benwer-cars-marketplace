@@ -1,7 +1,8 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { formatMoney } from "@/lib/money";
 import type { Vehicle } from "@/types/vehicle";
 import { TransmissionType } from "@/enums";
 
@@ -13,10 +14,16 @@ interface CarSpecsTableProps {
 export function CarSpecsTable({ vehicle, className }: CarSpecsTableProps) {
   const t = useTranslations("carDetail");
   const tCars = useTranslations("cars");
+  const locale = useLocale();
 
-  const specs: { label: string; value: string }[] = [
-    { label: t("year"), value: String(vehicle.year) },
-    { label: t("type"), value: tCars(`types.${vehicle.type}`) },
+  const specs = [
+    vehicle.year > 0
+      ? { label: t("year"), value: String(vehicle.year), titleCase: false }
+      : null,
+    { label: t("type"), value: tCars(`types.${vehicle.type}`), titleCase: false },
+    vehicle.category && vehicle.category !== vehicle.type
+      ? { label: t("category"), value: vehicle.category, titleCase: true }
+      : null,
     {
       label: t("transmission"),
       value: tCars(
@@ -24,22 +31,62 @@ export function CarSpecsTable({ vehicle, className }: CarSpecsTableProps) {
           ? "transmission.automatic"
           : "transmission.manual",
       ),
+      titleCase: false,
     },
-    { label: t("fuel"), value: tCars(`fuel.${vehicle.fuel}`) },
-    { label: t("seats"), value: tCars("seats", { count: vehicle.seats }) },
-  ];
+    { label: t("fuel"), value: tCars(`fuel.${vehicle.fuel}`), titleCase: false },
+    vehicle.seats > 0
+      ? {
+          label: t("seats"),
+          value: tCars("seats", { count: vehicle.seats }),
+          titleCase: false,
+        }
+      : null,
+    vehicle.color
+      ? { label: t("color"), value: vehicle.color, titleCase: true }
+      : null,
+    vehicle.deposit != null
+      ? {
+          label: t("deposit"),
+          value: formatMoney(vehicle.deposit, vehicle.currency, locale),
+          titleCase: false,
+        }
+      : null,
+    vehicle.mileage != null
+      ? {
+          label: t("mileage"),
+          value: t("mileageValue", {
+            count: vehicle.mileage,
+          }),
+          titleCase: false,
+        }
+      : null,
+  ].filter(
+    (row): row is { label: string; value: string; titleCase: boolean } =>
+      row !== null,
+  );
+
+  if (specs.length === 0) {
+    return null;
+  }
 
   return (
     <dl
       className={cn(
-        "grid grid-cols-2 gap-x-6 gap-y-4 rounded-xl border border-border bg-surface p-5",
+        "grid grid-cols-2 gap-x-6 gap-y-4 rounded-xl border border-border bg-surface p-5 sm:grid-cols-3",
         className,
       )}
     >
-      {specs.map(({ label, value }) => (
+      {specs.map(({ label, value, titleCase }) => (
         <div key={label} className="flex flex-col gap-0.5">
           <dt className="text-xs text-muted-foreground">{label}</dt>
-          <dd className="text-sm font-medium text-foreground">{value}</dd>
+          <dd
+            className={cn(
+              "text-sm font-medium text-foreground",
+              titleCase && "capitalize",
+            )}
+          >
+            {value}
+          </dd>
         </div>
       ))}
     </dl>

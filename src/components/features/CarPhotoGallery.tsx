@@ -22,7 +22,7 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
     return (
       <div
         className={cn(
-          "relative flex aspect-[16/9] flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-surface-muted",
+          "mx-auto flex min-h-48 w-full max-w-3xl flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-surface-muted",
           className,
         )}
       >
@@ -38,16 +38,17 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
   const activePhoto = photos[activeIndex];
 
   return (
-    <div className={cn("flex flex-col gap-3", className)}>
-      <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-surface-muted group">
+    <div className={cn("mx-auto flex w-full min-w-0 max-w-3xl flex-col gap-3", className)}>
+      <div className="group relative flex min-h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-surface-muted px-3 py-4">
         <CarPhoto
           src={activePhoto}
           alt={t("photoAlt", { name: alt, index: activeIndex + 1 })}
           priority
-          className="object-cover"
-          sizes="(min-width: 1024px) 60vw, 100vw"
+          fit="contain"
+          className="max-h-80"
+          sizes="(min-width: 768px) 48rem, calc(100vw - 2rem)"
           fallback={
-            <div className="flex h-full w-full flex-col items-center justify-center gap-2">
+            <div className="flex h-48 w-full flex-col items-center justify-center gap-2">
               <Car size={28} className="text-primary/40" aria-hidden />
               <p className="text-sm text-muted-foreground">{t("photoEmpty")}</p>
             </div>
@@ -59,14 +60,14 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
             <IconButton
               label={t("previousPhoto")}
               onClick={() => setActiveIndex((i) => (i - 1 + photos.length) % photos.length)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute left-3 top-1/2 -translate-y-1/2 bg-background/80 opacity-0 transition-opacity hover:bg-background group-hover:opacity-100"
             >
               <ChevronLeft size={16} aria-hidden />
             </IconButton>
             <IconButton
               label={t("nextPhoto")}
               onClick={() => setActiveIndex((i) => (i + 1) % photos.length)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-background/80 opacity-0 transition-opacity hover:bg-background group-hover:opacity-100"
             >
               <ChevronRight size={16} aria-hidden />
             </IconButton>
@@ -86,7 +87,7 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
               aria-label={t("viewPhoto", { index: i + 1 })}
               aria-pressed={i === activeIndex}
               className={cn(
-                "relative h-16 w-24 shrink-0 overflow-hidden rounded-md border-2 transition-colors cursor-pointer",
+                "relative flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded-md border-2 bg-surface-muted transition-colors cursor-pointer",
                 i === activeIndex
                   ? "border-primary"
                   : "border-transparent hover:border-border-strong",
@@ -95,10 +96,11 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
               <CarPhoto
                 src={photo}
                 alt={`${alt} thumbnail ${i + 1}`}
-                className="object-cover"
+                fit="contain"
+                className="max-h-16"
                 sizes="96px"
                 fallback={
-                  <div className="flex h-full w-full items-center justify-center bg-surface-muted">
+                  <div className="flex h-full w-full items-center justify-center">
                     <Car size={16} className="text-primary/30" aria-hidden />
                   </div>
                 }

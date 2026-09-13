@@ -1,11 +1,20 @@
 import Link from "next/link";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { CompanyMark } from "@/components/features/CompanyMark";
+import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import type { Company } from "@/types/company";
 
 interface CompanyBannerProps {
   name: string;
+  logoUrl?: string | null;
   description?: string | null;
   location?: string | null;
+  websiteHref?: string | null;
+  websiteLabel?: string;
+  email?: string | null;
+  phone?: string | null;
+  contactLabel?: string;
   backHref?: string;
   backLabel?: string;
   className?: string;
@@ -13,16 +22,32 @@ interface CompanyBannerProps {
 
 export function CompanyBanner({
   name,
+  logoUrl,
   description,
   location,
+  websiteHref,
+  websiteLabel,
+  email,
+  phone,
+  contactLabel,
   backHref,
   backLabel,
   className,
 }: CompanyBannerProps) {
+  const company: Pick<Company, "name" | "branding"> = {
+    name,
+    branding: { primaryColor: "", logoUrl: logoUrl ?? null },
+  };
+  const contactHref = email
+    ? `mailto:${email}`
+    : phone
+      ? `tel:${phone}`
+      : null;
+
   return (
     <section
       className={cn(
-        "relative w-full overflow-hidden border-b border-border bg-primary/5",
+        "relative w-full overflow-hidden border-b border-border bg-gradient-to-br from-primary/10 via-background to-accent-soft",
         className,
       )}
     >
@@ -40,20 +65,47 @@ export function CompanyBanner({
             {backLabel}
           </Link>
         ) : null}
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-            {name}
-          </h1>
-          {description ? (
-            <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
-              {description}
-            </p>
-          ) : null}
-          {location ? (
-            <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
-              <MapPin size={16} aria-hidden />
-              {location}
-            </p>
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex items-start gap-4">
+            <CompanyMark company={company} size="lg" />
+            <div className="min-w-0">
+              <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+                {name}
+              </h1>
+              {description ? (
+                <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
+                  {description}
+                </p>
+              ) : null}
+              {location ? (
+                <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <MapPin size={16} aria-hidden />
+                  {location}
+                </p>
+              ) : null}
+            </div>
+          </div>
+          {websiteHref || contactHref ? (
+            <div className="flex shrink-0 flex-col gap-2 sm:items-end">
+              {websiteHref && websiteLabel ? (
+                <a
+                  href={websiteHref}
+                  className={cn(buttonVariants({ variant: "primary" }), "w-full sm:w-auto")}
+                >
+                  {websiteLabel}
+                  <ArrowUpRight size={16} aria-hidden />
+                </a>
+              ) : null}
+              {contactHref && contactLabel ? (
+                <a
+                  href={contactHref}
+                  className={cn(buttonVariants({ variant: "secondary" }), "w-full sm:w-auto")}
+                >
+                  {email ? <Mail size={16} aria-hidden /> : <Phone size={16} aria-hidden />}
+                  {contactLabel}
+                </a>
+              ) : null}
+            </div>
           ) : null}
         </div>
       </div>

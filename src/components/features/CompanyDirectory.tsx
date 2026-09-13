@@ -8,13 +8,10 @@ import { CompaniesMap } from "./CompaniesMap";
 import { CompanyGrid, CompanyGridSkeleton } from "./CompanyGrid";
 import { Button } from "@/components/ui/Button";
 import { ErrorState } from "@/components/ui/ErrorState";
-import {
-  getCityBySlug,
-  getCityDisplayName,
-  isProvinceWideLocation,
-} from "@/data/malagaCities";
+import { isProvinceWideLocation } from "@/data/malagaCities";
 import { NavRoutes, SearchParams } from "@/enums";
 import { toCompanyMapPins } from "@/lib/companyMap";
+import { locationLabelFromSlug } from "@/lib/locationOptions";
 import { getErrorKey } from "@/lib/errors";
 import { buildCompanyHref } from "@/lib/marketplaceSearch";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -28,8 +25,6 @@ interface CompanyDirectoryProps {
   error?: unknown;
   onRetry: () => void;
   location: string | null;
-  from: string | null;
-  to: string | null;
 }
 
 export function CompanyDirectory({
@@ -39,8 +34,6 @@ export function CompanyDirectory({
   error,
   onRetry,
   location,
-  from,
-  to,
 }: CompanyDirectoryProps) {
   const t = useTranslations("map");
   const tCompanies = useTranslations("companies");
@@ -53,19 +46,19 @@ export function CompanyDirectory({
   const [highlightedSlug, setHighlightedSlug] = useState<string | null>(null);
 
   const showMapPane = isDesktop || searchParams.get(SearchParams.VIEW) === "map";
-  const city =
-    location && !isProvinceWideLocation(location) ? getCityBySlug(location) : null;
+  const cityLabel =
+    location && !isProvinceWideLocation(location)
+      ? locationLabelFromSlug(location, locale)
+      : null;
 
   const pins = useMemo(
     () =>
       toCompanyMapPins(companies ?? [], (company) =>
         buildCompanyHref(company.slug, {
           location: location ?? undefined,
-          from: from ?? undefined,
-          to: to ?? undefined,
         }),
       ),
-    [companies, from, location, to],
+    [companies, location],
   );
 
   function setMobileView(view: "list" | "map") {
@@ -85,16 +78,14 @@ export function CompanyDirectory({
   function companyHref(company: Company): string {
     return buildCompanyHref(company.slug, {
       location: location ?? undefined,
-      from: from ?? undefined,
-      to: to ?? undefined,
     });
   }
 
   const count = companies?.length ?? 0;
-  const resultsLabel = city
+  const resultsLabel = cityLabel
     ? t("resultsInCity", {
         count,
-        city: getCityDisplayName(city, locale),
+        city: cityLabel,
       })
     : t("resultsCount", { count });
 
@@ -170,7 +161,7 @@ export function CompanyDirectory({
               }
               viewFleetLabel={tCompanies("viewFleet")}
               onClearFilters={
-                location || from || to
+                location
                   ? () => router.replace(NavRoutes.COMPANIES)
                   : undefined
               }

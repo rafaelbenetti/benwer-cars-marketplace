@@ -39,6 +39,7 @@ interface CarGridProps {
   emptyTitle?: string;
   emptyHint?: string;
   emptyActionLabel?: string;
+  emptyActionHref?: string;
   className?: string;
 }
 
@@ -50,6 +51,7 @@ export function CarGrid({
   emptyTitle,
   emptyHint,
   emptyActionLabel,
+  emptyActionHref,
   className,
 }: CarGridProps) {
   const t = useTranslations("cars");
@@ -57,14 +59,14 @@ export function CarGrid({
   if (vehicles.length === 0) {
     return (
       <EmptyState
-        icon={<Car size={40} />}
+        icon={<Car size={28} />}
         title={emptyTitle ?? (onClearFilters ? t("noResults") : t("emptyTitle"))}
         description={emptyHint ?? (onClearFilters ? t("noResultsHint") : t("emptyHint"))}
         actionLabel={
           emptyActionLabel ?? (onClearFilters ? t("clearFilters") : undefined)
         }
+        actionHref={onClearFilters ? undefined : emptyActionHref}
         onAction={onClearFilters}
-        className="rounded-2xl border border-dashed border-border bg-surface px-6"
       />
     );
   }
@@ -101,6 +103,7 @@ interface CarGridViewProps {
   emptyTitle?: string;
   emptyHint?: string;
   emptyActionLabel?: string;
+  emptyActionHref?: string;
   className?: string;
 }
 
@@ -116,6 +119,7 @@ export function CarGridView({
   emptyTitle,
   emptyHint,
   emptyActionLabel,
+  emptyActionHref,
   className,
 }: CarGridViewProps) {
   const t = useTranslations();
@@ -133,6 +137,7 @@ export function CarGridView({
       emptyTitle={emptyTitle}
       emptyHint={emptyHint}
       emptyActionLabel={emptyActionLabel}
+      emptyActionHref={emptyActionHref}
       className={className}
     />
   );

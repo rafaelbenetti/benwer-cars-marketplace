@@ -1,51 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f4f7fb;
   --surface: #ffffff;
-  --surface-muted: #f1f5f9;
-  --surface-hover: #f8fafc;
-  --foreground: #0f172a;
-  --muted-foreground: #475569;
+  --surface-muted: #e8eef6;
+  --surface-hover: #dfe7f2;
+  --foreground: #0b1220;
+  --muted-foreground: #334155;
   --subtle-foreground: #64748b;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --ring: #0891b2;
-  --primary: #0e7490;
-  --primary-hover: #155e75;
+  --border: #d5dee9;
+  --border-strong: #b6c3d4;
+  --ring: #06b6d4;
+  --primary: #06b6d4;
+  --primary-hover: #0891b2;
   --primary-foreground: #ffffff;
+  --secondary: #0b1220;
+  --secondary-hover: #1e293b;
+  --secondary-foreground: #ffffff;
+  --accent: #7c3aed;
+  --accent-hover: #6d28d9;
+  --accent-foreground: #ffffff;
+  --accent-soft: #7c3aed18;
   --success: #16a34a;
   --success-soft: #16a34a14;
   --warning: #d97706;
   --warning-soft: #d9770614;
   --danger: #dc2626;
   --danger-soft: #dc262614;
-  --info: #2563eb;
-  --info-soft: #2563eb14;
+  --info: #06b6d4;
+  --info-soft: #06b6d418;
 }
 
 .dark {
-  --background: #0b1220;
-  --surface: #0f172a;
-  --surface-muted: #1e293b;
+  --background: #070b14;
+  --surface: #0b1220;
+  --surface-muted: #121a2b;
   --surface-hover: #1e293b;
-  --foreground: #f1f5f9;
+  --foreground: #f8fafc;
   --muted-foreground: #cbd5e1;
   --subtle-foreground: #94a3b8;
   --border: #1e293b;
   --border-strong: #334155;
   --ring: #22d3ee;
   --primary: #22d3ee;
-  --primary-hover: #06b6d4;
+  --primary-hover: #67e8f9;
   --primary-foreground: #0b1220;
+  --secondary: #e2e8f0;
+  --secondary-hover: #f8fafc;
+  --secondary-foreground: #0b1220;
+  --accent: #a78bfa;
+  --accent-hover: #8b5cf6;
+  --accent-foreground: #0b1220;
+  --accent-soft: #7c3aed30;
   --success: #4ade80;
   --success-soft: #4ade8020;
   --warning: #fbbf24;
   --warning-soft: #fbbf2420;
   --danger: #f87171;
   --danger-soft: #f8717120;
-  --info: #60a5fa;
-  --info-soft: #60a5fa20;
+  --info: #22d3ee;
+  --info-soft: #22d3ee20;
 }
 
 @theme inline {
@@ -62,6 +76,13 @@
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
   --color-warning: var(--warning);
@@ -70,6 +91,24 @@
   --color-danger-soft: var(--danger-soft);
   --color-info: var(--info);
   --color-info-soft: var(--info-soft);
+}
+
+html,
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.marketplace-search-hero {
+  background-image: linear-gradient(to bottom right, #070b14, #0b1220, #083344);
+}
+
+.marketplace-search-hero-title {
+  color: #ffffff;
+}
+
+.marketplace-search-hero-subtitle {
+  color: #cbd5e1;
 }
 
 .marketplace-day-picker.rdp-root {

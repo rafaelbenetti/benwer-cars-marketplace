@@ -14,6 +14,9 @@ export interface Company {
   longitude: number | null;
   vehicleCount: number | null;
   isPublic: boolean;
+  websiteUrl: string | null;
+  email: string | null;
+  phone: string | null;
   branding: CompanyBranding;
 }
 

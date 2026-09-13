@@ -69,7 +69,7 @@ export async function TenantHome() {
         <MarketplaceHeader />
         <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-12 md:px-6 lg:px-8">
           <EmptyState
-            icon={<Building2 size={40} />}
+            icon={<Building2 size={28} />}
             title={t("notFoundTitle")}
             description={t("notFoundDescription")}
             actionLabel={tNotFound("action")}
@@ -97,6 +97,7 @@ export async function TenantHome() {
       {company ? (
         <CompanyBanner
           name={company.name}
+          logoUrl={company.branding.logoUrl}
           description={company.description}
           location={company.location}
         />

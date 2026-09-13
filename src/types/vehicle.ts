@@ -17,6 +17,10 @@ export interface Vehicle {
   isPublic: boolean;
   photos: string[];
   description: string | null;
+  color: string | null;
+  deposit: number | null;
+  category: string | null;
+  mileage: number | null;
 }
 
 export interface VehicleFilters {

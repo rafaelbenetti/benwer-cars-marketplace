@@ -1,4 +1,5 @@
 import { getCityByName, getCityBySlug } from "@/data/malagaCities";
+import { slugifyLocation } from "@/lib/locationOptions";
 import {
   FuelType,
   ReservationStatus,
@@ -7,6 +8,7 @@ import {
   VehicleType,
 } from "@/enums";
 import { listingRangeDates } from "@/lib/dates";
+import { toPublicMediaSrc } from "@/lib/media";
 import type { AvailabilityQuery, AvailabilityRange } from "@/types/availability";
 import type { Company } from "@/types/company";
 import type { GuestReservation } from "@/types/reservation";
@@ -122,31 +124,22 @@ function inferLocationSlug(
     return locationSlug;
   }
 
-  return getCityByName(locationSlug)?.slug ?? getCityByName(location)?.slug ?? null;
-}
+  const fromName =
+    getCityByName(locationSlug)?.slug ?? getCityByName(location)?.slug;
+  if (fromName) {
+    return fromName;
+  }
 
-function isHttpUrl(value: string): boolean {
-  return /^https?:\/\//i.test(value);
-}
+  const raw = locationSlug ?? location;
+  if (!raw) {
+    return null;
+  }
 
-const LOCALSTACK_ORIGIN = /^https?:\/\/(?:localhost|127\.0\.0\.1):4566/i;
+  return slugifyLocation(raw) || null;
+}
 
 function toPublicPhotoSrc(value: string): string | undefined {
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return undefined;
-  }
-
-  if (LOCALSTACK_ORIGIN.test(trimmed)) {
-    const path = trimmed.replace(LOCALSTACK_ORIGIN, "");
-    return path.startsWith("/") ? `/localstack${path}` : `/localstack/${path}`;
-  }
-
-  if (trimmed.startsWith("/localstack/")) {
-    return trimmed;
-  }
-
-  return isHttpUrl(trimmed) ? trimmed : undefined;
+  return toPublicMediaSrc(value);
 }
 
 function readPhotoUrl(value: unknown): string | undefined {
@@ -205,9 +198,26 @@ export function mapCompany(raw: unknown): Company {
     longitude: readNumber(row.longitude) ?? readNumber(row.lng) ?? null,
     vehicleCount: readNumber(row.vehicleCount) ?? readNumber(row.fleetSize) ?? null,
     isPublic: readBoolean(row.isPublic) ?? true,
+    websiteUrl:
+      readString(row.websiteUrl) ??
+      readString(row.website) ??
+      readString(row.url) ??
+      null,
+    email: readString(row.email) ?? readString(row.contactEmail) ?? null,
+    phone:
+      readString(row.phone) ??
+      readString(row.phoneNumber) ??
+      readString(row.contactPhone) ??
+      null,
     branding: {
       primaryColor: readString(branding.primaryColor) ?? "",
-      logoUrl: readString(branding.logoUrl) ?? null,
+      logoUrl:
+        readPhotoUrl(branding.logoUrl) ??
+        readPhotoUrl(branding.logoURL) ??
+        readPhotoUrl(branding.logo) ??
+        readPhotoUrl(row.logoUrl) ??
+        readPhotoUrl(row.logo) ??
+        null,
     },
   };
 }
@@ -238,6 +248,14 @@ export function mapVehicle(raw: unknown, options?: VehicleMapOptions | string): 
     isPublic: readBoolean(row.isPublic) ?? true,
     photos: readPhotos(row),
     description: readString(row.description) ?? null,
+    color: readString(row.color) ?? null,
+    deposit: readNumber(row.deposit) ?? null,
+    category: readString(row.category) ?? null,
+    mileage:
+      readNumber(row.currentMileage) ??
+      readNumber(row.mileage) ??
+      readNumber(row.odometer) ??
+      null,
   };
 }
 

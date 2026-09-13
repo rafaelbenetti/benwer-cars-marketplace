@@ -14,34 +14,56 @@ export async function Footer() {
 
   return (
     <footer className="mt-auto w-full border-t border-border bg-surface-muted">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-12 md:flex-row md:items-start md:justify-between md:px-6 lg:px-8">
-        <div className="flex max-w-xs flex-col gap-3">
-          <BrandLogo alt={tBrand("logoAlt")} variant="full" className="h-14 w-28" />
-          <p className="text-sm text-muted-foreground">{tFooter("tagline")}</p>
-          <p className="text-xs text-muted-foreground">
-            {isTenant ? tFooter("poweredBy") : tFooter("trust")}
-          </p>
-          <p className="text-xs text-subtle-foreground">
-            {tFooter("copyright", { year })}
-          </p>
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 md:px-6 lg:px-8">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          <div className="flex max-w-xs flex-col gap-3">
+            <BrandLogo alt={tBrand("logoAlt")} variant="full" className="h-14 w-28" />
+            <p className="text-sm text-muted-foreground">{tFooter("tagline")}</p>
+            <p className="text-xs text-muted-foreground">
+              {isTenant ? tFooter("poweredBy") : tFooter("trust")}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-10">
+            <FooterGroup label={tFooter("explore")}>
+              <FooterLink href={NavRoutes.HOME}>{tNav("home")}</FooterLink>
+              {isTenant ? (
+                <FooterLink href={`${NavRoutes.HOME}#fleet`}>{tNav("cars")}</FooterLink>
+              ) : (
+                <>
+                  <FooterLink href={NavRoutes.CARS}>{tNav("cars")}</FooterLink>
+                  <FooterLink href={NavRoutes.COMPANIES}>{tNav("companies")}</FooterLink>
+                </>
+              )}
+              <FooterLink href={NavRoutes.CONTACT}>{tNav("contact")}</FooterLink>
+            </FooterGroup>
+            <FooterGroup label={tFooter("legal")}>
+              <FooterLink href={NavRoutes.PRIVACY}>{tNav("privacy")}</FooterLink>
+              <FooterLink href={NavRoutes.TERMS}>{tNav("terms")}</FooterLink>
+              <FooterLink href={NavRoutes.COOKIES}>{tNav("cookies")}</FooterLink>
+            </FooterGroup>
+          </div>
+          <LocaleSwitcher />
         </div>
-        <nav
-          className="flex flex-wrap items-center gap-x-4 gap-y-2"
-          aria-label={tNav("footerAria")}
-        >
-          <FooterLink href={NavRoutes.HOME}>{tNav("home")}</FooterLink>
-          {isTenant ? (
-            <FooterLink href={`${NavRoutes.HOME}#fleet`}>{tNav("cars")}</FooterLink>
-          ) : (
-            <>
-              <FooterLink href={NavRoutes.CARS}>{tNav("cars")}</FooterLink>
-              <FooterLink href={NavRoutes.COMPANIES}>{tNav("companies")}</FooterLink>
-            </>
-          )}
-        </nav>
-        <LocaleSwitcher />
+        <p className="text-xs text-subtle-foreground">{tFooter("copyright", { year })}</p>
       </div>
     </footer>
+  );
+}
+
+function FooterGroup({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <nav className="flex min-w-36 flex-col gap-2" aria-label={label}>
+      <p className="text-xs font-semibold uppercase tracking-wider text-subtle-foreground">
+        {label}
+      </p>
+      {children}
+    </nav>
   );
 }
 

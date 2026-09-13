@@ -6,38 +6,58 @@ import { Check, MapPin } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { SearchFieldSegment } from "./SearchFieldSegment";
 import { Input } from "@/components/ui/Input";
+import { useCompanies } from "@/hooks/useCompanies";
+import { DEFAULT_CITY_SLUG, isProvinceWideLocation } from "@/data/malagaCities";
 import {
-  filterCities,
-  getCityBySlug,
-  getCityDisplayName,
-  isProvinceWideLocation,
-  resolveCitySlug,
-} from "@/data/malagaCities";
+  filterInventoryLocations,
+  inventoryLocationsFromCompanies,
+  locationLabelFromSlug,
+} from "@/lib/locationOptions";
 import { cn } from "@/lib/utils";
 
 interface CityComboboxProps {
   value: string;
   onChange: (slug: string) => void;
+  from?: string;
+  to?: string;
 }
 
-export function CityCombobox({ value, onChange }: CityComboboxProps) {
+export function CityCombobox({ value, onChange, from, to }: CityComboboxProps) {
   const t = useTranslations("search");
   const locale = useLocale();
   const listId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const optionRefs = useRef<Array<HTMLLIElement | null>>([]);
+  const companiesQuery = useCompanies(
+    from && to
+      ? {
+          from,
+          to,
+        }
+      : undefined,
+  );
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(0);
 
-  const selectedCity = getCityBySlug(resolveCitySlug(value));
-  const selectedName = selectedCity
-    ? isProvinceWideLocation(selectedCity.slug)
-      ? t("provinceSelected")
-      : getCityDisplayName(selectedCity, locale)
-    : "";
-  const matches = useMemo(() => filterCities(query), [query]);
+  const inventory = useMemo(
+    () => inventoryLocationsFromCompanies(companiesQuery.data ?? [], locale),
+    [companiesQuery.data, locale],
+  );
+  const matches = useMemo(
+    () => filterInventoryLocations(inventory, query),
+    [inventory, query],
+  );
+  const options = useMemo(
+    () => [{ slug: DEFAULT_CITY_SLUG, label: t("allLocations") }, ...matches],
+    [matches, t],
+  );
+
+  const selectedName = isProvinceWideLocation(value)
+    ? t("allLocations")
+    : inventory.find((location) => location.slug === value)?.label ??
+      locationLabelFromSlug(value, locale);
 
   useEffect(() => {
     optionRefs.current[highlightedIndex]?.scrollIntoView({ block: "nearest" });
@@ -59,7 +79,7 @@ export function CityCombobox({ value, onChange }: CityComboboxProps) {
   function handleInputKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setHighlightedIndex((index) => Math.min(index + 1, Math.max(matches.length - 1, 0)));
+      setHighlightedIndex((index) => Math.min(index + 1, Math.max(options.length - 1, 0)));
       return;
     }
 
@@ -77,15 +97,15 @@ export function CityCombobox({ value, onChange }: CityComboboxProps) {
 
     if (event.key === "End") {
       event.preventDefault();
-      setHighlightedIndex(Math.max(matches.length - 1, 0));
+      setHighlightedIndex(Math.max(options.length - 1, 0));
       return;
     }
 
     if (event.key === "Enter") {
       event.preventDefault();
-      const city = matches[highlightedIndex];
-      if (city) {
-        selectCity(city.slug);
+      const option = options[highlightedIndex];
+      if (option) {
+        selectCity(option.slug);
       }
     }
   }
@@ -130,15 +150,15 @@ export function CityCombobox({ value, onChange }: CityComboboxProps) {
             aria-autocomplete="list"
             aria-controls={listId}
             aria-activedescendant={
-              matches[highlightedIndex]
-                ? `${listId}-${matches[highlightedIndex]?.slug}`
+              options[highlightedIndex]
+                ? `${listId}-${options[highlightedIndex]?.slug}`
                 : undefined
             }
             role="combobox"
             aria-expanded={open}
             className="mb-2"
           />
-          {matches.length === 0 ? (
+          {options.length === 0 ? (
             <p className="px-2 py-6 text-center text-sm text-muted-foreground">
               {t("locationEmpty")}
             </p>
@@ -149,18 +169,17 @@ export function CityCombobox({ value, onChange }: CityComboboxProps) {
               aria-label={t("cityListLabel")}
               className="max-h-64 overflow-y-auto"
             >
-              {matches.map((city, index) => {
-                const isProvince = isProvinceWideLocation(city.slug);
-                const name = isProvince
-                  ? t("provinceSelected")
-                  : getCityDisplayName(city, locale);
-                const isSelected = city.slug === value;
+              {options.map((option, index) => {
+                const isAll = isProvinceWideLocation(option.slug);
+                const isSelected = isAll
+                  ? isProvinceWideLocation(value)
+                  : option.slug === value;
                 const isHighlighted = index === highlightedIndex;
 
                 return (
                   <li
-                    key={city.slug}
-                    id={`${listId}-${city.slug}`}
+                    key={option.slug}
+                    id={`${listId}-${option.slug}`}
                     ref={(node) => {
                       optionRefs.current[index] = node;
                     }}
@@ -174,13 +193,13 @@ export function CityCombobox({ value, onChange }: CityComboboxProps) {
                     )}
                     onMouseEnter={() => setHighlightedIndex(index)}
                     onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => selectCity(city.slug)}
+                    onClick={() => selectCity(option.slug)}
                   >
                     <span className="min-w-0">
-                      <span className="block truncate">{name}</span>
-                      {isProvince ? (
+                      <span className="block truncate">{option.label}</span>
+                      {isAll ? (
                         <span className="block truncate text-xs font-normal text-muted-foreground">
-                          {t("provinceHint")}
+                          {t("allLocationsHint")}
                         </span>
                       ) : null}
                     </span>

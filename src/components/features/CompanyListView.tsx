@@ -2,6 +2,7 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useCompanies } from "@/hooks/useCompanies";
 import { CompanyDirectory } from "./CompanyDirectory";
 import { CompanyGridSkeleton, CompanyGridView } from "./CompanyGrid";
@@ -9,7 +10,7 @@ import {
   MarketplaceSearchBar,
   MarketplaceSearchBarFallback,
 } from "./MarketplaceSearchBar";
-import { SearchParams } from "@/enums";
+import { NavRoutes, SearchParams } from "@/enums";
 
 interface CompanyListViewProps {
   showSearchBar?: boolean;
@@ -23,16 +24,13 @@ function CompanyResults({
   showSearchBar: boolean;
   limit?: number;
 }) {
+  const t = useTranslations("companies");
   const searchParams = useSearchParams();
   const location = searchParams.get(SearchParams.LOCATION);
-  const from = searchParams.get(SearchParams.FROM);
-  const to = searchParams.get(SearchParams.TO);
   const { data, isPending, isError, error, refetch } = useCompanies(
     showSearchBar
       ? {
           location: location || undefined,
-          from: from || undefined,
-          to: to || undefined,
         }
       : undefined,
   );
@@ -45,6 +43,10 @@ function CompanyResults({
         isError={isError}
         error={error}
         onRetry={refetch}
+        emptyTitle={t("featuredEmpty")}
+        emptyHint={t("featuredEmptyHint")}
+        emptyActionLabel={t("browseCars")}
+        emptyActionHref={NavRoutes.CARS}
       />
     );
   }
@@ -59,8 +61,6 @@ function CompanyResults({
         error={error}
         onRetry={refetch}
         location={location}
-        from={from}
-        to={to}
       />
     </div>
   );
@@ -74,7 +74,7 @@ export function CompanyListView({
     <Suspense
       fallback={
         <div className="flex flex-col gap-6">
-          {showSearchBar ? <MarketplaceSearchBarFallback /> : null}
+          {showSearchBar ? <MarketplaceSearchBarFallback target="companies" /> : null}
           <CompanyGridSkeleton count={limit ?? 6} />
         </div>
       }

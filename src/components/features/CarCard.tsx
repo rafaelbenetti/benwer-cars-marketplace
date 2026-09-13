@@ -52,19 +52,18 @@ export function CarCard({
     <Link
       href={href}
       className={cn(
-        "group flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-surface",
+        "group flex min-w-0 cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-surface",
         "transition-[box-shadow,transform] duration-200",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         "motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md",
         className,
       )}
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-surface-muted">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-muted">
         <CarPhoto
           src={primaryPhoto}
           alt={name}
           priority={priority}
-          className="object-cover transition-transform duration-200 motion-safe:group-hover:scale-[1.03]"
           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 100vw"
           fallback={
             <CarPhotoFallback type={vehicle.type} emptyLabel={tDetail("photoEmpty")} />
@@ -78,19 +77,20 @@ export function CarCard({
         </Badge>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        <div>
+      <div className="flex min-w-0 flex-1 flex-col gap-3 p-4">
+        <div className="min-w-0">
           <h3 className="text-base font-semibold leading-tight text-foreground">{name}</h3>
           <p className="mt-0.5 text-xs text-muted-foreground">
             {vehicle.year} &middot; {t(`types.${vehicle.type}`)}
           </p>
-          {company ? (
-            <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
-              <CompanyMark company={company} size="sm" />
-              <span className="truncate font-medium text-foreground">{company.name}</span>
-            </p>
-          ) : null}
         </div>
+
+        {company ? (
+          <p className="flex min-w-0 items-center gap-2">
+            <CompanyMark company={company} size="sm" />
+            <span className="truncate text-xs text-muted-foreground">{company.name}</span>
+          </p>
+        ) : null}
 
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="default" className="gap-1">
@@ -145,7 +145,7 @@ function CarPhotoFallback({
       )}
     >
       <Icon
-        size={88}
+        size={72}
         aria-hidden
         className="relative z-10 text-primary/20"
         strokeWidth={1.25}

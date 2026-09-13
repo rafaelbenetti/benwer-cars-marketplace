@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { CompanyMark } from "@/components/features/CompanyMark";
 import { NavRoutes } from "@/enums";
 import { cn } from "@/lib/utils";
 import { LocaleSwitcher } from "./LocaleSwitcher";
@@ -31,10 +31,18 @@ export async function TenantHeader({
           href={NavRoutes.HOME}
           className="flex min-w-0 items-center gap-2.5 text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          <TenantMark companyName={companyName} logoUrl={logoUrl} logoAlt={t("logoAlt", { name: companyName })} />
+          <CompanyMark
+            company={{
+              name: companyName,
+              branding: { primaryColor: "", logoUrl: logoUrl ?? null },
+            }}
+            size="sm"
+            className="h-8 w-8 rounded-lg"
+          />
           <span className="truncate text-sm font-semibold tracking-tight">
             {companyName}
           </span>
+          <span className="sr-only">{t("logoAlt", { name: companyName })}</span>
         </Link>
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
           <TenantNav />
@@ -42,38 +50,5 @@ export async function TenantHeader({
         </div>
       </div>
     </header>
-  );
-}
-
-function TenantMark({
-  companyName,
-  logoUrl,
-  logoAlt,
-}: {
-  companyName: string;
-  logoUrl?: string | null;
-  logoAlt: string;
-}) {
-  if (logoUrl) {
-    return (
-      <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg border border-border bg-surface">
-        <Image
-          src={logoUrl}
-          alt={logoAlt}
-          fill
-          unoptimized
-          className="object-contain p-0.5"
-          sizes="32px"
-        />
-      </span>
-    );
-  }
-
-  const initial = companyName.trim().charAt(0).toUpperCase() || "?";
-
-  return (
-    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
-      {initial}
-    </span>
   );
 }

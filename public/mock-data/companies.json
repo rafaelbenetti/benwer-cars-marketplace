@@ -10,7 +10,7 @@
       "isPublic": true,
       "branding": {
         "primaryColor": "#0e7490",
-        "logoUrl": null
+        "logoUrl": "/mock-data/logos/denver-cars.svg"
       }
     },
     {
@@ -23,7 +23,7 @@
       "isPublic": true,
       "branding": {
         "primaryColor": "#7c3aed",
-        "logoUrl": null
+        "logoUrl": "/mock-data/logos/med-rentacar.svg"
       }
     },
     {

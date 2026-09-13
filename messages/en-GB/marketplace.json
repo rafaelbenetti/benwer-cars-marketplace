@@ -1,15 +1,24 @@
 {
   "home": {
     "title": "Find your perfect car",
-    "subtitle": "Compare local fleets and book in minutes — no account needed.",
+    "subtitle": "Compare local fleets, then continue on the rental company's site.",
     "searchPlaceholder": "Where are you going?",
     "eyebrow": "Málaga · Costa del Sol",
     "companiesHeading": "Featured companies",
     "companiesSubtitle": "Trusted local operators across Málaga province",
     "trustLocal": "Local companies",
-    "trustGuest": "Book as a guest",
+    "trustGuest": "Rent on the company site",
     "trustArea": "Málaga province",
     "viewAllCompanies": "View all companies"
+  },
+  "partners": {
+    "eyebrow": "For car rental companies",
+    "title": "Turn empty days into bookings",
+    "description": "Travelers are already searching Benwer for cars. Keep your fleet live on the marketplace and fill the days that would otherwise sit empty.",
+    "cta": "See plans",
+    "ctaAria": "See plans on the Benwer marketing site (opens in a new tab)",
+    "demo": "View live demo",
+    "demoAria": "View the live demo (opens in a new tab)"
   },
   "seo": {
     "companyTitle": "{name} — Car rentals",
@@ -28,22 +37,24 @@
   },
   "howItWorks": {
     "title": "How it works",
-    "subtitle": "Search, compare, and book in three steps.",
+    "subtitle": "Find a car here, then rent on the company's own site.",
     "searchTitle": "Search",
     "searchBody": "Choose your location and dates",
     "compareTitle": "Compare",
-    "compareBody": "Browse cars from every local fleet",
-    "bookTitle": "Book",
-    "bookBody": "Confirm with your name and email"
+    "compareBody": "Browse cars from local rental fleets",
+    "continueTitle": "Continue",
+    "continueBody": "Finish on the rental company's site"
   },
   "search": {
     "locationLabel": "Pick-up location",
-    "locationPlaceholder": "Search city or province",
-    "locationEmpty": "No matching city",
+    "locationPlaceholder": "Search locations",
+    "locationEmpty": "No matching location",
     "locationTrigger": "Pick-up location, {city}",
-    "cityListLabel": "Locations in Málaga province",
-    "provinceSelected": "Málaga province",
-    "provinceHint": "All municipalities",
+    "cityListLabel": "Locations with available cars",
+    "allLocations": "All locations",
+    "allLocationsHint": "Every city with available cars",
+    "provinceSelected": "All locations",
+    "provinceHint": "Every city with available cars",
     "pickupLabel": "Pick-up",
     "dropoffLabel": "Drop-off",
     "pickupPlaceholder": "Add date",
@@ -78,7 +89,7 @@
     "loading": "Loading companies…",
     "errorDescription": "The map could not be loaded. Browse the list instead.",
     "emptyTitle": "No companies on the map",
-    "emptyDescription": "Try another city or dates to see available fleets.",
+    "emptyDescription": "Try another city in Málaga province.",
     "resultsCount": "{count, plural, one {# company across Málaga province} other {# companies across Málaga province}}",
     "resultsInCity": "{count, plural, one {# company in {city}} other {# companies in {city}}}"
   },
@@ -88,7 +99,7 @@
     "searchEmptyHint": "Try different dates or another location in Málaga province. Every city stays in the list — even if no cars are listed there today.",
     "companiesSelected": "{count, plural, one {# company selected} other {# companies selected}}",
     "clearCompanies": "Clear companies",
-    "resultsInProvince": "{count, plural, one {# car across Málaga province} other {# cars across Málaga province}}",
+    "resultsInProvince": "{count, plural, one {# car across all locations} other {# cars across all locations}}",
     "resultsInCity": "{count, plural, one {# car in {city}} other {# cars in {city}}}",
     "allCompanies": "All companies",
     "companyPlaceholder": "Search companies",
@@ -102,8 +113,11 @@
     "resultsForDates": "{count, plural, one {# car} other {# cars}} · {from} – {to}",
     "emptyTitle": "No cars available yet",
     "emptyHint": "This fleet has no public cars right now.",
-    "noResults": "No cars match your filters.",
-    "noResultsHint": "Try adjusting your dates or filters.",
+    "noResults": "No cars match this search",
+    "noResultsHint": "Try different dates, another location, or fewer filters.",
+    "datesRequiredTitle": "Add your travel dates",
+    "datesRequiredHint": "Choose pick-up and drop-off dates to see cars. You can also change location in the search above.",
+    "browseCompanies": "Browse companies",
     "clearFilters": "Clear filters",
     "searchPlaceholder": "Search cars",
     "showFilters": "Show filters",
@@ -142,6 +156,9 @@
   },
   "carDetail": {
     "bookNow": "Book now",
+    "continueOnCompany": "Continue on {company}",
+    "rentOnCompanySite": "Rent on company site",
+    "handoffHint": "You'll complete the rental on the company's own site.",
     "pricePerDay": "{price} per day",
     "specs": "Specifications",
     "year": "Year",
@@ -173,7 +190,13 @@
     "photoIndex": "{current} / {total}",
     "photoAlt": "{name}, photo {index}",
     "backToFleet": "Back to fleet",
-    "metaTitle": "Car detail"
+    "metaTitle": "Car detail",
+    "about": "About this car",
+    "category": "Category",
+    "color": "Colour",
+    "deposit": "Deposit",
+    "mileage": "Mileage",
+    "mileageValue": "{count, number} km"
   },
   "booking": {
     "title": "Complete your booking",
@@ -272,13 +295,151 @@
     "subtitle": "Browse trusted local operators across Málaga — on the map or in the list",
     "searchPlaceholder": "Search companies…",
     "noResults": "No companies found",
-    "noResultsHint": "Try different dates or another location in Málaga province.",
+    "noResultsHint": "Try another location in Málaga province.",
     "emptyTitle": "No companies listed yet",
     "emptyDescription": "No rental companies are listed yet.",
     "clearFilters": "Clear search",
     "viewFleet": "View fleet",
+    "visitWebsite": "Visit website",
+    "contact": "Contact",
     "backToList": "All companies",
     "notFoundTitle": "Company not found",
-    "notFoundDescription": "This rental company is not listed. Browse others nearby."
+    "notFoundDescription": "This rental company is not listed. Browse others nearby.",
+    "browseCars": "Browse cars",
+    "featuredEmpty": "No featured companies yet",
+    "featuredEmptyHint": "Check back soon, or browse cars from local fleets."
+  },
+  "contact": {
+    "title": "Contact us",
+    "lede": "Questions about the marketplace? Send a message and we will reply by email.",
+    "bookingHint": "This form is not for bookings. To rent a car, continue on the rental company’s own site.",
+    "name": "Full name",
+    "email": "Email address",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Send message",
+    "success": "Thanks — we will get back to you by email.",
+    "privacyNote": "We only use these details to reply.",
+    "errors": {
+      "nameMin": "Enter your name (at least 2 characters).",
+      "email": "Enter a valid email address.",
+      "subjectMin": "Enter a subject (at least 3 characters).",
+      "messageMin": "Enter a message (at least 10 characters)."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy policy",
+      "lede": "How we handle personal data when you use the Benwer Cars marketplace.",
+      "updated": "Last updated: 13 September 2026",
+      "sections": [
+        {
+          "title": "Who we are",
+          "body": "Benwer Cars (“Benwer”, “we”, “us”) operates a consumer marketplace that helps travellers discover car rental fleets in Málaga province.\n\nThis policy covers the marketplace website only. If you continue to a rental company’s own site to book, that company is responsible for the data you submit there."
+        },
+        {
+          "title": "What this marketplace does",
+          "body": "You can search cars and companies, compare public fleet details, and continue to a rental company’s site to complete a booking.\n\nBenwer does not take payment or create a rental contract on the marketplace. The rental agreement is between you and the company."
+        },
+        {
+          "title": "Information we collect",
+          "body": "Depending on how you use the marketplace, we may process:\n\n• Search and usage data — location and dates you enter, pages you view, and basic technical data such as IP address, browser, and device information.\n• Language preference — stored as a strictly necessary cookie so we can show English or Spanish.\n• Cookie consent — stored on your device so we remember your choice.\n• Contact messages — name, email, subject, and message if you write to us. We tag these as coming from the marketplace.\n\nWe do not ask you to create an account on the marketplace. Booking and payment details are collected by the rental company on their own site, under their own privacy policy."
+        },
+        {
+          "title": "How we use data",
+          "body": "We use personal data to operate and improve the marketplace, remember language and cookie choices, respond to contact messages, keep the service secure, and meet legal obligations.\n\nWe do not sell your personal data."
+        },
+        {
+          "title": "Legal bases (EEA / UK)",
+          "body": "Where applicable, we rely on legitimate interests (running a public directory and securing the site), consent (optional cookies, if introduced), legal obligation, and steps needed to reply when you contact us."
+        },
+        {
+          "title": "Sharing",
+          "body": "We may use trusted providers for hosting and email delivery. They process data on our instructions.\n\nIf you continue to a company site, that company becomes the controller of any data you submit there. We do not pass your contact-form message to rental companies unless you ask us to."
+        },
+        {
+          "title": "Cookies",
+          "body": "We use a strictly necessary language cookie and store your cookie choice on your device. See the cookie policy for details. Optional cookies stay off unless you accept them."
+        },
+        {
+          "title": "Retention",
+          "body": "We keep contact messages as long as needed to reply and for a reasonable follow-up period. Technical logs are kept for a short period. Your cookie choice stays until you change it or clear site data."
+        },
+        {
+          "title": "Your rights",
+          "body": "Depending on your location, you may have rights to access, rectify, erase, restrict, or port your data, and to object to certain processing. You may also lodge a complaint with your local supervisory authority.\n\nTo exercise your rights, use the contact page."
+        },
+        {
+          "title": "International transfers",
+          "body": "If data is transferred outside your country, we use appropriate safeguards such as standard contractual clauses or equivalent mechanisms where required by law."
+        },
+        {
+          "title": "Changes",
+          "body": "We may update this policy from time to time. We will post the revised version on this page and update the “Last updated” date."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of use",
+      "lede": "The rules for using the Benwer Cars marketplace to discover rental fleets.",
+      "updated": "Last updated: 13 September 2026",
+      "sections": [
+        {
+          "title": "The marketplace",
+          "body": "Benwer Cars provides a public directory of car rental companies and their published fleets. You can compare cars and continue to a company’s own website to finish a rental.\n\nThese terms apply to the marketplace website. They do not replace the rental company’s own terms, which apply when you book with them."
+        },
+        {
+          "title": "Bookings are with rental companies",
+          "body": "Benwer does not rent cars, take payment, or enter into a hire contract on the marketplace.\n\nIf you continue to a company site, any booking, deposit, insurance, and pick-up arrangement is between you and that company. Read their terms before you confirm."
+        },
+        {
+          "title": "Listings and availability",
+          "body": "Fleet details, prices, photos, and availability are published by rental companies and may change. We aim to show public information accurately, but we do not guarantee that a car will still be available or that a listed price will be honoured until the company confirms it.\n\nDates you enter on the marketplace help you search. Final availability is confirmed on the company site."
+        },
+        {
+          "title": "Acceptable use",
+          "body": "Use the marketplace lawfully. Do not scrape, overload, or interfere with the service, submit false contact details, or use the site to harm other people or businesses."
+        },
+        {
+          "title": "Liability",
+          "body": "The marketplace is provided as a discovery service. To the extent permitted by law, Benwer is not liable for rental disputes, vehicle condition, or bookings completed on a company’s site.\n\nNothing in these terms limits rights you have as a consumer that cannot be waived under applicable law."
+        },
+        {
+          "title": "Changes",
+          "body": "We may update these terms. The “Last updated” date on this page shows the current version. Continued use after a change means you accept the updated terms."
+        },
+        {
+          "title": "Contact",
+          "body": "Questions about these terms or the marketplace can be sent from the contact page. For a booking you already started, contact the rental company directly."
+        }
+      ]
+    },
+    "cookies": {
+      "title": "Cookie policy",
+      "lede": "How we use cookies and similar technologies on the marketplace.",
+      "updated": "Last updated: 13 September 2026",
+      "sections": [
+        {
+          "title": "What we use",
+          "body": "Cookies are small text files stored on your device. We also use similar storage, such as local storage, to remember choices.\n\nThis policy covers the Benwer Cars marketplace. When you continue to a rental company’s site, that site may set its own cookies."
+        },
+        {
+          "title": "Strictly necessary",
+          "body": "We use a language cookie so the site can show English or Spanish. This is required for the marketplace to work as you expect.\n\nYour cookie-banner choice is stored on your device so we do not ask again on every visit. That storage is not used to advertise to you."
+        },
+        {
+          "title": "Optional cookies",
+          "body": "Optional cookies (for example analytics) stay off unless you choose Accept all.\n\nToday the marketplace does not set analytics or marketing cookies. If we add them later, we will describe them here and they will still require your acceptance."
+        },
+        {
+          "title": "Managing cookies",
+          "body": "Use the banner to accept all cookies or keep only what is necessary. You can also delete cookies and site data in your browser. Blocking the language cookie may reset English or Spanish on your next visit."
+        },
+        {
+          "title": "More information",
+          "body": "See the privacy policy for how we handle personal data, or send a message from the contact page."
+        }
+      ]
+    }
   }
 }
