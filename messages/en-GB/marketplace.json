@@ -49,6 +49,9 @@
     "noResults": "No cars match your filters.",
     "noResultsHint": "Try adjusting your dates or filters.",
     "clearFilters": "Clear filters",
+    "searchPlaceholder": "Search cars",
+    "showFilters": "Show filters",
+    "hideFilters": "Hide filters",
     "filters": {
       "title": "Filters",
       "type": "Vehicle type",
@@ -87,7 +90,8 @@
     "seats": "Seats",
     "availability": "Availability",
     "notAvailable": "This car is not available for the selected dates.",
-    "breadcrumbAria": "Breadcrumb"
+    "breadcrumbAria": "Breadcrumb",
+    "photoEmpty": "Photos coming soon"
   },
   "booking": {
     "title": "Complete your booking",
@@ -105,7 +109,9 @@
     "confirming": "Confirming…",
     "successTitle": "Booking confirmed!",
     "successMessage": "Your confirmation has been sent to {email}.",
-    "viewBooking": "View my booking"
+    "viewBooking": "View my booking",
+    "selectDates": "Select dates to continue",
+    "invalidDates": "Choose a valid date range"
   },
   "reservationStatus": {
     "title": "Your reservation",

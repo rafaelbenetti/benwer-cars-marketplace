@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Field } from "@/components/ui/Field";
 import { cn } from "@/lib/utils";
 import type { Vehicle } from "@/types/vehicle";
-
 
 interface BookingWidgetProps {
   vehicle: Vehicle;
@@ -20,6 +20,9 @@ export function BookingWidget({
   companySlug,
   className,
 }: BookingWidgetProps) {
+  const t = useTranslations("booking");
+  const tCars = useTranslations("cars");
+  const tDetail = useTranslations("carDetail");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
@@ -31,51 +34,39 @@ export function BookingWidget({
       ? `/book?companySlug=${companySlug}&carId=${vehicle.id}&from=${from}&to=${to}`
       : null;
 
-  const priceFormatted = new Intl.NumberFormat("en-GB", {
-    style: "currency",
-    currency: vehicle.currency,
-    minimumFractionDigits: 0,
-  }).format(vehicle.pricePerDay);
-
-  const totalFormatted = total
-    ? new Intl.NumberFormat("en-GB", {
-        style: "currency",
-        currency: vehicle.currency,
-        minimumFractionDigits: 0,
-      }).format(total)
-    : null;
+  const priceFormatted = formatPrice(vehicle.pricePerDay, vehicle.currency);
+  const totalFormatted = total ? formatPrice(total, vehicle.currency) : null;
 
   return (
     <div
       className={cn(
-        "sticky top-20 rounded-xl border border-border bg-surface p-5 flex flex-col gap-5",
+        "sticky top-20 flex flex-col gap-5 rounded-2xl border border-border bg-surface p-5 shadow-md",
         className,
       )}
     >
-      <div className="flex items-baseline gap-1">
-        <span className="text-2xl font-semibold tabular-nums text-foreground">
-          {priceFormatted}
-        </span>
-        <span className="text-sm text-muted-foreground">/ day</span>
-      </div>
+      <p className="text-2xl font-semibold tabular-nums text-foreground">
+        {tCars("perDay", { price: priceFormatted })}
+      </p>
 
       <div className="flex flex-col gap-3">
-        <Field label="Pick-up date" htmlFor="from" required>
+        <Field label={t("startDate")} htmlFor="from" required>
           <Input
             id="from"
             type="date"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
             min={todayString()}
+            className="h-11"
           />
         </Field>
-        <Field label="Drop-off date" htmlFor="to" required>
+        <Field label={t("endDate")} htmlFor="to" required>
           <Input
             id="to"
             type="date"
             value={to}
             onChange={(e) => setTo(e.target.value)}
             min={from || todayString()}
+            className="h-11"
           />
         </Field>
       </div>
@@ -83,7 +74,7 @@ export function BookingWidget({
       {totalFormatted && days ? (
         <div className="flex items-center justify-between border-t border-border pt-4">
           <span className="text-sm text-muted-foreground">
-            {priceFormatted} × {days} day{days !== 1 ? "s" : ""}
+            {priceFormatted} × {t("nights", { count: days })}
           </span>
           <span className="text-base font-semibold tabular-nums text-foreground">
             {totalFormatted}
@@ -94,13 +85,13 @@ export function BookingWidget({
       {bookHref ? (
         <Link
           href={bookHref}
-          className="inline-flex h-9 w-full items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="inline-flex h-11 w-full cursor-pointer items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          Book now
+          {tDetail("bookNow")}
         </Link>
       ) : (
-        <Button disabled className="w-full">
-          {!from || !to ? "Select dates to continue" : "Invalid dates"}
+        <Button disabled className="h-11 w-full">
+          {!from || !to ? t("selectDates") : t("invalidDates")}
         </Button>
       )}
     </div>
@@ -115,4 +106,12 @@ function computeDays(from: string, to: string): number {
   const start = new Date(from).getTime();
   const end = new Date(to).getTime();
   return Math.max(0, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
+}
+
+function formatPrice(amount: number, currency: string): string {
+  return new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 0,
+  }).format(amount);
 }

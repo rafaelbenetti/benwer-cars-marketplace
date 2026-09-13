@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { Users, Fuel, Zap } from "lucide-react";
+import { Car, Users, Fuel, Zap } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 import type { Vehicle } from "@/types/vehicle";
@@ -13,106 +16,93 @@ interface CarCardProps {
 }
 
 export function CarCard({ vehicle, href, className }: CarCardProps) {
+  const t = useTranslations("cars");
   const primaryPhoto = vehicle.photos[0];
 
   return (
     <Link
       href={href}
       className={cn(
-        "group flex flex-col rounded-xl border border-border bg-surface overflow-hidden transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "group flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-surface transition-shadow",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "motion-safe:hover:shadow-md",
         className,
       )}
     >
-      <div className="relative aspect-[4/3] bg-surface-muted">
+      <div className="relative aspect-[4/3] bg-primary/5">
         {primaryPhoto ? (
           <Image
             src={primaryPhoto}
             alt={`${vehicle.brand} ${vehicle.model}`}
             fill
-            className="object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+            className="object-cover transition-transform duration-200 motion-safe:group-hover:scale-[1.02]"
             sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <svg
-              className="h-12 w-12 text-subtle-foreground"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.5}
-              aria-hidden
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
-              />
-            </svg>
+          <div className="flex h-full flex-col items-center justify-center gap-2 px-4">
+            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <Car size={24} aria-hidden />
+            </span>
+            <p className="text-center text-sm font-medium text-foreground">
+              {vehicle.brand} {vehicle.model}
+            </p>
           </div>
         )}
       </div>
 
-      <div className="flex flex-col gap-3 p-4">
+      <div className="flex flex-1 flex-col gap-3 p-4">
         <div>
-          <p className="text-base font-semibold text-foreground leading-tight">
+          <p className="text-base font-semibold leading-tight text-foreground">
             {vehicle.brand} {vehicle.model}
           </p>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            {vehicle.year} &middot; {formatType(vehicle.type)}
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            {vehicle.year} &middot; {t(`types.${vehicle.type}`)}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-wrap items-center gap-2">
           <Badge variant="default" className="gap-1">
             <Users size={12} aria-hidden />
-            {vehicle.seats}
+            {t("seats", { count: vehicle.seats })}
           </Badge>
           <Badge variant="default">
-            {vehicle.transmission === TransmissionType.AUTOMATIC ? "Auto" : "Manual"}
+            {t(
+              vehicle.transmission === TransmissionType.AUTOMATIC
+                ? "transmission.automatic"
+                : "transmission.manual",
+            )}
           </Badge>
           <FuelBadge fuel={vehicle.fuel} />
         </div>
 
-        <div className="flex items-baseline gap-1 pt-1 border-t border-border">
-          <span className="text-lg font-semibold tabular-nums text-foreground">
-            {formatPrice(vehicle.pricePerDay, vehicle.currency)}
-          </span>
-          <span className="text-xs text-muted-foreground">/ day</span>
-        </div>
+        <p className="mt-auto border-t border-border pt-3 text-lg font-semibold tabular-nums text-foreground">
+          {t("perDay", {
+            price: formatPrice(vehicle.pricePerDay, vehicle.currency),
+          })}
+        </p>
       </div>
     </Link>
   );
 }
 
 function FuelBadge({ fuel }: { fuel: FuelType }) {
+  const t = useTranslations("cars");
+
   if (fuel === FuelType.ELECTRIC) {
     return (
       <Badge variant="success" className="gap-1">
         <Zap size={12} aria-hidden />
-        Electric
+        {t("fuel.electric")}
       </Badge>
     );
   }
+
   return (
     <Badge variant="default" className="gap-1">
       <Fuel size={12} aria-hidden />
-      {formatFuel(fuel)}
+      {t(`fuel.${fuel}`)}
     </Badge>
   );
-}
-
-function formatType(type: string): string {
-  return type.charAt(0).toUpperCase() + type.slice(1);
-}
-
-function formatFuel(fuel: FuelType): string {
-  const map: Record<FuelType, string> = {
-    [FuelType.PETROL]: "Petrol",
-    [FuelType.DIESEL]: "Diesel",
-    [FuelType.ELECTRIC]: "Electric",
-    [FuelType.HYBRID]: "Hybrid",
-  };
-  return map[fuel] ?? fuel;
 }
 
 function formatPrice(amount: number, currency: string): string {

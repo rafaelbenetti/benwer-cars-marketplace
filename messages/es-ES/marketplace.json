@@ -49,6 +49,9 @@
     "noResults": "Ningún coche coincide con tus filtros.",
     "noResultsHint": "Prueba a ajustar las fechas o los filtros.",
     "clearFilters": "Borrar filtros",
+    "searchPlaceholder": "Buscar coches",
+    "showFilters": "Mostrar filtros",
+    "hideFilters": "Ocultar filtros",
     "filters": {
       "title": "Filtros",
       "type": "Tipo de vehículo",
@@ -87,7 +90,8 @@
     "seats": "Plazas",
     "availability": "Disponibilidad",
     "notAvailable": "Este coche no está disponible para las fechas seleccionadas.",
-    "breadcrumbAria": "Ruta de navegación"
+    "breadcrumbAria": "Ruta de navegación",
+    "photoEmpty": "Fotos disponibles pronto"
   },
   "booking": {
     "title": "Completa tu reserva",
@@ -105,7 +109,9 @@
     "confirming": "Confirmando…",
     "successTitle": "¡Reserva confirmada!",
     "successMessage": "Tu confirmación ha sido enviada a {email}.",
-    "viewBooking": "Ver mi reserva"
+    "viewBooking": "Ver mi reserva",
+    "selectDates": "Selecciona fechas para continuar",
+    "invalidDates": "Elige un intervalo de fechas válido"
   },
   "reservationStatus": {
     "title": "Tu reserva",

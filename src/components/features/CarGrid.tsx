@@ -1,6 +1,7 @@
 "use client";
 
 import { Car } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CarCard } from "./CarCard";
 import { CarCardSkeleton } from "./CarCardSkeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -17,7 +18,7 @@ export function CarGridSkeleton({ count = 8, className }: CarGridLoadingProps) {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5",
+        "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
         className,
       )}
     >
@@ -41,13 +42,15 @@ export function CarGrid({
   onClearFilters,
   className,
 }: CarGridProps) {
+  const t = useTranslations("cars");
+
   if (vehicles.length === 0) {
     return (
       <EmptyState
         icon={<Car size={40} />}
-        title="No cars available"
-        description="No cars match your current filters."
-        actionLabel={onClearFilters ? "Clear filters" : undefined}
+        title={t("noResults")}
+        description={t("noResultsHint")}
+        actionLabel={onClearFilters ? t("clearFilters") : undefined}
         onAction={onClearFilters}
       />
     );
@@ -56,7 +59,7 @@ export function CarGrid({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5",
+        "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
         className,
       )}
     >
