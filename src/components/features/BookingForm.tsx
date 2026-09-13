@@ -6,7 +6,13 @@ import { useLocale, useTranslations } from "next-intl";
 import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import type { BookingFormValues } from "@/lib/bookingSchema";
-import { addCalendarDays, startOfToday, toIsoDate } from "@/lib/dates";
+import {
+  addCalendarDays,
+  formatLongDate,
+  parseIsoDate,
+  startOfToday,
+  toIsoDate,
+} from "@/lib/dates";
 
 interface BookingFormProps {
   carHref: string;
@@ -22,11 +28,58 @@ export function BookingForm({ carHref }: BookingFormProps) {
   } = useFormContext<BookingFormValues>();
 
   const startDate = useWatch({ control, name: "startDate" }) ?? "";
+  const endDate = useWatch({ control, name: "endDate" }) ?? "";
   const minStart = toIsoDate(startOfToday());
   const minEnd = addCalendarDays(startDate, 1) ?? minStart;
+  const startLabel = formatFieldDate(startDate, locale);
+  const endLabel = formatFieldDate(endDate, locale);
 
   return (
     <div className="flex flex-col gap-6 rounded-2xl border border-border bg-surface p-5 shadow-sm md:p-6">
+      <div className="flex flex-col gap-3">
+        <p className="text-sm text-muted-foreground">{t("datesHint")}</p>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Field
+            label={t("startDate")}
+            htmlFor="startDate"
+            hint={startLabel}
+            error={errors.startDate?.message}
+            required
+          >
+            <Input
+              id="startDate"
+              type="date"
+              lang={locale}
+              min={minStart}
+              className="h-11"
+              {...register("startDate")}
+            />
+          </Field>
+          <Field
+            label={t("endDate")}
+            htmlFor="endDate"
+            hint={endLabel}
+            error={errors.endDate?.message}
+            required
+          >
+            <Input
+              id="endDate"
+              type="date"
+              lang={locale}
+              min={minEnd}
+              className="h-11"
+              {...register("endDate")}
+            />
+          </Field>
+        </div>
+        <Link
+          href={carHref}
+          className="w-fit cursor-pointer text-sm font-medium text-primary transition-colors hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          {t("changeDates")}
+        </Link>
+      </div>
+
       <div>
         <h2 className="text-xl font-semibold text-foreground">{t("details")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{t("detailsHint")}</p>
@@ -84,48 +137,11 @@ export function BookingForm({ carHref }: BookingFormProps) {
           {...register("guestPhone")}
         />
       </Field>
-
-      <div className="flex flex-col gap-3">
-        <p className="text-sm text-muted-foreground">{t("datesHint")}</p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field
-            label={t("startDate")}
-            htmlFor="startDate"
-            error={errors.startDate?.message}
-            required
-          >
-            <Input
-              id="startDate"
-              type="date"
-              lang={locale}
-              min={minStart}
-              className="h-11"
-              {...register("startDate")}
-            />
-          </Field>
-          <Field
-            label={t("endDate")}
-            htmlFor="endDate"
-            error={errors.endDate?.message}
-            required
-          >
-            <Input
-              id="endDate"
-              type="date"
-              lang={locale}
-              min={minEnd}
-              className="h-11"
-              {...register("endDate")}
-            />
-          </Field>
-        </div>
-        <Link
-          href={carHref}
-          className="w-fit cursor-pointer text-sm font-medium text-primary transition-colors hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        >
-          {t("changeDates")}
-        </Link>
-      </div>
     </div>
   );
+}
+
+function formatFieldDate(value: string, locale: string): string | undefined {
+  const date = parseIsoDate(value);
+  return date ? formatLongDate(date, locale) : undefined;
 }

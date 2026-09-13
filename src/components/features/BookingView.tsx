@@ -165,6 +165,21 @@ export function BookingView({
           <TrustPill icon={Wallet} label={t("trustNoPayment")} />
         </ul>
 
+        {days <= 0 ? (
+          <div className="rounded-xl border border-dashed border-border bg-surface-muted/60 px-4 py-3 lg:hidden">
+            <p className="text-sm font-medium text-foreground">{t("datesMissingTitle")}</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {t("datesMissingDescription")}
+            </p>
+            <Link
+              href={carHref}
+              className="mt-2 inline-block cursor-pointer text-sm font-medium text-primary transition-colors hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              {t("pickDates")}
+            </Link>
+          </div>
+        ) : null}
+
         <form
           id={BOOKING_FORM_ID}
           onSubmit={form.handleSubmit(onSubmit, onInvalid)}
@@ -175,7 +190,9 @@ export function BookingView({
         >
           <div className="lg:col-span-3">
             <BookingForm carHref={carHref} />
-            <p className="mt-4 text-xs text-muted-foreground">{t("trustFooter")}</p>
+            <p className="mt-4 hidden text-xs text-muted-foreground lg:block">
+              {t("trustFooter")}
+            </p>
           </div>
 
           <div className="hidden lg:col-span-2 lg:block">
@@ -197,16 +214,6 @@ export function BookingView({
         </form>
       </div>
 
-      <div className="lg:hidden">
-        <BookingSummary
-          vehicle={vehicle}
-          company={company}
-          from={startDate}
-          to={endDate}
-          carHref={carHref}
-        />
-      </div>
-
       <div
         className={cn(
           "fixed inset-x-0 bottom-0 z-30 border-t border-border bg-surface px-4 pt-3 shadow-md lg:hidden",
@@ -219,7 +226,9 @@ export function BookingView({
               {total ?? dailyRate}
             </p>
             <p className="truncate text-xs text-muted-foreground">
-              {days > 0 ? t("nights", { count: days }) : t("selectDates")}
+              {days > 0
+                ? t("stickyMeta", { name: carName, count: days })
+                : t("selectDates")}
             </p>
           </div>
           <ConfirmButton

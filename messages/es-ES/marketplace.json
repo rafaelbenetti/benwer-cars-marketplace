@@ -166,6 +166,7 @@
     "duration": "Duración",
     "totalPrice": "Total",
     "nights": "{count, plural, one {# día} other {# días}}",
+    "stickyMeta": "{name} · {count, plural, one {# día} other {# días}}",
     "rateTimesDays": "{rate} × {days}",
     "confirm": "Confirmar reserva",
     "confirming": "Confirmando…",
