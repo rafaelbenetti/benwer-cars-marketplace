@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { toPublicMediaSrc } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import type { Company } from "@/types/company";
 
@@ -17,21 +17,17 @@ const SIZE_CLASS = {
   lg: "h-14 w-14 rounded-xl text-xl",
 } as const;
 
-const SIZE_PX = {
-  sm: 28,
-  md: 48,
-  lg: 56,
-} as const;
-
 export function CompanyMark({
   company,
   size = "md",
   className,
 }: CompanyMarkProps) {
   const [failed, setFailed] = useState(false);
-  const logoUrl = company.branding.logoUrl;
+  const logoSrc = company.branding.logoUrl
+    ? toPublicMediaSrc(company.branding.logoUrl)
+    : null;
 
-  if (logoUrl && !failed) {
+  if (logoSrc && !failed) {
     return (
       <span
         className={cn(
@@ -40,12 +36,10 @@ export function CompanyMark({
           className,
         )}
       >
-        <Image
-          src={logoUrl}
+        {/* eslint-disable-next-line @next/next/no-img-element -- SVG logos skip the next/image optimizer */}
+        <img
+          src={logoSrc}
           alt=""
-          width={SIZE_PX[size]}
-          height={SIZE_PX[size]}
-          unoptimized
           className="h-full w-full object-contain p-0.5"
           onError={() => setFailed(true)}
         />

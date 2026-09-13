@@ -5,12 +5,17 @@ import {
 } from "./media";
 
 describe("toPublicMediaSrc", () => {
-  it("rewrites the live LocalStack SVG logo URL to /localstack", () => {
+  it("rewrites live LocalStack SVG logo URLs to /localstack", () => {
     expect(
       toPublicMediaSrc(
         "http://localhost:4566/public-benwer-cars/seed/logos/med-rentacar.svg",
       ),
     ).toBe("/localstack/public-benwer-cars/seed/logos/med-rentacar.svg");
+    expect(
+      toPublicMediaSrc(
+        "http://localhost:4566/public-benwer-cars/seed/logos/benetti-cars.svg",
+      ),
+    ).toBe("/localstack/public-benwer-cars/seed/logos/benetti-cars.svg");
   });
 
   it("rewrites 127.0.0.1 LocalStack hosts", () => {
