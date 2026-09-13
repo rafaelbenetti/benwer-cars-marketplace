@@ -129,17 +129,25 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
 `src/services/api/client.ts` exposes:
 - `getOpenApiClient()` — `openapi-fetch` client typed from `schema.d.ts`
   (`npm run generate:api`). No credentials middleware; public routes only.
-  Browser uses `NEXT_PUBLIC_API_URL` (typically the `/api` rewrite); the server
-  prefers `API_ORIGIN`. Requests use `cache: "no-store"`.
+  The server prefers `API_ORIGIN`. The browser uses a **same-origin**
+  `NEXT_PUBLIC_API_URL` (`/api` or `https://marketplace.benwer.es/api`).
+  Cross-origin values such as `https://cars-api.benwer.es/v1` are rewritten
+  to `/api` so the browser never CORS-calls the API host. `/api/:path*` is
+  handled by `src/app/api/[...path]/route.ts`, which proxies allowlisted
+  `/v1/public/*` (and `POST /v1/contact`) to `API_ORIGIN` **without**
+  forwarding the browser `Origin` header. Requests use `cache: "no-store"`.
 - `mockClient.get<T>(path)` — reads `public/mock-data/*.json`.
 
 Services call live first when an API URL is configured, via `withMockFallback`.
-Mock is used only when the live URL is unset or the API is clearly unreachable
-(network / DNS / timeout). HTTP 4xx and 5xx from a reachable API are surfaced
-as `ApiError`. List responses are `{ data, page }` (`unwrapList` reads
-`response.data`; raw arrays remain a fallback). Mappers accept marketplace
-aliases (`brand`, `type`, `pricePerDay`, `fuel`, `unavailableDates`) and admin
-names (`make`, `category`, `dailyRate`, `fuelType`, `{ available, conflicts }`).
+Mock JSON is used **only** when `NEXT_PUBLIC_ENV=local` and the live API is
+unset or unreachable (network / DNS / timeout). Staging and production fail
+loudly — they never substitute `public/mock-data` stock photos. HTTP 4xx and
+5xx from a reachable API are surfaced as `ApiError`. List responses are
+`{ data, page }` (`unwrapList` reads `response.data`; raw arrays remain a
+fallback). Mappers accept marketplace aliases (`brand`, `type`, `pricePerDay`,
+`fuel`, `unavailableDates`) and admin names (`make`, `category`, `dailyRate`,
+`fuelType`, `{ available, conflicts }`).
+
 
 ## Per-tenant branding
 

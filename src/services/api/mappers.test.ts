@@ -197,6 +197,34 @@ describe("mapVehicleList", () => {
     ]);
   });
 
+  it("reads signedUrl and publicUrl photo objects", () => {
+    const vehicle = mapVehicle({
+      id: "v-signed",
+      make: "SEAT",
+      model: "Ibiza",
+      photos: [
+        { publicUrl: "https://cdn.example/public.jpg" },
+        { signedUrl: "https://cdn.example/signed.jpg?X-Amz-Signature=abc" },
+      ],
+    });
+
+    expect(vehicle.photos).toEqual([
+      "https://cdn.example/public.jpg",
+      "https://cdn.example/signed.jpg?X-Amz-Signature=abc",
+    ]);
+  });
+
+  it("does not invent placeholder photos when the API sends an empty list", () => {
+    const vehicle = mapVehicle({
+      id: "v-empty",
+      make: "Peugeot",
+      model: "208",
+      photos: [],
+    });
+
+    expect(vehicle.photos).toEqual([]);
+  });
+
   it("rewrites LocalStack photo hosts to same-origin /localstack paths", () => {
     const vehicle = mapVehicle({
       id: "v-localstack",

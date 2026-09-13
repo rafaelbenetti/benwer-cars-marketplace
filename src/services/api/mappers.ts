@@ -149,7 +149,11 @@ function readPhotoUrl(value: unknown): string | undefined {
       ? readString(value.url) ??
         readString(value.src) ??
         readString(value.href) ??
-        readString(value.photoUrl)
+        readString(value.photoUrl) ??
+        readString(value.publicUrl) ??
+        readString(value.signedUrl) ??
+        readString(value.key) ??
+        readString(value.path)
       : undefined;
 
   return raw ? toPublicPhotoSrc(raw) : undefined;
