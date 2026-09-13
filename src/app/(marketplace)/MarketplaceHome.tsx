@@ -3,10 +3,8 @@ import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { Footer } from "@/components/layout/Footer";
-import { BrowseByLocation } from "@/components/features/BrowseByLocation";
 import { CompanyListView } from "@/components/features/CompanyListView";
 import { HowItWorks } from "@/components/features/HowItWorks";
-import { MarketplaceMapTeaser } from "@/components/features/MarketplaceMapTeaser";
 import { MarketplaceSearchHeader } from "@/components/features/MarketplaceSearchHeader";
 import { PartnersInvite } from "@/components/features/PartnersInvite";
 import { NavRoutes } from "@/enums";
@@ -33,10 +31,8 @@ export async function MarketplaceHome() {
     <>
       <MarketplaceHeader />
       <MarketplaceSearchHeader />
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-12 px-4 py-12 md:px-6 md:py-16 lg:px-8">
+      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-16 px-4 py-12 md:gap-20 md:px-6 md:py-16 lg:px-8">
         <HowItWorks />
-        <MarketplaceMapTeaser />
-        <BrowseByLocation />
         <section className="flex flex-col gap-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex flex-col gap-1">

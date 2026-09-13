@@ -144,6 +144,8 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
           <CarDetailView
             vehicle={vehicle}
             companySlug={slug}
+            companyName={company?.name}
+            companyWebsiteUrl={company?.websiteUrl}
             initialFrom={query.from}
             initialTo={query.to}
             backHref={companyHref}

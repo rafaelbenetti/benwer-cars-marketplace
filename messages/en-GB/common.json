@@ -22,8 +22,8 @@
     "footerAria": "Footer navigation"
   },
   "meta": {
-    "siteTitle": "Find and book local car rentals",
-    "siteDescription": "Browse and book cars from local rental companies across Málaga province. No account needed."
+    "siteTitle": "Find local car rentals",
+    "siteDescription": "Compare cars from local rental companies across Málaga province, then continue on the company's site."
   },
   "notFound": {
     "title": "Page not found",
@@ -44,8 +44,8 @@
     "esName": "Español"
   },
   "footer": {
-    "tagline": "Find and book cars from local rental companies.",
-    "trust": "Guest booking · Local operators · Málaga",
+    "tagline": "Compare cars from local rental companies.",
+    "trust": "Local operators · Málaga · Rent on the company site",
     "poweredBy": "Booked through Benwer Cars",
     "copyright": "© {year} Benwer Cars. All rights reserved."
   },

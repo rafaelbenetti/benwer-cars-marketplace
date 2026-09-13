@@ -10,14 +10,13 @@ import { companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
 import { ApiError } from "@/lib/errors";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
+import { buildCompanySiteHref } from "@/lib/companySite";
 import { buildPageMetadata } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{
     location?: string;
-    from?: string;
-    to?: string;
   }>;
 }
 
@@ -95,10 +94,16 @@ async function CompanyPage({ params, searchParams }: Props) {
         logoUrl={company?.branding.logoUrl}
         description={company?.description}
         location={company?.location}
+        websiteHref={buildCompanySiteHref({
+          slug,
+          websiteUrl: company?.websiteUrl,
+        })}
+        websiteLabel={t("visitWebsite")}
+        email={company?.email}
+        phone={company?.phone}
+        contactLabel={t("contact")}
         backHref={appendSearchParams(NavRoutes.COMPANIES, {
           location: query.location,
-          from: query.from,
-          to: query.to,
         })}
         backLabel={t("backToList")}
       />

@@ -1,13 +1,13 @@
 {
   "home": {
     "title": "Find your perfect car",
-    "subtitle": "Compare local fleets and book in minutes — no account needed.",
+    "subtitle": "Compare local fleets, then continue on the rental company's site.",
     "searchPlaceholder": "Where are you going?",
     "eyebrow": "Málaga · Costa del Sol",
     "companiesHeading": "Featured companies",
     "companiesSubtitle": "Trusted local operators across Málaga province",
     "trustLocal": "Local companies",
-    "trustGuest": "Book as a guest",
+    "trustGuest": "Rent on the company site",
     "trustArea": "Málaga province",
     "viewAllCompanies": "View all companies"
   },
@@ -37,13 +37,13 @@
   },
   "howItWorks": {
     "title": "How it works",
-    "subtitle": "Search, compare, and book in three steps.",
+    "subtitle": "Find a car here, then rent on the company's own site.",
     "searchTitle": "Search",
     "searchBody": "Choose your location and dates",
     "compareTitle": "Compare",
-    "compareBody": "Browse cars from every local fleet",
-    "bookTitle": "Book",
-    "bookBody": "Confirm with your name and email"
+    "compareBody": "Browse cars from local rental fleets",
+    "continueTitle": "Continue",
+    "continueBody": "Finish on the rental company's site"
   },
   "search": {
     "locationLabel": "Pick-up location",
@@ -153,6 +153,9 @@
   },
   "carDetail": {
     "bookNow": "Book now",
+    "continueOnCompany": "Continue on {company}",
+    "rentOnCompanySite": "Rent on company site",
+    "handoffHint": "You'll complete the rental on the company's own site.",
     "pricePerDay": "{price} per day",
     "specs": "Specifications",
     "year": "Year",
@@ -283,11 +286,13 @@
     "subtitle": "Browse trusted local operators across Málaga — on the map or in the list",
     "searchPlaceholder": "Search companies…",
     "noResults": "No companies found",
-    "noResultsHint": "Try different dates or another location in Málaga province.",
+    "noResultsHint": "Try another location in Málaga province.",
     "emptyTitle": "No companies listed yet",
     "emptyDescription": "No rental companies are listed yet.",
     "clearFilters": "Clear search",
     "viewFleet": "View fleet",
+    "visitWebsite": "Visit website",
+    "contact": "Contact",
     "backToList": "All companies",
     "notFoundTitle": "Company not found",
     "notFoundDescription": "This rental company is not listed. Browse others nearby."

@@ -1,13 +1,13 @@
 {
   "home": {
     "title": "Encuentra tu coche perfecto",
-    "subtitle": "Compara flotas locales y reserva en minutos — sin crear cuenta.",
+    "subtitle": "Compara flotas locales y continúa en la web de la empresa de alquiler.",
     "searchPlaceholder": "¿A dónde vas?",
     "eyebrow": "Málaga · Costa del Sol",
     "companiesHeading": "Empresas destacadas",
     "companiesSubtitle": "Operadores locales de confianza en la provincia de Málaga",
     "trustLocal": "Empresas locales",
-    "trustGuest": "Reserva como invitado",
+    "trustGuest": "Alquila en la web de la empresa",
     "trustArea": "Provincia de Málaga",
     "viewAllCompanies": "Ver todas las empresas"
   },
@@ -37,13 +37,13 @@
   },
   "howItWorks": {
     "title": "Cómo funciona",
-    "subtitle": "Busca, compara y reserva en tres pasos.",
+    "subtitle": "Encuentra un coche aquí y alquila en la web de la empresa.",
     "searchTitle": "Busca",
     "searchBody": "Elige ubicación y fechas",
     "compareTitle": "Compara",
-    "compareBody": "Explora coches de todas las flotas locales",
-    "bookTitle": "Reserva",
-    "bookBody": "Confirma con tu nombre y correo"
+    "compareBody": "Explora coches de flotas locales",
+    "continueTitle": "Continúa",
+    "continueBody": "Termina en la web de la empresa de alquiler"
   },
   "search": {
     "locationLabel": "Lugar de recogida",
@@ -153,6 +153,9 @@
   },
   "carDetail": {
     "bookNow": "Reservar ahora",
+    "continueOnCompany": "Continuar en {company}",
+    "rentOnCompanySite": "Alquilar en la web de la empresa",
+    "handoffHint": "Completarás el alquiler en la web de la empresa.",
     "pricePerDay": "{price} por día",
     "specs": "Especificaciones",
     "year": "Año",
@@ -283,11 +286,13 @@
     "subtitle": "Explora operadores locales de confianza en Málaga — en el mapa o en la lista",
     "searchPlaceholder": "Buscar empresas…",
     "noResults": "No se encontraron empresas",
-    "noResultsHint": "Prueba otras fechas u otra ubicación en la provincia de Málaga.",
+    "noResultsHint": "Prueba otra ubicación en la provincia de Málaga.",
     "emptyTitle": "Aún no hay empresas listadas",
     "emptyDescription": "Aún no hay empresas de alquiler listadas.",
     "clearFilters": "Borrar búsqueda",
     "viewFleet": "Ver flota",
+    "visitWebsite": "Visitar la web",
+    "contact": "Contactar",
     "backToList": "Todas las empresas",
     "notFoundTitle": "Empresa no encontrada",
     "notFoundDescription": "Esta empresa no está listada. Explora otras cerca."

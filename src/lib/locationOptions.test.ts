@@ -18,6 +18,9 @@ function company(partial: Partial<Company> & Pick<Company, "slug" | "name">): Co
     longitude: null,
     vehicleCount: partial.vehicleCount ?? 3,
     isPublic: true,
+    websiteUrl: partial.websiteUrl ?? null,
+    email: partial.email ?? null,
+    phone: partial.phone ?? null,
     branding: { primaryColor: "", logoUrl: null },
   };
 }

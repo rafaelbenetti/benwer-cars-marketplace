@@ -25,14 +25,10 @@ function CompanyResults({
 }) {
   const searchParams = useSearchParams();
   const location = searchParams.get(SearchParams.LOCATION);
-  const from = searchParams.get(SearchParams.FROM);
-  const to = searchParams.get(SearchParams.TO);
   const { data, isPending, isError, error, refetch } = useCompanies(
     showSearchBar
       ? {
           location: location || undefined,
-          from: from || undefined,
-          to: to || undefined,
         }
       : undefined,
   );
@@ -59,8 +55,6 @@ function CompanyResults({
         error={error}
         onRetry={refetch}
         location={location}
-        from={from}
-        to={to}
       />
     </div>
   );
@@ -74,7 +68,7 @@ export function CompanyListView({
     <Suspense
       fallback={
         <div className="flex flex-col gap-6">
-          {showSearchBar ? <MarketplaceSearchBarFallback /> : null}
+          {showSearchBar ? <MarketplaceSearchBarFallback target="companies" /> : null}
           <CompanyGridSkeleton count={limit ?? 6} />
         </div>
       }

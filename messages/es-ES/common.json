@@ -22,8 +22,8 @@
     "footerAria": "Navegación del pie de página"
   },
   "meta": {
-    "siteTitle": "Encuentra y reserva coches de alquiler locales",
-    "siteDescription": "Explora y reserva coches de empresas locales en la provincia de Málaga. Sin crear cuenta."
+    "siteTitle": "Encuentra coches de alquiler locales",
+    "siteDescription": "Compara coches de empresas locales en la provincia de Málaga y continúa en la web de la empresa."
   },
   "notFound": {
     "title": "Página no encontrada",
@@ -44,8 +44,8 @@
     "esName": "Español"
   },
   "footer": {
-    "tagline": "Encuentra y reserva coches de empresas de alquiler locales.",
-    "trust": "Reserva como invitado · Operadores locales · Málaga",
+    "tagline": "Compara coches de empresas de alquiler locales.",
+    "trust": "Operadores locales · Málaga · Alquila en la web de la empresa",
     "poweredBy": "Reservado a través de Benwer Cars",
     "copyright": "© {year} Benwer Cars. Todos los derechos reservados."
   },

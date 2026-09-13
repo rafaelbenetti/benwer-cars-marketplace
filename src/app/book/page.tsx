@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { Car } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -11,7 +12,8 @@ import { BookingView } from "@/components/features/BookingView";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { companiesApi, vehiclesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
-import { buildCarDetailHref, buildFleetHref } from "@/lib/booking";
+import { buildBookHref, buildCarDetailHref, buildFleetHref } from "@/lib/booking";
+import { buildCompanySiteHref, buildCompanySiteOrigin } from "@/lib/companySite";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -44,6 +46,44 @@ async function BookPage({ searchParams }: Props) {
   const tenantSlug = headersList.get("x-company-slug");
   const isTenant = Boolean(tenantSlug);
   const companySlug = tenantSlug ?? querySlug ?? "";
+
+  if (!isTenant) {
+    let websiteUrl: string | null = null;
+    if (companySlug) {
+      try {
+        const listed = await companiesApi.getBySlug(companySlug);
+        websiteUrl = listed.websiteUrl;
+      } catch {
+        websiteUrl = null;
+      }
+    }
+
+    if (companySlug && websiteUrl) {
+      redirect(
+        buildCompanySiteHref({
+          slug: companySlug,
+          websiteUrl,
+          from,
+          to,
+        }),
+      );
+    }
+
+    if (companySlug && carId) {
+      redirect(
+        `${buildCompanySiteOrigin(companySlug)}${buildBookHref({
+          companySlug,
+          carId,
+          from,
+          to,
+        })}`,
+      );
+    }
+
+    if (companySlug) {
+      redirect(buildCompanySiteHref({ slug: companySlug }));
+    }
+  }
 
   if (!carId || !companySlug) {
     return (

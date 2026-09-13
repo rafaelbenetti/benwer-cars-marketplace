@@ -123,6 +123,9 @@ async function TenantCarDetailPage({ params, searchParams }: Props) {
           <CarDetailView
             vehicle={vehicle}
             companySlug={companySlug}
+            companyName={company?.name}
+            companyWebsiteUrl={company?.websiteUrl}
+            isTenant
             initialFrom={query.from}
             initialTo={query.to}
             backHref={appendSearchParams(NavRoutes.HOME, {

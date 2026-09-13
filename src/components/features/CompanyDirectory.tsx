@@ -25,8 +25,6 @@ interface CompanyDirectoryProps {
   error?: unknown;
   onRetry: () => void;
   location: string | null;
-  from: string | null;
-  to: string | null;
 }
 
 export function CompanyDirectory({
@@ -36,8 +34,6 @@ export function CompanyDirectory({
   error,
   onRetry,
   location,
-  from,
-  to,
 }: CompanyDirectoryProps) {
   const t = useTranslations("map");
   const tCompanies = useTranslations("companies");
@@ -60,11 +56,9 @@ export function CompanyDirectory({
       toCompanyMapPins(companies ?? [], (company) =>
         buildCompanyHref(company.slug, {
           location: location ?? undefined,
-          from: from ?? undefined,
-          to: to ?? undefined,
         }),
       ),
-    [companies, from, location, to],
+    [companies, location],
   );
 
   function setMobileView(view: "list" | "map") {
@@ -84,8 +78,6 @@ export function CompanyDirectory({
   function companyHref(company: Company): string {
     return buildCompanyHref(company.slug, {
       location: location ?? undefined,
-      from: from ?? undefined,
-      to: to ?? undefined,
     });
   }
 
@@ -169,7 +161,7 @@ export function CompanyDirectory({
               }
               viewFleetLabel={tCompanies("viewFleet")}
               onClearFilters={
-                location || from || to
+                location
                   ? () => router.replace(NavRoutes.COMPANIES)
                   : undefined
               }

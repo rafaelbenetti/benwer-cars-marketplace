@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { buildBookHref } from "@/lib/booking";
+import { buildCompanySiteHref } from "@/lib/companySite";
 import { countRentalDays, formatLongDate, parseIsoDate } from "@/lib/dates";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
@@ -12,6 +14,9 @@ import type { Vehicle } from "@/types/vehicle";
 interface BookingWidgetProps {
   vehicle: Vehicle;
   companySlug: string;
+  companyName?: string;
+  companyWebsiteUrl?: string | null;
+  isTenant?: boolean;
   from: string;
   to: string;
   isRangeBlocked: boolean;
@@ -23,6 +28,9 @@ interface BookingWidgetProps {
 export function BookingWidget({
   vehicle,
   companySlug,
+  companyName,
+  companyWebsiteUrl,
+  isTenant = false,
   from,
   to,
   isRangeBlocked,
@@ -42,14 +50,23 @@ export function BookingWidget({
     !isAvailabilityPending &&
     !isAvailabilityError;
   const total = canBook ? days * vehicle.pricePerDay : null;
-  const bookHref = canBook
-    ? buildBookHref({
-        companySlug,
-        carId: vehicle.id,
-        from,
-        to,
-      })
-    : null;
+  const handoffHref = buildCompanySiteHref({
+    slug: companySlug,
+    websiteUrl: companyWebsiteUrl,
+    path: `/cars/${vehicle.id}`,
+    from: from || undefined,
+    to: to || undefined,
+  });
+  const bookHref = isTenant
+    ? canBook
+      ? buildBookHref({
+          companySlug,
+          carId: vehicle.id,
+          from,
+          to,
+        })
+      : null
+    : handoffHref;
 
   const priceFormatted = formatMoney(vehicle.pricePerDay, vehicle.currency, locale);
   const totalFormatted = total
@@ -58,6 +75,8 @@ export function BookingWidget({
   const fromDate = parseIsoDate(from);
   const toDate = parseIsoDate(to);
   const ctaLabel = bookCtaLabel({
+    isTenant,
+    companyName,
     from,
     to,
     days,
@@ -111,7 +130,16 @@ export function BookingWidget({
           </div>
         ) : null}
 
-        <BookingCta href={bookHref} label={ctaLabel} className="hidden lg:inline-flex" />
+        {!isTenant ? (
+          <p className="text-xs text-muted-foreground">{tDetail("handoffHint")}</p>
+        ) : null}
+
+        <BookingCta
+          href={bookHref}
+          label={ctaLabel}
+          external={!isTenant}
+          className="hidden lg:inline-flex"
+        />
       </div>
 
       <div
@@ -131,7 +159,12 @@ export function BookingWidget({
                 : tCars("perDay", { price: priceFormatted })}
             </p>
           </div>
-          <BookingCta href={bookHref} label={ctaLabel} className="w-auto min-w-36" />
+          <BookingCta
+            href={bookHref}
+            label={ctaLabel}
+            external={!isTenant}
+            className="w-auto min-w-36"
+          />
         </div>
       </div>
     </>
@@ -165,21 +198,31 @@ function DateSummaryRow({
 function BookingCta({
   href,
   label,
+  external,
   className,
 }: {
   href: string | null;
   label: string;
+  external?: boolean;
   className?: string;
 }) {
   if (href) {
+    const classes = cn(
+      "inline-flex h-11 w-full cursor-pointer items-center justify-center gap-1.5 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      className,
+    );
+
+    if (external) {
+      return (
+        <a href={href} className={classes}>
+          {label}
+          <ArrowUpRight size={16} aria-hidden />
+        </a>
+      );
+    }
+
     return (
-      <Link
-        href={href}
-        className={cn(
-          "inline-flex h-11 w-full cursor-pointer items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-          className,
-        )}
-      >
+      <Link href={href} className={classes}>
         {label}
       </Link>
     );
@@ -193,6 +236,8 @@ function BookingCta({
 }
 
 function bookCtaLabel({
+  isTenant,
+  companyName,
   from,
   to,
   days,
@@ -202,6 +247,8 @@ function bookCtaLabel({
   t,
   tDetail,
 }: {
+  isTenant: boolean;
+  companyName?: string;
   from: string;
   to: string;
   days: number;
@@ -211,21 +258,29 @@ function bookCtaLabel({
   t: ReturnType<typeof useTranslations>;
   tDetail: ReturnType<typeof useTranslations>;
 }): string {
-  if (isAvailabilityPending) {
-    return tDetail("checkingAvailability");
+  if (isTenant) {
+    if (isAvailabilityPending) {
+      return tDetail("checkingAvailability");
+    }
+
+    if (isAvailabilityError) {
+      return tDetail("availabilityUnavailable");
+    }
+
+    if (!from || !to) {
+      return t("selectDates");
+    }
+
+    if (isRangeBlocked || days <= 0) {
+      return t("invalidDates");
+    }
+
+    return tDetail("bookNow");
   }
 
-  if (isAvailabilityError) {
-    return tDetail("availabilityUnavailable");
+  if (companyName) {
+    return tDetail("continueOnCompany", { company: companyName });
   }
 
-  if (!from || !to) {
-    return t("selectDates");
-  }
-
-  if (isRangeBlocked || days <= 0) {
-    return t("invalidDates");
-  }
-
-  return tDetail("bookNow");
+  return tDetail("rentOnCompanySite");
 }

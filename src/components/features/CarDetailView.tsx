@@ -32,6 +32,9 @@ const AvailabilityCalendar = dynamic(
 interface CarDetailViewProps {
   vehicle: Vehicle;
   companySlug: string;
+  companyName?: string;
+  companyWebsiteUrl?: string | null;
+  isTenant?: boolean;
   initialFrom?: string;
   initialTo?: string;
   backHref?: string;
@@ -41,6 +44,9 @@ interface CarDetailViewProps {
 export function CarDetailView({
   vehicle,
   companySlug,
+  companyName,
+  companyWebsiteUrl,
+  isTenant = false,
   initialFrom,
   initialTo,
   backHref,
@@ -125,6 +131,9 @@ export function CarDetailView({
         <BookingWidget
           vehicle={vehicle}
           companySlug={companySlug}
+          companyName={companyName}
+          companyWebsiteUrl={companyWebsiteUrl}
+          isTenant={isTenant}
           from={displayRange.from}
           to={displayRange.to}
           isRangeBlocked={isRangeBlocked}

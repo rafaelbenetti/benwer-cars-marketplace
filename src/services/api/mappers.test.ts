@@ -119,6 +119,20 @@ describe("mapCompany", () => {
 
     expect(company.branding.logoUrl).toBe("/mock-data/logos/denver-cars.svg");
   });
+
+  it("maps optional website and contact fields when the API sends them", () => {
+    const company = mapCompany({
+      slug: "med-rentacar",
+      name: "Autoalquiler Mediterráneo",
+      websiteUrl: "https://med.example",
+      email: "hello@med.example",
+      phone: "+34 600 000 000",
+    });
+
+    expect(company.websiteUrl).toBe("https://med.example");
+    expect(company.email).toBe("hello@med.example");
+    expect(company.phone).toBe("+34 600 000 000");
+  });
 });
 
 describe("mapVehicleList", () => {

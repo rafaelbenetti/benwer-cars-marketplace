@@ -33,6 +33,9 @@ const listed: Company = {
   longitude: null,
   vehicleCount: 6,
   isPublic: true,
+  websiteUrl: null,
+  email: null,
+  phone: null,
   branding: {
     primaryColor: "#7c3aed",
     logoUrl: "/localstack/public-benwer-cars/seed/logos/med-rentacar.svg",

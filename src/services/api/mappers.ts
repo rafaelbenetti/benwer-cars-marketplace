@@ -198,6 +198,17 @@ export function mapCompany(raw: unknown): Company {
     longitude: readNumber(row.longitude) ?? readNumber(row.lng) ?? null,
     vehicleCount: readNumber(row.vehicleCount) ?? readNumber(row.fleetSize) ?? null,
     isPublic: readBoolean(row.isPublic) ?? true,
+    websiteUrl:
+      readString(row.websiteUrl) ??
+      readString(row.website) ??
+      readString(row.url) ??
+      null,
+    email: readString(row.email) ?? readString(row.contactEmail) ?? null,
+    phone:
+      readString(row.phone) ??
+      readString(row.phoneNumber) ??
+      readString(row.contactPhone) ??
+      null,
     branding: {
       primaryColor: readString(branding.primaryColor) ?? "",
       logoUrl:
