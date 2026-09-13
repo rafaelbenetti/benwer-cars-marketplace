@@ -92,11 +92,11 @@ function MarketplaceSearchForm({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "marketplace-search-card w-full rounded-2xl p-2 md:p-2.5",
+        "marketplace-search-card min-w-0 w-full rounded-2xl p-2 md:p-2.5",
         className,
       )}
     >
-      <div className="flex flex-col gap-1 md:flex-row md:items-stretch md:gap-0">
+      <div className="flex min-w-0 flex-col gap-1 md:flex-row md:items-stretch md:gap-0">
         <div className="min-w-0 md:flex-1">
           <CityCombobox
             value={location}
@@ -133,7 +133,7 @@ function MarketplaceSearchForm({
           <Button
             type="submit"
             size="lg"
-            className="h-11 w-full shrink-0 rounded-xl md:min-w-28 md:w-auto"
+            className="min-h-11 h-11 w-full shrink-0 rounded-xl md:min-w-28 md:w-auto"
             aria-describedby={dateHint ? hintId : undefined}
           >
             <Search size={16} aria-hidden />
@@ -184,11 +184,11 @@ export function MarketplaceSearchBarFallback({
   return (
     <div
       className={cn(
-        "marketplace-search-card w-full rounded-2xl p-2 md:p-2.5",
+        "marketplace-search-card min-w-0 w-full rounded-2xl p-2 md:p-2.5",
         className,
       )}
     >
-      <div className="flex flex-col gap-2 md:flex-row md:items-center">
+      <div className="flex min-w-0 flex-col gap-2 md:flex-row md:items-center">
         <Skeleton className="h-11 w-full md:flex-1" />
         {target === "cars" ? (
           <>

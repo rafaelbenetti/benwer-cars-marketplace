@@ -30,7 +30,7 @@ export function FilterChip({
       aria-pressed={pressed}
       onClick={onClick}
       className={cn(
-        "min-h-8 cursor-pointer rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+        "min-h-11 cursor-pointer rounded-full border px-3 py-1.5 text-xs font-medium transition-colors md:min-h-8",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         pressed
           ? "border-primary bg-primary text-primary-foreground"

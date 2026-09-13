@@ -146,7 +146,7 @@ function MarketplaceCarListContent() {
           variant="secondary"
           size="sm"
           onClick={() => setFiltersOpen(true)}
-          className="lg:hidden"
+          className="min-h-11 lg:hidden"
           aria-label={t("filters.openAria", { count: appliedCount })}
         >
           <SlidersHorizontal size={16} aria-hidden />
@@ -197,15 +197,24 @@ function MarketplaceCarListContent() {
         }
         closeLabel={t("filters.close")}
         footer={
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
             {hasFilters ? (
-              <Button type="button" variant="ghost" onClick={clearAdvancedFilters}>
+              <Button
+                type="button"
+                variant="ghost"
+                className="min-h-11 w-full sm:w-auto"
+                onClick={clearAdvancedFilters}
+              >
                 {t("clearFilters")}
               </Button>
             ) : (
-              <span />
+              <span className="hidden sm:block" />
             )}
-            <Button type="button" onClick={() => setFiltersOpen(false)}>
+            <Button
+              type="button"
+              className="min-h-11 w-full sm:w-auto"
+              onClick={() => setFiltersOpen(false)}
+            >
               {t("filters.done")}
             </Button>
           </div>

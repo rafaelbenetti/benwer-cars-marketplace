@@ -12,9 +12,9 @@ interface CompanyMarkProps {
 }
 
 const SIZE_CLASS = {
-  sm: "h-7 w-7 rounded-lg text-[11px]",
-  md: "h-12 w-12 rounded-xl text-lg",
-  lg: "h-14 w-14 rounded-xl text-xl",
+  sm: "h-7 w-7 rounded-full text-[11px]",
+  md: "h-12 w-12 rounded-full text-lg sm:h-14 sm:w-14",
+  lg: "h-14 w-14 rounded-full text-xl",
 } as const;
 
 export function CompanyMark({
@@ -31,7 +31,7 @@ export function CompanyMark({
     return (
       <span
         className={cn(
-          "relative flex shrink-0 items-center justify-center overflow-hidden border border-border bg-surface",
+          "relative flex shrink-0 items-center justify-center overflow-hidden border border-border bg-surface-muted",
           SIZE_CLASS[size],
           className,
         )}
@@ -40,7 +40,7 @@ export function CompanyMark({
         <img
           src={logoSrc}
           alt=""
-          className="h-full w-full object-contain p-0.5"
+          className="h-full w-full object-contain p-1.5"
           onError={() => setFailed(true)}
         />
       </span>
@@ -52,7 +52,7 @@ export function CompanyMark({
   return (
     <span
       className={cn(
-        "flex shrink-0 items-center justify-center bg-primary/10 font-semibold text-primary",
+        "flex shrink-0 items-center justify-center border border-border bg-surface-muted font-medium text-muted-foreground",
         SIZE_CLASS[size],
         className,
       )}

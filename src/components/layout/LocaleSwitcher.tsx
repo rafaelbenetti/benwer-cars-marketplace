@@ -55,7 +55,7 @@ export function LocaleSwitcher({ className }: LocaleSwitcherProps) {
               void select(code);
             }}
             className={cn(
-              "cursor-pointer rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+              "cursor-pointer rounded-full px-2 py-1 text-xs font-medium transition-colors sm:px-2.5",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               active
                 ? "bg-surface-muted text-foreground"
