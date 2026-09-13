@@ -8,10 +8,10 @@ import type { VehicleFilters, Vehicle } from "@/types/vehicle";
 
 interface CarListViewProps {
   companySlug: string;
-  buildHref: (vehicle: Vehicle) => string;
+  hrefBase: string;
 }
 
-export function CarListView({ companySlug, buildHref }: CarListViewProps) {
+export function CarListView({ companySlug, hrefBase }: CarListViewProps) {
   const [filters, setFilters] = useState<VehicleFilters>({});
   const { data, isPending, isError, refetch } = useVehicles(companySlug, filters);
 
@@ -23,7 +23,7 @@ export function CarListView({ companySlug, buildHref }: CarListViewProps) {
         isPending={isPending}
         isError={isError}
         onRetry={refetch}
-        buildHref={buildHref}
+        buildHref={(vehicle: Vehicle) => `${hrefBase}/${vehicle.id}`}
         onClearFilters={() => setFilters({})}
       />
     </div>
