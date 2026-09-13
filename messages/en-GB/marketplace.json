@@ -89,7 +89,7 @@
     "searchEmptyTitle": "No cars match this search",
     "searchEmptyHint": "Try different dates or another location in Málaga province. Every city stays in the list — even if no cars are listed there today.",
     "datesNeededTitle": "When do you need a car?",
-    "datesNeededHint": "Pick pick-up and drop-off dates to see cars that are free then — we will not show the full fleet unscoped.",
+    "datesNeededHint": "Choose pick-up and drop-off dates to see cars available for your trip.",
     "addDates": "Add dates",
     "companiesSelected": "{count, plural, one {# company selected} other {# companies selected}}",
     "clearCompanies": "Clear companies",
