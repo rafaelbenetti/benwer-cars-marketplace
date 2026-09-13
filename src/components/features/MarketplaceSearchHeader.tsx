@@ -7,31 +7,35 @@ export async function MarketplaceSearchHeader() {
 
   return (
     <>
-      <section className="relative w-full overflow-hidden border-b border-border bg-primary/5">
+      <section className="marketplace-search-hero relative w-full overflow-hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl"
+          className="pointer-events-none absolute -left-16 -top-20 h-72 w-72 rounded-full bg-primary/30 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 -right-10 h-80 w-80 rounded-full bg-accent/25 blur-3xl"
         />
         <div className="relative mx-auto max-w-7xl px-4 pt-10 pb-20 md:px-6 md:pt-20 md:pb-28 lg:px-8">
           <p className="text-xs font-medium uppercase tracking-wider text-primary">
             {t("eyebrow")}
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+          <h1 className="marketplace-search-hero-title mt-3 text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
             {t("title")}
           </h1>
-          <p className="mt-4 max-w-xl text-sm text-muted-foreground md:text-base">
+          <p className="marketplace-search-hero-subtitle mt-4 max-w-xl text-sm md:text-base">
             {t("subtitle")}
           </p>
           <ul className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-2">
-            <li className="flex items-center gap-2 text-sm text-foreground">
+            <li className="marketplace-search-hero-subtitle flex items-center gap-2 text-sm">
               <BadgeCheck size={16} className="text-primary" aria-hidden />
               {t("trustLocal")}
             </li>
-            <li className="flex items-center gap-2 text-sm text-foreground">
+            <li className="marketplace-search-hero-subtitle flex items-center gap-2 text-sm">
               <UserRound size={16} className="text-primary" aria-hidden />
               {t("trustGuest")}
             </li>
-            <li className="flex items-center gap-2 text-sm text-foreground">
+            <li className="marketplace-search-hero-subtitle flex items-center gap-2 text-sm">
               <MapPin size={16} className="text-primary" aria-hidden />
               {t("trustArea")}
             </li>
@@ -40,7 +44,7 @@ export async function MarketplaceSearchHeader() {
       </section>
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="-mt-12 md:-mt-14">
-          <MarketplaceHeroSearch className="shadow-md" />
+          <MarketplaceHeroSearch />
         </div>
       </div>
     </>

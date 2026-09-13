@@ -13,13 +13,12 @@
   },
   "partners": {
     "eyebrow": "For car rental companies",
-    "title": "List your rental fleet on Benwer",
-    "description": "Benwer is only for car rental companies — not other local businesses. Publish your cars, keep availability live, and get booked online on the marketplace without rebuilding your website.",
-    "cta": "See plans for rental companies",
-    "ctaAria": "See plans for car rental companies on the Benwer marketing site (opens in a new tab)",
-    "demo": "View rental admin demo",
-    "demoAria": "View the live car rental admin demo (opens in a new tab)",
-    "footnote": "Car rental companies only. No setup fee to explore."
+    "title": "Turn empty days into bookings",
+    "description": "Travelers are already searching Benwer for cars. Keep your fleet live on the marketplace and fill the days that would otherwise sit empty.",
+    "cta": "See plans",
+    "ctaAria": "See plans on the Benwer marketing site (opens in a new tab)",
+    "demo": "View live demo",
+    "demoAria": "View the live demo (opens in a new tab)"
   },
   "seo": {
     "companyTitle": "{name} — Car rentals",

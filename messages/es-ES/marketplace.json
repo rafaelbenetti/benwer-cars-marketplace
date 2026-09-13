@@ -13,13 +13,12 @@
   },
   "partners": {
     "eyebrow": "Para empresas de alquiler de coches",
-    "title": "Publica tu flota de alquiler en Benwer",
-    "description": "Benwer es solo para empresas de alquiler de coches, no para otros negocios locales. Publica tus coches, mantén la disponibilidad al día y recibe reservas online en el marketplace sin reconstruir tu web.",
-    "cta": "Ver planes para alquileres",
-    "ctaAria": "Ver planes para empresas de alquiler de coches en el sitio de Benwer (se abre en una pestaña nueva)",
-    "demo": "Ver demo del panel de alquiler",
-    "demoAria": "Ver la demo del panel de administración de alquiler de coches (se abre en una pestaña nueva)",
-    "footnote": "Solo empresas de alquiler de coches. Sin coste de alta para explorar."
+    "title": "Convierte los días vacíos en reservas",
+    "description": "Los viajeros ya buscan coches en Benwer. Mantén tu flota al día en el marketplace y llena los días que, de otro modo, quedarían vacíos.",
+    "cta": "Ver planes",
+    "ctaAria": "Ver planes en el sitio de Benwer (se abre en una pestaña nueva)",
+    "demo": "Ver demo en vivo",
+    "demoAria": "Ver la demo en vivo (se abre en una pestaña nueva)"
   },
   "seo": {
     "companyTitle": "{name} — Alquiler de coches",

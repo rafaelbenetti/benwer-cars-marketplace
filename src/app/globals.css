@@ -99,9 +99,16 @@ body {
   color: var(--foreground);
 }
 
-.partners-invite {
+.marketplace-search-hero {
   background-image: linear-gradient(to bottom right, #070b14, #0b1220, #083344);
-  color: #f8fafc;
+}
+
+.marketplace-search-hero-title {
+  color: #ffffff;
+}
+
+.marketplace-search-hero-subtitle {
+  color: #cbd5e1;
 }
 
 .marketplace-day-picker.rdp-root {
