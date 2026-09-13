@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CarDetailView } from "@/components/features/CarDetailView";
 import { vehiclesApi, companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
+import { appendSearchParams } from "@/lib/marketplaceSearch";
 import { prefetchAvailabilityState } from "@/lib/prefetchAvailability";
 
 interface Props {
@@ -81,7 +82,10 @@ async function TenantCarDetailPage({ params, searchParams }: Props) {
             companySlug={companySlug}
             initialFrom={query.from}
             initialTo={query.to}
-            backHref={NavRoutes.HOME}
+            backHref={appendSearchParams(NavRoutes.HOME, {
+              from: query.from,
+              to: query.to,
+            })}
             backLabel={t("backToFleet")}
           />
         </HydrationBoundary>

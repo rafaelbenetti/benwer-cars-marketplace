@@ -63,8 +63,6 @@ async function CompanyPage({ params, searchParams }: Props) {
         <CarListView
           companySlug={slug}
           hrefBase={`/companies/${slug}/cars`}
-          initialFrom={query.from}
-          initialTo={query.to}
         />
       </main>
       <Footer />

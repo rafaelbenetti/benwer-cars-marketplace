@@ -60,6 +60,10 @@ export enum SearchParams {
   FROM = "from",
   TO = "to",
   VIEW = "view",
+  TYPE = "type",
+  SEATS = "seats",
+  TRANSMISSION = "transmission",
+  Q = "q",
   CAR_ID = "carId",
   COMPANY_SLUG = "companySlug",
 }

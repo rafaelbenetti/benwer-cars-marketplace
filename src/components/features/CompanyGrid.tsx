@@ -18,6 +18,7 @@ interface CompanyGridProps {
   onHighlight?: (slug: string | null) => void;
   fleetHint?: (company: Company) => string;
   viewFleetLabel?: string;
+  onClearFilters?: () => void;
   className?: string;
 }
 
@@ -28,18 +29,28 @@ export function CompanyGrid({
   onHighlight,
   fleetHint,
   viewFleetLabel,
+  onClearFilters,
   className,
 }: CompanyGridProps) {
   const t = useTranslations("companies");
+  const tMap = useTranslations("map");
 
   if (companies.length === 0) {
     return (
       <EmptyState
         icon={<Building2 size={40} />}
-        title={t("noResults")}
-        description={t("noResultsHint")}
+        title={onClearFilters ? t("noResults") : t("emptyTitle")}
+        description={onClearFilters ? t("noResultsHint") : t("emptyDescription")}
+        actionLabel={onClearFilters ? t("clearFilters") : undefined}
+        onAction={onClearFilters}
       />
     );
+  }
+
+  function defaultFleetHint(company: Company): string {
+    return company.vehicleCount == null
+      ? tMap("fleetHintUnknown")
+      : tMap("fleetHint", { count: company.vehicleCount });
   }
 
   return (
@@ -55,7 +66,7 @@ export function CompanyGrid({
           company={company}
           href={buildHref?.(company) ?? buildCompanyHref(company.slug)}
           viewFleetLabel={viewFleetLabel ?? t("viewFleet")}
-          fleetHint={fleetHint?.(company)}
+          fleetHint={(fleetHint ?? defaultFleetHint)(company)}
           isHighlighted={selectedSlug === company.slug}
           onHighlight={onHighlight}
         />
@@ -64,20 +75,36 @@ export function CompanyGrid({
   );
 }
 
-export function CompanyGridSkeleton({ count = 6 }: { count?: number }) {
+export function CompanyGridSkeleton({
+  count = 6,
+  className,
+}: {
+  count?: number;
+  className?: string;
+}) {
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div
+      className={cn(
+        "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3",
+        className,
+      )}
+    >
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
           className="overflow-hidden rounded-xl border border-border bg-surface"
         >
-          <Skeleton className="h-28 w-full rounded-none" />
-          <div className="flex flex-col gap-3 p-5">
-            <Skeleton className="h-5 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
-            <Skeleton className="h-8 w-full" />
-            <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-1.5 w-full rounded-none" />
+          <div className="flex flex-col gap-4 p-5">
+            <div className="flex items-start gap-3">
+              <Skeleton className="h-12 w-12 rounded-xl" />
+              <div className="flex flex-1 flex-col gap-2">
+                <Skeleton className="h-5 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+            <Skeleton className="h-4 w-2/3" />
+            <Skeleton className="h-8 w-24 rounded-md" />
           </div>
         </div>
       ))}
