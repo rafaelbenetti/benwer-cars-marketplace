@@ -36,7 +36,7 @@ Several pieces are chosen but not yet scaffolded — do not import them until th
 - ❌ Sentry (via `@/lib/logger`) — scaffold exists as a `console.error` wrapper. Wire Sentry when configured.
 - ❌ Vitest + React Testing Library — chosen for unit tests, not installed yet. See [testing.md](./testing.md).
 - ❌ MSW — chosen mock/dev layer; not set up yet. Only a read-only `mockClient.get` over `public/mock-data/*.json` exists.
-- ❌ Real HTTP client — `apiClient` is wired in `src/services/api/client.ts`; services switch to it once the API public endpoints are live.
+- ✅ Public API client — `apiClient` targets `/v1/public/*` when `NEXT_PUBLIC_API_URL` / `API_ORIGIN` is set; services fall back to `mockClient` if the live API is unset or unavailable.
 - ✅ next-intl — wired with shared ICU messages under `messages/<locale>/{common,marketplace}.json`. Two locales: **British English (`en-GB`)** and **Spain Spanish (`es-ES`)**.
 - ✅ Semantic Tailwind tokens — defined in `src/app/globals.css`; per-tenant `--primary` override supported.
 - ✅ Middleware mode detection — `src/middleware.ts` injects `x-company-slug` from host header.

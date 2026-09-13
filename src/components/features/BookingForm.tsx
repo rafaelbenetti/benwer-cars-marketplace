@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Field } from "@/components/ui/Field";
+import { useTranslations } from "next-intl";
 import { useCreateReservation } from "@/hooks/useCreateReservation";
-import { getErrorKey } from "@/lib/errors";
-import { logError } from "@/lib/logger";
+import { applyFieldErrors, getErrorKey } from "@/lib/errors";
 import type { Vehicle } from "@/types/vehicle";
 
 const schema = z
@@ -42,10 +42,12 @@ export function BookingForm({
   defaultTo = "",
 }: BookingFormProps) {
   const router = useRouter();
+  const t = useTranslations();
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -58,22 +60,28 @@ export function BookingForm({
     },
   });
 
-  const { mutate, isPending } = useCreateReservation({
+  const { mutateAsync, isPending } = useCreateReservation({
     companySlug,
     onSuccess: (reservation) => {
       router.push(`/booking/${reservation.token}`);
     },
   });
 
-  function onSubmit(values: FormValues) {
-    mutate({
-      vehicleId: vehicle.id,
-      startDate: values.startDate,
-      endDate: values.endDate,
-      guestName: values.guestName,
-      guestEmail: values.guestEmail,
-      guestPhone: values.guestPhone,
-    });
+  async function onSubmit(values: FormValues) {
+    try {
+      await mutateAsync({
+        vehicleId: vehicle.id,
+        startDate: values.startDate,
+        endDate: values.endDate,
+        guestName: values.guestName,
+        guestEmail: values.guestEmail,
+        guestPhone: values.guestPhone,
+      });
+    } catch (error) {
+      if (!applyFieldErrors(error, setError, t)) {
+        toast.error(t(getErrorKey(error)));
+      }
+    }
   }
 
   function onError() {

@@ -10,7 +10,8 @@
     },
     "reservation": {
       "overlap": "This vehicle is already booked for those dates.",
-      "not_found": "Reservation not found. Check your confirmation link."
+      "not_found": "Reservation not found. Check your confirmation link.",
+      "invalid_dates": "Drop-off must be after pick-up."
     }
   },
   "nav": {

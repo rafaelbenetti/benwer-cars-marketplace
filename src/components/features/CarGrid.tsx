@@ -6,6 +6,7 @@ import { CarCard } from "./CarCard";
 import { CarCardSkeleton } from "./CarCardSkeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
+import { getErrorKey } from "@/lib/errors";
 import type { Vehicle } from "@/types/vehicle";
 import { cn } from "@/lib/utils";
 
@@ -78,6 +79,7 @@ interface CarGridViewProps {
   vehicles: Vehicle[] | undefined;
   isPending: boolean;
   isError: boolean;
+  error?: unknown;
   onRetry: () => void;
   buildHref: (vehicle: Vehicle) => string;
   onClearFilters?: () => void;
@@ -87,12 +89,17 @@ export function CarGridView({
   vehicles,
   isPending,
   isError,
+  error,
   onRetry,
   buildHref,
   onClearFilters,
 }: CarGridViewProps) {
+  const t = useTranslations();
+
   if (isPending) return <CarGridSkeleton />;
-  if (isError) return <ErrorState onRetry={onRetry} />;
+  if (isError) {
+    return <ErrorState message={t(getErrorKey(error))} onRetry={onRetry} />;
+  }
   return (
     <CarGrid
       vehicles={vehicles ?? []}

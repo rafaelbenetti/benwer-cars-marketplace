@@ -10,7 +10,8 @@
     },
     "reservation": {
       "overlap": "Este vehículo ya está reservado para esas fechas.",
-      "not_found": "Reserva no encontrada. Comprueba el enlace de confirmación."
+      "not_found": "Reserva no encontrada. Comprueba el enlace de confirmación.",
+      "invalid_dates": "La devolución debe ser posterior a la recogida."
     }
   },
   "nav": {

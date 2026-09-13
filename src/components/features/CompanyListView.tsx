@@ -9,37 +9,34 @@ import {
   MarketplaceSearchBarFallback,
 } from "./MarketplaceSearchBar";
 import { SearchParams } from "@/enums";
-import type { Company } from "@/types/company";
 
 interface CompanyListViewProps {
   showSearchBar?: boolean;
 }
 
-function filterByLocation(companies: Company[] | undefined, location: string | null) {
-  if (!companies) {
-    return companies;
-  }
-
-  if (!location) {
-    return companies;
-  }
-
-  return companies.filter((company) => company.locationSlug === location);
-}
-
 function CompanyResults({ showSearchBar }: { showSearchBar: boolean }) {
   const searchParams = useSearchParams();
   const location = searchParams.get(SearchParams.LOCATION);
-  const { data, isPending, isError, refetch } = useCompanies();
-  const companies = showSearchBar ? filterByLocation(data, location) : data;
+  const from = searchParams.get(SearchParams.FROM);
+  const to = searchParams.get(SearchParams.TO);
+  const { data, isPending, isError, error, refetch } = useCompanies(
+    showSearchBar
+      ? {
+          location: location || undefined,
+          from: from || undefined,
+          to: to || undefined,
+        }
+      : undefined,
+  );
 
   return (
     <div className="flex flex-col gap-6">
       {showSearchBar ? <MarketplaceSearchBar /> : null}
       <CompanyGridView
-        companies={companies}
+        companies={data}
         isPending={isPending}
         isError={isError}
+        error={error}
         onRetry={refetch}
       />
     </div>

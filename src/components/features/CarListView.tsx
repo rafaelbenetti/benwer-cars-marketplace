@@ -15,7 +15,10 @@ interface CarListViewProps {
 export function CarListView({ companySlug, hrefBase }: CarListViewProps) {
   const t = useTranslations("cars");
   const [filters, setFilters] = useState<VehicleFilters>({});
-  const { data, isPending, isError, refetch } = useVehicles(companySlug, filters);
+  const { data, isPending, isError, error, refetch } = useVehicles(
+    companySlug,
+    filters,
+  );
 
   return (
     <div className="flex flex-col gap-6">
@@ -25,6 +28,7 @@ export function CarListView({ companySlug, hrefBase }: CarListViewProps) {
         vehicles={data}
         isPending={isPending}
         isError={isError}
+        error={error}
         onRetry={refetch}
         buildHref={(vehicle: Vehicle) => `${hrefBase}/${vehicle.id}`}
         onClearFilters={() => setFilters({})}

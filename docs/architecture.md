@@ -111,11 +111,15 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
 ### Current client
 
 `src/services/api/client.ts` exposes:
-- `mockClient.get<T>(path)` — fetches `public/mock-data/*.json`. Used in dev until the
-  API public endpoints are live.
-- `apiClient.get/post<T>` — real HTTP client targeting `NEXT_PUBLIC_API_URL`. Used for
-  live reservation creation/lookup endpoints now; will replace `mockClient` entirely
-  once the API is live.
+- `apiClient.get/post<T>` — live HTTP client. Browser uses `NEXT_PUBLIC_API_URL`
+  (typically the `/api` rewrite); the server prefers `API_ORIGIN`. Requests use
+  `cache: "no-store"`.
+- `mockClient.get<T>(path)` — reads `public/mock-data/*.json`.
+
+Services call live first when an API URL is configured, via `withMockFallback`.
+Network failures, timeouts, 5xx, and 4xx without an RFC 9457 `code` fall back to
+mock data so local/demo still works. Domain errors (`company.not_found`,
+`reservation.overlap`, field validation) are **not** swallowed.
 
 ## Per-tenant branding
 

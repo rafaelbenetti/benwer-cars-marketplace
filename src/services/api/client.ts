@@ -1,20 +1,41 @@
+import { env } from "@/env";
 import { ApiError } from "@/lib/errors";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+const LIVE_TIMEOUT_MS = 8000;
+
+function liveApiBaseUrl(): string {
+  if (typeof window === "undefined") {
+    return env.API_ORIGIN ?? env.NEXT_PUBLIC_API_URL ?? "";
+  }
+
+  return env.NEXT_PUBLIC_API_URL ?? "";
+}
+
+export function isLiveApiConfigured(): boolean {
+  return Boolean(liveApiBaseUrl());
+}
+
+interface ProblemBody {
+  code?: string;
+  detail?: string;
+  errors?: { field: string; code: string }[];
+}
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`${BASE_URL}${path}`, {
-    headers: { "Content-Type": "application/json", ...options?.headers },
+  const response = await fetch(`${liveApiBaseUrl()}${path}`, {
+    cache: "no-store",
+    signal: options?.signal ?? AbortSignal.timeout(LIVE_TIMEOUT_MS),
     ...options,
+    headers: { "Content-Type": "application/json", ...options?.headers },
   });
 
   if (!response.ok) {
-    const body = await response.json().catch(() => ({}));
+    const body = (await response.json().catch(() => ({}))) as ProblemBody;
     throw new ApiError(
       response.status,
-      (body as { code?: string }).code ?? "unknown",
-      (body as { errors?: { field: string; code: string }[] }).errors ?? [],
-      (body as { detail?: string }).detail,
+      body.code ?? "unknown",
+      body.errors ?? [],
+      body.detail,
     );
   }
 
@@ -43,12 +64,17 @@ function mockUrl(path: string): string {
     return path;
   }
 
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3002";
-  return new URL(path, origin).toString();
+  return new URL(path, env.NEXT_PUBLIC_APP_URL).toString();
 }
 
 export const mockClient = {
   get<T>(path: string): Promise<T> {
-    return fetch(mockUrl(path)).then((r) => r.json() as Promise<T>);
+    return fetch(mockUrl(path), { cache: "no-store" }).then((response) => {
+      if (!response.ok) {
+        throw new ApiError(response.status, "unknown");
+      }
+
+      return response.json() as Promise<T>;
+    });
   },
 };

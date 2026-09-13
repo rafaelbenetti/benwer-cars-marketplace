@@ -1,4 +1,6 @@
 import type { ReservationStatus } from "@/enums";
+import type { Company } from "./company";
+import type { Vehicle } from "./vehicle";
 
 export interface CreateGuestReservationPayload {
   vehicleId: string;
@@ -23,4 +25,6 @@ export interface GuestReservation {
   guestPhone: string;
   companySlug: string;
   createdAt: string;
+  vehicle?: Vehicle | null;
+  company?: Company | null;
 }

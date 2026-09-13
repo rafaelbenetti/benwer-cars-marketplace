@@ -3,13 +3,13 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    API_ORIGIN: z.string().url(),
+    API_ORIGIN: z.string().url().optional(),
     NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   },
   client: {
-    NEXT_PUBLIC_API_URL: z.string().url(),
-    NEXT_PUBLIC_APP_URL: z.string().url(),
-    NEXT_PUBLIC_MARKETPLACE_DOMAIN: z.string().min(1),
+    NEXT_PUBLIC_API_URL: z.string().url().optional(),
+    NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3002"),
+    NEXT_PUBLIC_MARKETPLACE_DOMAIN: z.string().min(1).default("benwer.es"),
     NEXT_PUBLIC_ENV: z.enum(["local", "staging", "production"]).default("local"),
   },
   runtimeEnv: {
@@ -20,4 +20,5 @@ export const env = createEnv({
     NEXT_PUBLIC_MARKETPLACE_DOMAIN: process.env.NEXT_PUBLIC_MARKETPLACE_DOMAIN,
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
   },
+  emptyStringAsUndefined: true,
 });

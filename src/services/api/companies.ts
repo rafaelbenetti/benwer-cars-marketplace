@@ -1,18 +1,37 @@
-import type { Company, CompanyBranding } from "@/types/company";
-import { mockClient } from "./client";
+import type { Company, CompanyListFilters } from "@/types/company";
+import { apiClient } from "./client";
+import { withMockFallback } from "./fallback";
+import { mapCompany, mapCompanyList } from "./mappers";
+import { mockCompaniesApi } from "./mock";
+import { PublicApiPaths } from "./paths";
+import { toSearchParams } from "./query";
 
 export const companiesApi = {
-  getAll(): Promise<Company[]> {
-    return mockClient.get<Company[]>("/mock-data/companies.json");
+  getAll(filters?: CompanyListFilters): Promise<Company[]> {
+    return withMockFallback(
+      () =>
+        apiClient
+          .get(
+            `${PublicApiPaths.companies}${toSearchParams({
+              q: filters?.q,
+              location: filters?.location,
+              from: filters?.from,
+              to: filters?.to,
+              cursor: filters?.cursor,
+              limit: filters?.limit,
+            })}`,
+          )
+          .then(mapCompanyList),
+      () => mockCompaniesApi.getAll(filters),
+      "companies.list",
+    );
   },
 
-  getBySlug(slug: string): Promise<Company & { branding: CompanyBranding }> {
-    return mockClient.get<Company[]>("/mock-data/companies.json").then((companies) => {
-      const found = companies.find((company) => company.slug === slug);
-      if (!found) {
-        throw new Error("Company not found");
-      }
-      return found;
-    });
+  getBySlug(slug: string): Promise<Company> {
+    return withMockFallback(
+      () => apiClient.get(PublicApiPaths.company(slug)).then(mapCompany),
+      () => mockCompaniesApi.getBySlug(slug),
+      "companies.detail",
+    );
   },
 };

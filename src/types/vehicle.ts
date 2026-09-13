@@ -25,4 +25,7 @@ export interface VehicleFilters {
   from?: string;
   to?: string;
   q?: string;
+  sort?: string;
+  cursor?: string;
+  limit?: number;
 }
