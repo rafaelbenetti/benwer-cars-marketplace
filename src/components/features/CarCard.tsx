@@ -139,6 +139,8 @@ function CarPhotoFallback({
 
   return (
     <div
+      role="img"
+      aria-label={emptyLabel}
       className={cn(
         "car-photo-fallback relative flex h-full flex-col items-center justify-center px-4",
         FALLBACK_TONE[type],

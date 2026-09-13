@@ -13,6 +13,7 @@ export const env = createEnv({
     NEXT_PUBLIC_ENV: z.enum(["local", "staging", "production"]).default("local"),
     NEXT_PUBLIC_MARKETING_URL: z.string().url().default("https://cars.benwer.es"),
     NEXT_PUBLIC_ADMIN_DEMO_URL: z.string().url().optional(),
+    NEXT_PUBLIC_MEDIA_ORIGIN: z.string().url().optional(),
   },
   runtimeEnv: {
     API_ORIGIN: process.env.API_ORIGIN,
@@ -23,6 +24,7 @@ export const env = createEnv({
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
     NEXT_PUBLIC_MARKETING_URL: process.env.NEXT_PUBLIC_MARKETING_URL,
     NEXT_PUBLIC_ADMIN_DEMO_URL: process.env.NEXT_PUBLIC_ADMIN_DEMO_URL,
+    NEXT_PUBLIC_MEDIA_ORIGIN: process.env.NEXT_PUBLIC_MEDIA_ORIGIN,
   },
   emptyStringAsUndefined: true,
 });

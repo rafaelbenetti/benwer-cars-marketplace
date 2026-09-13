@@ -6,4 +6,5 @@ export { Field } from "./Field";
 export { Skeleton } from "./Skeleton";
 export { EmptyState } from "./EmptyState";
 export { ErrorState } from "./ErrorState";
+export { PageLoadError } from "./PageLoadError";
 export { Sheet } from "./Sheet";

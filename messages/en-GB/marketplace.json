@@ -33,6 +33,8 @@
   "tenant": {
     "notFoundTitle": "Company not found",
     "notFoundDescription": "This storefront could not be loaded.",
+    "loadErrorTitle": "Company details unavailable",
+    "loadErrorDescription": "We could not load this storefront from the live catalogue. Try again — we do not show placeholder cars when the API fails.",
     "logoAlt": "{name} logo"
   },
   "howItWorks": {
@@ -305,6 +307,8 @@
     "backToList": "All companies",
     "notFoundTitle": "Company not found",
     "notFoundDescription": "This rental company is not listed. Browse others nearby.",
+    "loadErrorTitle": "Company details unavailable",
+    "loadErrorDescription": "We could not load this rental company from the live catalogue. Try again — we do not show placeholder cars when the API fails.",
     "browseCars": "Browse cars",
     "featuredEmpty": "No featured companies yet",
     "featuredEmptyHint": "Check back soon, or browse cars from local fleets."

@@ -204,14 +204,18 @@ useMutation({
 
 - Server Components by default; keep client bundles small.
 - **Never use raw `<img>`** — use `next/image` with explicit dimensions.
-  Car photos and company `logoUrl` values come from CloudFront, or LocalStack in
-  local QA. Mappers rewrite `http://localhost:4566/...` and
-  `http://127.0.0.1:4566/...` to same-origin `/localstack/...`, and keep
-  same-origin public paths (`/mock-data/...`). `next.config.ts` rewrites that
-  prefix to `LOCALSTACK_ORIGIN` (default `http://localhost:4566`). `CarPhoto`
-  and `CompanyMark` set `unoptimized` for LocalStack and SVG srcs. Keep
-  `images.remotePatterns` and `images.dangerouslyAllowLocalIP` as a fallback if
-  a raw LocalStack URL is still passed to `next/image`.
+  Car photos and company `logoUrl` values come from CloudFront or S3, or
+  LocalStack in local QA. Mappers rewrite `http://localhost:4566/...` and
+  `http://127.0.0.1:4566/...` to same-origin `/localstack/...`, keep
+  `http(s)` CDN/S3 URLs, accept protocol-relative hosts, and keep
+  same-origin public paths (`/mock-data/...`). Bare object keys are prefixed
+  with `NEXT_PUBLIC_MEDIA_ORIGIN` when set; otherwise they are dropped and
+  the designed photo empty-state is shown. `next.config.ts` rewrites
+  `/localstack` to `LOCALSTACK_ORIGIN` (default `http://localhost:4566`).
+  `CarPhoto` and `CompanyMark` set `unoptimized` for LocalStack, SVG, and S3
+  signed URLs. Keep `images.remotePatterns` and
+  `images.dangerouslyAllowLocalIP` as a fallback if a raw LocalStack URL is
+  still passed to `next/image`.
 - One LCP image per page (hero car photo) gets `priority`.
 - `next/font` with `display: "swap"`; no CSS `@import` fonts.
 - Defer booking form and calendar with `next/dynamic`.

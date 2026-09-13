@@ -14,6 +14,9 @@ export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const requestHeaders = new Headers(request.headers);
+  if (pathname === "/api" || pathname.startsWith("/api/")) {
+    requestHeaders.delete("origin");
+  }
   if (companySlug) {
     requestHeaders.set("x-company-slug", companySlug);
   }

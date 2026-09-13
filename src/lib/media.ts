@@ -1,3 +1,5 @@
+import { env } from "@/env";
+
 const LOCALSTACK_ORIGIN = /^https?:\/\/(?:localhost|127\.0\.0\.1):4566/i;
 
 export function isLocalStackMediaSrc(src: string): boolean {
@@ -5,13 +7,25 @@ export function isLocalStackMediaSrc(src: string): boolean {
 }
 
 export function shouldSkipImageOptimization(src: string): boolean {
-  return isLocalStackMediaSrc(src) || /\.svg(?:$|\?)/i.test(src);
+  return (
+    isLocalStackMediaSrc(src) ||
+    /\.svg(?:$|\?)/i.test(src) ||
+    /amazonaws\.com/i.test(src) ||
+    /[?&]X-Amz-/i.test(src)
+  );
 }
 
-export function toPublicMediaSrc(value: string): string | undefined {
+export function toPublicMediaSrc(
+  value: string,
+  mediaOrigin = env.NEXT_PUBLIC_MEDIA_ORIGIN,
+): string | undefined {
   const trimmed = value.trim();
   if (!trimmed) {
     return undefined;
+  }
+
+  if (trimmed.startsWith("//")) {
+    return `https:${trimmed}`;
   }
 
   if (LOCALSTACK_ORIGIN.test(trimmed)) {
@@ -23,5 +37,17 @@ export function toPublicMediaSrc(value: string): string | undefined {
     return trimmed;
   }
 
-  return /^https?:\/\//i.test(trimmed) ? trimmed : undefined;
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+
+  const origin = mediaOrigin?.trim().replace(/\/+$/, "");
+  if (!origin) {
+    return undefined;
+  }
+
+  const s3 = trimmed.match(/^s3:\/\/[^/]+\/(.+)$/i);
+  const key = s3?.[1] ?? trimmed;
+  const path = key.startsWith("/") ? key : `/${key}`;
+  return `${origin}${path}`;
 }
