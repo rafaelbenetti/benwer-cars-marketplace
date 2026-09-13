@@ -78,14 +78,6 @@ export function CarCard({
         >
           {t(`types.${vehicle.type}`)}
         </Badge>
-        {company ? (
-          <div className="absolute bottom-3 left-3 right-3 flex items-center gap-1.5 rounded-full border border-border bg-surface/90 px-2 py-1 backdrop-blur-sm">
-            <CompanyMark company={company} size="sm" />
-            <span className="truncate text-xs font-medium text-foreground">
-              {company.name}
-            </span>
-          </div>
-        ) : null}
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
@@ -94,6 +86,12 @@ export function CarCard({
           <p className="mt-0.5 text-xs text-muted-foreground">
             {vehicle.year} &middot; {t(`types.${vehicle.type}`)}
           </p>
+          {company ? (
+            <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
+              <CompanyMark company={company} size="sm" />
+              <span className="truncate font-medium text-foreground">{company.name}</span>
+            </p>
+          ) : null}
         </div>
 
         <div className="flex flex-wrap items-center gap-2">

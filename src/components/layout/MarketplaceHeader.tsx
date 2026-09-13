@@ -30,17 +30,12 @@ export async function MarketplaceHeader({ className }: MarketplaceHeaderProps) {
             alt={t("logoAlt")}
             variant="mark"
             priority
-            className="h-8 w-12 shrink-0 lg:hidden"
+            className="h-8 w-12 shrink-0"
           />
-          <span className="hidden text-sm font-semibold tracking-tight sm:inline lg:hidden">
-            {t("name")}
+          <span className="text-sm font-semibold tracking-tight">
+            <span className="sm:hidden">{t("shortName")}</span>
+            <span className="hidden sm:inline">{t("name")}</span>
           </span>
-          <BrandLogo
-            alt={t("logoAlt")}
-            variant="full"
-            priority
-            className="hidden h-11 w-24 shrink-0 lg:block"
-          />
         </Link>
         <div className="flex items-center gap-2 sm:gap-4">
           <MarketplaceNav />
