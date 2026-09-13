@@ -94,7 +94,7 @@ function MarketplaceSearchForm({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "w-full rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
+        "w-full rounded-2xl border-2 border-primary/30 bg-surface p-2 shadow-[0_10px_28px_color-mix(in_oklab,var(--primary)_16%,transparent)] md:p-2.5",
         className,
       )}
     >
@@ -174,7 +174,7 @@ export function MarketplaceSearchBarFallback({ className }: MarketplaceSearchBar
   return (
     <div
       className={cn(
-        "w-full rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
+        "w-full rounded-2xl border-2 border-primary/30 bg-surface p-2 shadow-[0_10px_28px_color-mix(in_oklab,var(--primary)_16%,transparent)] md:p-2.5",
         className,
       )}
     >
