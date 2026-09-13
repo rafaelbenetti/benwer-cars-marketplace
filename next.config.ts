@@ -12,6 +12,18 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.cloudfront.net",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "4566",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "4566",
+        pathname: "/**",
+      },
     ],
   },
   async rewrites() {
