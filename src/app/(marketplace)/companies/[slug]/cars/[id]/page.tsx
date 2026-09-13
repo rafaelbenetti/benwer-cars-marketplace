@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
-import { HydrationBoundary } from "@tanstack/react-query";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { Footer } from "@/components/layout/Footer";
 import { CarDetailView } from "@/components/features/CarDetailView";
@@ -10,7 +9,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { vehiclesApi, companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
 import { appendSearchParams, buildCompanyHref } from "@/lib/marketplaceSearch";
-import { prefetchAvailabilityState } from "@/lib/prefetchAvailability";
 import { absoluteUrl, buildPageMetadata, carProductJsonLd } from "@/lib/seo";
 
 interface Props {
@@ -86,7 +84,6 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
     /* fallback gracefully */
   }
 
-  const dehydratedState = await prefetchAvailabilityState(slug, id);
   const browse = {
     location: query.location,
     from: query.from,
@@ -140,18 +137,16 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
             {vehicle.brand} {vehicle.model}
           </span>
         </nav>
-        <HydrationBoundary state={dehydratedState}>
-          <CarDetailView
-            vehicle={vehicle}
-            companySlug={slug}
-            companyName={company?.name}
-            companyWebsiteUrl={company?.websiteUrl}
-            initialFrom={query.from}
-            initialTo={query.to}
-            backHref={companyHref}
-            backLabel={t("backToFleet")}
-          />
-        </HydrationBoundary>
+        <CarDetailView
+          vehicle={vehicle}
+          companySlug={slug}
+          companyName={company?.name}
+          companyWebsiteUrl={company?.websiteUrl}
+          initialFrom={query.from}
+          initialTo={query.to}
+          backHref={companyHref}
+          backLabel={t("backToFleet")}
+        />
       </main>
       <Footer />
     </>
