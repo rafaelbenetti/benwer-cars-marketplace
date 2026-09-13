@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
@@ -19,11 +19,7 @@ function readConsent(): CookieChoice | null {
 
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
-  const [choice, setChoice] = useState<CookieChoice | null | undefined>(undefined);
-
-  useEffect(() => {
-    setChoice(readConsent());
-  }, []);
+  const [choice, setChoice] = useState<CookieChoice | null>(() => readConsent());
 
   if (choice !== null) {
     return null;

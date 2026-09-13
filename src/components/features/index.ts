@@ -33,3 +33,4 @@ export { HowItWorks } from "./HowItWorks";
 export { PartnersInvite } from "./PartnersInvite";
 export { ContactForm } from "./ContactForm";
 export { CookieBanner } from "./CookieBanner";
+export { CookieBannerHost } from "./CookieBannerHost";
