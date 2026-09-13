@@ -248,6 +248,14 @@ export function mapVehicle(raw: unknown, options?: VehicleMapOptions | string): 
     isPublic: readBoolean(row.isPublic) ?? true,
     photos: readPhotos(row),
     description: readString(row.description) ?? null,
+    color: readString(row.color) ?? null,
+    deposit: readNumber(row.deposit) ?? null,
+    category: readString(row.category) ?? null,
+    mileage:
+      readNumber(row.currentMileage) ??
+      readNumber(row.mileage) ??
+      readNumber(row.odometer) ??
+      null,
   };
 }
 

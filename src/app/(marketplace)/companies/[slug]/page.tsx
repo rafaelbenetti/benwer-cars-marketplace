@@ -74,7 +74,7 @@ async function CompanyPage({ params, searchParams }: Props) {
         <MarketplaceHeader />
         <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-16 md:px-6 lg:px-8">
           <EmptyState
-            icon={<Building2 size={40} />}
+            icon={<Building2 size={28} />}
             title={t("notFoundTitle")}
             description={t("notFoundDescription")}
             actionLabel={t("backToList")}
@@ -111,6 +111,7 @@ async function CompanyPage({ params, searchParams }: Props) {
         <CarListView
           companySlug={slug}
           hrefBase={`/companies/${slug}/cars`}
+          showDirectoryEmptyAction
         />
       </main>
       <Footer />

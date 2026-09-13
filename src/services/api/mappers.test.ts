@@ -150,10 +150,32 @@ describe("mapVehicleList", () => {
       currency: "EUR",
       companySlug: "med-rentacar",
       photos: [],
+      color: "silver",
+      deposit: 140,
+      category: "economy",
     });
     expect(vehicles.find((vehicle) => vehicle.model === "Ateca")?.type).toBe(
       VehicleType.SUV,
     );
+  });
+
+  it("maps mileage from currentMileage when present", () => {
+    const vehicle = mapVehicle({
+      id: "v-mileage",
+      make: "Toyota",
+      model: "Corolla",
+      currentMileage: 18420,
+      color: "white",
+      deposit: 300,
+      category: "compact",
+    });
+
+    expect(vehicle).toMatchObject({
+      mileage: 18420,
+      color: "white",
+      deposit: 300,
+      category: "compact",
+    });
   });
 
   it("treats a null vehicle list as empty", () => {

@@ -18,6 +18,10 @@
     "home": "Inicio",
     "cars": "Coches",
     "companies": "Empresas",
+    "contact": "Contacto",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "cookies": "Cookies",
     "mainAria": "Navegación principal",
     "footerAria": "Navegación del pie de página"
   },
@@ -47,7 +51,15 @@
     "tagline": "Compara coches de empresas de alquiler locales.",
     "trust": "Operadores locales · Málaga · Alquila en la web de la empresa",
     "poweredBy": "Reservado a través de Benwer Cars",
+    "explore": "Explorar",
+    "legal": "Legal",
     "copyright": "© {year} Benwer Cars. Todos los derechos reservados."
+  },
+  "cookieBanner": {
+    "body": "Usamos una cookie de idioma y recordamos esta elección en tu dispositivo. Las cookies opcionales permanecen desactivadas salvo que las aceptes.",
+    "policy": "Política de cookies",
+    "necessary": "Solo necesarias",
+    "accept": "Aceptar todas"
   },
   "actions": {
     "retry": "Intentar de nuevo",

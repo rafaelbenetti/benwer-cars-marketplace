@@ -2,11 +2,12 @@
 
 import { Suspense, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { SlidersHorizontal } from "lucide-react";
+import { Car, SlidersHorizontal } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCompanies } from "@/hooks/useCompanies";
 import { useMarketplaceVehicles } from "@/hooks/useMarketplaceVehicles";
 import { CarGridSkeleton, CarGridView } from "./CarGrid";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { FilterRail, FilterRailSkeleton } from "./FilterRail";
 import { Button } from "@/components/ui/Button";
 import { Sheet } from "@/components/ui/Sheet";
@@ -173,11 +174,18 @@ function MarketplaceCarListContent() {
               companyFor={companyFor}
               emptyTitle={t("searchEmptyTitle")}
               emptyHint={t("searchEmptyHint")}
-              emptyActionLabel={hasFilters ? t("clearFilters") : undefined}
+              emptyActionLabel={hasFilters ? t("clearFilters") : t("browseCompanies")}
+              emptyActionHref={hasFilters ? undefined : NavRoutes.COMPANIES}
               onClearFilters={hasFilters ? clearAdvancedFilters : undefined}
               className={RESULTS_GRID_CLASS}
             />
-          ) : null}
+          ) : (
+            <EmptyState
+              icon={<Car size={28} />}
+              title={t("datesRequiredTitle")}
+              description={t("datesRequiredHint")}
+            />
+          )}
         </div>
       </div>
       <Sheet

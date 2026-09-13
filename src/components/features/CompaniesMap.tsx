@@ -127,10 +127,10 @@ export function CompaniesMap({
         <div className="pointer-events-none absolute inset-x-4 bottom-4 z-10">
           <div className="pointer-events-auto rounded-xl border border-border bg-surface/95 shadow-md backdrop-blur-sm">
             <EmptyState
-              icon={<MapPin size={28} />}
+              icon={<MapPin size={22} />}
               title={t("emptyTitle")}
               description={t("emptyDescription")}
-              className="py-8"
+              variant="compact"
             />
           </div>
         </div>

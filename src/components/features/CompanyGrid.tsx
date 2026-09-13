@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { cn } from "@/lib/utils";
 import { getErrorKey } from "@/lib/errors";
+import { NavRoutes } from "@/enums";
 import { buildCompanyHref } from "@/lib/marketplaceSearch";
 import type { Company } from "@/types/company";
 
@@ -19,6 +20,10 @@ interface CompanyGridProps {
   fleetHint?: (company: Company) => string;
   viewFleetLabel?: string;
   onClearFilters?: () => void;
+  emptyTitle?: string;
+  emptyHint?: string;
+  emptyActionLabel?: string;
+  emptyActionHref?: string;
   className?: string;
 }
 
@@ -30,6 +35,10 @@ export function CompanyGrid({
   fleetHint,
   viewFleetLabel,
   onClearFilters,
+  emptyTitle,
+  emptyHint,
+  emptyActionLabel,
+  emptyActionHref,
   className,
 }: CompanyGridProps) {
   const t = useTranslations("companies");
@@ -38,11 +47,16 @@ export function CompanyGrid({
   if (companies.length === 0) {
     return (
       <EmptyState
-        icon={<Building2 size={40} />}
-        title={onClearFilters ? t("noResults") : t("emptyTitle")}
-        description={onClearFilters ? t("noResultsHint") : t("emptyDescription")}
-        actionLabel={onClearFilters ? t("clearFilters") : undefined}
+        icon={<Building2 size={28} />}
+        title={emptyTitle ?? (onClearFilters ? t("noResults") : t("emptyTitle"))}
+        description={
+          emptyHint ?? (onClearFilters ? t("noResultsHint") : t("emptyDescription"))
+        }
+        actionLabel={
+          emptyActionLabel ?? (onClearFilters ? t("clearFilters") : t("browseCars"))
+        }
         onAction={onClearFilters}
+        actionHref={onClearFilters ? undefined : (emptyActionHref ?? NavRoutes.CARS)}
       />
     );
   }
@@ -118,6 +132,10 @@ interface CompanyGridViewProps {
   isError: boolean;
   error?: unknown;
   onRetry: () => void;
+  emptyTitle?: string;
+  emptyHint?: string;
+  emptyActionLabel?: string;
+  emptyActionHref?: string;
 }
 
 export function CompanyGridView({
@@ -126,6 +144,10 @@ export function CompanyGridView({
   isError,
   error,
   onRetry,
+  emptyTitle,
+  emptyHint,
+  emptyActionLabel,
+  emptyActionHref,
 }: CompanyGridViewProps) {
   const t = useTranslations();
 
@@ -133,5 +155,13 @@ export function CompanyGridView({
   if (isError) {
     return <ErrorState message={t(getErrorKey(error))} onRetry={onRetry} />;
   }
-  return <CompanyGrid companies={companies ?? []} />;
+  return (
+    <CompanyGrid
+      companies={companies ?? []}
+      emptyTitle={emptyTitle}
+      emptyHint={emptyHint}
+      emptyActionLabel={emptyActionLabel}
+      emptyActionHref={emptyActionHref}
+    />
+  );
 }

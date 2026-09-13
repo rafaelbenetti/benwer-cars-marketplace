@@ -18,6 +18,10 @@
     "home": "Home",
     "cars": "Cars",
     "companies": "Companies",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies",
     "mainAria": "Main navigation",
     "footerAria": "Footer navigation"
   },
@@ -47,7 +51,15 @@
     "tagline": "Compare cars from local rental companies.",
     "trust": "Local operators · Málaga · Rent on the company site",
     "poweredBy": "Booked through Benwer Cars",
+    "explore": "Explore",
+    "legal": "Legal",
     "copyright": "© {year} Benwer Cars. All rights reserved."
+  },
+  "cookieBanner": {
+    "body": "We use a language cookie and remember this choice on your device. Optional cookies stay off unless you accept them.",
+    "policy": "Cookie policy",
+    "necessary": "Necessary only",
+    "accept": "Accept all"
   },
   "actions": {
     "retry": "Try again",

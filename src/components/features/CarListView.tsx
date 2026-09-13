@@ -14,6 +14,7 @@ import { Sheet } from "@/components/ui/Sheet";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { formatSearchDate, parseIsoDate } from "@/lib/dates";
 import { resolveCardCompany } from "@/lib/companyIdentity";
+import { NavRoutes } from "@/enums";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
 import {
   applyVehicleFilters,
@@ -29,9 +30,14 @@ const RESULTS_GRID_CLASS = "sm:grid-cols-2 xl:grid-cols-3";
 interface CarListViewProps {
   companySlug: string;
   hrefBase: string;
+  showDirectoryEmptyAction?: boolean;
 }
 
-function CarListViewContent({ companySlug, hrefBase }: CarListViewProps) {
+function CarListViewContent({
+  companySlug,
+  hrefBase,
+  showDirectoryEmptyAction = false,
+}: CarListViewProps) {
   const t = useTranslations("cars");
   const locale = useLocale();
   const router = useRouter();
@@ -146,6 +152,12 @@ function CarListViewContent({ companySlug, hrefBase }: CarListViewProps) {
             buildHref={buildHref}
             companyFor={(vehicle) => resolveCardCompany(vehicle, directory)}
             onClearFilters={hasFilters ? clearAdvancedFilters : undefined}
+            emptyActionLabel={
+              hasFilters || !showDirectoryEmptyAction ? undefined : t("browseCompanies")
+            }
+            emptyActionHref={
+              hasFilters || !showDirectoryEmptyAction ? undefined : NavRoutes.COMPANIES
+            }
             className={RESULTS_GRID_CLASS}
           />
         </div>
@@ -204,10 +216,18 @@ function CarListViewFallback() {
   );
 }
 
-export function CarListView({ companySlug, hrefBase }: CarListViewProps) {
+export function CarListView({
+  companySlug,
+  hrefBase,
+  showDirectoryEmptyAction,
+}: CarListViewProps) {
   return (
     <Suspense fallback={<CarListViewFallback />}>
-      <CarListViewContent companySlug={companySlug} hrefBase={hrefBase} />
+      <CarListViewContent
+        companySlug={companySlug}
+        hrefBase={hrefBase}
+        showDirectoryEmptyAction={showDirectoryEmptyAction}
+      />
     </Suspense>
   );
 }

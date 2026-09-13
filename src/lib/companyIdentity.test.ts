@@ -20,6 +20,10 @@ const vehicle = {
   isPublic: true,
   photos: [],
   description: null,
+  color: null,
+  deposit: null,
+  category: null,
+  mileage: null,
 };
 
 const listed: Company = {

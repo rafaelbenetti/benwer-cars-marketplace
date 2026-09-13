@@ -6,6 +6,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Toaster } from "sonner";
 import { QueryProvider } from "@/context/QueryProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { CookieBanner } from "@/components/features/CookieBanner";
 import { StorageKeys } from "@/enums";
 import { routing } from "@/i18n/routing";
 import { buildPageMetadata, getSiteUrl, websiteJsonLd } from "@/lib/seo";
@@ -80,6 +81,7 @@ export default async function RootLayout({
               })}
             />
             {children}
+            <CookieBanner />
             <Toaster richColors position="top-right" />
           </QueryProvider>
         </NextIntlClientProvider>

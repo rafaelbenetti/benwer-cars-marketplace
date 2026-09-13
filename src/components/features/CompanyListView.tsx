@@ -2,6 +2,7 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useCompanies } from "@/hooks/useCompanies";
 import { CompanyDirectory } from "./CompanyDirectory";
 import { CompanyGridSkeleton, CompanyGridView } from "./CompanyGrid";
@@ -9,7 +10,7 @@ import {
   MarketplaceSearchBar,
   MarketplaceSearchBarFallback,
 } from "./MarketplaceSearchBar";
-import { SearchParams } from "@/enums";
+import { NavRoutes, SearchParams } from "@/enums";
 
 interface CompanyListViewProps {
   showSearchBar?: boolean;
@@ -23,6 +24,7 @@ function CompanyResults({
   showSearchBar: boolean;
   limit?: number;
 }) {
+  const t = useTranslations("companies");
   const searchParams = useSearchParams();
   const location = searchParams.get(SearchParams.LOCATION);
   const { data, isPending, isError, error, refetch } = useCompanies(
@@ -41,6 +43,10 @@ function CompanyResults({
         isError={isError}
         error={error}
         onRetry={refetch}
+        emptyTitle={t("featuredEmpty")}
+        emptyHint={t("featuredEmptyHint")}
+        emptyActionLabel={t("browseCars")}
+        emptyActionHref={NavRoutes.CARS}
       />
     );
   }
