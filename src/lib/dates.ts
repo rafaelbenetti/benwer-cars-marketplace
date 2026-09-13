@@ -1,4 +1,4 @@
-import { format, isValid, parseISO, startOfDay } from "date-fns";
+import { addDays, differenceInCalendarDays, format, isValid, parseISO, startOfDay } from "date-fns";
 import { enGB, es } from "date-fns/locale";
 
 const DATE_LOCALES = {
@@ -30,4 +30,48 @@ export function formatSearchDate(date: Date, locale: string): string {
 
 export function startOfToday(): Date {
   return startOfDay(new Date());
+}
+
+export function countRentalDays(from: string, to: string): number {
+  const start = parseIsoDate(from);
+  const end = parseIsoDate(to);
+  if (!start || !end) {
+    return 0;
+  }
+
+  return Math.max(0, differenceInCalendarDays(end, start));
+}
+
+export function dateRangesOverlap(
+  startA: string,
+  endA: string,
+  startB: string,
+  endB: string,
+): boolean {
+  const aStart = parseIsoDate(startA);
+  const aEnd = parseIsoDate(endA);
+  const bStart = parseIsoDate(startB);
+  const bEnd = parseIsoDate(endB);
+  if (!aStart || !aEnd || !bStart || !bEnd) {
+    return false;
+  }
+
+  return aStart < bEnd && bStart < aEnd;
+}
+
+export function listingRangeDates(from: string, to: string): string[] {
+  const start = parseIsoDate(from);
+  const end = parseIsoDate(to);
+  if (!start || !end || end <= start) {
+    return [];
+  }
+
+  const dates: string[] = [];
+  let cursor = start;
+  while (cursor < end) {
+    dates.push(toIsoDate(cursor));
+    cursor = addDays(cursor, 1);
+  }
+
+  return dates;
 }

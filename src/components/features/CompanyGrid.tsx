@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { cn } from "@/lib/utils";
+import { getErrorKey } from "@/lib/errors";
 import type { Company } from "@/types/company";
 
 interface CompanyGridProps {
@@ -71,6 +72,7 @@ interface CompanyGridViewProps {
   companies: Company[] | undefined;
   isPending: boolean;
   isError: boolean;
+  error?: unknown;
   onRetry: () => void;
 }
 
@@ -78,9 +80,14 @@ export function CompanyGridView({
   companies,
   isPending,
   isError,
+  error,
   onRetry,
 }: CompanyGridViewProps) {
+  const t = useTranslations();
+
   if (isPending) return <CompanyGridSkeleton />;
-  if (isError) return <ErrorState onRetry={onRetry} />;
+  if (isError) {
+    return <ErrorState message={t(getErrorKey(error))} onRetry={onRetry} />;
+  }
   return <CompanyGrid companies={companies ?? []} />;
 }

@@ -13,3 +13,12 @@ export interface Company {
   isPublic: boolean;
   branding: CompanyBranding;
 }
+
+export interface CompanyListFilters {
+  location?: string;
+  from?: string;
+  to?: string;
+  q?: string;
+  cursor?: string;
+  limit?: number;
+}

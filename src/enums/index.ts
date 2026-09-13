@@ -68,4 +68,5 @@ export enum ErrorMessages {
   COMPANY_NOT_FOUND = "errors.company.not_found",
   RESERVATION_OVERLAP = "errors.reservation.overlap",
   RESERVATION_NOT_FOUND = "errors.reservation.not_found",
+  RESERVATION_INVALID_DATES = "errors.reservation.invalid_dates",
 }

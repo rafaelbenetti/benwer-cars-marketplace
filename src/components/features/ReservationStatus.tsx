@@ -1,6 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useReservation } from "@/hooks/useReservation";
+import { getErrorKey } from "@/lib/errors";
 import { StatusBadge } from "@/components/ui/Badge";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -18,13 +20,14 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export function ReservationStatus({ token }: ReservationStatusProps) {
-  const { data, isPending, isError, refetch } = useReservation(token);
+  const t = useTranslations();
+  const { data, isPending, isError, error, refetch } = useReservation(token);
 
   if (isPending) return <ReservationStatusSkeleton />;
   if (isError)
     return (
       <ErrorState
-        message="Could not load your reservation. Check the link in your confirmation email."
+        message={t(getErrorKey(error))}
         onRetry={refetch}
       />
     );
