@@ -19,7 +19,8 @@ import type { VehicleFilters } from "@/types/vehicle";
 interface FilterRailProps {
   filters: VehicleFilters;
   onChange: (filters: VehicleFilters) => void;
-  companies: Company[];
+  companies?: Company[];
+  showCompanies?: boolean;
   idPrefix?: string;
   className?: string;
 }
@@ -27,7 +28,8 @@ interface FilterRailProps {
 export function FilterRail({
   filters,
   onChange,
-  companies,
+  companies = [],
+  showCompanies = true,
   idPrefix = "desktop",
   className,
 }: FilterRailProps) {
@@ -122,23 +124,31 @@ export function FilterRail({
         ))}
       </FilterGroup>
 
-      <CompanyFilterGroup
-        companies={companies}
-        selectedSlugs={filters.companySlugs ?? []}
-        idPrefix={idPrefix}
-        onChange={(companySlugs) =>
-          onChange({
-            ...filters,
-            companySlugs,
-            companySlug: companySlugs?.[0],
-          })
-        }
-      />
+      {showCompanies ? (
+        <CompanyFilterGroup
+          companies={companies}
+          selectedSlugs={filters.companySlugs ?? []}
+          idPrefix={idPrefix}
+          onChange={(companySlugs) =>
+            onChange({
+              ...filters,
+              companySlugs,
+              companySlug: companySlugs?.[0],
+            })
+          }
+        />
+      ) : null}
     </div>
   );
 }
 
-export function FilterRailSkeleton({ className }: { className?: string }) {
+export function FilterRailSkeleton({
+  className,
+  showCompanies = true,
+}: {
+  className?: string;
+  showCompanies?: boolean;
+}) {
   return (
     <div
       className={cn(
@@ -161,11 +171,13 @@ export function FilterRailSkeleton({ className }: { className?: string }) {
         <Skeleton className="h-8 w-10 rounded-full" />
         <Skeleton className="h-8 w-10 rounded-full" />
       </div>
-      <div className="flex flex-col gap-2">
-        <Skeleton className="h-8 w-full" />
-        <Skeleton className="h-8 w-full" />
-        <Skeleton className="h-8 w-full" />
-      </div>
+      {showCompanies ? (
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+        </div>
+      ) : null}
     </div>
   );
 }
