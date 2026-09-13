@@ -4,6 +4,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const API_ORIGIN = process.env.API_ORIGIN ?? "http://localhost:8080";
+const LOCALSTACK_ORIGIN = process.env.LOCALSTACK_ORIGIN ?? "http://localhost:4566";
 
 const nextConfig: NextConfig = {
   images: {
@@ -32,6 +33,10 @@ const nextConfig: NextConfig = {
       {
         source: "/api/:path*",
         destination: `${API_ORIGIN}/:path*`,
+      },
+      {
+        source: "/localstack/:path*",
+        destination: `${LOCALSTACK_ORIGIN}/:path*`,
       },
     ];
   },

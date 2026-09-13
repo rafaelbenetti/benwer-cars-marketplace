@@ -26,6 +26,10 @@ export function CarPhoto({
     return fallback;
   }
 
+  const unoptimized =
+    src.startsWith("/localstack/") ||
+    /^https?:\/\/(?:localhost|127\.0\.0\.1):4566\//i.test(src);
+
   return (
     <Image
       src={src}
@@ -33,6 +37,7 @@ export function CarPhoto({
       fill
       priority={priority}
       sizes={sizes}
+      unoptimized={unoptimized}
       className={className}
       onError={() => setFailed(true)}
     />

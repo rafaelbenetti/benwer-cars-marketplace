@@ -129,6 +129,26 @@ function isHttpUrl(value: string): boolean {
   return /^https?:\/\//i.test(value);
 }
 
+const LOCALSTACK_ORIGIN = /^https?:\/\/(?:localhost|127\.0\.0\.1):4566/i;
+
+function toPublicPhotoSrc(value: string): string | undefined {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  if (LOCALSTACK_ORIGIN.test(trimmed)) {
+    const path = trimmed.replace(LOCALSTACK_ORIGIN, "");
+    return path.startsWith("/") ? `/localstack${path}` : `/localstack/${path}`;
+  }
+
+  if (trimmed.startsWith("/localstack/")) {
+    return trimmed;
+  }
+
+  return isHttpUrl(trimmed) ? trimmed : undefined;
+}
+
 function readPhotoUrl(value: unknown): string | undefined {
   const raw = typeof value === "string" && value.trim()
     ? value.trim()
@@ -139,7 +159,7 @@ function readPhotoUrl(value: unknown): string | undefined {
         readString(value.photoUrl)
       : undefined;
 
-  return raw && isHttpUrl(raw) ? raw : undefined;
+  return raw ? toPublicPhotoSrc(raw) : undefined;
 }
 
 function readPhotos(row: Record<string, unknown>): string[] {
@@ -154,7 +174,7 @@ function readPhotos(row: Record<string, unknown>): string[] {
     }
   }
 
-  const single = readString(row.photoUrl) ?? readString(row.imageUrl);
+  const single = readPhotoUrl(readString(row.photoUrl) ?? readString(row.imageUrl));
   if (single) {
     collected.push(single);
   }

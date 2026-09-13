@@ -121,6 +121,24 @@ describe("mapVehicleList", () => {
     ]);
   });
 
+  it("rewrites LocalStack photo hosts to same-origin /localstack paths", () => {
+    const vehicle = mapVehicle({
+      id: "v-localstack",
+      make: "Peugeot",
+      model: "208",
+      photos: [
+        "http://localhost:4566/public-benwer-cars/seed/cars/7.jpg",
+        "http://127.0.0.1:4566/public-benwer-cars/seed/cars/8.jpg",
+        "vehicles/bare-key.jpg",
+      ],
+    });
+
+    expect(vehicle.photos).toEqual([
+      "/localstack/public-benwer-cars/seed/cars/7.jpg",
+      "/localstack/public-benwer-cars/seed/cars/8.jpg",
+    ]);
+  });
+
   it("maps marketplace aliases and drops photo object keys", () => {
     const vehicles = mapVehicleList(loadFixture("vehicles.page.json"));
     expect(vehicles).toHaveLength(1);
