@@ -30,3 +30,4 @@ export { MarketplaceSearchHeader } from "./MarketplaceSearchHeader";
 export { MarketplaceMapTeaser } from "./MarketplaceMapTeaser";
 export { BrowseByLocation } from "./BrowseByLocation";
 export { HowItWorks } from "./HowItWorks";
+export { PartnersInvite } from "./PartnersInvite";

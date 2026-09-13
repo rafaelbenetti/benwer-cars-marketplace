@@ -14,7 +14,11 @@
       "currency": "EUR",
       "status": "available",
       "isPublic": true,
-      "photos": [],
+      "photos": [
+        "/mock-data/cars/corolla.jpg",
+        "/mock-data/cars/suv.jpg",
+        "/mock-data/cars/tesla.jpg"
+      ],
       "description": "Efficient hybrid for Málaga city and the airport run."
     },
     {
@@ -31,7 +35,7 @@
       "currency": "EUR",
       "status": "available",
       "isPublic": true,
-      "photos": [],
+      "photos": ["/mock-data/cars/suv.jpg"],
       "description": "Compact SUV for Costa del Sol day trips."
     },
     {
@@ -48,7 +52,7 @@
       "currency": "EUR",
       "status": "available",
       "isPublic": true,
-      "photos": [],
+      "photos": ["/mock-data/cars/tesla.jpg"],
       "description": "All-electric sedan with access to city and highway charging."
     },
     {
@@ -65,7 +69,7 @@
       "currency": "EUR",
       "status": "available",
       "isPublic": true,
-      "photos": [],
+      "photos": ["/mock-data/cars/corolla.jpg"],
       "description": "Coastal luxury coupe for Marbella and Puerto Banús."
     },
     {
@@ -82,7 +86,7 @@
       "currency": "EUR",
       "status": "available",
       "isPublic": true,
-      "photos": [],
+      "photos": ["/mock-data/cars/suv.jpg"],
       "description": "Comfortable SUV for mountain and coast routes."
     },
     {

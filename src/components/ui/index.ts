@@ -1,4 +1,4 @@
-export { Button, IconButton } from "./Button";
+export { Button, IconButton, buttonVariants } from "./Button";
 export { Badge, StatusBadge } from "./Badge";
 export { Input } from "./Input";
 export { Field } from "./Field";

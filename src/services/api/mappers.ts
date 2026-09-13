@@ -142,7 +142,7 @@ function toPublicPhotoSrc(value: string): string | undefined {
     return path.startsWith("/") ? `/localstack${path}` : `/localstack/${path}`;
   }
 
-  if (trimmed.startsWith("/localstack/")) {
+  if (trimmed.startsWith("/") && !trimmed.startsWith("//")) {
     return trimmed;
   }
 
@@ -207,7 +207,7 @@ export function mapCompany(raw: unknown): Company {
     isPublic: readBoolean(row.isPublic) ?? true,
     branding: {
       primaryColor: readString(branding.primaryColor) ?? "",
-      logoUrl: readString(branding.logoUrl) ?? null,
+      logoUrl: readPhotoUrl(branding.logoUrl) ?? readPhotoUrl(branding.logo) ?? null,
     },
   };
 }

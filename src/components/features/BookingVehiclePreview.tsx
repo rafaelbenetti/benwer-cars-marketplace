@@ -34,7 +34,6 @@ export function BookingVehiclePreview({
         <CarPhoto
           src={photo}
           alt={name}
-          className="object-cover"
           sizes={size === "md" ? "144px" : "96px"}
           fallback={
             <div className="flex h-full w-full flex-col items-center justify-center gap-1 bg-primary/5">

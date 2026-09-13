@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const button = cva(
+export const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
@@ -26,7 +26,7 @@ const button = cva(
 );
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
-  VariantProps<typeof button> & {
+  VariantProps<typeof buttonVariants> & {
     isLoading?: boolean;
   };
 
@@ -41,7 +41,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={cn(button({ variant, size }), className)}
+      className={cn(buttonVariants({ variant, size }), className)}
       disabled={disabled ?? isLoading}
       {...props}
     >
@@ -63,7 +63,7 @@ export function IconButton({ label, className, children, ...props }: IconButtonP
     <button
       aria-label={label}
       className={cn(
-        button({ variant: "ghost", size: "icon" }),
+        buttonVariants({ variant: "ghost", size: "icon" }),
         className,
       )}
       {...props}

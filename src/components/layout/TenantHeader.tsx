@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { NavRoutes } from "@/enums";
+import { shouldSkipImageOptimization } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { TenantNav } from "./TenantNav";
@@ -61,8 +62,8 @@ function TenantMark({
           src={logoUrl}
           alt={logoAlt}
           fill
-          unoptimized
-          className="object-contain p-0.5"
+          unoptimized={shouldSkipImageOptimization(logoUrl)}
+          className="absolute inset-0 size-full object-contain p-0.5"
           sizes="32px"
         />
       </span>

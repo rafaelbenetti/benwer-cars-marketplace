@@ -1,16 +1,27 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import { shouldSkipImageOptimization } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import type { Company } from "@/types/company";
 
 interface CompanyMarkProps {
   company: Pick<Company, "name" | "branding">;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
 const SIZE_CLASS = {
-  sm: "h-5 w-5 rounded-md text-[10px]",
+  sm: "h-7 w-7 rounded-lg text-[11px]",
   md: "h-12 w-12 rounded-xl text-lg",
+  lg: "h-14 w-14 rounded-xl text-xl",
+} as const;
+
+const SIZE_PX = {
+  sm: "28px",
+  md: "48px",
+  lg: "56px",
 } as const;
 
 export function CompanyMark({
@@ -18,9 +29,10 @@ export function CompanyMark({
   size = "md",
   className,
 }: CompanyMarkProps) {
-  const initial = company.name.trim().charAt(0).toUpperCase() || "?";
+  const [failed, setFailed] = useState(false);
+  const logoUrl = company.branding.logoUrl;
 
-  if (company.branding.logoUrl) {
+  if (logoUrl && !failed) {
     return (
       <span
         className={cn(
@@ -30,16 +42,19 @@ export function CompanyMark({
         )}
       >
         <Image
-          src={company.branding.logoUrl}
+          src={logoUrl}
           alt=""
           fill
-          unoptimized
-          className="object-contain p-0.5"
-          sizes={size === "sm" ? "20px" : "48px"}
+          unoptimized={shouldSkipImageOptimization(logoUrl)}
+          className="absolute inset-0 size-full object-contain p-0.5"
+          sizes={SIZE_PX[size]}
+          onError={() => setFailed(true)}
         />
       </span>
     );
   }
+
+  const initial = company.name.trim().charAt(0).toUpperCase() || "?";
 
   return (
     <span

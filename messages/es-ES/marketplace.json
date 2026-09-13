@@ -11,6 +11,16 @@
     "trustArea": "Provincia de Málaga",
     "viewAllCompanies": "Ver todas las empresas"
   },
+  "partners": {
+    "eyebrow": "Una plataforma. Más reservas.",
+    "title": "Sustituye tu web anticuada. Recibe reservas online.",
+    "description": "Pensado para operadores de alquiler independientes en Málaga. Publica tu flota, mantén la disponibilidad en directo y aparece en el marketplace Benwer — sin reconstruir tu web.",
+    "cta": "Ver planes",
+    "ctaAria": "Ver planes en la web de Benwer (se abre en una pestaña nueva)",
+    "demo": "Ver demo en directo",
+    "demoAria": "Ver la demo del admin en directo (se abre en una pestaña nueva)",
+    "footnote": "Sin cuota de alta para explorar. Hecho para operadores independientes en la provincia de Málaga."
+  },
   "seo": {
     "companyTitle": "{name} — Alquiler de coches",
     "companyDescription": "Alquila un coche con {name} en {location}.",

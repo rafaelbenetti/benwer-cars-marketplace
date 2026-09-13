@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
+import { CompanyMark } from "@/components/features/CompanyMark";
 import { cn } from "@/lib/utils";
+import type { Company } from "@/types/company";
 
 interface CompanyBannerProps {
   name: string;
+  logoUrl?: string | null;
   description?: string | null;
   location?: string | null;
   backHref?: string;
@@ -13,12 +16,18 @@ interface CompanyBannerProps {
 
 export function CompanyBanner({
   name,
+  logoUrl,
   description,
   location,
   backHref,
   backLabel,
   className,
 }: CompanyBannerProps) {
+  const company: Pick<Company, "name" | "branding"> = {
+    name,
+    branding: { primaryColor: "", logoUrl: logoUrl ?? null },
+  };
+
   return (
     <section
       className={cn(
@@ -40,21 +49,24 @@ export function CompanyBanner({
             {backLabel}
           </Link>
         ) : null}
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-            {name}
-          </h1>
-          {description ? (
-            <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
-              {description}
-            </p>
-          ) : null}
-          {location ? (
-            <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
-              <MapPin size={16} aria-hidden />
-              {location}
-            </p>
-          ) : null}
+        <div className="flex items-start gap-4">
+          <CompanyMark company={company} size="lg" />
+          <div className="min-w-0">
+            <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+              {name}
+            </h1>
+            {description ? (
+              <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
+                {description}
+              </p>
+            ) : null}
+            {location ? (
+              <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <MapPin size={16} aria-hidden />
+                {location}
+              </p>
+            ) : null}
+          </div>
         </div>
       </div>
     </section>

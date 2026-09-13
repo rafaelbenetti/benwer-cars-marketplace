@@ -92,6 +92,7 @@ async function CompanyPage({ params, searchParams }: Props) {
       <MarketplaceHeader />
       <CompanyBanner
         name={company?.name ?? slug}
+        logoUrl={company?.branding.logoUrl}
         description={company?.description}
         location={company?.location}
         backHref={appendSearchParams(NavRoutes.COMPANIES, {

@@ -79,6 +79,33 @@ describe("mapCompany", () => {
     });
     expect(withCity.locationSlug).toBe("torremolinos");
   });
+
+  it("rewrites LocalStack logo hosts to same-origin /localstack paths", () => {
+    const company = mapCompany({
+      slug: "denver-cars",
+      name: "Denver Cars",
+      branding: {
+        primaryColor: "#0e7490",
+        logoUrl: "http://localhost:4566/public-benwer-cars/seed/logos/denver.png",
+      },
+    });
+
+    expect(company.branding.logoUrl).toBe(
+      "/localstack/public-benwer-cars/seed/logos/denver.png",
+    );
+  });
+
+  it("keeps same-origin logo paths for mock and public assets", () => {
+    const company = mapCompany({
+      slug: "denver-cars",
+      name: "Denver Cars",
+      branding: {
+        logoUrl: "/mock-data/logos/denver-cars.svg",
+      },
+    });
+
+    expect(company.branding.logoUrl).toBe("/mock-data/logos/denver-cars.svg");
+  });
 });
 
 describe("mapVehicleList", () => {
@@ -130,12 +157,14 @@ describe("mapVehicleList", () => {
         "http://localhost:4566/public-benwer-cars/seed/cars/7.jpg",
         "http://127.0.0.1:4566/public-benwer-cars/seed/cars/8.jpg",
         "vehicles/bare-key.jpg",
+        "/mock-data/cars/kept.jpg",
       ],
     });
 
     expect(vehicle.photos).toEqual([
       "/localstack/public-benwer-cars/seed/cars/7.jpg",
       "/localstack/public-benwer-cars/seed/cars/8.jpg",
+      "/mock-data/cars/kept.jpg",
     ]);
   });
 

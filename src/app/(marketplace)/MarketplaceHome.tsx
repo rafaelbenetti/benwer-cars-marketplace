@@ -8,6 +8,7 @@ import { CompanyListView } from "@/components/features/CompanyListView";
 import { HowItWorks } from "@/components/features/HowItWorks";
 import { MarketplaceMapTeaser } from "@/components/features/MarketplaceMapTeaser";
 import { MarketplaceSearchHeader } from "@/components/features/MarketplaceSearchHeader";
+import { PartnersInvite } from "@/components/features/PartnersInvite";
 import { NavRoutes } from "@/enums";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -55,6 +56,7 @@ export async function MarketplaceHome() {
           </div>
           <CompanyListView showSearchBar={false} limit={6} />
         </section>
+        <PartnersInvite />
       </main>
       <Footer />
     </>

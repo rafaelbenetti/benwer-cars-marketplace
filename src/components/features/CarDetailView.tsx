@@ -78,8 +78,8 @@ export function CarDetailView({
     );
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-      <div className="flex flex-col gap-6 lg:col-span-2">
+    <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="flex min-w-0 flex-col gap-6 lg:col-span-2">
         {backHref && backLabel ? (
           <Link
             href={backHref}

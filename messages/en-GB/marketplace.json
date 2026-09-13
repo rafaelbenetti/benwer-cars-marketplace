@@ -11,6 +11,16 @@
     "trustArea": "Málaga province",
     "viewAllCompanies": "View all companies"
   },
+  "partners": {
+    "eyebrow": "One platform. More bookings.",
+    "title": "Replace your outdated website. Get booked online.",
+    "description": "Built for independent rental operators in Málaga. Publish your fleet, keep availability live, and appear on the Benwer marketplace — without rebuilding your site.",
+    "cta": "See plans",
+    "ctaAria": "See plans on the Benwer marketing site (opens in a new tab)",
+    "demo": "View live demo",
+    "demoAria": "View the live admin demo (opens in a new tab)",
+    "footnote": "No setup fee to explore. Made for independent operators across Málaga province."
+  },
   "seo": {
     "companyTitle": "{name} — Car rentals",
     "companyDescription": "Rent a car from {name} in {location}.",

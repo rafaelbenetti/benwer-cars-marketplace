@@ -22,7 +22,7 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
     return (
       <div
         className={cn(
-          "relative flex aspect-[16/9] flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-surface-muted",
+          "relative flex aspect-video w-full max-w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-surface-muted",
           className,
         )}
       >
@@ -38,14 +38,13 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
   const activePhoto = photos[activeIndex];
 
   return (
-    <div className={cn("flex flex-col gap-3", className)}>
-      <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-surface-muted group">
+    <div className={cn("flex w-full min-w-0 max-w-full flex-col gap-3", className)}>
+      <div className="group relative aspect-video w-full overflow-hidden rounded-xl bg-surface-muted">
         <CarPhoto
           src={activePhoto}
           alt={t("photoAlt", { name: alt, index: activeIndex + 1 })}
           priority
-          className="object-cover"
-          sizes="(min-width: 1024px) 60vw, 100vw"
+          sizes="(min-width: 1280px) 50rem, (min-width: 1024px) 58vw, calc(100vw - 2rem)"
           fallback={
             <div className="flex h-full w-full flex-col items-center justify-center gap-2">
               <Car size={28} className="text-primary/40" aria-hidden />
@@ -95,7 +94,6 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
               <CarPhoto
                 src={photo}
                 alt={`${alt} thumbnail ${i + 1}`}
-                className="object-cover"
                 sizes="96px"
                 fallback={
                   <div className="flex h-full w-full items-center justify-center bg-surface-muted">

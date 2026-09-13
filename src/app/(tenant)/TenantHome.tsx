@@ -97,6 +97,7 @@ export async function TenantHome() {
       {company ? (
         <CompanyBanner
           name={company.name}
+          logoUrl={company.branding.logoUrl}
           description={company.description}
           location={company.location}
         />
