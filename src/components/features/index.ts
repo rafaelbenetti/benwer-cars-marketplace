@@ -26,6 +26,7 @@ export { CompanyDirectory } from "./CompanyDirectory";
 export { CompaniesMap } from "./CompaniesMap";
 export { MarketplaceSearchBar } from "./MarketplaceSearchBar";
 export { MarketplaceHeroSearch } from "./MarketplaceHeroSearch";
+export { MarketplaceSearchHeader } from "./MarketplaceSearchHeader";
 export { MarketplaceMapTeaser } from "./MarketplaceMapTeaser";
 export { BrowseByLocation } from "./BrowseByLocation";
 export { HowItWorks } from "./HowItWorks";

@@ -5,11 +5,9 @@ export const FILTER_VEHICLE_TYPES = [
   VehicleType.CAR,
   VehicleType.SUV,
   VehicleType.VAN,
-  VehicleType.TRUCK,
-  VehicleType.MOTORCYCLE,
 ] as const;
 
-export const FILTER_SEAT_OPTIONS = [2, 4, 5, 7, 8, 9] as const;
+export const FILTER_SEAT_OPTIONS = [4, 5, 7] as const;
 
 const VEHICLE_TYPE_VALUES = new Set<string>(Object.values(VehicleType));
 const TRANSMISSION_VALUES = new Set<string>(Object.values(TransmissionType));

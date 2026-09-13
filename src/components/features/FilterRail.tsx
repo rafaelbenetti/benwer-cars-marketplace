@@ -19,7 +19,8 @@ import type { VehicleFilters } from "@/types/vehicle";
 interface FilterRailProps {
   filters: VehicleFilters;
   onChange: (filters: VehicleFilters) => void;
-  companies: Company[];
+  companies?: Company[];
+  showCompanies?: boolean;
   idPrefix?: string;
   className?: string;
 }
@@ -27,7 +28,8 @@ interface FilterRailProps {
 export function FilterRail({
   filters,
   onChange,
-  companies,
+  companies = [],
+  showCompanies = true,
   idPrefix = "desktop",
   className,
 }: FilterRailProps) {
@@ -88,23 +90,6 @@ export function FilterRail({
         ))}
       </FilterGroup>
 
-      <FilterGroup legend={t("filters.seats")}>
-        {FILTER_SEAT_OPTIONS.map((seats) => (
-          <FilterChip
-            key={seats}
-            pressed={filters.seats === seats}
-            onClick={() =>
-              onChange({
-                ...filters,
-                seats: filters.seats === seats ? undefined : seats,
-              })
-            }
-          >
-            {t("seatsPlus", { count: seats })}
-          </FilterChip>
-        ))}
-      </FilterGroup>
-
       <FilterGroup legend={t("filters.transmission")}>
         {[TransmissionType.AUTOMATIC, TransmissionType.MANUAL].map((value) => (
           <FilterChip
@@ -122,23 +107,48 @@ export function FilterRail({
         ))}
       </FilterGroup>
 
-      <CompanyFilterGroup
-        companies={companies}
-        selectedSlugs={filters.companySlugs ?? []}
-        idPrefix={idPrefix}
-        onChange={(companySlugs) =>
-          onChange({
-            ...filters,
-            companySlugs,
-            companySlug: companySlugs?.[0],
-          })
-        }
-      />
+      <FilterGroup legend={t("filters.seats")}>
+        {FILTER_SEAT_OPTIONS.map((seats) => (
+          <FilterChip
+            key={seats}
+            pressed={filters.seats === seats}
+            onClick={() =>
+              onChange({
+                ...filters,
+                seats: filters.seats === seats ? undefined : seats,
+              })
+            }
+          >
+            {t("seatsPlus", { count: seats })}
+          </FilterChip>
+        ))}
+      </FilterGroup>
+
+      {showCompanies ? (
+        <CompanyFilterGroup
+          companies={companies}
+          selectedSlugs={filters.companySlugs ?? []}
+          idPrefix={idPrefix}
+          onChange={(companySlugs) =>
+            onChange({
+              ...filters,
+              companySlugs,
+              companySlug: companySlugs?.[0],
+            })
+          }
+        />
+      ) : null}
     </div>
   );
 }
 
-export function FilterRailSkeleton({ className }: { className?: string }) {
+export function FilterRailSkeleton({
+  className,
+  showCompanies = true,
+}: {
+  className?: string;
+  showCompanies?: boolean;
+}) {
   return (
     <div
       className={cn(
@@ -153,15 +163,21 @@ export function FilterRailSkeleton({ className }: { className?: string }) {
         <Skeleton className="h-8 w-16 rounded-full" />
       </div>
       <div className="flex flex-wrap gap-1.5">
+        <Skeleton className="h-8 w-24 rounded-full" />
+        <Skeleton className="h-8 w-20 rounded-full" />
+      </div>
+      <div className="flex flex-wrap gap-1.5">
         <Skeleton className="h-8 w-10 rounded-full" />
         <Skeleton className="h-8 w-10 rounded-full" />
         <Skeleton className="h-8 w-10 rounded-full" />
       </div>
-      <div className="flex flex-col gap-2">
-        <Skeleton className="h-8 w-full" />
-        <Skeleton className="h-8 w-full" />
-        <Skeleton className="h-8 w-full" />
-      </div>
+      {showCompanies ? (
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -79,23 +79,6 @@ export function FilterBar({ filters, onChange, className }: FilterBarProps) {
           ))}
         </FilterGroup>
 
-        <FilterGroup legend={t("filters.seats")}>
-          {FILTER_SEAT_OPTIONS.map((seats) => (
-            <FilterChip
-              key={seats}
-              pressed={filters.seats === seats}
-              onClick={() =>
-                onChange({
-                  ...filters,
-                  seats: filters.seats === seats ? undefined : seats,
-                })
-              }
-            >
-              {t("seatsPlus", { count: seats })}
-            </FilterChip>
-          ))}
-        </FilterGroup>
-
         <FilterGroup legend={t("filters.transmission")}>
           {[TransmissionType.AUTOMATIC, TransmissionType.MANUAL].map((value) => (
             <FilterChip
@@ -109,6 +92,23 @@ export function FilterBar({ filters, onChange, className }: FilterBarProps) {
               }
             >
               {t(`transmission.${value}`)}
+            </FilterChip>
+          ))}
+        </FilterGroup>
+
+        <FilterGroup legend={t("filters.seats")}>
+          {FILTER_SEAT_OPTIONS.map((seats) => (
+            <FilterChip
+              key={seats}
+              pressed={filters.seats === seats}
+              onClick={() =>
+                onChange({
+                  ...filters,
+                  seats: filters.seats === seats ? undefined : seats,
+                })
+              }
+            >
+              {t("seatsPlus", { count: seats })}
             </FilterChip>
           ))}
         </FilterGroup>

@@ -2,18 +2,13 @@
 
 import { Suspense, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { CalendarDays, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCompanies } from "@/hooks/useCompanies";
 import { useMarketplaceVehicles } from "@/hooks/useMarketplaceVehicles";
 import { CarGridSkeleton, CarGridView } from "./CarGrid";
 import { FilterRail, FilterRailSkeleton } from "./FilterRail";
-import {
-  MarketplaceSearchBar,
-  MarketplaceSearchBarFallback,
-} from "./MarketplaceSearchBar";
 import { Button } from "@/components/ui/Button";
-import { EmptyState } from "@/components/ui/EmptyState";
 import { Sheet } from "@/components/ui/Sheet";
 import { Skeleton } from "@/components/ui/Skeleton";
 import {
@@ -49,7 +44,6 @@ function MarketplaceCarListContent() {
   const location = resolveCitySlug(browse.location ?? null);
   const hasDates = hasCompleteSearchDates(filters.from, filters.to);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [datesOpen, setDatesOpen] = useState(false);
   const marketplaceFilters = {
     ...filters,
     location,
@@ -65,7 +59,9 @@ function MarketplaceCarListContent() {
           from: filters.from,
           to: filters.to,
         }
-      : undefined,
+      : {
+          location: toApiLocation(location),
+        },
   );
 
   const hasFilters = hasActiveAdvancedFilters(filters);
@@ -133,44 +129,41 @@ function MarketplaceCarListContent() {
 
   return (
     <div className="flex flex-col gap-6">
-      <MarketplaceSearchBar
-        datesOpen={datesOpen}
-        onDatesOpenChange={setDatesOpen}
-      />
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <h2 className="text-xl font-semibold text-foreground">{t("searchTitle")}</h2>
+      <div className="flex items-center justify-between gap-3">
         {hasDates ? (
-          <div className="flex items-center justify-between gap-3">
-            {isPending ? (
-              <Skeleton className="h-4 w-36" />
-            ) : isError ? null : (
-              <p className="text-sm text-muted-foreground">{resultsLabel}</p>
-            )}
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              onClick={() => setFiltersOpen(true)}
-              className="lg:hidden"
-              aria-label={t("filters.openAria", { count: appliedCount })}
-            >
-              <SlidersHorizontal size={16} aria-hidden />
-              {t("filters.title")}
-              {appliedCount ? (
-                <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
-                  {appliedCount}
-                </span>
-              ) : null}
-            </Button>
-          </div>
-        ) : null}
+          isPending ? (
+            <Skeleton className="h-4 w-36" />
+          ) : isError ? (
+            <span />
+          ) : (
+            <p className="text-sm text-muted-foreground">{resultsLabel}</p>
+          )
+        ) : (
+          <span className="lg:hidden" />
+        )}
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          onClick={() => setFiltersOpen(true)}
+          className="lg:hidden"
+          aria-label={t("filters.openAria", { count: appliedCount })}
+        >
+          <SlidersHorizontal size={16} aria-hidden />
+          {t("filters.title")}
+          {appliedCount ? (
+            <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
+              {appliedCount}
+            </span>
+          ) : null}
+        </Button>
       </div>
-      {hasDates ? (
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-          <aside className="hidden lg:block lg:w-72 lg:shrink-0 xl:w-80">
-            <div className="sticky top-20">{filterRail("desktop")}</div>
-          </aside>
-          <div className="min-w-0 flex-1">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+        <aside className="hidden lg:block lg:w-72 lg:shrink-0 xl:w-80">
+          <div className="sticky top-20">{filterRail("desktop")}</div>
+        </aside>
+        <div className="min-w-0 flex-1">
+          {hasDates ? (
             <CarGridView
               vehicles={data}
               isPending={isPending}
@@ -185,18 +178,9 @@ function MarketplaceCarListContent() {
               onClearFilters={hasFilters ? clearAdvancedFilters : undefined}
               className={RESULTS_GRID_CLASS}
             />
-          </div>
+          ) : null}
         </div>
-      ) : (
-        <EmptyState
-          icon={<CalendarDays size={40} />}
-          title={t("datesNeededTitle")}
-          description={t("datesNeededHint")}
-          actionLabel={t("addDates")}
-          onAction={() => setDatesOpen(true)}
-          className="rounded-2xl border border-dashed border-border bg-surface px-6"
-        />
-      )}
+      </div>
       <Sheet
         open={filtersOpen}
         onOpenChange={setFiltersOpen}
@@ -229,10 +213,9 @@ function MarketplaceCarListContent() {
 function MarketplaceCarListFallback() {
   return (
     <div className="flex flex-col gap-6">
-      <MarketplaceSearchBarFallback />
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <Skeleton className="h-7 w-48" />
+      <div className="flex items-center justify-between gap-3">
         <Skeleton className="h-4 w-36" />
+        <Skeleton className="h-9 w-24 lg:hidden" />
       </div>
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <div className="hidden lg:block lg:w-72 xl:w-80">
