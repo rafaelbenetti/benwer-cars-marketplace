@@ -182,11 +182,8 @@ export function getMappableCity(slug: string): MappableMalagaCity | null {
 }
 
 export function resolveCitySlug(slug: string | null): string {
-  if (slug && getCityBySlug(slug)) {
-    return slug;
-  }
-
-  return DEFAULT_CITY_SLUG;
+  const trimmed = slug?.trim();
+  return trimmed ? trimmed : DEFAULT_CITY_SLUG;
 }
 
 export function getCityDisplayName(city: MalagaCity, locale: string): string {

@@ -64,7 +64,6 @@ export function CarCard({
           src={primaryPhoto}
           alt={name}
           priority={priority}
-          className="transition-transform duration-200 motion-safe:group-hover:scale-[1.03]"
           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 100vw"
           fallback={
             <CarPhotoFallback type={vehicle.type} emptyLabel={tDetail("photoEmpty")} />

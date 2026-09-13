@@ -80,6 +80,19 @@ describe("mapCompany", () => {
     expect(withCity.locationSlug).toBe("torremolinos");
   });
 
+  it("keeps location slugs outside the Málaga city list", () => {
+    const company = mapCompany({
+      slug: "valencia-drive",
+      name: "Valencia Drive",
+      location: "Valencia",
+      locationSlug: "valencia",
+      isPublic: true,
+    });
+
+    expect(company.locationSlug).toBe("valencia");
+    expect(company.location).toBe("Valencia");
+  });
+
   it("rewrites LocalStack logo hosts to same-origin /localstack paths", () => {
     const company = mapCompany({
       slug: "med-rentacar",

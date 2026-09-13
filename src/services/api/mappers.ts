@@ -1,4 +1,5 @@
 import { getCityByName, getCityBySlug } from "@/data/malagaCities";
+import { slugifyLocation } from "@/lib/locationOptions";
 import {
   FuelType,
   ReservationStatus,
@@ -123,7 +124,18 @@ function inferLocationSlug(
     return locationSlug;
   }
 
-  return getCityByName(locationSlug)?.slug ?? getCityByName(location)?.slug ?? null;
+  const fromName =
+    getCityByName(locationSlug)?.slug ?? getCityByName(location)?.slug;
+  if (fromName) {
+    return fromName;
+  }
+
+  const raw = locationSlug ?? location;
+  if (!raw) {
+    return null;
+  }
+
+  return slugifyLocation(raw) || null;
 }
 
 function toPublicPhotoSrc(value: string): string | undefined {

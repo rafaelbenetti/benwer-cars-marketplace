@@ -8,13 +8,10 @@ import { CompaniesMap } from "./CompaniesMap";
 import { CompanyGrid, CompanyGridSkeleton } from "./CompanyGrid";
 import { Button } from "@/components/ui/Button";
 import { ErrorState } from "@/components/ui/ErrorState";
-import {
-  getCityBySlug,
-  getCityDisplayName,
-  isProvinceWideLocation,
-} from "@/data/malagaCities";
+import { isProvinceWideLocation } from "@/data/malagaCities";
 import { NavRoutes, SearchParams } from "@/enums";
 import { toCompanyMapPins } from "@/lib/companyMap";
+import { locationLabelFromSlug } from "@/lib/locationOptions";
 import { getErrorKey } from "@/lib/errors";
 import { buildCompanyHref } from "@/lib/marketplaceSearch";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -53,8 +50,10 @@ export function CompanyDirectory({
   const [highlightedSlug, setHighlightedSlug] = useState<string | null>(null);
 
   const showMapPane = isDesktop || searchParams.get(SearchParams.VIEW) === "map";
-  const city =
-    location && !isProvinceWideLocation(location) ? getCityBySlug(location) : null;
+  const cityLabel =
+    location && !isProvinceWideLocation(location)
+      ? locationLabelFromSlug(location, locale)
+      : null;
 
   const pins = useMemo(
     () =>
@@ -91,10 +90,10 @@ export function CompanyDirectory({
   }
 
   const count = companies?.length ?? 0;
-  const resultsLabel = city
+  const resultsLabel = cityLabel
     ? t("resultsInCity", {
         count,
-        city: getCityDisplayName(city, locale),
+        city: cityLabel,
       })
     : t("resultsCount", { count });
 

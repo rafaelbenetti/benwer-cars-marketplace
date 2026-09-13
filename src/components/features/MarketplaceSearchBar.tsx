@@ -100,7 +100,7 @@ function MarketplaceSearchForm({
     >
       <div className="flex flex-col gap-1 md:flex-row md:items-stretch md:gap-0">
         <div className="min-w-0 md:flex-1">
-          <CityCombobox value={location} onChange={setLocation} />
+          <CityCombobox value={location} onChange={setLocation} from={from} to={to} />
         </div>
         <div
           aria-hidden

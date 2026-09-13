@@ -12,14 +12,13 @@ import { Button } from "@/components/ui/Button";
 import { Sheet } from "@/components/ui/Sheet";
 import { Skeleton } from "@/components/ui/Skeleton";
 import {
-  getCityBySlug,
-  getCityDisplayName,
   isProvinceWideLocation,
   resolveCitySlug,
 } from "@/data/malagaCities";
 import { NavRoutes, SearchParams } from "@/enums";
 import { formatSearchDate, hasCompleteSearchDates, parseIsoDate } from "@/lib/dates";
 import { resolveCardCompany } from "@/lib/companyIdentity";
+import { locationLabelFromSlug } from "@/lib/locationOptions";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
 import {
   applyVehicleFilters,
@@ -68,11 +67,13 @@ function MarketplaceCarListContent() {
   const fromDate = filters.from ? parseIsoDate(filters.from) : null;
   const toDate = filters.to ? parseIsoDate(filters.to) : null;
   const count = data?.length ?? 0;
-  const city = !isProvinceWideLocation(location) ? getCityBySlug(location) : null;
-  const placeLabel = city
+  const cityLabel = !isProvinceWideLocation(location)
+    ? locationLabelFromSlug(location, locale)
+    : null;
+  const placeLabel = cityLabel
     ? t("resultsInCity", {
         count,
-        city: getCityDisplayName(city, locale),
+        city: cityLabel,
       })
     : t("resultsInProvince", { count });
   const resultsLabel =
