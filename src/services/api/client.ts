@@ -1,5 +1,9 @@
 import createClient, { type Middleware } from "openapi-fetch";
 import { env } from "@/env";
+import {
+  normalizeApiBaseUrl,
+  resolveBrowserApiBaseUrl,
+} from "@/lib/publicApiProxy";
 import { ApiError, type FieldError } from "@/lib/errors";
 import type { paths } from "./schema";
 
@@ -21,12 +25,16 @@ const CODE_ALIASES: Record<string, string> = {
   invalid_dates: "reservation.invalid_dates",
 };
 
-function liveApiBaseUrl(): string {
+export function liveApiBaseUrl(): string {
   if (typeof window === "undefined") {
-    return env.API_ORIGIN ?? env.NEXT_PUBLIC_API_URL ?? "";
+    return normalizeApiBaseUrl(env.API_ORIGIN ?? env.NEXT_PUBLIC_API_URL ?? "");
   }
 
-  return env.NEXT_PUBLIC_API_URL ?? "";
+  return resolveBrowserApiBaseUrl(
+    env.NEXT_PUBLIC_API_URL ?? "",
+    env.NEXT_PUBLIC_ENV,
+    window.location.origin,
+  );
 }
 
 export function isLiveApiConfigured(): boolean {

@@ -1,23 +1,29 @@
 import type { Metadata } from "next";
 import { Building2 } from "lucide-react";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { CompanyBanner } from "@/components/layout/CompanyBanner";
 import { Footer } from "@/components/layout/Footer";
 import { CarListView } from "@/components/features/CarListView";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { PageLoadError } from "@/components/ui/PageLoadError";
 import { companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
 import { ApiError } from "@/lib/errors";
+import { logError } from "@/lib/logger";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
 import { buildCompanySiteHref } from "@/lib/companySite";
+import {
+  prefetchCompanyFleetState,
+  searchRecordToURLSearchParams,
+} from "@/lib/prefetchCompanyFleet";
 import { buildPageMetadata } from "@/lib/seo";
+import { parseVehicleFilters } from "@/lib/vehicleFilters";
 
 interface Props {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{
-    location?: string;
-  }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -61,11 +67,14 @@ async function CompanyPage({ params, searchParams }: Props) {
 
   let company = null;
   let companyMissing = false;
+  let companyUnavailable = false;
   try {
     company = await companiesApi.getBySlug(slug);
   } catch (error) {
     companyMissing =
       error instanceof ApiError && error.code === "company.not_found";
+    companyUnavailable = !companyMissing;
+    logError(error, { context: "company_detail", slug });
   }
 
   if (companyMissing) {
@@ -86,33 +95,53 @@ async function CompanyPage({ params, searchParams }: Props) {
     );
   }
 
+  if (companyUnavailable || !company) {
+    return (
+      <>
+        <MarketplaceHeader />
+        <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-16 md:px-6 lg:px-8">
+          <PageLoadError
+            title={t("loadErrorTitle")}
+            description={t("loadErrorDescription")}
+          />
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  const filters = parseVehicleFilters(searchRecordToURLSearchParams(query));
+  const dehydratedState = await prefetchCompanyFleetState(company, filters);
+
   return (
     <>
       <MarketplaceHeader />
       <CompanyBanner
-        name={company?.name ?? slug}
-        logoUrl={company?.branding.logoUrl}
-        description={company?.description}
-        location={company?.location}
+        name={company.name}
+        logoUrl={company.branding.logoUrl}
+        description={company.description}
+        location={company.location}
         websiteHref={buildCompanySiteHref({
           slug,
-          websiteUrl: company?.websiteUrl,
+          websiteUrl: company.websiteUrl,
         })}
         websiteLabel={t("visitWebsite")}
-        email={company?.email}
-        phone={company?.phone}
+        email={company.email}
+        phone={company.phone}
         contactLabel={t("contact")}
         backHref={appendSearchParams(NavRoutes.COMPANIES, {
-          location: query.location,
+          location: typeof query.location === "string" ? query.location : undefined,
         })}
         backLabel={t("backToList")}
       />
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 md:px-6 lg:px-8">
-        <CarListView
-          companySlug={slug}
-          hrefBase={`/companies/${slug}/cars`}
-          showDirectoryEmptyAction
-        />
+        <HydrationBoundary state={dehydratedState}>
+          <CarListView
+            companySlug={slug}
+            hrefBase={`/companies/${slug}/cars`}
+            showDirectoryEmptyAction
+          />
+        </HydrationBoundary>
       </main>
       <Footer />
     </>

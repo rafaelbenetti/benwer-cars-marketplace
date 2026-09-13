@@ -2,12 +2,12 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { companiesApi } from "@/services/api";
-import { QueryKeys } from "@/enums";
+import { companiesQueryKey } from "@/lib/queryKeys";
 import type { CompanyListFilters } from "@/types/company";
 
 export function useCompanies(filters?: CompanyListFilters) {
   return useQuery({
-    queryKey: [QueryKeys.COMPANIES, filters],
+    queryKey: companiesQueryKey(filters),
     queryFn: () => companiesApi.getAll(filters),
   });
 }
