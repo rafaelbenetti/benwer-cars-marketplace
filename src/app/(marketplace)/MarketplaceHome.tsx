@@ -31,7 +31,7 @@ export async function MarketplaceHome() {
   return (
     <>
       <MarketplaceHeader />
-      <section className="relative overflow-hidden border-b border-border bg-primary/5">
+      <section className="relative w-full overflow-hidden border-b border-border bg-primary/5">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl"
@@ -62,7 +62,7 @@ export async function MarketplaceHome() {
           </ul>
         </div>
       </section>
-      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="-mt-12 md:-mt-14">
           <MarketplaceHeroSearch className="shadow-md" />
         </div>

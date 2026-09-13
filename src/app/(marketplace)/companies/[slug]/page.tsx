@@ -42,15 +42,13 @@ async function CompanyPage({ params }: Props) {
   return (
     <>
       <MarketplaceHeader />
-      {company ? (
-        <CompanyBanner
-          name={company.name}
-          description={company.description}
-          location={company.location}
-          backHref={NavRoutes.COMPANIES}
-          backLabel={t("backToList")}
-        />
-      ) : null}
+      <CompanyBanner
+        name={company?.name ?? slug}
+        description={company?.description}
+        location={company?.location}
+        backHref={NavRoutes.COMPANIES}
+        backLabel={t("backToList")}
+      />
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 md:px-6 lg:px-8">
         <CarListView companySlug={slug} hrefBase={`/companies/${slug}/cars`} />
       </main>

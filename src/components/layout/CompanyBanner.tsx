@@ -22,7 +22,7 @@ export function CompanyBanner({
   return (
     <section
       className={cn(
-        "relative overflow-hidden border-b border-border bg-primary/5",
+        "relative w-full overflow-hidden border-b border-border bg-primary/5",
         className,
       )}
     >

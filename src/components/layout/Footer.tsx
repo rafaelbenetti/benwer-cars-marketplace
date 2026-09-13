@@ -10,7 +10,7 @@ export async function Footer() {
   const tNav = await getTranslations("nav");
 
   return (
-    <footer className="mt-auto border-t border-border bg-surface-muted">
+    <footer className="mt-auto w-full border-t border-border bg-surface-muted">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-12 md:flex-row md:items-start md:justify-between md:px-6 lg:px-8">
         <div className="flex max-w-xs flex-col gap-2">
           <p className="text-sm font-semibold tracking-tight text-foreground">
