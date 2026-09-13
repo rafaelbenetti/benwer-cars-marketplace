@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BadgeCheck, MapPin, UserRound } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { Footer } from "@/components/layout/Footer";
 import { BrowseByLocation } from "@/components/features/BrowseByLocation";
@@ -10,24 +10,24 @@ import { HowItWorks } from "@/components/features/HowItWorks";
 import { MarketplaceHeroSearch } from "@/components/features/MarketplaceHeroSearch";
 import { MarketplaceMapTeaser } from "@/components/features/MarketplaceMapTeaser";
 import { NavRoutes } from "@/enums";
+import { buildPageMetadata } from "@/lib/seo";
 
 export async function generateMarketplaceHomeMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const t = await getTranslations("home");
   const tBrand = await getTranslations("brand");
 
-  return {
+  return buildPageMetadata({
     title: t("title"),
     description: t("subtitle"),
-    openGraph: {
-      title: `${tBrand("name")} — ${t("title")}`,
-      description: t("subtitle"),
-    },
-  };
+    path: "/",
+    siteName: tBrand("name"),
+    locale,
+  });
 }
 
 export async function MarketplaceHome() {
   const t = await getTranslations("home");
-  const tActions = await getTranslations("actions");
 
   return (
     <>
@@ -37,7 +37,7 @@ export async function MarketplaceHome() {
           aria-hidden
           className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl"
         />
-        <div className="relative mx-auto max-w-7xl px-4 pt-16 pb-24 md:px-6 md:pt-20 md:pb-28 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 pt-10 pb-20 md:px-6 md:pt-20 md:pb-28 lg:px-8">
           <p className="text-xs font-medium uppercase tracking-wider text-primary">
             {t("eyebrow")}
           </p>
@@ -84,12 +84,12 @@ export async function MarketplaceHome() {
             </div>
             <Link
               href={NavRoutes.COMPANIES}
-              className="cursor-pointer text-sm font-medium text-primary transition-colors hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="inline-flex h-10 w-full cursor-pointer items-center justify-center rounded-md border border-border bg-surface px-4 text-sm font-medium text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-auto sm:w-auto sm:justify-start sm:border-0 sm:bg-transparent sm:px-0 sm:text-primary sm:hover:bg-transparent sm:hover:text-primary-hover"
             >
-              {tActions("viewAll")}
+              {t("viewAllCompanies")}
             </Link>
           </div>
-          <CompanyListView showSearchBar={false} />
+          <CompanyListView showSearchBar={false} limit={6} />
         </section>
       </main>
       <Footer />

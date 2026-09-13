@@ -8,7 +8,23 @@
     "companiesSubtitle": "Trusted local operators across Málaga province",
     "trustLocal": "Local companies",
     "trustGuest": "Book as a guest",
-    "trustArea": "Málaga province"
+    "trustArea": "Málaga province",
+    "viewAllCompanies": "View all companies"
+  },
+  "seo": {
+    "companyTitle": "{name} — Car rentals",
+    "companyDescription": "Rent a car from {name} in {location}.",
+    "companyDescriptionPlain": "Rent a car from {name}.",
+    "companyFallback": "Car rentals",
+    "carTitle": "{brand} {model} — {company}",
+    "carTitleTenant": "{brand} {model} ({year})",
+    "carDescription": "Rent a {brand} {model} from {company}.",
+    "carDescriptionSpecs": "Rent a {brand} {model} — {seats, plural, one {# seat} other {# seats}}, {transmission}."
+  },
+  "tenant": {
+    "notFoundTitle": "Company not found",
+    "notFoundDescription": "This storefront could not be loaded.",
+    "logoAlt": "{name} logo"
   },
   "howItWorks": {
     "title": "How it works",
@@ -158,6 +174,7 @@
     "startDate": "Pick-up date",
     "endDate": "Drop-off date",
     "datesHint": "Dates come from the car calendar. You can adjust them here.",
+    "addDate": "Add date",
     "changeDates": "Change dates on the calendar",
     "summary": "Booking summary",
     "vehicle": "Vehicle",
@@ -223,6 +240,11 @@
     "reference": "Reference",
     "referenceHint": "Show this at pick-up.",
     "trustCopy": "Save this page — it is your booking receipt. The rental company will take it from here.",
+    "trustEmail": "Confirmation sent by email",
+    "trustPickup": "Show this page at pick-up",
+    "nextTitle": "What happens next",
+    "nextEmail": "Check {email} for your confirmation.",
+    "nextPickup": "Show your reference at pick-up.",
     "browseMore": "Browse more cars",
     "notFoundTitle": "Reservation not found",
     "notFoundDescription": "Check the link in your confirmation email, or start a new search.",
@@ -238,6 +260,8 @@
     "emptyDescription": "No rental companies are listed yet.",
     "clearFilters": "Clear search",
     "viewFleet": "View fleet",
-    "backToList": "All companies"
+    "backToList": "All companies",
+    "notFoundTitle": "Company not found",
+    "notFoundDescription": "This rental company is not listed. Browse others nearby."
   }
 }

@@ -6,22 +6,23 @@ import { useTranslations } from "next-intl";
 import { NavRoutes } from "@/enums";
 import { cn } from "@/lib/utils";
 
-export function MarketplaceNav() {
+const FLEET_HREF = `${NavRoutes.HOME}#fleet`;
+
+export function TenantNav() {
   const t = useTranslations("nav");
   const pathname = usePathname();
+  const isHome = pathname === NavRoutes.HOME;
 
   const links = [
     {
       href: NavRoutes.HOME,
       label: t("home"),
-      isActive: pathname === NavRoutes.HOME,
-      className: undefined,
+      isActive: isHome,
     },
     {
-      href: NavRoutes.COMPANIES,
-      label: t("companies"),
-      isActive: pathname.startsWith(NavRoutes.COMPANIES),
-      className: undefined,
+      href: FLEET_HREF,
+      label: t("cars"),
+      isActive: pathname.startsWith("/cars") || pathname.startsWith("/book"),
     },
   ];
 
@@ -38,7 +39,6 @@ export function MarketplaceNav() {
             link.isActive
               ? "bg-primary/10 font-medium text-primary"
               : "text-muted-foreground hover:bg-surface-hover hover:text-foreground",
-            link.className,
           )}
         >
           {link.label}

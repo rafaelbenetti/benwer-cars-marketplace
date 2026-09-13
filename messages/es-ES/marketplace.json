@@ -8,7 +8,23 @@
     "companiesSubtitle": "Operadores locales de confianza en la provincia de Málaga",
     "trustLocal": "Empresas locales",
     "trustGuest": "Reserva como invitado",
-    "trustArea": "Provincia de Málaga"
+    "trustArea": "Provincia de Málaga",
+    "viewAllCompanies": "Ver todas las empresas"
+  },
+  "seo": {
+    "companyTitle": "{name} — Alquiler de coches",
+    "companyDescription": "Alquila un coche con {name} en {location}.",
+    "companyDescriptionPlain": "Alquila un coche con {name}.",
+    "companyFallback": "Alquiler de coches",
+    "carTitle": "{brand} {model} — {company}",
+    "carTitleTenant": "{brand} {model} ({year})",
+    "carDescription": "Alquila un {brand} {model} con {company}.",
+    "carDescriptionSpecs": "Alquila un {brand} {model} — {seats, plural, one {# plaza} other {# plazas}}, {transmission}."
+  },
+  "tenant": {
+    "notFoundTitle": "Empresa no encontrada",
+    "notFoundDescription": "No se pudo cargar este escaparate.",
+    "logoAlt": "Logotipo de {name}"
   },
   "howItWorks": {
     "title": "Cómo funciona",
@@ -158,6 +174,7 @@
     "startDate": "Fecha de recogida",
     "endDate": "Fecha de devolución",
     "datesHint": "Las fechas vienen del calendario del coche. Puedes ajustarlas aquí.",
+    "addDate": "Añadir fecha",
     "changeDates": "Cambiar fechas en el calendario",
     "summary": "Resumen de la reserva",
     "vehicle": "Vehículo",
@@ -223,6 +240,11 @@
     "reference": "Referencia",
     "referenceHint": "Muéstrala en la recogida.",
     "trustCopy": "Guarda esta página: es tu justificante de reserva. La empresa de alquiler se encarga del resto.",
+    "trustEmail": "Confirmación enviada por correo",
+    "trustPickup": "Muestra esta página en la recogida",
+    "nextTitle": "Qué ocurre ahora",
+    "nextEmail": "Revisa {email} para ver tu confirmación.",
+    "nextPickup": "Muestra tu referencia en la recogida.",
     "browseMore": "Ver más coches",
     "notFoundTitle": "Reserva no encontrada",
     "notFoundDescription": "Comprueba el enlace de tu correo de confirmación, o empieza una nueva búsqueda.",
@@ -238,6 +260,8 @@
     "emptyDescription": "Aún no hay empresas de alquiler listadas.",
     "clearFilters": "Borrar búsqueda",
     "viewFleet": "Ver flota",
-    "backToList": "Todas las empresas"
+    "backToList": "Todas las empresas",
+    "notFoundTitle": "Empresa no encontrada",
+    "notFoundDescription": "Esta empresa no está listada. Explora otras cerca."
   }
 }

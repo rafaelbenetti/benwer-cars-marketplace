@@ -10,6 +10,7 @@ export { AvailabilityCalendarSkeleton } from "./AvailabilityCalendarSkeleton";
 export { CarDetailView } from "./CarDetailView";
 export { BookingWidget } from "./BookingWidget";
 export { BookingForm } from "./BookingForm";
+export { BookingDateFields } from "./BookingDateFields";
 export { BookingSummary } from "./BookingSummary";
 export { BookingView, BookingViewSkeleton } from "./BookingView";
 export { ReservationStatus, ReservationStatusSkeleton } from "./ReservationStatus";

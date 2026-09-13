@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { headers } from "next/headers";
 import type { Metadata } from "next";
 import { Car } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { buildPageMetadata } from "@/lib/seo";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { TenantHeader } from "@/components/layout/TenantHeader";
 import { Footer } from "@/components/layout/Footer";
@@ -13,11 +14,18 @@ import { NavRoutes } from "@/enums";
 import { buildCarDetailHref, buildFleetHref } from "@/lib/booking";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const t = await getTranslations("booking");
-  return {
+  const tBrand = await getTranslations("brand");
+
+  return buildPageMetadata({
     title: t("title"),
     description: t("subtitle"),
-  };
+    path: "/book",
+    siteName: tBrand("name"),
+    locale,
+    noIndex: true,
+  });
 }
 
 interface Props {

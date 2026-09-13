@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { Footer } from "@/components/layout/Footer";
 import { CompanyListView } from "@/components/features/CompanyListView";
+import { buildPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const t = await getTranslations("companies");
+  const tBrand = await getTranslations("brand");
 
-  return {
+  return buildPageMetadata({
     title: t("title"),
     description: t("subtitle"),
-  };
+    path: "/companies",
+    siteName: tBrand("name"),
+    locale,
+  });
 }
 
 async function CompaniesPage() {
@@ -24,7 +30,7 @@ async function CompaniesPage() {
           aria-hidden
           className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl"
         />
-        <div className="relative mx-auto max-w-7xl px-4 pt-12 pb-20 md:px-6 md:pt-14 md:pb-24 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 pt-10 pb-16 md:px-6 md:pt-14 md:pb-24 lg:px-8">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">
             {t("title")}
           </h1>
@@ -34,7 +40,7 @@ async function CompaniesPage() {
         </div>
       </section>
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 px-4 pb-16 md:px-6 lg:px-8">
-        <div className="relative z-10 -mt-12 md:-mt-14">
+        <div className="relative z-10 -mt-10 md:-mt-14">
           <CompanyListView />
         </div>
       </main>

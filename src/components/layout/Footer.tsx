@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { NavRoutes } from "@/enums";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 
 export async function Footer() {
   const year = new Date().getFullYear();
+  const isTenant = Boolean((await headers()).get("x-company-slug"));
   const tFooter = await getTranslations("footer");
   const tBrand = await getTranslations("brand");
   const tNav = await getTranslations("nav");
@@ -17,27 +19,43 @@ export async function Footer() {
             {tBrand("name")}
           </p>
           <p className="text-sm text-muted-foreground">{tFooter("tagline")}</p>
-          <p className="text-xs text-muted-foreground">{tFooter("trust")}</p>
+          <p className="text-xs text-muted-foreground">
+            {isTenant ? tFooter("poweredBy") : tFooter("trust")}
+          </p>
           <p className="text-xs text-subtle-foreground">
             {tFooter("copyright", { year })}
           </p>
         </div>
-        <nav className="flex items-center gap-4" aria-label={tNav("footerAria")}>
-          <Link
-            href={NavRoutes.HOME}
-            className="cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
-            {tNav("home")}
-          </Link>
-          <Link
-            href={NavRoutes.COMPANIES}
-            className="cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
-            {tNav("companies")}
-          </Link>
+        <nav
+          className="flex flex-wrap items-center gap-x-4 gap-y-2"
+          aria-label={tNav("footerAria")}
+        >
+          <FooterLink href={NavRoutes.HOME}>{tNav("home")}</FooterLink>
+          {isTenant ? (
+            <FooterLink href={`${NavRoutes.HOME}#fleet`}>{tNav("cars")}</FooterLink>
+          ) : (
+            <FooterLink href={NavRoutes.COMPANIES}>{tNav("companies")}</FooterLink>
+          )}
         </nav>
         <LocaleSwitcher />
       </div>
     </footer>
+  );
+}
+
+function FooterLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+    >
+      {children}
+    </Link>
   );
 }
