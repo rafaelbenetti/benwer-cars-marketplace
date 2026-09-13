@@ -152,7 +152,7 @@ export function CompanyDirectory({
 
         <div className={cn("min-w-0", !isDesktop && showMapPane && "hidden")}>
           {isPending ? (
-            <CompanyGridSkeleton count={4} />
+            <CompanyGridSkeleton count={4} className="lg:grid-cols-1" />
           ) : isError ? (
             <ErrorState message={tRoot(getErrorKey(error))} onRetry={onRetry} />
           ) : (
@@ -167,6 +167,11 @@ export function CompanyDirectory({
                   : t("fleetHint", { count: company.vehicleCount })
               }
               viewFleetLabel={tCompanies("viewFleet")}
+              onClearFilters={
+                location || from || to
+                  ? () => router.replace(NavRoutes.COMPANIES)
+                  : undefined
+              }
               className="lg:grid-cols-1"
             />
           )}

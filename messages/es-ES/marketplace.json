@@ -66,7 +66,14 @@
   "cars": {
     "title": "Coches disponibles",
     "perDay": "{price} / día",
+    "perDaySuffix": " / día",
+    "viewDetails": "Ver detalles",
     "seats": "{count} plazas",
+    "seatsPlus": "{count}+",
+    "resultsCount": "{count, plural, one {# coche disponible} other {# coches disponibles}}",
+    "resultsForDates": "{count, plural, one {# coche} other {# coches}} · {from} – {to}",
+    "emptyTitle": "Aún no hay coches",
+    "emptyHint": "Esta flota no tiene coches públicos ahora mismo.",
     "noResults": "Ningún coche coincide con tus filtros.",
     "noResultsHint": "Prueba a ajustar las fechas o los filtros.",
     "clearFilters": "Borrar filtros",
@@ -175,7 +182,9 @@
     "searchPlaceholder": "Buscar empresas…",
     "noResults": "No se encontraron empresas",
     "noResultsHint": "Prueba con otra ciudad o fechas.",
+    "emptyTitle": "Aún no hay empresas listadas",
     "emptyDescription": "Aún no hay empresas de alquiler listadas.",
+    "clearFilters": "Borrar búsqueda",
     "viewFleet": "Ver flota",
     "backToList": "Todas las empresas"
   }

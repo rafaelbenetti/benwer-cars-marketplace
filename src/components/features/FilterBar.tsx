@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { SlidersHorizontal, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Input } from "@/components/ui/Input";
+import { DateRangePopover } from "./DateRangePopover";
 import { Button } from "@/components/ui/Button";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
-import { VehicleType, TransmissionType } from "@/enums";
+import {
+  FILTER_SEAT_OPTIONS,
+  FILTER_VEHICLE_TYPES,
+  hasActiveVehicleFilters,
+} from "@/lib/vehicleFilters";
+import { TransmissionType } from "@/enums";
 import type { VehicleFilters } from "@/types/vehicle";
 
 interface FilterBarProps {
@@ -15,27 +19,9 @@ interface FilterBarProps {
   className?: string;
 }
 
-const VEHICLE_TYPES = [
-  VehicleType.CAR,
-  VehicleType.SUV,
-  VehicleType.VAN,
-  VehicleType.TRUCK,
-  VehicleType.MOTORCYCLE,
-] as const;
-
-const SEAT_OPTIONS = [2, 4, 5, 7, 8, 9];
-
 export function FilterBar({ filters, onChange, className }: FilterBarProps) {
   const t = useTranslations("cars");
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const hasActiveFilters =
-    Boolean(filters.type) ||
-    Boolean(filters.seats) ||
-    Boolean(filters.transmission) ||
-    Boolean(filters.from) ||
-    Boolean(filters.to) ||
-    Boolean(filters.q);
+  const hasActiveFilters = hasActiveVehicleFilters(filters);
 
   function clearFilters() {
     onChange({});
@@ -43,150 +29,166 @@ export function FilterBar({ filters, onChange, className }: FilterBarProps) {
 
   return (
     <div
+      role="search"
+      aria-label={t("filters.title")}
       className={cn(
-        "flex flex-col gap-4 rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
+        "flex flex-col gap-3 rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
         className,
       )}
     >
-      <div className="flex items-center gap-2">
-        <Input
-          type="search"
-          placeholder={t("searchPlaceholder")}
-          value={filters.q ?? ""}
-          onChange={(e) => onChange({ ...filters, q: e.target.value || undefined })}
-          className="h-11 flex-1"
-          aria-label={t("searchPlaceholder")}
+      <div className="flex flex-col gap-2 md:flex-row md:items-stretch">
+        <DateRangePopover
+          from={filters.from ?? ""}
+          to={filters.to ?? ""}
+          onChange={(next) =>
+            onChange({
+              ...filters,
+              from: next.from || undefined,
+              to: next.to || undefined,
+            })
+          }
         />
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsExpanded((v) => !v)}
-          aria-label={isExpanded ? t("hideFilters") : t("showFilters")}
-          aria-expanded={isExpanded}
-          className="h-11 w-11 shrink-0"
-        >
-          <SlidersHorizontal size={16} aria-hidden />
-        </Button>
         {hasActiveFilters ? (
           <Button
+            type="button"
             variant="ghost"
-            size="icon"
             onClick={clearFilters}
-            aria-label={t("clearFilters")}
-            className="h-11 w-11 shrink-0"
+            className="h-11 shrink-0 md:self-center"
           >
-            <X size={16} aria-hidden />
+            {t("clearFilters")}
           </Button>
         ) : null}
       </div>
 
-      {isExpanded ? (
-        <div className="grid grid-cols-2 gap-4 border-t border-border px-2 pt-3 pb-1 md:grid-cols-4">
-          <fieldset>
-            <legend className="mb-1.5 text-xs font-medium text-muted-foreground">
-              {t("filters.type")}
-            </legend>
-            <div className="flex flex-wrap gap-1.5">
-              {VEHICLE_TYPES.map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() =>
-                    onChange({
-                      ...filters,
-                      type: filters.type === value ? undefined : value,
-                    })
-                  }
-                  className={cn(
-                    "cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-colors",
-                    filters.type === value
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-surface text-muted-foreground hover:border-border-strong hover:text-foreground",
-                  )}
-                >
-                  {t(`types.${value}`)}
-                </button>
-              ))}
-            </div>
-          </fieldset>
+      <div className="flex flex-col gap-4 border-t border-border px-2 pt-3 pb-1">
+        <FilterGroup legend={t("filters.type")}>
+          {FILTER_VEHICLE_TYPES.map((value) => (
+            <FilterChip
+              key={value}
+              pressed={filters.type === value}
+              onClick={() =>
+                onChange({
+                  ...filters,
+                  type: filters.type === value ? undefined : value,
+                })
+              }
+            >
+              {t(`types.${value}`)}
+            </FilterChip>
+          ))}
+        </FilterGroup>
 
-          <fieldset>
-            <legend className="mb-1.5 text-xs font-medium text-muted-foreground">
-              {t("filters.seats")}
-            </legend>
-            <div className="flex flex-wrap gap-1.5">
-              {SEAT_OPTIONS.map((seats) => (
-                <button
-                  key={seats}
-                  type="button"
-                  onClick={() =>
-                    onChange({
-                      ...filters,
-                      seats: filters.seats === seats ? undefined : seats,
-                    })
-                  }
-                  className={cn(
-                    "cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-colors",
-                    filters.seats === seats
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-surface text-muted-foreground hover:border-border-strong hover:text-foreground",
-                  )}
-                >
-                  {seats}+
-                </button>
-              ))}
-            </div>
-          </fieldset>
+        <FilterGroup legend={t("filters.seats")}>
+          {FILTER_SEAT_OPTIONS.map((seats) => (
+            <FilterChip
+              key={seats}
+              pressed={filters.seats === seats}
+              onClick={() =>
+                onChange({
+                  ...filters,
+                  seats: filters.seats === seats ? undefined : seats,
+                })
+              }
+            >
+              {t("seatsPlus", { count: seats })}
+            </FilterChip>
+          ))}
+        </FilterGroup>
 
-          <fieldset>
-            <legend className="mb-1.5 text-xs font-medium text-muted-foreground">
-              {t("filters.transmission")}
-            </legend>
-            <div className="flex flex-wrap gap-1.5">
-              {[TransmissionType.AUTOMATIC, TransmissionType.MANUAL].map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() =>
-                    onChange({
-                      ...filters,
-                      transmission: filters.transmission === value ? undefined : value,
-                    })
-                  }
-                  className={cn(
-                    "cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-colors",
-                    filters.transmission === value
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-surface text-muted-foreground hover:border-border-strong hover:text-foreground",
-                  )}
-                >
-                  {t(`transmission.${value}`)}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-
-          <div className="flex flex-col gap-1.5">
-            <p className="text-xs font-medium text-muted-foreground">{t("filters.dates")}</p>
-            <div className="flex gap-2">
-              <Input
-                type="date"
-                value={filters.from ?? ""}
-                onChange={(e) => onChange({ ...filters, from: e.target.value || undefined })}
-                aria-label={t("filters.from")}
-                className="h-11 flex-1"
-              />
-              <Input
-                type="date"
-                value={filters.to ?? ""}
-                onChange={(e) => onChange({ ...filters, to: e.target.value || undefined })}
-                aria-label={t("filters.to")}
-                className="h-11 flex-1"
-              />
-            </div>
-          </div>
-        </div>
-      ) : null}
+        <FilterGroup legend={t("filters.transmission")}>
+          {[TransmissionType.AUTOMATIC, TransmissionType.MANUAL].map((value) => (
+            <FilterChip
+              key={value}
+              pressed={filters.transmission === value}
+              onClick={() =>
+                onChange({
+                  ...filters,
+                  transmission: filters.transmission === value ? undefined : value,
+                })
+              }
+            >
+              {t(`transmission.${value}`)}
+            </FilterChip>
+          ))}
+        </FilterGroup>
+      </div>
     </div>
+  );
+}
+
+export function FilterBarSkeleton({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-3 rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
+        className,
+      )}
+    >
+      <div className="flex flex-col gap-2 md:flex-row">
+        <Skeleton className="h-12 w-full md:flex-1" />
+        <Skeleton className="h-12 w-full md:flex-1" />
+      </div>
+      <div className="flex flex-col gap-3 border-t border-border px-2 pt-3 pb-1">
+        <div className="flex flex-wrap gap-1.5">
+          <Skeleton className="h-8 w-16 rounded-full" />
+          <Skeleton className="h-8 w-14 rounded-full" />
+          <Skeleton className="h-8 w-16 rounded-full" />
+          <Skeleton className="h-8 w-20 rounded-full" />
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          <Skeleton className="h-8 w-10 rounded-full" />
+          <Skeleton className="h-8 w-10 rounded-full" />
+          <Skeleton className="h-8 w-10 rounded-full" />
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          <Skeleton className="h-8 w-24 rounded-full" />
+          <Skeleton className="h-8 w-20 rounded-full" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FilterGroup({
+  legend,
+  children,
+}: {
+  legend: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <fieldset>
+      <legend className="mb-1.5 text-xs font-medium text-muted-foreground">
+        {legend}
+      </legend>
+      <div className="flex flex-wrap gap-1.5">{children}</div>
+    </fieldset>
+  );
+}
+
+function FilterChip({
+  pressed,
+  onClick,
+  children,
+}: {
+  pressed: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={pressed}
+      onClick={onClick}
+      className={cn(
+        "min-h-8 cursor-pointer rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        pressed
+          ? "border-primary bg-primary text-primary-foreground"
+          : "border-border bg-surface text-muted-foreground hover:border-border-strong hover:text-foreground",
+      )}
+    >
+      {children}
+    </button>
   );
 }

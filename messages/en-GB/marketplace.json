@@ -66,7 +66,14 @@
   "cars": {
     "title": "Available cars",
     "perDay": "{price} / day",
+    "perDaySuffix": " / day",
+    "viewDetails": "View details",
     "seats": "{count} seats",
+    "seatsPlus": "{count}+",
+    "resultsCount": "{count, plural, one {# car available} other {# cars available}}",
+    "resultsForDates": "{count, plural, one {# car} other {# cars}} · {from} – {to}",
+    "emptyTitle": "No cars available yet",
+    "emptyHint": "This fleet has no public cars right now.",
     "noResults": "No cars match your filters.",
     "noResultsHint": "Try adjusting your dates or filters.",
     "clearFilters": "Clear filters",
@@ -175,7 +182,9 @@
     "searchPlaceholder": "Search companies…",
     "noResults": "No companies found",
     "noResultsHint": "Try a different city or dates.",
+    "emptyTitle": "No companies listed yet",
     "emptyDescription": "No rental companies are listed yet.",
+    "clearFilters": "Clear search",
     "viewFleet": "View fleet",
     "backToList": "All companies"
   }

@@ -8,11 +8,13 @@ import { Footer } from "@/components/layout/Footer";
 import { CarDetailView } from "@/components/features/CarDetailView";
 import { vehiclesApi, companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
+import { appendSearchParams, buildCompanyHref } from "@/lib/marketplaceSearch";
 import { prefetchAvailabilityState } from "@/lib/prefetchAvailability";
 
 interface Props {
   params: Promise<{ slug: string; id: string }>;
   searchParams: Promise<{
+    location?: string;
     from?: string;
     to?: string;
   }>;
@@ -62,6 +64,12 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
   }
 
   const dehydratedState = await prefetchAvailabilityState(slug, id);
+  const browse = {
+    location: query.location,
+    from: query.from,
+    to: query.to,
+  };
+  const companyHref = buildCompanyHref(slug, browse);
 
   return (
     <>
@@ -72,7 +80,7 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
           className="mb-6 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground"
         >
           <Link
-            href={NavRoutes.COMPANIES}
+            href={appendSearchParams(NavRoutes.COMPANIES, browse)}
             className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             {tNav("companies")}
@@ -81,7 +89,7 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
             <>
               <span aria-hidden>/</span>
               <Link
-                href={`/companies/${slug}`}
+                href={companyHref}
                 className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 {company.name}
@@ -99,6 +107,8 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
             companySlug={slug}
             initialFrom={query.from}
             initialTo={query.to}
+            backHref={companyHref}
+            backLabel={t("backToFleet")}
           />
         </HydrationBoundary>
       </main>

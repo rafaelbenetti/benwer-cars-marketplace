@@ -49,8 +49,8 @@ export function CarGrid({
     return (
       <EmptyState
         icon={<Car size={40} />}
-        title={t("noResults")}
-        description={t("noResultsHint")}
+        title={onClearFilters ? t("noResults") : t("emptyTitle")}
+        description={onClearFilters ? t("noResultsHint") : t("emptyHint")}
         actionLabel={onClearFilters ? t("clearFilters") : undefined}
         onAction={onClearFilters}
       />
@@ -64,11 +64,12 @@ export function CarGrid({
         className,
       )}
     >
-      {vehicles.map((vehicle) => (
+      {vehicles.map((vehicle, index) => (
         <CarCard
           key={vehicle.id}
           vehicle={vehicle}
           href={buildHref(vehicle)}
+          priority={index === 0}
         />
       ))}
     </div>
