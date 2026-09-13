@@ -114,6 +114,12 @@
   border-radius: 0;
 }
 
+.marketplace-day-picker .rdp-range_middle .rdp-day_button {
+  background-color: var(--rdp-range_middle-background-color);
+  border-radius: 0;
+  color: var(--rdp-range_middle-color);
+}
+
 .marketplace-day-picker .rdp-unavailable:not(.rdp-selected) {
   text-decoration: line-through;
 }
@@ -121,6 +127,7 @@
 .marketplace-day-picker .rdp-unavailable:not(.rdp-selected) .rdp-day_button {
   background-color: var(--danger-soft);
   color: var(--muted-foreground);
+  text-decoration: line-through;
 }
 
 @media (prefers-reduced-motion: reduce) {

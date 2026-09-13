@@ -121,7 +121,7 @@ export function CarDetailView({
           }}
         />
       </div>
-      <div>
+      <div className="pb-24 lg:pb-0">
         <BookingWidget
           vehicle={vehicle}
           companySlug={companySlug}
