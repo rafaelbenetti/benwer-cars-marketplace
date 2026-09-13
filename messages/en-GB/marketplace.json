@@ -1,9 +1,24 @@
 {
   "home": {
     "title": "Find your perfect car",
-    "subtitle": "Search across our network of local rental companies",
+    "subtitle": "Compare local fleets and book in minutes — no account needed.",
     "searchPlaceholder": "Where are you going?",
-    "companiesHeading": "Rental companies"
+    "eyebrow": "Málaga · Costa del Sol",
+    "companiesHeading": "Featured companies",
+    "companiesSubtitle": "Trusted local operators across Málaga province",
+    "trustLocal": "Local companies",
+    "trustGuest": "Book as a guest",
+    "trustArea": "Málaga province"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Search, compare, and book in three steps.",
+    "searchTitle": "Search",
+    "searchBody": "Choose your city and dates",
+    "compareTitle": "Compare",
+    "compareBody": "Browse trusted local fleets",
+    "bookTitle": "Book",
+    "bookBody": "Confirm with your name and email"
   },
   "search": {
     "locationLabel": "Pick-up city",
@@ -21,7 +36,11 @@
     "submit": "Search"
   },
   "browseLocation": {
-    "title": "Browse by location"
+    "title": "Browse by location",
+    "subtitle": "Popular cities in Málaga province",
+    "emptyTitle": "No locations yet",
+    "emptyDescription": "Featured cities will appear here.",
+    "cityAria": "Browse cars in {city}"
   },
   "cars": {
     "title": "Available cars",
@@ -30,6 +49,9 @@
     "noResults": "No cars match your filters.",
     "noResultsHint": "Try adjusting your dates or filters.",
     "clearFilters": "Clear filters",
+    "searchPlaceholder": "Search cars",
+    "showFilters": "Show filters",
+    "hideFilters": "Hide filters",
     "filters": {
       "title": "Filters",
       "type": "Vehicle type",
@@ -67,11 +89,14 @@
     "fuel": "Fuel",
     "seats": "Seats",
     "availability": "Availability",
-    "notAvailable": "This car is not available for the selected dates."
+    "notAvailable": "This car is not available for the selected dates.",
+    "breadcrumbAria": "Breadcrumb",
+    "photoEmpty": "Photos coming soon"
   },
   "booking": {
     "title": "Complete your booking",
     "subtitle": "Fill in your details to confirm the reservation",
+    "details": "Your details",
     "guestName": "Full name",
     "guestEmail": "Email address",
     "guestPhone": "Phone number",
@@ -84,7 +109,9 @@
     "confirming": "Confirming…",
     "successTitle": "Booking confirmed!",
     "successMessage": "Your confirmation has been sent to {email}.",
-    "viewBooking": "View my booking"
+    "viewBooking": "View my booking",
+    "selectDates": "Select dates to continue",
+    "invalidDates": "Choose a valid date range"
   },
   "reservationStatus": {
     "title": "Your reservation",
@@ -104,7 +131,10 @@
     "title": "Rental companies",
     "subtitle": "Browse our network of trusted local operators",
     "searchPlaceholder": "Search companies…",
-    "noResults": "No companies found.",
-    "viewFleet": "View fleet"
+    "noResults": "No companies found",
+    "noResultsHint": "Try a different city or dates.",
+    "emptyDescription": "No rental companies are listed yet.",
+    "viewFleet": "View fleet",
+    "backToList": "All companies"
   }
 }

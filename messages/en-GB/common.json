@@ -16,7 +16,26 @@
   "nav": {
     "home": "Home",
     "cars": "Cars",
-    "companies": "Companies"
+    "companies": "Companies",
+    "mainAria": "Main navigation",
+    "footerAria": "Footer navigation"
+  },
+  "brand": {
+    "name": "Benwer Cars",
+    "shortName": "Benwer",
+    "homeAria": "Benwer Cars, home"
+  },
+  "locale": {
+    "label": "Language",
+    "en": "EN",
+    "es": "ES",
+    "enName": "English",
+    "esName": "Español"
+  },
+  "footer": {
+    "tagline": "Find and book cars from local rental companies.",
+    "trust": "Guest booking · Local operators · Málaga",
+    "copyright": "© {year} Benwer Cars. All rights reserved."
   },
   "actions": {
     "retry": "Try again",

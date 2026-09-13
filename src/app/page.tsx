@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import type { Metadata } from "next";
-import { MarketplaceHome, marketplaceHomeMetadata } from "./(marketplace)/MarketplaceHome";
+import { MarketplaceHome, generateMarketplaceHomeMetadata } from "./(marketplace)/MarketplaceHome";
 import { TenantHome, generateTenantMetadata } from "./(tenant)/TenantHome";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
     return generateTenantMetadata();
   }
 
-  return marketplaceHomeMetadata;
+  return generateMarketplaceHomeMetadata();
 }
 
 async function HomePage() {

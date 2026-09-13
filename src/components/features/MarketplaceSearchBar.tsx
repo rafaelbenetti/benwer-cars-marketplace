@@ -48,7 +48,7 @@ function MarketplaceSearchForm({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "rounded-2xl border border-border bg-surface p-2 shadow-sm md:p-2.5",
+        "w-full rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
         className,
       )}
     >
@@ -69,7 +69,7 @@ function MarketplaceSearchForm({
           }}
         />
         <div className="md:ml-1.5 md:self-center">
-          <Button type="submit" size="lg" className="h-11 w-full md:w-auto">
+          <Button type="submit" size="lg" className="h-11 w-full shrink-0 md:min-w-28 md:w-auto">
             <Search size={16} aria-hidden />
             {t("submit")}
           </Button>
@@ -100,7 +100,7 @@ export function MarketplaceSearchBarFallback({ className }: MarketplaceSearchBar
   return (
     <div
       className={cn(
-        "rounded-2xl border border-border bg-surface p-2 shadow-sm md:p-2.5",
+        "w-full rounded-2xl border border-border bg-surface p-2 shadow-md md:p-2.5",
         className,
       )}
     >

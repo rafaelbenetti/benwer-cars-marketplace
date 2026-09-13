@@ -1,9 +1,24 @@
 {
   "home": {
     "title": "Encuentra tu coche perfecto",
-    "subtitle": "Busca entre nuestra red de empresas de alquiler locales",
+    "subtitle": "Compara flotas locales y reserva en minutos — sin crear cuenta.",
     "searchPlaceholder": "¿A dónde vas?",
-    "companiesHeading": "Empresas de alquiler"
+    "eyebrow": "Málaga · Costa del Sol",
+    "companiesHeading": "Empresas destacadas",
+    "companiesSubtitle": "Operadores locales de confianza en la provincia de Málaga",
+    "trustLocal": "Empresas locales",
+    "trustGuest": "Reserva como invitado",
+    "trustArea": "Provincia de Málaga"
+  },
+  "howItWorks": {
+    "title": "Cómo funciona",
+    "subtitle": "Busca, compara y reserva en tres pasos.",
+    "searchTitle": "Busca",
+    "searchBody": "Elige ciudad y fechas",
+    "compareTitle": "Compara",
+    "compareBody": "Explora flotas locales de confianza",
+    "bookTitle": "Reserva",
+    "bookBody": "Confirma con tu nombre y correo"
   },
   "search": {
     "locationLabel": "Ciudad de recogida",
@@ -21,7 +36,11 @@
     "submit": "Buscar"
   },
   "browseLocation": {
-    "title": "Explorar por ciudad"
+    "title": "Explorar por ciudad",
+    "subtitle": "Ciudades populares de la provincia de Málaga",
+    "emptyTitle": "Aún no hay ubicaciones",
+    "emptyDescription": "Las ciudades destacadas aparecerán aquí.",
+    "cityAria": "Ver coches en {city}"
   },
   "cars": {
     "title": "Coches disponibles",
@@ -30,6 +49,9 @@
     "noResults": "Ningún coche coincide con tus filtros.",
     "noResultsHint": "Prueba a ajustar las fechas o los filtros.",
     "clearFilters": "Borrar filtros",
+    "searchPlaceholder": "Buscar coches",
+    "showFilters": "Mostrar filtros",
+    "hideFilters": "Ocultar filtros",
     "filters": {
       "title": "Filtros",
       "type": "Tipo de vehículo",
@@ -67,11 +89,14 @@
     "fuel": "Combustible",
     "seats": "Plazas",
     "availability": "Disponibilidad",
-    "notAvailable": "Este coche no está disponible para las fechas seleccionadas."
+    "notAvailable": "Este coche no está disponible para las fechas seleccionadas.",
+    "breadcrumbAria": "Ruta de navegación",
+    "photoEmpty": "Fotos disponibles pronto"
   },
   "booking": {
     "title": "Completa tu reserva",
     "subtitle": "Rellena tus datos para confirmar la reserva",
+    "details": "Tus datos",
     "guestName": "Nombre completo",
     "guestEmail": "Correo electrónico",
     "guestPhone": "Número de teléfono",
@@ -84,7 +109,9 @@
     "confirming": "Confirmando…",
     "successTitle": "¡Reserva confirmada!",
     "successMessage": "Tu confirmación ha sido enviada a {email}.",
-    "viewBooking": "Ver mi reserva"
+    "viewBooking": "Ver mi reserva",
+    "selectDates": "Selecciona fechas para continuar",
+    "invalidDates": "Elige un intervalo de fechas válido"
   },
   "reservationStatus": {
     "title": "Tu reserva",
@@ -104,7 +131,10 @@
     "title": "Empresas de alquiler",
     "subtitle": "Explora nuestra red de operadores locales de confianza",
     "searchPlaceholder": "Buscar empresas…",
-    "noResults": "No se encontraron empresas.",
-    "viewFleet": "Ver flota"
+    "noResults": "No se encontraron empresas",
+    "noResultsHint": "Prueba con otra ciudad o fechas.",
+    "emptyDescription": "Aún no hay empresas de alquiler listadas.",
+    "viewFleet": "Ver flota",
+    "backToList": "Todas las empresas"
   }
 }
