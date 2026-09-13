@@ -2,20 +2,25 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { Footer } from "@/components/layout/Footer";
-import { CarPhotoGallery } from "@/components/features/CarPhotoGallery";
-import { CarSpecsTable } from "@/components/features/CarSpecsTable";
-import { BookingWidget } from "@/components/features/BookingWidget";
+import { CarDetailView } from "@/components/features/CarDetailView";
 import { vehiclesApi, companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
+import { prefetchAvailabilityState } from "@/lib/prefetchAvailability";
 
 interface Props {
   params: Promise<{ slug: string; id: string }>;
+  searchParams: Promise<{
+    from?: string;
+    to?: string;
+  }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, id } = await params;
+  const t = await getTranslations("carDetail");
   try {
     const [vehicle, company] = await Promise.all([
       vehiclesApi.getById(slug, id),
@@ -33,12 +38,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     };
   } catch {
-    return { title: "Car detail" };
+    return { title: t("metaTitle") };
   }
 }
 
-async function CompanyCarDetailPage({ params }: Props) {
-  const { slug, id } = await params;
+async function CompanyCarDetailPage({ params, searchParams }: Props) {
+  const [{ slug, id }, query] = await Promise.all([params, searchParams]);
   const t = await getTranslations("carDetail");
   const tNav = await getTranslations("nav");
 
@@ -56,10 +61,12 @@ async function CompanyCarDetailPage({ params }: Props) {
     /* fallback gracefully */
   }
 
+  const dehydratedState = await prefetchAvailabilityState(slug, id);
+
   return (
     <>
       <MarketplaceHeader />
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 md:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 pb-28 md:px-6 lg:px-8 lg:pb-16">
         <nav
           aria-label={t("breadcrumbAria")}
           className="mb-6 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground"
@@ -86,36 +93,14 @@ async function CompanyCarDetailPage({ params }: Props) {
             {vehicle.brand} {vehicle.model}
           </span>
         </nav>
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div className="flex flex-col gap-6 lg:col-span-2">
-            <div>
-              <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-                {vehicle.brand} {vehicle.model}
-              </h1>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {vehicle.year}
-              </p>
-            </div>
-            <CarPhotoGallery
-              photos={vehicle.photos}
-              alt={`${vehicle.brand} ${vehicle.model}`}
-            />
-            {vehicle.description ? (
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {vehicle.description}
-              </p>
-            ) : null}
-            <div>
-              <h2 className="mb-3 text-lg font-semibold text-foreground">
-                {t("specs")}
-              </h2>
-              <CarSpecsTable vehicle={vehicle} />
-            </div>
-          </div>
-          <div>
-            <BookingWidget vehicle={vehicle} companySlug={slug} />
-          </div>
-        </div>
+        <HydrationBoundary state={dehydratedState}>
+          <CarDetailView
+            vehicle={vehicle}
+            companySlug={slug}
+            initialFrom={query.from}
+            initialTo={query.to}
+          />
+        </HydrationBoundary>
       </main>
       <Footer />
     </>

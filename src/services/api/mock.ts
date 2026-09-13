@@ -1,6 +1,10 @@
 import { ReservationStatus, VehicleStatus } from "@/enums";
 import { ApiError } from "@/lib/errors";
 import {
+  availabilityCalendarWindow,
+  ensureVisibleUnavailableDates,
+} from "@/lib/availability";
+import {
   countRentalDays,
   dateRangesOverlap,
   listingRangeDates,
@@ -113,7 +117,17 @@ async function loadVehicles(): Promise<Vehicle[]> {
 }
 
 async function loadAvailability(): Promise<AvailabilityRange[]> {
-  return mockClient.get<unknown>(MOCK_AVAILABILITY).then(mapAvailabilityList);
+  const rows = await mockClient.get<unknown>(MOCK_AVAILABILITY).then(mapAvailabilityList);
+  const window = availabilityCalendarWindow();
+
+  return rows.map((row) => ({
+    ...row,
+    unavailableDates: ensureVisibleUnavailableDates(
+      row.unavailableDates,
+      window.from,
+      window.to,
+    ),
+  }));
 }
 
 async function loadSeedReservations(): Promise<GuestReservation[]> {

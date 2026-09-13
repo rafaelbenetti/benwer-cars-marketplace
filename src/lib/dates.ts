@@ -28,6 +28,11 @@ export function formatSearchDate(date: Date, locale: string): string {
   return format(date, "d MMM", { locale: dateLocale });
 }
 
+export function formatLongDate(date: Date, locale: string): string {
+  const dateLocale = locale === "es-ES" ? DATE_LOCALES["es-ES"] : DATE_LOCALES["en-GB"];
+  return format(date, "d MMMM yyyy", { locale: dateLocale });
+}
+
 export function startOfToday(): Date {
   return startOfDay(new Date());
 }
