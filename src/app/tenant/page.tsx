@@ -6,7 +6,6 @@ import { CompanyBanner } from "@/components/layout/CompanyBanner";
 import { Footer } from "@/components/layout/Footer";
 import { CarListView } from "@/components/features/CarListView";
 import { companiesApi } from "@/services/api";
-import type { Vehicle } from "@/types/vehicle";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers();
@@ -51,10 +50,6 @@ async function TenantHomePage() {
     /* will fall back to slug-only display */
   }
 
-  function buildCarHref(vehicle: Vehicle) {
-    return `/cars/${vehicle.id}`;
-  }
-
   return (
     <>
       <TenantHeader
@@ -69,7 +64,7 @@ async function TenantHomePage() {
         />
       ) : null}
       <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
-        <CarListView companySlug={companySlug} buildHref={buildCarHref} />
+        <CarListView companySlug={companySlug} carHrefPrefix="/cars" />
       </main>
       <Footer />
     </>

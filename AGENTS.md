@@ -81,7 +81,7 @@ NEXT_PUBLIC_MARKETPLACE_DOMAIN=benwer.es
 NEXT_PUBLIC_ENV=local
 ```
 
-In local dev, middleware detects `localhost` and defaults to **global marketplace
+In local dev, proxy detects `localhost` and defaults to **global marketplace
 mode** (no subdomain). To test tenant mode locally, set a custom `hosts` entry:
 `127.0.0.1 denver-cars.localhost` and update `NEXT_PUBLIC_MARKETPLACE_DOMAIN=localhost`.
 

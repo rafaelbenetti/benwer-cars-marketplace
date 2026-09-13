@@ -52,10 +52,12 @@ middleware auth guard. Guest checkout collects name/email/phone. The API issues 
 
 ### Subdomain routing
 
-Next.js middleware reads the `host` header to detect which company's subdomain is
-being served. The resolved `companySlug` is forwarded as an `x-company-slug` request
-header so Server Components don't re-parse the host. This works on Vercel, Railway,
-and Fly.io — any platform that preserves the `host` header.
+Next.js proxy (`src/proxy.ts`) reads the `host` header to detect which company's
+subdomain is being served. The resolved `companySlug` is forwarded as an
+`x-company-slug` request header so Server Components don't re-parse the host.
+Tenant-host requests to `/` and `/cars/[id]` are rewritten to `/tenant` so those
+pages do not collide with marketplace routes at build time. This works on Vercel,
+Railway, and Fly.io — any platform that preserves the `host` header.
 
 ### Per-tenant colour theming
 

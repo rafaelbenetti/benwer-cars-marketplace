@@ -8,12 +8,16 @@ import type { VehicleFilters, Vehicle } from "@/types/vehicle";
 
 interface CarListViewProps {
   companySlug: string;
-  buildHref: (vehicle: Vehicle) => string;
+  carHrefPrefix: string;
 }
 
-export function CarListView({ companySlug, buildHref }: CarListViewProps) {
+export function CarListView({ companySlug, carHrefPrefix }: CarListViewProps) {
   const [filters, setFilters] = useState<VehicleFilters>({});
   const { data, isPending, isError, refetch } = useVehicles(companySlug, filters);
+
+  function buildHref(vehicle: Vehicle) {
+    return `${carHrefPrefix}/${vehicle.id}`;
+  }
 
   return (
     <div className="flex flex-col gap-6">

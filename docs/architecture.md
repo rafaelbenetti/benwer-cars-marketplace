@@ -20,13 +20,25 @@ host = "localhost:3002"            →  global mode   →  slug = null (dev defa
 ```
 
 The resolved `companySlug` is injected as a request header (`x-company-slug`) in
-`src/middleware.ts`. Server Components read it via `headers()` without re-parsing
+`src/proxy.ts`. Server Components read it via `headers()` without re-parsing
 the host.
+
+Route groups like `(marketplace)` and `(tenant)` do **not** create URL segments.
+Both trees cannot own `/` or `/cars/[id]` at the same time — Next.js fails the
+production build with a parallel-page collision. Tenant pages therefore live
+under an internal prefix (`/tenant`, folder `src/app/tenant`). Proxy rewrites
+tenant-host requests so the public URLs stay `/` and `/cars/[id]`. The prefix
+is `tenant`, not `_tenant`: Next.js treats `_`-prefixed folders as private and
+excludes them from routing.
+
+Locale is cookie-based (`NEXT_LOCALE`) with no URL prefix. Proxy does not run
+next-intl path routing: this app has no `[locale]` segment, and next-intl's
+middleware would rewrite `/` to `/en-GB`, which 404s.
 
 ### Wildcard DNS
 
 `*.benwer.es` must point to the marketplace deployment (wildcard `A`/`CNAME`).
-`NEXT_PUBLIC_MARKETPLACE_DOMAIN=benwer.es` is the env var used by middleware to
+`NEXT_PUBLIC_MARKETPLACE_DOMAIN=benwer.es` is the env var used by proxy to
 distinguish subdomain requests from the main marketplace host.
 
 ## Route map
@@ -57,15 +69,15 @@ distinguish subdomain requests from the main marketplace host.
 src/
   app/
     (marketplace)/        Global marketplace routes (layout wraps these)
-      page.tsx             Company search home
+      page.tsx             Company search home (/)
       companies/
         page.tsx
         [slug]/
           page.tsx
           cars/[id]/page.tsx
-    (tenant)/             Tenant subdomain routes (layout reads x-company-slug)
-      page.tsx             Company home
-      cars/[id]/page.tsx
+    tenant/               Internal prefix only — public URLs stay / and /cars/[id]
+      page.tsx             Company home (rewritten from /)
+      cars/[id]/page.tsx   Car detail (rewritten from /cars/[id])
     book/
       page.tsx
     booking/[token]/
@@ -82,7 +94,7 @@ src/
   types/                  Shared domain types
   lib/                    logger, utils (cn/cva), errors (ApiError, getErrorKey)
   i18n/                   next-intl routing + request config
-  middleware.ts           Mode detection — host → company slug → x-company-slug header
+  proxy.ts                Mode detection + tenant rewrites — host → x-company-slug
 messages/
   en-GB/  common.json  marketplace.json
   es-ES/  common.json  marketplace.json
@@ -123,7 +135,7 @@ In tenant subdomain mode the root layout fetches the company's branding and appl
 as CSS custom properties on `<html>`:
 
 ```tsx
-// app/(tenant)/layout.tsx (Server Component)
+// app/tenant/layout.tsx (Server Component)
 const company = await companiesApi.getBySlug(slug);
 return (
   <html
