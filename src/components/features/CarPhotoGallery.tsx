@@ -43,7 +43,7 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
         {activePhoto ? (
           <Image
             src={activePhoto}
-            alt={`${alt} — photo ${activeIndex + 1}`}
+            alt={t("photoAlt", { name: alt, index: activeIndex + 1 })}
             fill
             priority
             className="object-cover"
@@ -54,21 +54,21 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
         {photos.length > 1 ? (
           <>
             <IconButton
-              label="Previous photo"
+              label={t("previousPhoto")}
               onClick={() => setActiveIndex((i) => (i - 1 + photos.length) % photos.length)}
               className="absolute left-3 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <ChevronLeft size={16} aria-hidden />
             </IconButton>
             <IconButton
-              label="Next photo"
+              label={t("nextPhoto")}
               onClick={() => setActiveIndex((i) => (i + 1) % photos.length)}
               className="absolute right-3 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <ChevronRight size={16} aria-hidden />
             </IconButton>
             <span className="absolute bottom-3 right-3 rounded-full bg-background/80 px-2 py-0.5 text-xs tabular-nums text-foreground">
-              {activeIndex + 1} / {photos.length}
+              {t("photoIndex", { current: activeIndex + 1, total: photos.length })}
             </span>
           </>
         ) : null}
@@ -80,7 +80,7 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
             <button
               key={i}
               onClick={() => setActiveIndex(i)}
-              aria-label={`View photo ${i + 1}`}
+              aria-label={t("viewPhoto", { index: i + 1 })}
               aria-pressed={i === activeIndex}
               className={cn(
                 "relative h-16 w-24 shrink-0 overflow-hidden rounded-md border-2 transition-colors cursor-pointer",

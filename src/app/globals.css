@@ -78,6 +78,7 @@
   --rdp-today-color: var(--primary);
   --rdp-range_start-color: var(--primary-foreground);
   --rdp-range_end-color: var(--primary-foreground);
+  --rdp-disabled-opacity: 0.72;
   --rdp-day-height: 2.25rem;
   --rdp-day-width: 2.25rem;
   --rdp-day_button-height: 2.125rem;
@@ -90,6 +91,19 @@
 .marketplace-day-picker .rdp-button_previous,
 .marketplace-day-picker .rdp-button_next {
   cursor: pointer;
+}
+
+.marketplace-day-picker .rdp-unavailable:not(.rdp-selected) {
+  text-decoration: line-through;
+}
+
+.marketplace-day-picker .rdp-unavailable:not(.rdp-selected) .rdp-day_button {
+  background-color: var(--surface-muted);
+  color: var(--muted-foreground);
+}
+
+.marketplace-day-picker .rdp-months {
+  justify-content: space-between;
 }
 
 @media (prefers-reduced-motion: reduce) {

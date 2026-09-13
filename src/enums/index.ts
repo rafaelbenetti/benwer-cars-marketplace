@@ -59,6 +59,8 @@ export enum SearchParams {
   LOCATION = "location",
   FROM = "from",
   TO = "to",
+  CAR_ID = "carId",
+  COMPANY_SLUG = "companySlug",
 }
 
 export enum ErrorMessages {

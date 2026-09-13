@@ -1,6 +1,9 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { Vehicle } from "@/types/vehicle";
-import { FuelType, TransmissionType } from "@/enums";
+import { TransmissionType } from "@/enums";
 
 interface CarSpecsTableProps {
   vehicle: Vehicle;
@@ -8,12 +11,22 @@ interface CarSpecsTableProps {
 }
 
 export function CarSpecsTable({ vehicle, className }: CarSpecsTableProps) {
+  const t = useTranslations("carDetail");
+  const tCars = useTranslations("cars");
+
   const specs: { label: string; value: string }[] = [
-    { label: "Year", value: String(vehicle.year) },
-    { label: "Type", value: formatType(vehicle.type) },
-    { label: "Transmission", value: formatTransmission(vehicle.transmission) },
-    { label: "Fuel", value: formatFuel(vehicle.fuel) },
-    { label: "Seats", value: `${vehicle.seats} seats` },
+    { label: t("year"), value: String(vehicle.year) },
+    { label: t("type"), value: tCars(`types.${vehicle.type}`) },
+    {
+      label: t("transmission"),
+      value: tCars(
+        vehicle.transmission === TransmissionType.AUTOMATIC
+          ? "transmission.automatic"
+          : "transmission.manual",
+      ),
+    },
+    { label: t("fuel"), value: tCars(`fuel.${vehicle.fuel}`) },
+    { label: t("seats"), value: tCars("seats", { count: vehicle.seats }) },
   ];
 
   return (
@@ -31,22 +44,4 @@ export function CarSpecsTable({ vehicle, className }: CarSpecsTableProps) {
       ))}
     </dl>
   );
-}
-
-function formatType(type: string): string {
-  return type.charAt(0).toUpperCase() + type.slice(1);
-}
-
-function formatTransmission(t: TransmissionType): string {
-  return t === TransmissionType.AUTOMATIC ? "Automatic" : "Manual";
-}
-
-function formatFuel(fuel: FuelType): string {
-  const map: Record<FuelType, string> = {
-    [FuelType.PETROL]: "Petrol",
-    [FuelType.DIESEL]: "Diesel",
-    [FuelType.ELECTRIC]: "Electric",
-    [FuelType.HYBRID]: "Hybrid",
-  };
-  return map[fuel] ?? fuel;
 }
