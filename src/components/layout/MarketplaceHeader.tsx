@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Car } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { NavRoutes } from "@/enums";
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "./BrandLogo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MarketplaceNav } from "./MarketplaceNav";
 
@@ -26,13 +26,21 @@ export async function MarketplaceHeader({ className }: MarketplaceHeaderProps) {
           aria-label={t("homeAria")}
           className="flex items-center gap-2.5 text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Car size={18} aria-hidden />
+          <BrandLogo
+            alt={t("logoAlt")}
+            variant="mark"
+            priority
+            className="h-8 w-12 shrink-0 lg:hidden"
+          />
+          <span className="hidden text-sm font-semibold tracking-tight sm:inline lg:hidden">
+            {t("name")}
           </span>
-          <span className="text-sm font-semibold tracking-tight">
-            <span className="sm:hidden">{t("shortName")}</span>
-            <span className="hidden sm:inline">{t("name")}</span>
-          </span>
+          <BrandLogo
+            alt={t("logoAlt")}
+            variant="full"
+            priority
+            className="hidden h-11 w-24 shrink-0 lg:block"
+          />
         </Link>
         <div className="flex items-center gap-2 sm:gap-4">
           <MarketplaceNav />

@@ -56,7 +56,7 @@ async function BookingStatusPage({ params }: Props) {
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-12 md:px-6">
         <ReservationStatus
           token={token}
-          browseHref={isTenant ? NavRoutes.HOME : null}
+          browseHref={isTenant ? NavRoutes.HOME : NavRoutes.CARS}
         />
       </main>
       <Footer />

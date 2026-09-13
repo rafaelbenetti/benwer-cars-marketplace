@@ -42,6 +42,7 @@ distinguish subdomain requests from the main marketplace host.
 ### Global marketplace (`marketplace.benwer.es`)
 ```
 /                         Company search + featured listings
+/cars                     Mixed-fleet search results (all companies)
 /companies                All companies
 /companies/[slug]         Company page — their car grid
 /companies/[slug]/cars/[id]  Car detail (company context from URL)

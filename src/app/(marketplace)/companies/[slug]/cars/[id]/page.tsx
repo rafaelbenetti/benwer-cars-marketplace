@@ -119,10 +119,10 @@ async function CompanyCarDetailPage({ params, searchParams }: Props) {
           className="mb-6 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground"
         >
           <Link
-            href={appendSearchParams(NavRoutes.COMPANIES, browse)}
+            href={appendSearchParams(NavRoutes.CARS, browse)}
             className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            {tNav("companies")}
+            {tNav("cars")}
           </Link>
           {company ? (
             <>

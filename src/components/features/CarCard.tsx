@@ -6,12 +6,15 @@ import { Bike, Bus, Car, CarFront, ChevronRight, Fuel, Truck, Users, Zap } from 
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
+import { CompanyMark } from "./CompanyMark";
+import type { Company } from "@/types/company";
 import type { Vehicle } from "@/types/vehicle";
 import { FuelType, TransmissionType, VehicleType } from "@/enums";
 
 interface CarCardProps {
   vehicle: Vehicle;
   href: string;
+  company?: Pick<Company, "name" | "slug" | "branding"> | null;
   priority?: boolean;
   className?: string;
 }
@@ -32,7 +35,13 @@ const FALLBACK_ICON = {
   [VehicleType.MOTORCYCLE]: Bike,
 } as const;
 
-export function CarCard({ vehicle, href, priority = false, className }: CarCardProps) {
+export function CarCard({
+  vehicle,
+  href,
+  company,
+  priority = false,
+  className,
+}: CarCardProps) {
   const t = useTranslations("cars");
   const tDetail = useTranslations("carDetail");
   const locale = useLocale();
@@ -69,6 +78,14 @@ export function CarCard({ vehicle, href, priority = false, className }: CarCardP
         >
           {t(`types.${vehicle.type}`)}
         </Badge>
+        {company ? (
+          <div className="absolute bottom-3 left-3 right-3 flex items-center gap-1.5 rounded-full border border-border bg-surface/90 px-2 py-1 backdrop-blur-sm">
+            <CompanyMark company={company} size="sm" />
+            <span className="truncate text-xs font-medium text-foreground">
+              {company.name}
+            </span>
+          </div>
+        ) : null}
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">

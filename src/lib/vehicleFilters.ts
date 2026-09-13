@@ -66,6 +66,7 @@ export function parseVehicleFilters(
     from,
     to,
     q,
+    companySlug: searchParams.get(SearchParams.COMPANY_SLUG) || undefined,
   };
 }
 
@@ -81,6 +82,7 @@ export function applyVehicleFilters(
   setOrDelete(next, SearchParams.SEATS, filters.seats?.toString());
   setOrDelete(next, SearchParams.TRANSMISSION, filters.transmission);
   setOrDelete(next, SearchParams.Q, filters.q);
+  setOrDelete(next, SearchParams.COMPANY_SLUG, filters.companySlug);
 
   return next;
 }
@@ -92,7 +94,8 @@ export function hasActiveVehicleFilters(filters: VehicleFilters): boolean {
       filters.transmission ||
       filters.from ||
       filters.to ||
-      filters.q,
+      filters.q ||
+      filters.companySlug,
   );
 }
 

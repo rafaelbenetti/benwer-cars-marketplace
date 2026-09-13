@@ -1,3 +1,4 @@
+import { toApiLocation } from "@/data/malagaCities";
 import { ReservationStatus, VehicleStatus } from "@/enums";
 import { ApiError } from "@/lib/errors";
 import {
@@ -15,7 +16,12 @@ import type {
   CreateGuestReservationPayload,
   GuestReservation,
 } from "@/types/reservation";
-import type { Vehicle, VehicleFilters } from "@/types/vehicle";
+import type {
+  MarketplaceSearchFilters,
+  MarketplaceVehicle,
+  Vehicle,
+  VehicleFilters,
+} from "@/types/vehicle";
 import { mockClient } from "./client";
 import {
   mapAvailabilityList,
@@ -278,6 +284,57 @@ export const mockVehiclesApi = {
     }
 
     return mapVehicle(found, companySlug);
+  },
+
+  async searchMarketplace(
+    filters?: MarketplaceSearchFilters,
+  ): Promise<MarketplaceVehicle[]> {
+    const [companies, vehicles, availability, reservations] = await Promise.all([
+      loadCompanies(),
+      loadVehicles(),
+      loadAvailability(),
+      allReservations(),
+    ]);
+    const location = toApiLocation(filters?.location);
+    const companiesBySlug = new Map(companies.map((company) => [company.slug, company]));
+
+    const filtered = vehicles.filter((vehicle) => {
+      if (!isListedVehicle(vehicle)) {
+        return false;
+      }
+
+      const company = companiesBySlug.get(vehicle.companySlug);
+      if (!company) {
+        return false;
+      }
+
+      if (filters?.companySlug && company.slug !== filters.companySlug) {
+        return false;
+      }
+
+      if (location && company.locationSlug !== location) {
+        return false;
+      }
+
+      if (!matchesVehicleFilters(vehicle, filters)) {
+        return false;
+      }
+
+      if (
+        filters?.from &&
+        filters?.to &&
+        !isVehicleFree(vehicle.id, filters.from, filters.to, availability, reservations)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+
+    return sortVehicles(filtered, filters?.sort).flatMap((vehicle) => {
+      const company = companiesBySlug.get(vehicle.companySlug);
+      return company ? [{ ...vehicle, company }] : [];
+    });
   },
 };
 

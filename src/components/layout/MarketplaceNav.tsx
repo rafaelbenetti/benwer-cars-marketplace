@@ -15,13 +15,16 @@ export function MarketplaceNav() {
       href: NavRoutes.HOME,
       label: t("home"),
       isActive: pathname === NavRoutes.HOME,
-      className: undefined,
+    },
+    {
+      href: NavRoutes.CARS,
+      label: t("cars"),
+      isActive: pathname === NavRoutes.CARS,
     },
     {
       href: NavRoutes.COMPANIES,
       label: t("companies"),
       isActive: pathname.startsWith(NavRoutes.COMPANIES),
-      className: undefined,
     },
   ];
 
@@ -38,7 +41,6 @@ export function MarketplaceNav() {
             link.isActive
               ? "bg-primary/10 font-medium text-primary"
               : "text-muted-foreground hover:bg-surface-hover hover:text-foreground",
-            link.className,
           )}
         >
           {link.label}

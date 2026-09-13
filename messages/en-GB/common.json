@@ -33,7 +33,8 @@
   "brand": {
     "name": "Benwer Cars",
     "shortName": "Benwer",
-    "homeAria": "Benwer Cars, home"
+    "homeAria": "Benwer Cars, home",
+    "logoAlt": "Benwer Cars"
   },
   "locale": {
     "label": "Language",

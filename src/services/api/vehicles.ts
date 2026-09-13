@@ -1,5 +1,12 @@
-import type { Vehicle, VehicleFilters } from "@/types/vehicle";
+import { toApiLocation } from "@/data/malagaCities";
+import type {
+  MarketplaceSearchFilters,
+  MarketplaceVehicle,
+  Vehicle,
+  VehicleFilters,
+} from "@/types/vehicle";
 import { apiClient } from "./client";
+import { companiesApi } from "./companies";
 import { withMockFallback } from "./fallback";
 import { mapVehicle, mapVehicleList } from "./mappers";
 import { mockVehiclesApi } from "./mock";
@@ -43,4 +50,47 @@ export const vehiclesApi = {
       "vehicles.detail",
     );
   },
+
+  searchMarketplace(
+    filters?: MarketplaceSearchFilters,
+  ): Promise<MarketplaceVehicle[]> {
+    return withMockFallback(
+      () => searchLiveMarketplace(filters),
+      () => mockVehiclesApi.searchMarketplace(filters),
+      "vehicles.search",
+    );
+  },
 };
+
+async function searchLiveMarketplace(
+  filters?: MarketplaceSearchFilters,
+): Promise<MarketplaceVehicle[]> {
+  const location = toApiLocation(filters?.location);
+  const companies = filters?.companySlug
+    ? await companiesApi
+        .getBySlug(filters.companySlug)
+        .then((company) => [company])
+        .catch(() => [])
+    : await companiesApi.getAll({
+        location,
+        from: filters?.from,
+        to: filters?.to,
+      });
+
+  const fleets = await Promise.all(
+    companies.map(async (company) => {
+      const vehicles = await vehiclesApi.getByCompany(company.slug, {
+        type: filters?.type,
+        seats: filters?.seats,
+        transmission: filters?.transmission,
+        from: filters?.from,
+        to: filters?.to,
+        q: filters?.q,
+        sort: filters?.sort,
+      });
+      return vehicles.map((vehicle) => ({ ...vehicle, company }));
+    }),
+  );
+
+  return fleets.flat();
+}

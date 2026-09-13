@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronRight, MapPin } from "lucide-react";
+import { CompanyMark } from "./CompanyMark";
 import { cn } from "@/lib/utils";
 import type { Company } from "@/types/company";
 
@@ -43,7 +43,7 @@ export function CompanyCard({
       <div aria-hidden className="h-1.5 bg-primary/20" />
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div className="flex items-start gap-3">
-          <CompanyMark company={company} />
+          <CompanyMark company={company} size="md" />
           <div className="min-w-0 flex-1">
             <h3 className="truncate text-base font-semibold text-foreground">
               {company.name}
@@ -71,30 +71,5 @@ export function CompanyCard({
         </span>
       </div>
     </Link>
-  );
-}
-
-function CompanyMark({ company }: { company: Company }) {
-  const initial = company.name.trim().charAt(0).toUpperCase() || "?";
-
-  if (company.branding.logoUrl) {
-    return (
-      <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-border bg-surface">
-        <Image
-          src={company.branding.logoUrl}
-          alt=""
-          fill
-          unoptimized
-          className="object-contain p-1"
-          sizes="48px"
-        />
-      </span>
-    );
-  }
-
-  return (
-    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg font-semibold text-primary">
-      {initial}
-    </span>
   );
 }

@@ -66,7 +66,7 @@ export function ReservationStatus({
     browseHref ??
     (data.companySlug
       ? `${NavRoutes.COMPANIES}/${data.companySlug}`
-      : NavRoutes.COMPANIES);
+      : NavRoutes.CARS);
   const isSuccess =
     data.status === ReservationStatusEnum.CONFIRMED ||
     data.status === ReservationStatusEnum.ACTIVE;

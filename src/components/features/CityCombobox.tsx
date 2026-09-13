@@ -10,6 +10,7 @@ import {
   filterCities,
   getCityBySlug,
   getCityDisplayName,
+  isProvinceWideLocation,
   resolveCitySlug,
 } from "@/data/malagaCities";
 import { cn } from "@/lib/utils";
@@ -31,7 +32,11 @@ export function CityCombobox({ value, onChange }: CityComboboxProps) {
   const [highlightedIndex, setHighlightedIndex] = useState(0);
 
   const selectedCity = getCityBySlug(resolveCitySlug(value));
-  const selectedName = selectedCity ? getCityDisplayName(selectedCity, locale) : "";
+  const selectedName = selectedCity
+    ? isProvinceWideLocation(selectedCity.slug)
+      ? t("provinceSelected")
+      : getCityDisplayName(selectedCity, locale)
+    : "";
   const matches = useMemo(() => filterCities(query), [query]);
 
   useEffect(() => {
@@ -145,7 +150,10 @@ export function CityCombobox({ value, onChange }: CityComboboxProps) {
               className="max-h-64 overflow-y-auto"
             >
               {matches.map((city, index) => {
-                const name = getCityDisplayName(city, locale);
+                const isProvince = isProvinceWideLocation(city.slug);
+                const name = isProvince
+                  ? t("provinceSelected")
+                  : getCityDisplayName(city, locale);
                 const isSelected = city.slug === value;
                 const isHighlighted = index === highlightedIndex;
 
@@ -168,7 +176,14 @@ export function CityCombobox({ value, onChange }: CityComboboxProps) {
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => selectCity(city.slug)}
                   >
-                    <span className="truncate">{name}</span>
+                    <span className="min-w-0">
+                      <span className="block truncate">{name}</span>
+                      {isProvince ? (
+                        <span className="block truncate text-xs font-normal text-muted-foreground">
+                          {t("provinceHint")}
+                        </span>
+                      ) : null}
+                    </span>
                     {isSelected ? (
                       <Check size={16} className="shrink-0 text-primary" aria-hidden />
                     ) : null}

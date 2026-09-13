@@ -10,11 +10,15 @@ import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { DEFAULT_CITY_SLUG, resolveCitySlug } from "@/data/malagaCities";
 import { SearchParams } from "@/enums";
-import { buildCompaniesSearchHref } from "@/lib/marketplaceSearch";
+import {
+  buildCarsSearchHref,
+  buildCompaniesSearchHref,
+} from "@/lib/marketplaceSearch";
 import { cn } from "@/lib/utils";
 
 interface MarketplaceSearchBarProps {
   className?: string;
+  target?: "cars" | "companies";
 }
 
 function MarketplaceSearchForm({
@@ -23,6 +27,7 @@ function MarketplaceSearchForm({
   initialFrom,
   initialTo,
   view,
+  target = "cars",
 }: MarketplaceSearchBarProps & {
   initialLocation: string;
   initialFrom: string;
@@ -37,13 +42,16 @@ function MarketplaceSearchForm({
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const next = {
+      location: location || DEFAULT_CITY_SLUG,
+      from,
+      to,
+      view,
+    };
     router.push(
-      buildCompaniesSearchHref({
-        location: location || DEFAULT_CITY_SLUG,
-        from,
-        to,
-        view,
-      }),
+      target === "companies"
+        ? buildCompaniesSearchHref(next)
+        : buildCarsSearchHref(next),
     );
   }
 
@@ -82,7 +90,10 @@ function MarketplaceSearchForm({
   );
 }
 
-export function MarketplaceSearchBar({ className }: MarketplaceSearchBarProps) {
+export function MarketplaceSearchBar({
+  className,
+  target = "cars",
+}: MarketplaceSearchBarProps) {
   const searchParams = useSearchParams();
   const locationParam = searchParams.get(SearchParams.LOCATION);
   const fromParam = searchParams.get(SearchParams.FROM) ?? "";
@@ -91,12 +102,13 @@ export function MarketplaceSearchBar({ className }: MarketplaceSearchBarProps) {
 
   return (
     <MarketplaceSearchForm
-      key={`${locationParam ?? ""}|${fromParam}|${toParam}|${viewParam}`}
+      key={`${locationParam ?? ""}|${fromParam}|${toParam}|${viewParam}|${target}`}
       className={className}
       initialLocation={resolveCitySlug(locationParam)}
       initialFrom={fromParam}
       initialTo={toParam}
       view={viewParam || undefined}
+      target={target}
     />
   );
 }

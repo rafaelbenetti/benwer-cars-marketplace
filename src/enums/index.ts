@@ -48,6 +48,7 @@ export enum StorageKeys {
 
 export enum NavRoutes {
   HOME = "/",
+  CARS = "/cars",
   COMPANIES = "/companies",
   COMPANY = "/companies/:slug",
   CAR_DETAIL = "/cars/:id",
