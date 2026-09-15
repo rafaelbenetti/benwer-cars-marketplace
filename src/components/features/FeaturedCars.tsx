@@ -54,6 +54,7 @@ export function FeaturedCars() {
         emptyActionLabel={t("viewAll")}
         emptyActionHref={NavRoutes.CARS}
         className={FEATURED_GRID_CLASS}
+        skeletonCount={FEATURED_LIMIT}
       />
     </section>
   );

@@ -105,6 +105,7 @@ interface CarGridViewProps {
   emptyActionLabel?: string;
   emptyActionHref?: string;
   className?: string;
+  skeletonCount?: number;
 }
 
 export function CarGridView({
@@ -121,10 +122,13 @@ export function CarGridView({
   emptyActionLabel,
   emptyActionHref,
   className,
+  skeletonCount,
 }: CarGridViewProps) {
   const t = useTranslations();
 
-  if (isPending) return <CarGridSkeleton className={className} />;
+  if (isPending) {
+    return <CarGridSkeleton count={skeletonCount} className={className} />;
+  }
   if (isError) {
     return <ErrorState message={t(getErrorKey(error))} onRetry={onRetry} />;
   }
