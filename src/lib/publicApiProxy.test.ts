@@ -1,7 +1,9 @@
 import createClient from "openapi-fetch";
 import { describe, expect, it } from "vitest";
 import {
+  MOCK_CATALOGUE_OPT_IN_ENV,
   SAME_ORIGIN_API_PREFIX,
+  assertMockCatalogueAllowed,
   collapseDuplicateV1Path,
   isAllowedPublicApiProxyPath,
   isSameOriginApiBase,
@@ -118,7 +120,7 @@ describe("resolveBrowserApiBaseUrl", () => {
     ).toBe(SAME_ORIGIN_API_PREFIX);
   });
 
-  it("stays on mock in local when no API URL is configured", () => {
+  it("does not invent a BFF URL in local when no API URL is configured", () => {
     expect(resolveBrowserApiBaseUrl("", "local")).toBe("");
   });
 
@@ -128,9 +130,9 @@ describe("resolveBrowserApiBaseUrl", () => {
 });
 
 describe("shouldUseMockFallback", () => {
-  it("allows mock JSON only in local non-production builds", () => {
-    expect(shouldUseMockFallback("local", "development")).toBe(true);
-    expect(shouldUseMockFallback("local", "test")).toBe(true);
+  it("never falls back to mock catalogue from NEXT_PUBLIC_ENV=local alone", () => {
+    expect(shouldUseMockFallback("local", "development")).toBe(false);
+    expect(shouldUseMockFallback("local", "test")).toBe(false);
     expect(shouldUseMockFallback("staging", "development")).toBe(false);
     expect(shouldUseMockFallback("production", "development")).toBe(false);
   });
@@ -138,6 +140,23 @@ describe("shouldUseMockFallback", () => {
   it("never allows mock JSON when NODE_ENV is production", () => {
     expect(shouldUseMockFallback("local", "production")).toBe(false);
     expect(shouldUseMockFallback("production", "production")).toBe(false);
+    expect(shouldUseMockFallback("local", "production", "1")).toBe(false);
+  });
+
+  it("allows mock JSON only with an explicit local test opt-in", () => {
+    expect(shouldUseMockFallback("local", "test", "1")).toBe(true);
+    expect(shouldUseMockFallback("local", "development", "1")).toBe(true);
+    expect(shouldUseMockFallback("staging", "test", "1")).toBe(false);
+    expect(shouldUseMockFallback("production", "development", "1")).toBe(false);
+  });
+});
+
+describe("assertMockCatalogueAllowed", () => {
+  it("throws unless the explicit mock catalogue opt-in is set", () => {
+    expect(() => assertMockCatalogueAllowed("local", "test")).toThrow(
+      "Mock catalogue is disabled",
+    );
+    expect(() => assertMockCatalogueAllowed("local", "test", "1")).not.toThrow();
   });
 });
 

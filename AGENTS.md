@@ -56,6 +56,8 @@ npm run test:e2e   # Playwright
 ## Local development (mandatory for agents)
 
 This marketplace talks to **`benwer-cars-api`** on `http://localhost:8080/v1`.
+Local **requires** that API plus its seed. The marketplace will not substitute
+`public/mock-data` cars, companies, or photos when the API is down or empty.
 
 ### 1. Start the API (sibling repo)
 
@@ -65,6 +67,9 @@ docker compose -f docker-compose-local.yml up --build
 ```
 
 Confirm: `curl -s http://localhost:8080/healthz`
+Confirm seed: `curl -s http://localhost:8080/v1/public/companies` — expect live
+seed companies (for example `med-rentacar`, `benetti-cars`), not Denver Cars
+from `public/mock-data`.
 
 ### 2. Start the marketplace
 
@@ -101,7 +106,7 @@ mode** (no subdomain). To test tenant mode locally, set a custom `hosts` entry:
 
 ## Not yet scaffolded — build before importing
 
-- ❌ **MSW** — not set up; `mockClient.get` over `public/mock-data/*.json` remains the offline fallback.
+- ❌ **MSW** — not set up. `public/mock-data/*.json` is **not** an offline catalogue; live UI never falls back to it.
 - ✅ **Typed public API client** — `openapi-fetch` + `src/services/api/schema.d.ts` (`npm run generate:api`).
 - ❌ **RTL** — install before writing component unit tests.
 - ✅ **Vitest** — mapper tests via `npm test`.

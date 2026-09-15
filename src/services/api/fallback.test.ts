@@ -1,5 +1,6 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ApiError } from "@/lib/errors";
+import { MOCK_CATALOGUE_OPT_IN_ENV } from "@/lib/publicApiProxy";
 
 const envState = vi.hoisted(() => ({
   NEXT_PUBLIC_ENV: "production" as "local" | "staging" | "production",
@@ -20,6 +21,11 @@ describe("withMockFallback", () => {
   beforeEach(() => {
     vi.mocked(isLiveApiConfigured).mockReturnValue(true);
     envState.NEXT_PUBLIC_ENV = "production";
+    delete process.env[MOCK_CATALOGUE_OPT_IN_ENV];
+  });
+
+  afterEach(() => {
+    delete process.env[MOCK_CATALOGUE_OPT_IN_ENV];
   });
 
   it("surfaces HTTP errors from a reachable API instead of serving mock cars", async () => {
@@ -86,8 +92,44 @@ describe("withMockFallback", () => {
     expect(mock).not.toHaveBeenCalled();
   });
 
-  it("uses mock JSON only in local when the API is unreachable", async () => {
+  it("does not serve mock catalogue in local when the API is unreachable", async () => {
     envState.NEXT_PUBLIC_ENV = "local";
+    const mock = vi.fn(async () => [{ id: "local-mock" }]);
+
+    await expect(
+      withMockFallback(
+        async () => {
+          throw new TypeError("Failed to fetch");
+        },
+        mock,
+        "vehicles.list",
+      ),
+    ).rejects.toBeInstanceOf(TypeError);
+
+    expect(mock).not.toHaveBeenCalled();
+  });
+
+  it("does not serve mock catalogue in local when the API is not configured", async () => {
+    envState.NEXT_PUBLIC_ENV = "local";
+    vi.mocked(isLiveApiConfigured).mockReturnValue(false);
+    const mock = vi.fn(async () => [{ id: "local-mock" }]);
+
+    await expect(
+      withMockFallback(
+        async () => {
+          throw new Error("live should not run");
+        },
+        mock,
+        "vehicles.list",
+      ),
+    ).rejects.toMatchObject({ status: 0, code: "network" });
+
+    expect(mock).not.toHaveBeenCalled();
+  });
+
+  it("uses mock JSON only when BENWER_ALLOW_MOCK_CATALOGUE=1 in local tests", async () => {
+    envState.NEXT_PUBLIC_ENV = "local";
+    process.env[MOCK_CATALOGUE_OPT_IN_ENV] = "1";
     const mock = vi.fn(async () => [{ id: "local-mock" }]);
 
     await expect(

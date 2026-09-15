@@ -1,8 +1,6 @@
 import type { AvailabilityQuery, AvailabilityRange } from "@/types/availability";
 import { getOpenApiClient } from "./client";
-import { withMockFallback } from "./fallback";
 import { mapAvailabilityList } from "./mappers";
-import { mockAvailabilityApi } from "./mock";
 
 async function fetchLiveAvailability(
   companySlug: string,
@@ -27,10 +25,6 @@ async function fetchLiveAvailability(
 
 export const availabilityApi = {
   check(companySlug: string, params: AvailabilityQuery): Promise<AvailabilityRange[]> {
-    return withMockFallback(
-      () => fetchLiveAvailability(companySlug, params),
-      () => mockAvailabilityApi.check(companySlug, params),
-      "availability.check",
-    );
+    return fetchLiveAvailability(companySlug, params);
   },
 };

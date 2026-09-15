@@ -1,6 +1,8 @@
 import { isProvinceWideLocation } from "@/data/malagaCities";
+import { env } from "@/env";
 import { ReservationStatus } from "@/enums";
 import { ApiError } from "@/lib/errors";
+import { assertMockCatalogueAllowed } from "@/lib/publicApiProxy";
 import {
   availabilityCalendarWindow,
   ensureVisibleUnavailableDates,
@@ -73,15 +75,22 @@ function isVehicleFree(
   );
 }
 
+function ensureMockCatalogueAllowed(): void {
+  assertMockCatalogueAllowed(env.NEXT_PUBLIC_ENV, process.env.NODE_ENV);
+}
+
 async function loadCompanies(): Promise<Company[]> {
+  ensureMockCatalogueAllowed();
   return mockClient.get<unknown>(MOCK_COMPANIES).then(mapCompanyList);
 }
 
 async function loadVehicles(): Promise<Vehicle[]> {
+  ensureMockCatalogueAllowed();
   return mockClient.get<unknown>(MOCK_VEHICLES).then((payload) => mapVehicleList(payload));
 }
 
 async function loadAvailability(): Promise<AvailabilityRange[]> {
+  ensureMockCatalogueAllowed();
   const rows = await mockClient.get<unknown>(MOCK_AVAILABILITY).then(mapAvailabilityList);
   const window = availabilityCalendarWindow();
 
@@ -96,6 +105,7 @@ async function loadAvailability(): Promise<AvailabilityRange[]> {
 }
 
 async function loadSeedReservations(): Promise<GuestReservation[]> {
+  ensureMockCatalogueAllowed();
   if (!seedReservationsPromise) {
     seedReservationsPromise = mockClient
       .get<unknown>(MOCK_RESERVATIONS)

@@ -8,10 +8,8 @@ import type {
 } from "@/types/vehicle";
 import { getOpenApiClient } from "./client";
 import { companiesApi } from "./companies";
-import { withMockFallback } from "./fallback";
 import { applyVehicleListFilters } from "./filters";
 import { mapVehicle, mapVehicleList } from "./mappers";
-import { mockVehiclesApi } from "./mock";
 
 function decodeVehicleId(id: string): string {
   try {
@@ -81,30 +79,17 @@ async function fetchLiveVehicle(
 
 export const vehiclesApi = {
   getByCompany(companySlug: string, filters?: VehicleFilters): Promise<Vehicle[]> {
-    return withMockFallback(
-      () => fetchLiveVehicles(companySlug, filters),
-      () => mockVehiclesApi.getByCompany(companySlug, filters),
-      "vehicles.list",
-    );
+    return fetchLiveVehicles(companySlug, filters);
   },
 
   getById(companySlug: string, id: string): Promise<Vehicle> {
-    const vehicleId = decodeVehicleId(id);
-    return withMockFallback(
-      () => fetchLiveVehicle(companySlug, vehicleId),
-      () => mockVehiclesApi.getById(companySlug, vehicleId),
-      "vehicles.detail",
-    );
+    return fetchLiveVehicle(companySlug, decodeVehicleId(id));
   },
 
   searchMarketplace(
     filters?: MarketplaceSearchFilters,
   ): Promise<MarketplaceVehicle[]> {
-    return withMockFallback(
-      () => searchLiveMarketplace(filters),
-      () => mockVehiclesApi.searchMarketplace(filters),
-      "vehicles.search",
-    );
+    return searchLiveMarketplace(filters);
   },
 };
 

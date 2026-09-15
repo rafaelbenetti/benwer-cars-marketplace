@@ -102,11 +102,16 @@ Rules:
 ```ts
 // src/services/api/vehicles.ts
 import type { Vehicle } from "@/types/vehicle";
-import { mockClient } from "./client";
+import { getOpenApiClient } from "./client";
+import { mapVehicleList } from "./mappers";
 
 export const vehiclesApi = {
   getByCompany(companySlug: string): Promise<Vehicle[]> {
-    return mockClient.get<{ data: Vehicle[] }>("/mock-data/vehicles.json");
+    return getOpenApiClient()
+      .GET("/v1/public/companies/{slug}/vehicles", {
+        params: { path: { slug: companySlug } },
+      })
+      .then(({ data }) => mapVehicleList(data, { companySlug }));
   },
 };
 ```
@@ -208,7 +213,7 @@ useMutation({
   LocalStack in local QA. Mappers rewrite `http://localhost:4566/...` and
   `http://127.0.0.1:4566/...` to same-origin `/localstack/...`, keep
   `http(s)` CDN/S3 URLs, accept protocol-relative hosts, and keep
-  same-origin public paths (`/mock-data/...`). Bare object keys are prefixed
+  same-origin public paths (`/localstack/...`). Bare object keys are prefixed
   with `NEXT_PUBLIC_MEDIA_ORIGIN` when set; otherwise they are dropped and
   the designed photo empty-state is shown. `next.config.ts` rewrites
   `/localstack` to `LOCALSTACK_ORIGIN` (default `http://localhost:4566`).

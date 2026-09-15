@@ -1,9 +1,7 @@
 import type { Company, CompanyListFilters } from "@/types/company";
 import { getOpenApiClient } from "./client";
-import { withMockFallback } from "./fallback";
 import { applyCompanyListFilters } from "./filters";
 import { mapCompany, mapCompanyList } from "./mappers";
-import { mockCompaniesApi } from "./mock";
 
 async function fetchLiveCompanies(filters?: CompanyListFilters): Promise<Company[]> {
   const { data } = await getOpenApiClient().GET("/v1/public/companies", {
@@ -47,23 +45,14 @@ async function enrichMissingLogos(companies: Company[]): Promise<Company[]> {
 
 export const companiesApi = {
   getAll(filters?: CompanyListFilters): Promise<Company[]> {
-    return withMockFallback(
-      () => fetchLiveCompanies(filters),
-      () => mockCompaniesApi.getAll(filters),
-      "companies.list",
-    );
+    return fetchLiveCompanies(filters);
   },
 
   getBySlug(slug: string): Promise<Company> {
-    return withMockFallback(
-      () =>
-        getOpenApiClient()
-          .GET("/v1/public/companies/{slug}", {
-            params: { path: { slug } },
-          })
-          .then(({ data }) => mapCompany(data)),
-      () => mockCompaniesApi.getBySlug(slug),
-      "companies.detail",
-    );
+    return getOpenApiClient()
+      .GET("/v1/public/companies/{slug}", {
+        params: { path: { slug } },
+      })
+      .then(({ data }) => mapCompany(data));
   },
 };
