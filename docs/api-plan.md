@@ -220,7 +220,8 @@ Allow the marketplace origins: `marketplace.benwer.es`, `*.benwer.es`, and
 **Source of truth:** [benwer-cars-api#13](https://github.com/rafaelbenetti/benwer-cars-api/pull/13)
 (`cursor/marketplace-public-api-e739`). The marketplace prefers the live API
 whenever `API_ORIGIN` / `NEXT_PUBLIC_API_URL` is set. Mock JSON is used only
-when those are unset or the API is unreachable.
+when `NEXT_PUBLIC_ENV=local` and those URLs are unset or the API is unreachable
+(network / CORS). Staging and production never substitute mock cars.
 
 | Contract | Marketplace handling |
 | --- | --- |
@@ -229,7 +230,7 @@ when those are unset or the API is unreachable.
 | Vehicles expose aliases `brand`, `type`, `pricePerDay`, `fuel` plus admin names (`make`, `category`, `dailyRate`, `fuelType`). Photos may be CDN/S3 URLs, protocol-relative hosts, signed URLs, or object keys. | Mapper prefers marketplace aliases, then admin names. `http(s)` and `//host/...` photo URLs are passed to `next/image`. Bare keys and `s3://bucket/key` are prefixed with `NEXT_PUBLIC_MEDIA_ORIGIN` when set; otherwise they are dropped and the UI shows the photo empty-state (never a mock Corolla/SUV/Tesla jpg). LocalStack hosts (`localhost:4566`, `127.0.0.1:4566`) are rewritten to same-origin `/localstack/...`. |
 | Availability: required `from`/`to`; optional `vehicleId`; shape `[{ vehicleId, unavailableDates, available }]`. | One GET; `mapAvailabilityList` accepts a raw array, `{ data }`, or a single legacy `{ available, vehicleId, conflicts }` object. |
 | Guest POST reservations + GET by token with nested `vehicle` + `company`. `409 reservation.overlap`. RFC 9457 validation. | `mapReservation` reads nested resources, `grandTotal`/`totalAmount`, and `customer`. Field aliases (`vehicleID`, `after_start`). Empty 409 → `reservation.overlap`. |
-| CORS allows `localhost:3002`. | Set `NEXT_PUBLIC_API_URL` / `API_ORIGIN` to the API **origin** (`https://cars-api.benwer.es`), never `…/v1`. The client strips `/v1` and collapses `/v1/v1`. Optional same-origin `/api` BFF proxies allowlisted public paths without forwarding `Origin` (Railway currently 403s some browser Origins). |
+| CORS allows `localhost:3002`. | Set `API_ORIGIN` to the API **origin** (`https://cars-api.benwer.es`), never `…/v1`. The client strips `/v1` and collapses `/v1/v1`. In production the browser prefers the same-origin `/api` BFF when `NEXT_PUBLIC_API_URL` is cross-origin, so CORS on `marketplace.benwer.es` is not required for catalogue reads. |
 
 `npm run generate:api` uses `openapi/public.json` until production swagger
 includes `/public/` paths. Keep the raw-array unwrap so an older Railway

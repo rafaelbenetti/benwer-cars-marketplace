@@ -35,6 +35,7 @@ export function liveApiBaseUrl(): string {
   return resolveBrowserApiBaseUrl(
     env.NEXT_PUBLIC_API_URL ?? "",
     env.NEXT_PUBLIC_ENV,
+    window.location.origin,
   );
 }
 

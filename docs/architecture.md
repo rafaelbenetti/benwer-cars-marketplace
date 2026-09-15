@@ -129,14 +129,16 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
 `src/services/api/client.ts` exposes:
 - `getOpenApiClient()` — `openapi-fetch` client typed from `schema.d.ts`
   (`npm run generate:api`). No credentials middleware; public routes only.
-  The server prefers `API_ORIGIN`. The browser uses `NEXT_PUBLIC_API_URL`.
-  Both must be the **API origin only** (`https://cars-api.benwer.es` or
-  `http://localhost:8080`) — never `…/v1`. `openapi-fetch` concatenates
+  The server prefers `API_ORIGIN`. The browser uses `NEXT_PUBLIC_API_URL`
+  when it is same-origin (`/api` or the marketplace host). Both must be the
+  **API origin only** (`https://cars-api.benwer.es` or `http://localhost:8080`)
+  if they point at the API — never `…/v1`. `openapi-fetch` concatenates
   `baseUrl + "/v1/public/..."`, so a `/v1` suffix produces
   `/v1/v1/public/...` (404). `normalizeApiBaseUrl` strips trailing `/v1`
   and request middleware collapses `/v1/v1` so either env form works.
-  Same-origin `/api` (the public-API BFF) is used only when the public URL
-  is unset in staging/production. Requests use `cache: "no-store"`.
+  In staging/production the browser uses the same-origin `/api` BFF when
+  `NEXT_PUBLIC_API_URL` is missing or points at a cross-origin API host
+  (avoids CORS and the old mock fallback). Requests use `cache: "no-store"`.
 - `mockClient.get<T>(path)` — reads `public/mock-data/*.json`.
 
 Services call live first when an API URL is configured, via `withMockFallback`.

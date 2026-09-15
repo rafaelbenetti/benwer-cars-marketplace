@@ -22,6 +22,14 @@ function readString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value : undefined;
 }
 
+function readId(value: unknown): string | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return String(value);
+  }
+
+  return readString(value);
+}
+
 function readNumber(value: unknown): number | undefined {
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }
@@ -159,11 +167,34 @@ function readPhotoUrl(value: unknown): string | undefined {
   return raw ? toPublicPhotoSrc(raw) : undefined;
 }
 
+const PHOTO_COLLECTION_KEYS = [
+  "photos",
+  "images",
+  "media",
+  "gallery",
+  "files",
+] as const;
+
+const PHOTO_SINGLE_KEYS = [
+  "photoUrl",
+  "imageUrl",
+  "coverImage",
+  "thumbnailUrl",
+  "primaryPhoto",
+  "image",
+  "photo",
+] as const;
+
 function readPhotos(row: Record<string, unknown>): string[] {
   const collected: string[] = [];
 
-  if (Array.isArray(row.photos)) {
-    for (const item of row.photos) {
+  for (const key of PHOTO_COLLECTION_KEYS) {
+    const value = row[key];
+    if (!Array.isArray(value)) {
+      continue;
+    }
+
+    for (const item of value) {
       const url = readPhotoUrl(item);
       if (url) {
         collected.push(url);
@@ -171,9 +202,11 @@ function readPhotos(row: Record<string, unknown>): string[] {
     }
   }
 
-  const single = readPhotoUrl(readString(row.photoUrl) ?? readString(row.imageUrl));
-  if (single) {
-    collected.push(single);
+  for (const key of PHOTO_SINGLE_KEYS) {
+    const url = readPhotoUrl(row[key]);
+    if (url) {
+      collected.push(url);
+    }
   }
 
   return [...new Set(collected)];
@@ -192,7 +225,7 @@ export function mapCompany(raw: unknown): Company {
   );
 
   return {
-    id: readString(row.id) ?? readString(row.slug) ?? "",
+    id: readId(row.id) ?? readString(row.slug) ?? "",
     slug: readString(row.slug) ?? "",
     name: readString(row.name) ?? readString(row.slug) ?? "",
     description: readString(row.description) ?? null,
@@ -237,7 +270,7 @@ export function mapVehicle(raw: unknown, options?: VehicleMapOptions | string): 
   const row = isRecord(raw) ? raw : {};
 
   return {
-    id: readString(row.id) ?? "",
+    id: readId(row.id) ?? readId(row.vehicleId) ?? readId(row.uuid) ?? "",
     companySlug: readString(row.companySlug) ?? fallbackSlug ?? "",
     brand: readString(row.brand) ?? readString(row.make) ?? "",
     model: readString(row.model) ?? "",

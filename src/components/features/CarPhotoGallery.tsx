@@ -41,6 +41,7 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
     <div className={cn("mx-auto flex w-full min-w-0 max-w-3xl flex-col gap-3", className)}>
       <div className="group relative flex min-h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-surface-muted px-3 py-4">
         <CarPhoto
+          key={activePhoto}
           src={activePhoto}
           alt={t("photoAlt", { name: alt, index: activeIndex + 1 })}
           priority
@@ -94,6 +95,7 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
               )}
             >
               <CarPhoto
+                key={photo}
                 src={photo}
                 alt={`${alt} thumbnail ${i + 1}`}
                 fit="contain"

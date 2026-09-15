@@ -37,17 +37,22 @@ export function isSameOriginApiBase(base: string, pageOrigin: string): boolean {
 export function resolveBrowserApiBaseUrl(
   configured: string,
   publicEnv: "local" | "staging" | "production",
+  pageOrigin = "",
 ): string {
   const base = normalizeApiBaseUrl(configured);
-  if (base) {
-    return base;
+  if (!base) {
+    return publicEnv === "local" ? "" : SAME_ORIGIN_API_PREFIX;
   }
 
-  if (publicEnv !== "local") {
+  if (
+    publicEnv !== "local" &&
+    pageOrigin &&
+    !isSameOriginApiBase(base, pageOrigin)
+  ) {
     return SAME_ORIGIN_API_PREFIX;
   }
 
-  return "";
+  return base;
 }
 
 export function shouldUseMockFallback(
@@ -68,7 +73,10 @@ export function isAllowedPublicApiProxyPath(method: string, path: string): boole
     return true;
   }
 
-  if (verb === "POST" && /^v1\/public\/[^/]+\/reservations$/.test(normalized)) {
+  if (
+    verb === "POST" &&
+    /^v1\/public\/companies\/[^/]+\/reservations$/.test(normalized)
+  ) {
     return true;
   }
 

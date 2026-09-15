@@ -76,7 +76,7 @@ npm run dev
 Open `http://localhost:3002`. Copy `.env.example` → `.env.local`. Sample:
 
 ```bash
-NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_API_URL=http://localhost:3002/api
 API_ORIGIN=http://localhost:8080
 LOCALSTACK_ORIGIN=http://localhost:4566
 NEXT_PUBLIC_APP_URL=http://localhost:3002

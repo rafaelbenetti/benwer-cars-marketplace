@@ -11,10 +11,57 @@
     "trustArea": "Málaga province",
     "viewAllCompanies": "View all companies"
   },
+  "featuredCars": {
+    "title": "Cars on the marketplace",
+    "subtitle": "A snapshot of public fleets. Prices and photos come from the live catalogue — the same records companies manage in admin.",
+    "viewAll": "Search all cars",
+    "emptyTitle": "No cars listed yet",
+    "emptyHint": "Public fleets will appear here when companies publish them."
+  },
+  "faq": {
+    "title": "Questions, answered",
+    "subtitle": "How renting and listing work on Benwer Cars.",
+    "items": {
+      "booking": {
+        "question": "Do I book and pay on Benwer?",
+        "answer": "No. You compare public fleets here, then continue on the rental company’s site to confirm the hire, deposit, and pick-up. Benwer does not take payment on this marketplace."
+      },
+      "account": {
+        "question": "Do I need an account?",
+        "answer": "No account is required to search. If you send a contact message, we only use those details to reply."
+      },
+      "photos": {
+        "question": "Are the photos the company’s real cars?",
+        "answer": "Yes — listings use the public image fields from the shared API, the same fleet companies manage in admin. If a car has no public photo yet, we show an empty state rather than a stock picture of a different car."
+      },
+      "companies": {
+        "question": "What do rental companies get?",
+        "answer": "A public storefront on the marketplace, a full admin system for the fleet, and a mobile app for staff. Empty days can turn into bookings from travellers already searching Málaga."
+      },
+      "safety": {
+        "question": "Who is responsible for the rental?",
+        "answer": "The contract is between you and the rental company. Read their terms before you confirm. Benwer helps you find a car; it does not rent vehicles or take payment here."
+      }
+    }
+  },
   "partners": {
     "eyebrow": "For car rental companies",
     "title": "Turn empty days into bookings",
-    "description": "Travelers are already searching Benwer for cars. Keep your fleet live on the marketplace and fill the days that would otherwise sit empty.",
+    "description": "Travellers already search Benwer for cars in Málaga. List your public fleet once, then run the business with a full admin system, a mobile app for staff, and a storefront that can fill days that would otherwise sit empty.",
+    "features": {
+      "admin": {
+        "title": "Full admin system",
+        "body": "Manage cars, prices, availability, and reservations from one operations dashboard — the same catalogue the marketplace reads."
+      },
+      "mobile": {
+        "title": "Mobile application",
+        "body": "Staff can check cars in and out and stay on top of the day’s bookings from a phone, not only from a desk."
+      },
+      "storefront": {
+        "title": "Marketplace storefront",
+        "body": "Appear in marketplace search and keep a branded page for your fleet, with a company site for the actual rental."
+      }
+    },
     "cta": "See plans",
     "ctaAria": "See plans on the Benwer marketing site (opens in a new tab)",
     "demo": "View live demo",
@@ -39,13 +86,16 @@
   },
   "howItWorks": {
     "title": "How it works",
-    "subtitle": "Find a car here, then rent on the company's own site.",
-    "searchTitle": "Search",
-    "searchBody": "Choose your location and dates",
-    "compareTitle": "Compare",
-    "compareBody": "Browse cars from local rental fleets",
-    "continueTitle": "Continue",
-    "continueBody": "Finish on the rental company's site"
+    "subtitle": "Search live fleets in Málaga province, compare public cars side by side, then finish the rental with the company — no Benwer account needed.",
+    "stepLabel": "Step {number}",
+    "searchTitle": "Search dates and place",
+    "searchBody": "Choose a city on the Costa del Sol and the days you need the car. Results come from companies that have published their fleet.",
+    "compareTitle": "Compare real cars",
+    "compareBody": "See make, model, seats, transmission, and daily rate. Open a listing for photos, specs, and availability from the same catalogue the company manages in admin.",
+    "continueTitle": "Book with the company",
+    "continueBody": "Continue on the rental company’s own site to confirm pick-up, insurance, and payment. Benwer is how you find the car; the company honours the hire.",
+    "companiesTitle": "Running a fleet?",
+    "companiesBody": "Companies get this marketplace listing plus admin and a mobile app for day-to-day operations."
   },
   "search": {
     "locationLabel": "Pick-up location",

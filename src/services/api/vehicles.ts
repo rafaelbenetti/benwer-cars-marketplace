@@ -1,3 +1,4 @@
+import { ApiError } from "@/lib/errors";
 import type {
   MarketplaceSearchFilters,
   MarketplaceVehicle,
@@ -10,6 +11,14 @@ import { withMockFallback } from "./fallback";
 import { applyVehicleListFilters } from "./filters";
 import { mapVehicle, mapVehicleList } from "./mappers";
 import { mockVehiclesApi } from "./mock";
+
+function decodeVehicleId(id: string): string {
+  try {
+    return decodeURIComponent(id);
+  } catch {
+    return id;
+  }
+}
 
 async function fetchLiveVehicles(
   companySlug: string,
@@ -41,6 +50,44 @@ async function fetchLiveVehicles(
   );
 }
 
+async function fetchLiveVehicle(
+  companySlug: string,
+  vehicleId: string,
+): Promise<Vehicle> {
+  try {
+    const { data } = await getOpenApiClient().GET(
+      "/v1/public/companies/{slug}/vehicles/{id}",
+      {
+        params: { path: { slug: companySlug, id: vehicleId } },
+      },
+    );
+    const vehicle = mapVehicle(data, { companySlug });
+    if (!vehicle.id) {
+      throw new ApiError(404, "vehicle.not_found");
+    }
+    return vehicle;
+  } catch (error) {
+    if (
+      !(error instanceof ApiError) ||
+      (error.status !== 404 && error.code !== "vehicle.not_found")
+    ) {
+      throw error;
+    }
+
+    try {
+      const listed = await fetchLiveVehicles(companySlug);
+      const found = listed.find((vehicle) => vehicle.id === vehicleId);
+      if (found) {
+        return found;
+      }
+    } catch {
+      throw error;
+    }
+
+    throw error;
+  }
+}
+
 export const vehiclesApi = {
   getByCompany(companySlug: string, filters?: VehicleFilters): Promise<Vehicle[]> {
     return withMockFallback(
@@ -51,14 +98,10 @@ export const vehiclesApi = {
   },
 
   getById(companySlug: string, id: string): Promise<Vehicle> {
+    const vehicleId = decodeVehicleId(id);
     return withMockFallback(
-      () =>
-        getOpenApiClient()
-          .GET("/v1/public/companies/{slug}/vehicles/{id}", {
-            params: { path: { slug: companySlug, id } },
-          })
-          .then(({ data }) => mapVehicle(data, { companySlug })),
-      () => mockVehiclesApi.getById(companySlug, id),
+      () => fetchLiveVehicle(companySlug, vehicleId),
+      () => mockVehiclesApi.getById(companySlug, vehicleId),
       "vehicles.detail",
     );
   },

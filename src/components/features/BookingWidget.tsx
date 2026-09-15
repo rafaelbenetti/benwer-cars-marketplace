@@ -53,7 +53,7 @@ export function BookingWidget({
   const handoffHref = buildCompanySiteHref({
     slug: companySlug,
     websiteUrl: companyWebsiteUrl,
-    path: `/cars/${vehicle.id}`,
+    path: `/cars/${encodeURIComponent(vehicle.id)}`,
     from: from || undefined,
     to: to || undefined,
   });

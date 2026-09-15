@@ -61,6 +61,7 @@ export function CarCard({
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-muted">
         <CarPhoto
+          key={primaryPhoto ?? "empty"}
           src={primaryPhoto}
           alt={name}
           priority={priority}

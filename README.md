@@ -43,8 +43,8 @@ A `/v1` suffix is concatenated onto `/v1/public/...` and the browser calls
 `/v1/v1/public/companies/...` (HTTP 404). That used to trip mock fallback
 (stock Corolla/SUV photos and mock ids like `v-med-1`).
 
-The client also strips a trailing `/v1` and collapses `/v1/v1` so either form
-of the env still works after deploy. Set the origin-only values in Vercel
-anyway.
+The client strips a trailing `/v1`, collapses `/v1/v1`, and in production uses
+the same-origin `/api` BFF when `NEXT_PUBLIC_API_URL` points at the API host.
+Set origin-only values in Vercel anyway (`API_ORIGIN=https://cars-api.benwer.es`).
 
 See `.env.example` and `docs/architecture.md`.

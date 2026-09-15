@@ -225,6 +225,18 @@ describe("mapVehicleList", () => {
     expect(vehicle.photos).toEqual([]);
   });
 
+  it("maps numeric ids and admin image collections", () => {
+    const vehicle = mapVehicle({
+      id: 42,
+      make: "SEAT",
+      model: "Ibiza",
+      images: [{ publicUrl: "https://cdn.example/admin.jpg" }],
+    });
+
+    expect(vehicle.id).toBe("42");
+    expect(vehicle.photos).toEqual(["https://cdn.example/admin.jpg"]);
+  });
+
   it("rewrites LocalStack photo hosts to same-origin /localstack paths", () => {
     const vehicle = mapVehicle({
       id: "v-localstack",

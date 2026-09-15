@@ -93,13 +93,23 @@ describe("resolveBrowserApiBaseUrl", () => {
     ).toBe("https://marketplace.benwer.es/api");
   });
 
-  it("uses the API origin when the env still has a /v1 suffix", () => {
+  it("strips /v1 when no page origin is available", () => {
     expect(
       resolveBrowserApiBaseUrl(
         "https://cars-api.benwer.es/v1",
         "production",
       ),
     ).toBe("https://cars-api.benwer.es");
+  });
+
+  it("uses the same-origin BFF in production when the API host is cross-origin", () => {
+    expect(
+      resolveBrowserApiBaseUrl(
+        "https://cars-api.benwer.es/v1",
+        "production",
+        "https://marketplace.benwer.es",
+      ),
+    ).toBe(SAME_ORIGIN_API_PREFIX);
   });
 
   it("uses the BFF in production even when the public API URL is unset", () => {
@@ -132,7 +142,10 @@ describe("isAllowedPublicApiProxyPath", () => {
       isAllowedPublicApiProxyPath("GET", "/v1/public/companies/med-rentacar/vehicles"),
     ).toBe(true);
     expect(
-      isAllowedPublicApiProxyPath("POST", "v1/public/med-rentacar/reservations"),
+      isAllowedPublicApiProxyPath(
+        "POST",
+        "v1/public/companies/med-rentacar/reservations",
+      ),
     ).toBe(true);
     expect(isAllowedPublicApiProxyPath("POST", "v1/contact")).toBe(true);
   });
