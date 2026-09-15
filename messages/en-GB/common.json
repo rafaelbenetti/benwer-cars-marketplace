@@ -27,7 +27,7 @@
   },
   "meta": {
     "siteTitle": "Find local car rentals",
-    "siteDescription": "Compare cars from local rental companies across Málaga province, then continue on the company's site."
+    "siteDescription": "Compare cars from partner rental companies across Málaga province, then continue on the company's site."
   },
   "notFound": {
     "title": "Page not found",
@@ -48,8 +48,8 @@
     "esName": "Español"
   },
   "footer": {
-    "tagline": "Compare cars from local rental companies.",
-    "trust": "Local operators · Málaga · Rent on the company site",
+    "tagline": "Compare cars from partner rental companies.",
+    "trust": "Partner fleets · Málaga · Rent on the company site",
     "poweredBy": "Booked through Benwer Cars",
     "explore": "Explore",
     "legal": "Legal",
