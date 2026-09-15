@@ -11,45 +11,47 @@ import {
   MarketplaceSearchBarFallback,
 } from "./MarketplaceSearchBar";
 import { NavRoutes, SearchParams } from "@/enums";
+import type { Company } from "@/types/company";
 
 interface CompanyListViewProps {
   showSearchBar?: boolean;
   limit?: number;
+  initialCompanies?: Company[];
 }
 
-function CompanyResults({
-  showSearchBar,
+function FeaturedCompanyResults({
   limit,
+  initialCompanies,
 }: {
-  showSearchBar: boolean;
   limit?: number;
+  initialCompanies?: Company[];
 }) {
   const t = useTranslations("companies");
+  const { data, isPending, isError, error, refetch } = useCompanies();
+  const companies = data ?? initialCompanies;
+  const waiting = isPending && !initialCompanies;
+
+  return (
+    <CompanyGridView
+      companies={limit && companies ? companies.slice(0, limit) : companies}
+      isPending={waiting}
+      isError={isError && !companies}
+      error={error}
+      onRetry={refetch}
+      emptyTitle={t("featuredEmpty")}
+      emptyHint={t("featuredEmptyHint")}
+      emptyActionLabel={t("browseCars")}
+      emptyActionHref={NavRoutes.CARS}
+    />
+  );
+}
+
+function SearchableCompanyResults() {
   const searchParams = useSearchParams();
   const location = searchParams.get(SearchParams.LOCATION);
   const { data, isPending, isError, error, refetch } = useCompanies(
-    showSearchBar
-      ? {
-          location: location || undefined,
-        }
-      : undefined,
+    location ? { location } : undefined,
   );
-
-  if (!showSearchBar) {
-    return (
-      <CompanyGridView
-        companies={limit ? data?.slice(0, limit) : data}
-        isPending={isPending}
-        isError={isError}
-        error={error}
-        onRetry={refetch}
-        emptyTitle={t("featuredEmpty")}
-        emptyHint={t("featuredEmptyHint")}
-        emptyActionLabel={t("browseCars")}
-        emptyActionHref={NavRoutes.CARS}
-      />
-    );
-  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -69,17 +71,24 @@ function CompanyResults({
 export function CompanyListView({
   showSearchBar = true,
   limit,
+  initialCompanies,
 }: CompanyListViewProps) {
+  if (!showSearchBar) {
+    return (
+      <FeaturedCompanyResults limit={limit} initialCompanies={initialCompanies} />
+    );
+  }
+
   return (
     <Suspense
       fallback={
         <div className="flex flex-col gap-6">
-          {showSearchBar ? <MarketplaceSearchBarFallback target="companies" /> : null}
+          <MarketplaceSearchBarFallback target="companies" />
           <CompanyGridSkeleton count={limit ?? 6} />
         </div>
       }
     >
-      <CompanyResults showSearchBar={showSearchBar} limit={limit} />
+      <SearchableCompanyResults />
     </Suspense>
   );
 }

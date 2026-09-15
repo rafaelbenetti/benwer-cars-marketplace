@@ -31,7 +31,7 @@ export async function generateMarketplaceHomeMetadata(): Promise<Metadata> {
 
 export async function MarketplaceHome() {
   const t = await getTranslations("home");
-  const dehydratedState = await prefetchMarketplaceHomeState();
+  const { dehydratedState, companies } = await prefetchMarketplaceHomeState();
 
   return (
     <>
@@ -59,7 +59,11 @@ export async function MarketplaceHome() {
                   {t("companiesSubtitle")}
                 </p>
               </div>
-              <CompanyListView showSearchBar={false} limit={6} />
+              <CompanyListView
+                showSearchBar={false}
+                limit={6}
+                initialCompanies={companies}
+              />
             </section>
           </div>
         </HydrationBoundary>

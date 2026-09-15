@@ -2,18 +2,45 @@ import { QueryKeys } from "@/enums";
 import type { CompanyListFilters } from "@/types/company";
 import type { MarketplaceSearchFilters, VehicleFilters } from "@/types/vehicle";
 
+function compactQueryFilters<T extends object>(filters?: T): T | undefined {
+  if (!filters) {
+    return undefined;
+  }
+
+  const compact = Object.fromEntries(
+    Object.entries(filters).filter(([, value]) => value !== undefined),
+  ) as T;
+
+  return Object.keys(compact).length > 0 ? compact : undefined;
+}
+
 export function companyQueryKey(slug: string) {
   return [QueryKeys.COMPANY, slug] as const;
 }
 
 export function companiesQueryKey(filters?: CompanyListFilters) {
-  return [QueryKeys.COMPANIES, filters] as const;
+  const compact = compactQueryFilters(filters);
+  if (!compact) {
+    return [QueryKeys.COMPANIES] as const;
+  }
+
+  return [QueryKeys.COMPANIES, compact] as const;
 }
 
 export function vehiclesQueryKey(companySlug: string, filters?: VehicleFilters) {
-  return [QueryKeys.VEHICLES, companySlug, filters] as const;
+  const compact = compactQueryFilters(filters);
+  if (!compact) {
+    return [QueryKeys.VEHICLES, companySlug] as const;
+  }
+
+  return [QueryKeys.VEHICLES, companySlug, compact] as const;
 }
 
 export function marketplaceVehiclesQueryKey(filters?: MarketplaceSearchFilters) {
-  return [QueryKeys.VEHICLES, "marketplace", filters] as const;
+  const compact = compactQueryFilters(filters);
+  if (!compact) {
+    return [QueryKeys.VEHICLES, "marketplace"] as const;
+  }
+
+  return [QueryKeys.VEHICLES, "marketplace", compact] as const;
 }
