@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CompanyListView } from "@/components/features/CompanyListView";
 import { FeaturedCars } from "@/components/features/FeaturedCars";
 import { HowItWorks } from "@/components/features/HowItWorks";
+import { AppDownloadBanner } from "@/components/features/AppDownloadBanner";
 import { MarketplaceFaq } from "@/components/features/MarketplaceFaq";
 import { MarketplaceSearchHeader } from "@/components/features/MarketplaceSearchHeader";
 import { PartnersInvite } from "@/components/features/PartnersInvite";
@@ -69,6 +70,7 @@ export async function MarketplaceHome() {
         </HydrationBoundary>
         <WhatYouGet />
         <PartnersInvite />
+        <AppDownloadBanner />
         <MarketplaceFaq />
       </main>
       <Footer />

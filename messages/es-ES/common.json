@@ -27,7 +27,7 @@
   },
   "meta": {
     "siteTitle": "Encuentra coches de alquiler locales",
-    "siteDescription": "Compara coches de empresas locales en la provincia de Málaga y continúa en la web de la empresa."
+    "siteDescription": "Compara coches de empresas de alquiler asociadas en la provincia de Málaga y continúa en la web de la empresa."
   },
   "notFound": {
     "title": "Página no encontrada",
@@ -48,8 +48,8 @@
     "esName": "Español"
   },
   "footer": {
-    "tagline": "Compara coches de empresas de alquiler locales.",
-    "trust": "Operadores locales · Málaga · Alquila en la web de la empresa",
+    "tagline": "Compara coches de empresas de alquiler asociadas.",
+    "trust": "Flotas asociadas · Málaga · Alquila en la web de la empresa",
     "poweredBy": "Reservado a través de Benwer Cars",
     "explore": "Explorar",
     "legal": "Legal",
