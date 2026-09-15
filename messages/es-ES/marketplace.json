@@ -18,16 +18,6 @@
     "emptyTitle": "Aún no hay coches",
     "emptyHint": "Las flotas públicas aparecerán aquí cuando las empresas las publiquen."
   },
-  "trustStats": {
-    "title": "Del catálogo en vivo",
-    "source": "Del catálogo público en vivo",
-    "companies": "{count, plural, one {# empresa} other {# empresas}}",
-    "cars": "{count, plural, one {# coche público} other {# coches públicos}}",
-    "locations": "{count, plural, one {# zona de recogida} other {# zonas de recogida}}",
-    "area": "Provincia de Málaga",
-    "noAccount": "Sin cuenta para buscar",
-    "error": "No se han podido cargar las cifras en vivo."
-  },
   "whatYouGet": {
     "eyebrow": "Para empresas de alquiler",
     "title": "Qué obtienes",

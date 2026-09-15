@@ -18,16 +18,6 @@
     "emptyTitle": "No cars listed yet",
     "emptyHint": "Public fleets will appear here when companies publish them."
   },
-  "trustStats": {
-    "title": "On the live catalogue",
-    "source": "From live public listings",
-    "companies": "{count, plural, one {# company} other {# companies}}",
-    "cars": "{count, plural, one {# public car} other {# public cars}}",
-    "locations": "{count, plural, one {# pick-up area} other {# pick-up areas}}",
-    "area": "Málaga province",
-    "noAccount": "No account to search",
-    "error": "Live figures could not be loaded."
-  },
   "whatYouGet": {
     "eyebrow": "For rental companies",
     "title": "What you get",

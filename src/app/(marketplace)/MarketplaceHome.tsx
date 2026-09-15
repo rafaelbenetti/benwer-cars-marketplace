@@ -10,7 +10,6 @@ import { HowItWorks } from "@/components/features/HowItWorks";
 import { MarketplaceFaq } from "@/components/features/MarketplaceFaq";
 import { MarketplaceSearchHeader } from "@/components/features/MarketplaceSearchHeader";
 import { PartnersInvite } from "@/components/features/PartnersInvite";
-import { TrustStats } from "@/components/features/TrustStats";
 import { WhatYouGet } from "@/components/features/WhatYouGet";
 import { NavRoutes } from "@/enums";
 import { prefetchMarketplaceHomeState } from "@/lib/prefetchMarketplaceHome";
@@ -41,7 +40,6 @@ export async function MarketplaceHome() {
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 px-4 py-8 md:gap-10 md:px-6 md:py-10 lg:px-8">
         <HydrationBoundary state={dehydratedState}>
           <div className="flex flex-col gap-8 md:gap-10">
-            <TrustStats />
             <HowItWorks />
             <FeaturedCars />
             <section className="flex flex-col gap-6">
