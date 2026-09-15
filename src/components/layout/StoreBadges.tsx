@@ -35,7 +35,7 @@ function StoreBadge({
       disabled
       aria-label={aria}
       className={cn(
-        "inline-flex h-12 min-w-[10.75rem] cursor-not-allowed items-center gap-3 rounded-lg bg-secondary px-3.5 text-left text-secondary-foreground opacity-60",
+        "inline-flex h-12 w-full min-w-[10.75rem] cursor-not-allowed items-center gap-3 rounded-lg bg-secondary px-3.5 text-left text-secondary-foreground opacity-60 sm:w-auto",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       )}
     >
@@ -58,7 +58,7 @@ export function StoreBadges({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-wrap gap-3", className)}>
+    <div className={cn("flex flex-col gap-3 sm:flex-row sm:flex-wrap", className)}>
       <StoreBadge {...appStore} icon={<AppleMark />} />
       <StoreBadge {...googlePlay} icon={<PlayMark />} />
     </div>
