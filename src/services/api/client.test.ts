@@ -25,8 +25,8 @@ describe("mockClient", () => {
     delete process.env[MOCK_CATALOGUE_OPT_IN_ENV];
   });
 
-  it("refuses to read mock catalogue JSON without an explicit test opt-in", async () => {
-    await expect(mockClient.get("/mock-data/vehicles.json")).rejects.toThrow(
+  it("refuses to read mock catalogue JSON without an explicit test opt-in", () => {
+    expect(() => mockClient.get("/mock-data/vehicles.json")).toThrow(
       "Mock catalogue is disabled",
     );
   });

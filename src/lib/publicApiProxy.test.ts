@@ -1,7 +1,6 @@
 import createClient from "openapi-fetch";
 import { describe, expect, it } from "vitest";
 import {
-  MOCK_CATALOGUE_OPT_IN_ENV,
   SAME_ORIGIN_API_PREFIX,
   assertMockCatalogueAllowed,
   collapseDuplicateV1Path,
