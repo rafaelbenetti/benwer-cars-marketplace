@@ -57,7 +57,12 @@ export function resolveBrowserApiBaseUrl(
 
 export function shouldUseMockFallback(
   publicEnv: "local" | "staging" | "production",
+  nodeEnv = process.env.NODE_ENV,
 ): boolean {
+  if (nodeEnv === "production") {
+    return false;
+  }
+
   return publicEnv === "local";
 }
 

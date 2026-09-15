@@ -142,14 +142,17 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
 - `mockClient.get<T>(path)` — reads `public/mock-data/*.json`.
 
 Services call live first when an API URL is configured, via `withMockFallback`.
-Mock JSON is used **only** when `NEXT_PUBLIC_ENV=local` and the live API is
-unset or unreachable (network / DNS / timeout). Staging and production fail
-loudly — they never substitute `public/mock-data` stock photos. HTTP 4xx and
-5xx from a reachable API are surfaced as `ApiError`. List responses are
-`{ data, page }` (`unwrapList` reads `response.data`; raw arrays remain a
-fallback). Mappers accept marketplace aliases (`brand`, `type`, `pricePerDay`,
-`fuel`, `unavailableDates`) and admin names (`make`, `category`, `dailyRate`,
-`fuelType`, `{ available, conflicts }`).
+Mock JSON is used **only** when `NEXT_PUBLIC_ENV=local` **and** `NODE_ENV` is
+not `production`, and the live API is unset or unreachable (network / DNS /
+timeout / browser CORS `Failed to fetch`). Staging, production, and any
+`NODE_ENV=production` build fail loudly — they never substitute
+`public/mock-data` stock photos. HTTP 4xx and 5xx from a reachable API are
+surfaced as `ApiError`. Unset `NEXT_PUBLIC_ENV` defaults to `production` when
+`NODE_ENV=production` so a missed Vercel var cannot revive mock cars. List
+responses are `{ data, page }` (`unwrapList` reads `response.data`; raw arrays
+remain a fallback). Mappers accept marketplace aliases (`brand`, `type`,
+`pricePerDay`, `fuel`, `unavailableDates`) and admin names (`make`, `category`,
+`dailyRate`, `fuelType`, `{ available, conflicts }`).
 
 
 ## Per-tenant branding

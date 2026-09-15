@@ -77,6 +77,11 @@ function mapVehicleType(value: string | undefined): VehicleType {
     case VehicleType.MOTORCYCLE:
     case "motorcycle":
       return VehicleType.MOTORCYCLE;
+    case VehicleType.CAR:
+    case "car":
+    case "economy":
+    case "sedan":
+    case "other":
     default:
       return VehicleType.CAR;
   }
@@ -185,8 +190,40 @@ const PHOTO_SINGLE_KEYS = [
   "photo",
 ] as const;
 
+function readAttachmentPhotos(row: Record<string, unknown>): string[] {
+  const attachments = row.attachments;
+  if (!Array.isArray(attachments)) {
+    return [];
+  }
+
+  const vehiclePhotos: string[] = [];
+  const stockPhotos: string[] = [];
+  const otherPhotos: string[] = [];
+
+  for (const item of attachments) {
+    const url = readPhotoUrl(item);
+    if (!url) {
+      continue;
+    }
+
+    const kind = isRecord(item)
+      ? (readString(item.kind) ?? readString(item.type) ?? "").toLowerCase()
+      : "";
+
+    if (kind === "vehicle_photo" || kind === "photo") {
+      vehiclePhotos.push(url);
+    } else if (kind === "stock_photo") {
+      stockPhotos.push(url);
+    } else {
+      otherPhotos.push(url);
+    }
+  }
+
+  return [...vehiclePhotos, ...stockPhotos, ...otherPhotos];
+}
+
 function readPhotos(row: Record<string, unknown>): string[] {
-  const collected: string[] = [];
+  const collected: string[] = [...readAttachmentPhotos(row)];
 
   for (const key of PHOTO_COLLECTION_KEYS) {
     const value = row[key];

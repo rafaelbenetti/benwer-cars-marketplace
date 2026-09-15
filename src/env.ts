@@ -10,7 +10,9 @@ export const env = createEnv({
     NEXT_PUBLIC_API_URL: z.string().url().optional(),
     NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3002"),
     NEXT_PUBLIC_MARKETPLACE_DOMAIN: z.string().min(1).default("benwer.es"),
-    NEXT_PUBLIC_ENV: z.enum(["local", "staging", "production"]).default("local"),
+    NEXT_PUBLIC_ENV: z
+      .enum(["local", "staging", "production"])
+      .default(process.env.NODE_ENV === "production" ? "production" : "local"),
     NEXT_PUBLIC_MARKETING_URL: z.string().url().default("https://cars.benwer.es"),
     NEXT_PUBLIC_ADMIN_DEMO_URL: z.string().url().optional(),
     NEXT_PUBLIC_MEDIA_ORIGIN: z.string().url().optional(),

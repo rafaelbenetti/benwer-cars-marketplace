@@ -1,4 +1,5 @@
 import { ApiError } from "@/lib/errors";
+import { toPublicVehicleListQuery } from "@/lib/vehicleFilters";
 import type {
   MarketplaceSearchFilters,
   MarketplaceVehicle,
@@ -29,17 +30,7 @@ async function fetchLiveVehicles(
     {
       params: {
         path: { slug: companySlug },
-        query: {
-          q: filters?.q,
-          type: filters?.type,
-          seats: filters?.seats,
-          transmission: filters?.transmission,
-          from: filters?.from,
-          to: filters?.to,
-          sort: filters?.sort,
-          cursor: filters?.cursor,
-          limit: filters?.limit,
-        },
+        query: toPublicVehicleListQuery(filters),
       },
     },
   );

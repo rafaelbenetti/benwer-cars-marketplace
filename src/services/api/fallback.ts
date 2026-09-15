@@ -8,7 +8,10 @@ export async function withMockFallback<T>(
   mock: () => Promise<T>,
   context: string,
 ): Promise<T> {
-  const allowMock = shouldUseMockFallback(env.NEXT_PUBLIC_ENV);
+  const allowMock = shouldUseMockFallback(
+    env.NEXT_PUBLIC_ENV,
+    process.env.NODE_ENV,
+  );
 
   if (!isLiveApiConfigured()) {
     if (!allowMock) {

@@ -128,10 +128,16 @@ describe("resolveBrowserApiBaseUrl", () => {
 });
 
 describe("shouldUseMockFallback", () => {
-  it("allows mock JSON only in local development", () => {
-    expect(shouldUseMockFallback("local")).toBe(true);
-    expect(shouldUseMockFallback("staging")).toBe(false);
-    expect(shouldUseMockFallback("production")).toBe(false);
+  it("allows mock JSON only in local non-production builds", () => {
+    expect(shouldUseMockFallback("local", "development")).toBe(true);
+    expect(shouldUseMockFallback("local", "test")).toBe(true);
+    expect(shouldUseMockFallback("staging", "development")).toBe(false);
+    expect(shouldUseMockFallback("production", "development")).toBe(false);
+  });
+
+  it("never allows mock JSON when NODE_ENV is production", () => {
+    expect(shouldUseMockFallback("local", "production")).toBe(false);
+    expect(shouldUseMockFallback("production", "production")).toBe(false);
   });
 });
 
