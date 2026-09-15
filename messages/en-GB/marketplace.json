@@ -12,11 +12,38 @@
     "viewAllCompanies": "View all companies"
   },
   "featuredCars": {
-    "title": "Cars on the marketplace",
-    "subtitle": "A snapshot of public fleets. Prices and photos come from the live catalogue — the same records companies manage in admin.",
+    "title": "Popular cars",
+    "subtitle": "Live listings from public fleets — the same cars companies manage in admin.",
     "viewAll": "Search all cars",
     "emptyTitle": "No cars listed yet",
     "emptyHint": "Public fleets will appear here when companies publish them."
+  },
+  "trustStats": {
+    "title": "On the live catalogue",
+    "source": "From live public listings",
+    "companies": "{count, plural, one {# company} other {# companies}}",
+    "cars": "{count, plural, one {# public car} other {# public cars}}",
+    "locations": "{count, plural, one {# pick-up area} other {# pick-up areas}}",
+    "area": "Málaga province",
+    "noAccount": "No account to search",
+    "error": "Live figures could not be loaded."
+  },
+  "whatYouGet": {
+    "eyebrow": "For rental companies",
+    "title": "What you get",
+    "subtitle": "One stack for the office, the yard, and travellers searching Málaga.",
+    "admin": {
+      "title": "Full admin system",
+      "body": "Manage cars, prices, availability, and reservations from one operations dashboard — the same catalogue the marketplace reads."
+    },
+    "mobile": {
+      "title": "Mobile application",
+      "body": "Staff can check cars in and out and stay on top of the day’s bookings from a phone, not only from a desk."
+    },
+    "storefront": {
+      "title": "Branded storefront",
+      "body": "A marketplace listing plus a company page (and optional subdomain) so travellers reach your fleet, then finish on your site."
+    }
   },
   "faq": {
     "title": "Questions, answered",
@@ -47,21 +74,7 @@
   "partners": {
     "eyebrow": "For car rental companies",
     "title": "Turn empty days into bookings",
-    "description": "Travellers already search Benwer for cars in Málaga. List your public fleet once, then run the business with a full admin system, a mobile app for staff, and a storefront that can fill days that would otherwise sit empty.",
-    "features": {
-      "admin": {
-        "title": "Full admin system",
-        "body": "Manage cars, prices, availability, and reservations from one operations dashboard — the same catalogue the marketplace reads."
-      },
-      "mobile": {
-        "title": "Mobile application",
-        "body": "Staff can check cars in and out and stay on top of the day’s bookings from a phone, not only from a desk."
-      },
-      "storefront": {
-        "title": "Marketplace storefront",
-        "body": "Appear in marketplace search and keep a branded page for your fleet, with a company site for the actual rental."
-      }
-    },
+    "description": "Travellers already search Benwer for cars in Málaga. Publish your fleet once and fill days that would otherwise sit empty.",
     "cta": "See plans",
     "ctaAria": "See plans on the Benwer marketing site (opens in a new tab)",
     "demo": "View live demo",
@@ -93,9 +106,7 @@
     "compareTitle": "Compare real cars",
     "compareBody": "See make, model, seats, transmission, and daily rate. Open a listing for photos, specs, and availability from the same catalogue the company manages in admin.",
     "continueTitle": "Book with the company",
-    "continueBody": "Continue on the rental company’s own site to confirm pick-up, insurance, and payment. Benwer is how you find the car; the company honours the hire.",
-    "companiesTitle": "Running a fleet?",
-    "companiesBody": "Companies get this marketplace listing plus admin and a mobile app for day-to-day operations."
+    "continueBody": "Continue on the rental company’s own site to confirm pick-up, insurance, and payment. Benwer is how you find the car; the company honours the hire."
   },
   "search": {
     "locationLabel": "Pick-up location",

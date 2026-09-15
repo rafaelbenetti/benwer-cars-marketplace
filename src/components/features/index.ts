@@ -33,6 +33,8 @@ export { HowItWorks } from "./HowItWorks";
 export { PartnersInvite } from "./PartnersInvite";
 export { FeaturedCars } from "./FeaturedCars";
 export { MarketplaceFaq } from "./MarketplaceFaq";
+export { TrustStats } from "./TrustStats";
+export { WhatYouGet } from "./WhatYouGet";
 export { ContactForm } from "./ContactForm";
 export { CookieBanner } from "./CookieBanner";
 export { CookieBannerHost } from "./CookieBannerHost";

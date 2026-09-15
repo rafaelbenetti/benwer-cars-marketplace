@@ -12,11 +12,38 @@
     "viewAllCompanies": "Ver todas las empresas"
   },
   "featuredCars": {
-    "title": "Coches en el marketplace",
-    "subtitle": "Una muestra de flotas públicas. Precios y fotos salen del catálogo en vivo: los mismos registros que las empresas gestionan en administración.",
+    "title": "Coches populares",
+    "subtitle": "Anuncios en vivo de flotas públicas: los mismos coches que las empresas gestionan en administración.",
     "viewAll": "Buscar todos los coches",
     "emptyTitle": "Aún no hay coches",
     "emptyHint": "Las flotas públicas aparecerán aquí cuando las empresas las publiquen."
+  },
+  "trustStats": {
+    "title": "Del catálogo en vivo",
+    "source": "Del catálogo público en vivo",
+    "companies": "{count, plural, one {# empresa} other {# empresas}}",
+    "cars": "{count, plural, one {# coche público} other {# coches públicos}}",
+    "locations": "{count, plural, one {# zona de recogida} other {# zonas de recogida}}",
+    "area": "Provincia de Málaga",
+    "noAccount": "Sin cuenta para buscar",
+    "error": "No se han podido cargar las cifras en vivo."
+  },
+  "whatYouGet": {
+    "eyebrow": "Para empresas de alquiler",
+    "title": "Qué obtienes",
+    "subtitle": "Un mismo conjunto: oficina, patio y viajeros que buscan en Málaga.",
+    "admin": {
+      "title": "Sistema de administración completo",
+      "body": "Gestiona coches, precios, disponibilidad y reservas desde un solo panel de operaciones: el mismo catálogo que lee el marketplace."
+    },
+    "mobile": {
+      "title": "Aplicación móvil",
+      "body": "El equipo puede entregar y recoger coches y seguir las reservas del día desde el teléfono, no solo desde el escritorio."
+    },
+    "storefront": {
+      "title": "Escaparate de marca",
+      "body": "Un listado en el marketplace y una página de empresa (con subdominio opcional) para que los viajeros lleguen a tu flota y terminen en tu web."
+    }
   },
   "faq": {
     "title": "Preguntas frecuentes",
@@ -47,21 +74,7 @@
   "partners": {
     "eyebrow": "Para empresas de alquiler de coches",
     "title": "Convierte los días vacíos en reservas",
-    "description": "Los viajeros ya buscan coches en Benwer en Málaga. Publica tu flota una vez y gestiona el negocio con un sistema de administración completo, una aplicación móvil para el equipo y un escaparate que puede llenar los días que, de otro modo, quedarían vacíos.",
-    "features": {
-      "admin": {
-        "title": "Sistema de administración completo",
-        "body": "Gestiona coches, precios, disponibilidad y reservas desde un solo panel de operaciones: el mismo catálogo que lee el marketplace."
-      },
-      "mobile": {
-        "title": "Aplicación móvil",
-        "body": "El equipo puede entregar y recoger coches y seguir las reservas del día desde el teléfono, no solo desde el escritorio."
-      },
-      "storefront": {
-        "title": "Escaparate en el marketplace",
-        "body": "Aparece en las búsquedas del marketplace y mantén una página de marca para tu flota, con la web de la empresa para el alquiler."
-      }
-    },
+    "description": "Los viajeros ya buscan coches en Benwer en Málaga. Publica tu flota una vez y llena los días que, de otro modo, quedarían vacíos.",
     "cta": "Ver planes",
     "ctaAria": "Ver planes en el sitio de Benwer (se abre en una pestaña nueva)",
     "demo": "Ver demo en vivo",
@@ -93,9 +106,7 @@
     "compareTitle": "Compara coches reales",
     "compareBody": "Consulta marca, modelo, plazas, transmisión y tarifa diaria. Abre un anuncio para ver fotos, ficha y disponibilidad del mismo catálogo que la empresa gestiona en administración.",
     "continueTitle": "Reserva con la empresa",
-    "continueBody": "Continúa en la web de la empresa de alquiler para confirmar recogida, seguro y pago. Benwer te ayuda a encontrar el coche; la empresa formaliza el alquiler.",
-    "companiesTitle": "¿Tienes una flota?",
-    "companiesBody": "Las empresas obtienen este listado en el marketplace, más administración y una aplicación móvil para el día a día."
+    "continueBody": "Continúa en la web de la empresa de alquiler para confirmar recogida, seguro y pago. Benwer te ayuda a encontrar el coche; la empresa formaliza el alquiler."
   },
   "search": {
     "locationLabel": "Lugar de recogida",

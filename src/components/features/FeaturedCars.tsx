@@ -7,7 +7,7 @@ import { NavRoutes } from "@/enums";
 import { CarGridView } from "./CarGrid";
 import type { Vehicle } from "@/types/vehicle";
 
-const FEATURED_LIMIT = 8;
+const FEATURED_LIMIT = 4;
 const FEATURED_GRID_CLASS = "sm:grid-cols-2 xl:grid-cols-4";
 
 export function FeaturedCars() {

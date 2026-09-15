@@ -1,4 +1,4 @@
-import { Building2, CalendarSearch, CarFront, Handshake } from "lucide-react";
+import { CalendarSearch, CarFront, Handshake } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 export async function HowItWorks() {
@@ -38,13 +38,6 @@ export async function HowItWorks() {
           );
         })}
       </ol>
-      <p className="flex items-start gap-2 text-sm text-muted-foreground">
-        <Building2 size={16} className="mt-0.5 shrink-0 text-primary" aria-hidden />
-        <span className="flex flex-col gap-1">
-          <span className="font-medium text-foreground">{t("companiesTitle")}</span>
-          <span>{t("companiesBody")}</span>
-        </span>
-      </p>
     </section>
   );
 }
