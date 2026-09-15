@@ -217,19 +217,32 @@ Allow the marketplace origins: `marketplace.benwer.es`, `*.benwer.es`, and
 
 ## 8. Live API notes (marketplace client)
 
-**Source of truth:** [benwer-cars-api#13](https://github.com/rafaelbenetti/benwer-cars-api/pull/13)
-(`cursor/marketplace-public-api-e739`). The marketplace prefers the live API
-whenever `API_ORIGIN` / `NEXT_PUBLIC_API_URL` is set. Mock JSON is used only
-when those are unset or the API is unreachable.
+**Source of truth (in flight):** [benwer-cars-api#20](https://github.com/rafaelbenetti/benwer-cars-api/pull/20)
+(open — do not assume merged). That PR fills public `photos[]` / `photoUrl` from
+the same attachments (`kind=vehicle_photo`) + stock_photo fallback admin uses,
+maps invalid `type=car` to economy/sedan/other, and fixes CORS 403 on
+`/v1/public/*` for `marketplace.benwer.es`. Until it ships, public vehicles may
+still return `photos: []`. **Never run `db/seed/seed.sql` on production** (it
+truncates). Image upload only: `./db/seed/upload-seed-images-to-s3.sh` per the
+API `db/seed/README.md`.
+
+The marketplace prefers the live API whenever `API_ORIGIN` / `NEXT_PUBLIC_API_URL`
+is set. Mock JSON is used only when `NEXT_PUBLIC_ENV=local` **and**
+`NODE_ENV` is not `production` and those URLs are unset or the API is unreachable
+(network / CORS `Failed to fetch`). Staging and production never substitute mock
+cars — CORS/API failure must surface as an error or empty catalogue, never
+`/mock-data/cars/*.jpg`.
 
 | Contract | Marketplace handling |
 | --- | --- |
 | List endpoints return `{ data, page }`, not raw arrays. | `unwrapList` reads `payload.data` first. Raw arrays (older deploys) still unwrap. `public/mock-data/*.json` uses the same envelope. |
 | Companies accept `location`, `from`/`to`, `q`, cursor pagination. Fields include `slug`, branding, `location`/`locationSlug`, optional lat/lng, `vehicleCount`. `location=malaga` seeds include `med-rentacar` and `benetti-cars`. | Live client sends those query params, including province-wide `malaga`. Client-side city filtering skips `malaga`. Map pins prefer API coordinates. |
-| Vehicles expose aliases `brand`, `type`, `pricePerDay`, `fuel` plus admin names (`make`, `category`, `dailyRate`, `fuelType`). Photos may be CDN URLs or object keys without S3. | Mapper prefers marketplace aliases, then admin names. Only `http(s)` photo URLs are passed to `next/image`; bare keys are dropped (designed fallbacks apply). LocalStack hosts (`localhost:4566`, `127.0.0.1:4566`) are rewritten to same-origin `/localstack/...`. |
+| Vehicle `type`/`category` query values are `economy\|sedan\|suv\|minivan\|van\|other`. `type=car` is invalid on current API (empty list). | Marketplace never sends `type=car`. UI “Car” omits the query and filters economy/sedan/other/`car` client-side after mapping. SUV/van send `suv`/`van`. |
+| Vehicles expose aliases `brand`, `type`, `pricePerDay`, `fuel` plus admin names (`make`, `category`, `dailyRate`, `fuelType`). Photos may be `photos[]`, `photoUrl`, or attachments `kind=vehicle_photo` (stock_photo fallback). CDN/S3 URLs, protocol-relative hosts, signed URLs, or object keys. | Mapper prefers marketplace aliases, then admin names. Attachment `vehicle_photo` wins over `stock_photo`. `http(s)` and `//host/...` photo URLs are passed to `next/image`. Bare keys and `s3://bucket/key` are prefixed with `NEXT_PUBLIC_MEDIA_ORIGIN` when set; otherwise they are dropped and the UI shows the photo empty-state (never a mock Corolla/SUV/Tesla jpg). LocalStack hosts (`localhost:4566`, `127.0.0.1:4566`) are rewritten to same-origin `/localstack/...`. |
+| Empty public fleets (`is_public=false` on vehicles) are expected. Admin still cannot set that flag on create/update. | Company page is not an error: empty state explains the fleet is not public yet. |
 | Availability: required `from`/`to`; optional `vehicleId`; shape `[{ vehicleId, unavailableDates, available }]`. | One GET; `mapAvailabilityList` accepts a raw array, `{ data }`, or a single legacy `{ available, vehicleId, conflicts }` object. |
 | Guest POST reservations + GET by token with nested `vehicle` + `company`. `409 reservation.overlap`. RFC 9457 validation. | `mapReservation` reads nested resources, `grandTotal`/`totalAmount`, and `customer`. Field aliases (`vehicleID`, `after_start`). Empty 409 → `reservation.overlap`. |
-| CORS allows `localhost:3002`. | Local marketplace talks to `API_ORIGIN=http://localhost:8080` via the `/api` rewrite. |
+| CORS allows `localhost:3002` and, after API #20, `marketplace.benwer.es`. Production previously got CORS 403 on `/v1/public/*` and the client fell back to mock jpgs. | Set `API_ORIGIN` to the API **origin** (`https://cars-api.benwer.es`), never `…/v1`. The client strips `/v1` and collapses `/v1/v1`. In production the browser prefers the same-origin `/api` BFF when `NEXT_PUBLIC_API_URL` is cross-origin. CORS failure still must not revive mock photos. |
 
 `npm run generate:api` uses `openapi/public.json` until production swagger
 includes `/public/` paths. Keep the raw-array unwrap so an older Railway

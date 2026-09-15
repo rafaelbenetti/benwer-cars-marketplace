@@ -22,6 +22,14 @@ function readString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value : undefined;
 }
 
+function readId(value: unknown): string | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return String(value);
+  }
+
+  return readString(value);
+}
+
 function readNumber(value: unknown): number | undefined {
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }
@@ -69,6 +77,11 @@ function mapVehicleType(value: string | undefined): VehicleType {
     case VehicleType.MOTORCYCLE:
     case "motorcycle":
       return VehicleType.MOTORCYCLE;
+    case VehicleType.CAR:
+    case "car":
+    case "economy":
+    case "sedan":
+    case "other":
     default:
       return VehicleType.CAR;
   }
@@ -149,17 +162,76 @@ function readPhotoUrl(value: unknown): string | undefined {
       ? readString(value.url) ??
         readString(value.src) ??
         readString(value.href) ??
-        readString(value.photoUrl)
+        readString(value.photoUrl) ??
+        readString(value.publicUrl) ??
+        readString(value.signedUrl) ??
+        readString(value.key) ??
+        readString(value.path)
       : undefined;
 
   return raw ? toPublicPhotoSrc(raw) : undefined;
 }
 
-function readPhotos(row: Record<string, unknown>): string[] {
-  const collected: string[] = [];
+const PHOTO_COLLECTION_KEYS = [
+  "photos",
+  "images",
+  "media",
+  "gallery",
+  "files",
+] as const;
 
-  if (Array.isArray(row.photos)) {
-    for (const item of row.photos) {
+const PHOTO_SINGLE_KEYS = [
+  "photoUrl",
+  "imageUrl",
+  "coverImage",
+  "thumbnailUrl",
+  "primaryPhoto",
+  "image",
+  "photo",
+] as const;
+
+function readAttachmentPhotos(row: Record<string, unknown>): string[] {
+  const attachments = row.attachments;
+  if (!Array.isArray(attachments)) {
+    return [];
+  }
+
+  const vehiclePhotos: string[] = [];
+  const stockPhotos: string[] = [];
+  const otherPhotos: string[] = [];
+
+  for (const item of attachments) {
+    const url = readPhotoUrl(item);
+    if (!url) {
+      continue;
+    }
+
+    const kind = isRecord(item)
+      ? (readString(item.kind) ?? readString(item.type) ?? "").toLowerCase()
+      : "";
+
+    if (kind === "vehicle_photo" || kind === "photo") {
+      vehiclePhotos.push(url);
+    } else if (kind === "stock_photo") {
+      stockPhotos.push(url);
+    } else {
+      otherPhotos.push(url);
+    }
+  }
+
+  return [...vehiclePhotos, ...stockPhotos, ...otherPhotos];
+}
+
+function readPhotos(row: Record<string, unknown>): string[] {
+  const collected: string[] = [...readAttachmentPhotos(row)];
+
+  for (const key of PHOTO_COLLECTION_KEYS) {
+    const value = row[key];
+    if (!Array.isArray(value)) {
+      continue;
+    }
+
+    for (const item of value) {
       const url = readPhotoUrl(item);
       if (url) {
         collected.push(url);
@@ -167,9 +239,11 @@ function readPhotos(row: Record<string, unknown>): string[] {
     }
   }
 
-  const single = readPhotoUrl(readString(row.photoUrl) ?? readString(row.imageUrl));
-  if (single) {
-    collected.push(single);
+  for (const key of PHOTO_SINGLE_KEYS) {
+    const url = readPhotoUrl(row[key]);
+    if (url) {
+      collected.push(url);
+    }
   }
 
   return [...new Set(collected)];
@@ -188,7 +262,7 @@ export function mapCompany(raw: unknown): Company {
   );
 
   return {
-    id: readString(row.id) ?? readString(row.slug) ?? "",
+    id: readId(row.id) ?? readString(row.slug) ?? "",
     slug: readString(row.slug) ?? "",
     name: readString(row.name) ?? readString(row.slug) ?? "",
     description: readString(row.description) ?? null,
@@ -233,7 +307,7 @@ export function mapVehicle(raw: unknown, options?: VehicleMapOptions | string): 
   const row = isRecord(raw) ? raw : {};
 
   return {
-    id: readString(row.id) ?? "",
+    id: readId(row.id) ?? readId(row.vehicleId) ?? readId(row.uuid) ?? "",
     companySlug: readString(row.companySlug) ?? fallbackSlug ?? "",
     brand: readString(row.brand) ?? readString(row.make) ?? "",
     model: readString(row.model) ?? "",

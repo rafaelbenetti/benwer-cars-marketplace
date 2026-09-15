@@ -61,6 +61,7 @@ export function CarCard({
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-muted">
         <CarPhoto
+          key={primaryPhoto ?? "empty"}
           src={primaryPhoto}
           alt={name}
           priority={priority}
@@ -139,6 +140,8 @@ function CarPhotoFallback({
 
   return (
     <div
+      role="img"
+      aria-label={emptyLabel}
       className={cn(
         "car-photo-fallback relative flex h-full flex-col items-center justify-center px-4",
         FALLBACK_TONE[type],

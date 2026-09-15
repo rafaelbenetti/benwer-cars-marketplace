@@ -11,10 +11,70 @@
     "trustArea": "Provincia de Málaga",
     "viewAllCompanies": "Ver todas las empresas"
   },
+  "featuredCars": {
+    "title": "Coches populares",
+    "subtitle": "Anuncios en vivo de flotas públicas: los mismos coches que las empresas gestionan en administración.",
+    "viewAll": "Buscar todos los coches",
+    "emptyTitle": "Aún no hay coches",
+    "emptyHint": "Las flotas públicas aparecerán aquí cuando las empresas las publiquen."
+  },
+  "trustStats": {
+    "title": "Del catálogo en vivo",
+    "source": "Del catálogo público en vivo",
+    "companies": "{count, plural, one {# empresa} other {# empresas}}",
+    "cars": "{count, plural, one {# coche público} other {# coches públicos}}",
+    "locations": "{count, plural, one {# zona de recogida} other {# zonas de recogida}}",
+    "area": "Provincia de Málaga",
+    "noAccount": "Sin cuenta para buscar",
+    "error": "No se han podido cargar las cifras en vivo."
+  },
+  "whatYouGet": {
+    "eyebrow": "Para empresas de alquiler",
+    "title": "Qué obtienes",
+    "subtitle": "Un mismo conjunto: oficina, patio y viajeros que buscan en Málaga.",
+    "admin": {
+      "title": "Sistema de administración completo",
+      "body": "Gestiona coches, precios, disponibilidad y reservas desde un solo panel de operaciones: el mismo catálogo que lee el marketplace."
+    },
+    "mobile": {
+      "title": "Aplicación móvil",
+      "body": "El equipo puede entregar y recoger coches y seguir las reservas del día desde el teléfono, no solo desde el escritorio."
+    },
+    "storefront": {
+      "title": "Escaparate de marca",
+      "body": "Un listado en el marketplace y una página de empresa (con subdominio opcional) para que los viajeros lleguen a tu flota y terminen en tu web."
+    }
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "subtitle": "Cómo funciona el alquiler y el listado en Benwer Cars.",
+    "items": {
+      "booking": {
+        "question": "¿Reservo y pago en Benwer?",
+        "answer": "No. Aquí comparas flotas públicas y continúas en la web de la empresa de alquiler para confirmar el contrato, el depósito y la recogida. Benwer no cobra en este marketplace."
+      },
+      "account": {
+        "question": "¿Necesito una cuenta?",
+        "answer": "No hace falta cuenta para buscar. Si nos escribes, solo usamos esos datos para responder."
+      },
+      "photos": {
+        "question": "¿Las fotos son de los coches de la empresa?",
+        "answer": "Sí: los anuncios usan los campos de imagen públicos de la API compartida, la misma flota que las empresas gestionan en administración. Si un coche aún no tiene foto pública, mostramos un estado vacío, no la foto de stock de otro coche."
+      },
+      "companies": {
+        "question": "¿Qué obtienen las empresas de alquiler?",
+        "answer": "Un escaparate público en el marketplace, un sistema de administración completo para la flota y una aplicación móvil para el equipo. Los días vacíos pueden convertirse en reservas de viajeros que ya buscan en Málaga."
+      },
+      "safety": {
+        "question": "¿Quién es responsable del alquiler?",
+        "answer": "El contrato es entre tú y la empresa de alquiler. Lee sus condiciones antes de confirmar. Benwer te ayuda a encontrar un coche; no alquila vehículos ni cobra aquí."
+      }
+    }
+  },
   "partners": {
     "eyebrow": "Para empresas de alquiler de coches",
     "title": "Convierte los días vacíos en reservas",
-    "description": "Los viajeros ya buscan coches en Benwer. Mantén tu flota al día en el marketplace y llena los días que, de otro modo, quedarían vacíos.",
+    "description": "Los viajeros ya buscan coches en Benwer en Málaga. Publica tu flota una vez y llena los días que, de otro modo, quedarían vacíos.",
     "cta": "Ver planes",
     "ctaAria": "Ver planes en el sitio de Benwer (se abre en una pestaña nueva)",
     "demo": "Ver demo en vivo",
@@ -33,17 +93,20 @@
   "tenant": {
     "notFoundTitle": "Empresa no encontrada",
     "notFoundDescription": "No se pudo cargar este escaparate.",
+    "loadErrorTitle": "No se pudieron cargar los detalles",
+    "loadErrorDescription": "No hemos podido cargar este escaparate del catálogo en vivo. Inténtalo de nuevo: no mostramos coches de ejemplo cuando falla la API.",
     "logoAlt": "Logotipo de {name}"
   },
   "howItWorks": {
     "title": "Cómo funciona",
-    "subtitle": "Encuentra un coche aquí y alquila en la web de la empresa.",
-    "searchTitle": "Busca",
-    "searchBody": "Elige ubicación y fechas",
-    "compareTitle": "Compara",
-    "compareBody": "Explora coches de flotas locales",
-    "continueTitle": "Continúa",
-    "continueBody": "Termina en la web de la empresa de alquiler"
+    "subtitle": "Busca flotas reales en la provincia de Málaga, compara coches públicos y termina el alquiler con la empresa — sin cuenta en Benwer.",
+    "stepLabel": "Paso {number}",
+    "searchTitle": "Busca fechas y lugar",
+    "searchBody": "Elige una ciudad de la Costa del Sol y los días que necesitas el coche. Los resultados salen de empresas que han publicado su flota.",
+    "compareTitle": "Compara coches reales",
+    "compareBody": "Consulta marca, modelo, plazas, transmisión y tarifa diaria. Abre un anuncio para ver fotos, ficha y disponibilidad del mismo catálogo que la empresa gestiona en administración.",
+    "continueTitle": "Reserva con la empresa",
+    "continueBody": "Continúa en la web de la empresa de alquiler para confirmar recogida, seguro y pago. Benwer te ayuda a encontrar el coche; la empresa formaliza el alquiler."
   },
   "search": {
     "locationLabel": "Lugar de recogida",
@@ -111,8 +174,8 @@
     "seatsPlus": "{count}+",
     "resultsCount": "{count, plural, one {# coche disponible} other {# coches disponibles}}",
     "resultsForDates": "{count, plural, one {# coche} other {# coches}} · {from} – {to}",
-    "emptyTitle": "Aún no hay coches",
-    "emptyHint": "Esta flota no tiene coches públicos ahora mismo.",
+    "emptyTitle": "Esta flota aún no es pública",
+    "emptyHint": "La empresa está listada, pero sus coches no están publicados en Benwer. Es lo esperado hasta que los marquen como públicos: la página no está rota.",
     "noResults": "Ningún coche coincide con esta búsqueda",
     "noResultsHint": "Prueba otras fechas, otra ubicación o menos filtros.",
     "datesRequiredTitle": "Añade tus fechas de viaje",
@@ -305,6 +368,8 @@
     "backToList": "Todas las empresas",
     "notFoundTitle": "Empresa no encontrada",
     "notFoundDescription": "Esta empresa no está listada. Explora otras cerca.",
+    "loadErrorTitle": "No se pudieron cargar los detalles",
+    "loadErrorDescription": "No hemos podido cargar esta empresa del catálogo en vivo. Inténtalo de nuevo: no mostramos coches de ejemplo cuando falla la API.",
     "browseCars": "Ver coches",
     "featuredEmpty": "Aún no hay empresas destacadas",
     "featuredEmptyHint": "Vuelve pronto o explora coches de flotas locales."

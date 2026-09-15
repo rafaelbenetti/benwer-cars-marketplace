@@ -14,18 +14,18 @@ export async function PartnersInvite() {
   return (
     <section
       id="partners"
-      className="rounded-2xl border border-border bg-surface px-4 py-8 text-foreground sm:px-10 sm:py-12 lg:px-14 lg:py-14"
+      className="rounded-2xl border border-border bg-surface px-4 py-6 text-foreground sm:px-8 sm:py-7"
     >
       <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
         {t("eyebrow")}
       </p>
-      <h2 className="mt-3 max-w-2xl text-2xl font-medium tracking-tight sm:text-3xl">
+      <h2 className="mt-2 max-w-2xl text-2xl font-medium tracking-tight sm:text-3xl">
         {t("title")}
       </h2>
-      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+      <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
         {t("description")}
       </p>
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
         <a
           href={plansHref}
           target="_blank"

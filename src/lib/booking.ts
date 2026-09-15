@@ -27,8 +27,8 @@ export function buildCarDetailHref(input: {
   isTenant?: boolean;
 }): string {
   const path = input.isTenant
-    ? `/cars/${input.carId}`
-    : `${NavRoutes.COMPANIES}/${input.companySlug}/cars/${input.carId}`;
+    ? `/cars/${encodeURIComponent(input.carId)}`
+    : `${NavRoutes.COMPANIES}/${encodeURIComponent(input.companySlug)}/cars/${encodeURIComponent(input.carId)}`;
 
   return appendSearchParams(path, {
     from: input.from,

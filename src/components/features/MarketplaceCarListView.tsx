@@ -96,7 +96,9 @@ function MarketplaceCarListContent() {
   }
 
   function buildHref(vehicle: Vehicle): string {
-    return appendSearchParams(`${NavRoutes.COMPANIES}/${vehicle.companySlug}/cars/${vehicle.id}`, {
+    return appendSearchParams(
+      `${NavRoutes.COMPANIES}/${encodeURIComponent(vehicle.companySlug)}/cars/${encodeURIComponent(vehicle.id)}`,
+      {
       location,
       from: browse.from,
       to: browse.to,

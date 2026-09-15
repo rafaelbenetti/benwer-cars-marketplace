@@ -16,7 +16,7 @@ export async function MarketplaceSearchHeader() {
           aria-hidden
           className="pointer-events-none absolute -bottom-24 -right-10 h-80 w-80 rounded-full bg-info/15 blur-3xl"
         />
-        <div className="relative mx-auto max-w-7xl px-4 pt-8 pb-16 md:px-6 md:pt-20 md:pb-28 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 pt-8 pb-14 md:px-6 md:pt-14 md:pb-20 lg:px-8">
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
             {t("eyebrow")}
           </p>

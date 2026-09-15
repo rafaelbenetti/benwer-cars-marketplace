@@ -64,7 +64,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const vehicles = await vehiclesApi.getByCompany(company.slug);
         for (const vehicle of vehicles) {
           vehicleRoutes.push({
-            url: absoluteUrl(`/companies/${company.slug}/cars/${vehicle.id}`),
+            url: absoluteUrl(
+              `/companies/${encodeURIComponent(company.slug)}/cars/${encodeURIComponent(vehicle.id)}`,
+            ),
             lastModified: now,
             changeFrequency: "weekly",
             priority: 0.7,

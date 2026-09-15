@@ -7,6 +7,58 @@ export const FILTER_VEHICLE_TYPES = [
   VehicleType.VAN,
 ] as const;
 
+const PUBLIC_VEHICLE_TYPE_QUERY = [
+  "economy",
+  "sedan",
+  "suv",
+  "minivan",
+  "van",
+  "other",
+] as const;
+
+export type PublicVehicleTypeQuery = (typeof PUBLIC_VEHICLE_TYPE_QUERY)[number];
+
+const PUBLIC_VEHICLE_TYPE_QUERY_SET = new Set<string>(PUBLIC_VEHICLE_TYPE_QUERY);
+
+export function toPublicVehicleTypeQuery(
+  type: string | undefined,
+): PublicVehicleTypeQuery | undefined {
+  if (!type || type === VehicleType.CAR) {
+    return undefined;
+  }
+
+  if (type === VehicleType.SUV) {
+    return "suv";
+  }
+
+  if (type === VehicleType.VAN) {
+    return "van";
+  }
+
+  if (PUBLIC_VEHICLE_TYPE_QUERY_SET.has(type)) {
+    return type as PublicVehicleTypeQuery;
+  }
+
+  return undefined;
+}
+
+export function toPublicVehicleListQuery(filters?: VehicleFilters) {
+  const type = toPublicVehicleTypeQuery(filters?.type);
+
+  return {
+    q: filters?.q,
+    type,
+    category: type,
+    seats: filters?.seats,
+    transmission: filters?.transmission,
+    from: filters?.from,
+    to: filters?.to,
+    sort: filters?.sort,
+    cursor: filters?.cursor,
+    limit: filters?.limit,
+  };
+}
+
 export const FILTER_SEAT_OPTIONS = [4, 5, 7] as const;
 
 const VEHICLE_TYPE_VALUES = new Set<string>(Object.values(VehicleType));

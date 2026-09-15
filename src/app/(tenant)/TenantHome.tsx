@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import type { Metadata } from "next";
 import { Building2 } from "lucide-react";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
 import { MarketplaceHeader } from "@/components/layout/MarketplaceHeader";
 import { TenantHeader } from "@/components/layout/TenantHeader";
@@ -8,8 +9,12 @@ import { CompanyBanner } from "@/components/layout/CompanyBanner";
 import { Footer } from "@/components/layout/Footer";
 import { CarListView } from "@/components/features/CarListView";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { PageLoadError } from "@/components/ui/PageLoadError";
 import { companiesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
+import { ApiError } from "@/lib/errors";
+import { logError } from "@/lib/logger";
+import { prefetchCompanyFleetState } from "@/lib/prefetchCompanyFleet";
 import { buildPageMetadata } from "@/lib/seo";
 
 export async function generateTenantMetadata(): Promise<Metadata> {
@@ -82,31 +87,63 @@ export async function TenantHome() {
   }
 
   let company = null;
+  let companyMissing = false;
+  let companyUnavailable = false;
   try {
     company = await companiesApi.getBySlug(companySlug);
-  } catch {
-    /* will fall back to slug-only display */
+  } catch (error) {
+    companyMissing =
+      error instanceof ApiError && error.code === "company.not_found";
+    companyUnavailable = !companyMissing;
+    logError(error, { context: "tenant_home", slug: companySlug });
   }
+
+  if (companyMissing || !company) {
+    return (
+      <>
+        <MarketplaceHeader />
+        <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-12 md:px-6 lg:px-8">
+          {companyUnavailable ? (
+            <PageLoadError
+              title={t("loadErrorTitle")}
+              description={t("loadErrorDescription")}
+            />
+          ) : (
+            <EmptyState
+              icon={<Building2 size={28} />}
+              title={t("notFoundTitle")}
+              description={t("notFoundDescription")}
+              actionLabel={tNotFound("action")}
+              actionHref={NavRoutes.HOME}
+            />
+          )}
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  const dehydratedState = await prefetchCompanyFleetState(company);
 
   return (
     <>
       <TenantHeader
-        companyName={company?.name ?? companySlug}
-        logoUrl={company?.branding.logoUrl}
+        companyName={company.name}
+        logoUrl={company.branding.logoUrl}
       />
-      {company ? (
-        <CompanyBanner
-          name={company.name}
-          logoUrl={company.branding.logoUrl}
-          description={company.description}
-          location={company.location}
-        />
-      ) : null}
+      <CompanyBanner
+        name={company.name}
+        logoUrl={company.branding.logoUrl}
+        description={company.description}
+        location={company.location}
+      />
       <main
         id="fleet"
         className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 py-8 md:px-6 lg:px-8"
       >
-        <CarListView companySlug={companySlug} hrefBase="/cars" />
+        <HydrationBoundary state={dehydratedState}>
+          <CarListView companySlug={companySlug} hrefBase="/cars" />
+        </HydrationBoundary>
       </main>
       <Footer />
     </>

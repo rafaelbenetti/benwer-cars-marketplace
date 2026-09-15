@@ -1,6 +1,12 @@
 import createClient, { type Middleware } from "openapi-fetch";
 import { env } from "@/env";
+import {
+  collapseDuplicateV1Path,
+  normalizeApiBaseUrl,
+  resolveBrowserApiBaseUrl,
+} from "@/lib/publicApiProxy";
 import { ApiError, type FieldError } from "@/lib/errors";
+import { logError } from "@/lib/logger";
 import type { paths } from "./schema";
 
 const LIVE_TIMEOUT_MS = 25000;
@@ -21,12 +27,16 @@ const CODE_ALIASES: Record<string, string> = {
   invalid_dates: "reservation.invalid_dates",
 };
 
-function liveApiBaseUrl(): string {
+export function liveApiBaseUrl(): string {
   if (typeof window === "undefined") {
-    return env.API_ORIGIN ?? env.NEXT_PUBLIC_API_URL ?? "";
+    return normalizeApiBaseUrl(env.API_ORIGIN ?? env.NEXT_PUBLIC_API_URL ?? "");
   }
 
-  return env.NEXT_PUBLIC_API_URL ?? "";
+  return resolveBrowserApiBaseUrl(
+    env.NEXT_PUBLIC_API_URL ?? "",
+    env.NEXT_PUBLIC_ENV,
+    window.location.origin,
+  );
 }
 
 export function isLiveApiConfigured(): boolean {
@@ -67,7 +77,17 @@ const problemMiddleware: Middleware = {
       headers.set("Accept", "application/json");
     }
 
-    return new Request(request, {
+    const url = collapseDuplicateV1Path(request.url);
+    if (url !== request.url) {
+      logError(new Error("collapsed duplicate /v1 in public API URL"), {
+        context: "api_base_url",
+        from: request.url,
+        to: url,
+      });
+    }
+    const source = url === request.url ? request : new Request(url, request);
+
+    return new Request(source, {
       headers,
       cache: "no-store",
       signal: request.signal ?? AbortSignal.timeout(LIVE_TIMEOUT_MS),

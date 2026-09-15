@@ -197,6 +197,69 @@ describe("mapVehicleList", () => {
     ]);
   });
 
+  it("reads signedUrl and publicUrl photo objects", () => {
+    const vehicle = mapVehicle({
+      id: "v-signed",
+      make: "SEAT",
+      model: "Ibiza",
+      photos: [
+        { publicUrl: "https://cdn.example/public.jpg" },
+        { signedUrl: "https://cdn.example/signed.jpg?X-Amz-Signature=abc" },
+      ],
+    });
+
+    expect(vehicle.photos).toEqual([
+      "https://cdn.example/public.jpg",
+      "https://cdn.example/signed.jpg?X-Amz-Signature=abc",
+    ]);
+  });
+
+  it("maps economy, sedan, and other categories to car for display", () => {
+    expect(mapVehicle({ id: "1", category: "economy" }).type).toBe(VehicleType.CAR);
+    expect(mapVehicle({ id: "2", type: "sedan" }).type).toBe(VehicleType.CAR);
+    expect(mapVehicle({ id: "3", category: "other" }).type).toBe(VehicleType.CAR);
+  });
+
+  it("reads vehicle_photo attachments before stock_photo", () => {
+    const vehicle = mapVehicle({
+      id: "v-attach",
+      make: "Peugeot",
+      model: "208",
+      attachments: [
+        { kind: "stock_photo", url: "https://cdn.example/stock.jpg" },
+        { kind: "vehicle_photo", publicUrl: "https://cdn.example/real.jpg" },
+      ],
+    });
+
+    expect(vehicle.photos).toEqual([
+      "https://cdn.example/real.jpg",
+      "https://cdn.example/stock.jpg",
+    ]);
+  });
+
+  it("does not invent placeholder photos when the API sends an empty list", () => {
+    const vehicle = mapVehicle({
+      id: "v-empty",
+      make: "Peugeot",
+      model: "208",
+      photos: [],
+    });
+
+    expect(vehicle.photos).toEqual([]);
+  });
+
+  it("maps numeric ids and admin image collections", () => {
+    const vehicle = mapVehicle({
+      id: 42,
+      make: "SEAT",
+      model: "Ibiza",
+      images: [{ publicUrl: "https://cdn.example/admin.jpg" }],
+    });
+
+    expect(vehicle.id).toBe("42");
+    expect(vehicle.photos).toEqual(["https://cdn.example/admin.jpg"]);
+  });
+
   it("rewrites LocalStack photo hosts to same-origin /localstack paths", () => {
     const vehicle = mapVehicle({
       id: "v-localstack",

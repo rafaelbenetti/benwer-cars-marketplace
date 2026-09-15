@@ -1,6 +1,6 @@
-import { env } from "@/env";
+import { joinApiUrl } from "@/lib/publicApiProxy";
 import { ApiError } from "@/lib/errors";
-import { isLiveApiConfigured } from "./client";
+import { isLiveApiConfigured, liveApiBaseUrl } from "./client";
 
 export const MARKETPLACE_CONTACT_SOURCE = "marketplace" as const;
 
@@ -22,13 +22,8 @@ export function buildMarketplaceContactBody(payload: ContactPayload) {
 }
 
 function contactUrl(): string {
-  if (typeof window === "undefined") {
-    const origin = env.API_ORIGIN ?? env.NEXT_PUBLIC_API_URL ?? "";
-    return origin ? `${origin.replace(/\/$/, "")}/v1/contact` : "";
-  }
-
-  const origin = env.NEXT_PUBLIC_API_URL ?? "";
-  return origin ? `${origin.replace(/\/$/, "")}/v1/contact` : "";
+  const origin = liveApiBaseUrl();
+  return origin ? joinApiUrl(origin, "/v1/contact") : "";
 }
 
 export const contactApi = {

@@ -37,7 +37,7 @@ Several pieces are chosen but not yet scaffolded — do not import them until th
 - ❌ React Testing Library — chosen for component unit tests, not installed yet. See [testing.md](./testing.md).
 - ❌ MSW — chosen mock/dev layer; not set up yet. Only a read-only `mockClient.get` over `public/mock-data/*.json` exists.
 - ✅ Vitest — installed for mapper/service unit tests (`npm test`).
-- ✅ Public API client — `openapi-fetch` + generated `paths` (`npm run generate:api`) targets `/v1/public/*` when `NEXT_PUBLIC_API_URL` / `API_ORIGIN` is set; services fall back to `mockClient` only if the live API is unset or unreachable.
+- ✅ Public API client — `openapi-fetch` + generated `paths` (`npm run generate:api`) targets `/v1/public/*` when `NEXT_PUBLIC_API_URL` / `API_ORIGIN` is set; services fall back to `mockClient` only when `NEXT_PUBLIC_ENV=local` and `NODE_ENV` is not `production`. Staging/production never swap in mock photos on CORS or API failure.
 - ✅ next-intl — wired with shared ICU messages under `messages/<locale>/{common,marketplace}.json`. Two locales: **British English (`en-GB`)** and **Spain Spanish (`es-ES`)**.
 - ✅ Semantic Tailwind tokens — defined in `src/app/globals.css`; per-tenant `--primary` override supported.
 - ✅ Mode detection — `src/proxy.ts` injects `x-company-slug` from the host header and rewrites tenant traffic to `/tenant`.

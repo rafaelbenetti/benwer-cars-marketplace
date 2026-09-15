@@ -74,7 +74,7 @@ function CarListViewContent({
   }
 
   function buildHref(vehicle: Vehicle): string {
-    return appendSearchParams(`${hrefBase}/${vehicle.id}`, {
+    return appendSearchParams(`${hrefBase}/${encodeURIComponent(vehicle.id)}`, {
       location: browse.location,
       from: browse.from,
       to: browse.to,

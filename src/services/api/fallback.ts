@@ -1,43 +1,30 @@
+import { env } from "@/env";
 import { logError } from "@/lib/logger";
+import { isUnreachableError, shouldUseMockFallback } from "@/lib/publicApiProxy";
 import { isLiveApiConfigured } from "./client";
-
-function isUnreachableError(error: unknown): boolean {
-  if (error instanceof TypeError) {
-    return true;
-  }
-
-  if (error instanceof DOMException && error.name === "AbortError") {
-    return true;
-  }
-
-  if (error instanceof Error) {
-    const message = error.message.toLowerCase();
-    return (
-      message.includes("fetch failed") ||
-      message.includes("network") ||
-      message.includes("econnrefused") ||
-      message.includes("enotfound") ||
-      message.includes("etimedout") ||
-      message.includes("aborted")
-    );
-  }
-
-  return false;
-}
 
 export async function withMockFallback<T>(
   live: () => Promise<T>,
   mock: () => Promise<T>,
   context: string,
 ): Promise<T> {
+  const allowMock = shouldUseMockFallback(
+    env.NEXT_PUBLIC_ENV,
+    process.env.NODE_ENV,
+  );
+
   if (!isLiveApiConfigured()) {
+    if (!allowMock) {
+      throw new Error(`Live API is not configured (${context})`);
+    }
+
     return mock();
   }
 
   try {
     return await live();
   } catch (error) {
-    if (!isUnreachableError(error)) {
+    if (!allowMock || !isUnreachableError(error)) {
       throw error;
     }
 

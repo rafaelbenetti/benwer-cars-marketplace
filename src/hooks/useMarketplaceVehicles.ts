@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { vehiclesApi } from "@/services/api";
-import { QueryKeys } from "@/enums";
+import { marketplaceVehiclesQueryKey } from "@/lib/queryKeys";
 import type { MarketplaceSearchFilters } from "@/types/vehicle";
 
 export function useMarketplaceVehicles(
@@ -10,7 +10,7 @@ export function useMarketplaceVehicles(
   enabled = true,
 ) {
   return useQuery({
-    queryKey: [QueryKeys.VEHICLES, "marketplace", filters],
+    queryKey: marketplaceVehiclesQueryKey(filters),
     queryFn: () => vehiclesApi.searchMarketplace(filters),
     enabled,
   });

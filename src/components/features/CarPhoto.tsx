@@ -24,43 +24,47 @@ export function CarPhoto({
   className,
   fallback,
 }: CarPhotoProps) {
-  const [failed, setFailed] = useState(false);
-  const [natural, setNatural] = useState<{ width: number; height: number } | null>(
-    null,
-  );
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const [natural, setNatural] = useState<{
+    src: string;
+    width: number;
+    height: number;
+  } | null>(null);
 
-  if (!src || failed) {
+  if (!src || failedSrc === src) {
     return fallback;
   }
 
   const unoptimized = shouldSkipImageOptimization(src);
+  const measured = natural?.src === src ? natural : null;
 
   if (fit === "contain") {
     return (
       <Image
         src={src}
         alt={alt}
-        width={natural?.width ?? 1600}
-        height={natural?.height ?? 1000}
+        width={measured?.width ?? 1600}
+        height={measured?.height ?? 1000}
         priority={priority}
         sizes={sizes}
         unoptimized={unoptimized}
         className={cn("h-auto w-auto max-h-full max-w-full object-contain", className)}
         style={
-          natural
-            ? { maxWidth: natural.width, maxHeight: natural.height }
+          measured
+            ? { maxWidth: measured.width, maxHeight: measured.height }
             : undefined
         }
         onLoad={(event) => {
           const image = event.currentTarget;
           if (image.naturalWidth > 0 && image.naturalHeight > 0) {
             setNatural({
+              src,
               width: image.naturalWidth,
               height: image.naturalHeight,
             });
           }
         }}
-        onError={() => setFailed(true)}
+        onError={() => setFailedSrc(src)}
       />
     );
   }
@@ -74,7 +78,7 @@ export function CarPhoto({
       sizes={sizes}
       unoptimized={unoptimized}
       className={cn("absolute inset-0 size-full object-cover", className)}
-      onError={() => setFailed(true)}
+      onError={() => setFailedSrc(src)}
     />
   );
 }
