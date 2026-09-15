@@ -103,7 +103,7 @@ messages/
   en-GB/  common.json  marketplace.json
   es-ES/  common.json  marketplace.json
 public/
-  mock-data/             JSON fixtures used by mockClient
+  mock-data/             Isolated-test fixtures only — not served as live catalogue
 ```
 
 ## Rendering model
@@ -139,20 +139,20 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
   In staging/production the browser uses the same-origin `/api` BFF when
   `NEXT_PUBLIC_API_URL` is missing or points at a cross-origin API host
   (avoids CORS and the old mock fallback). Requests use `cache: "no-store"`.
-- `mockClient.get<T>(path)` — reads `public/mock-data/*.json`.
+- `mockClient.get<T>(path)` — reads `public/mock-data/*.json` **only** when
+  `BENWER_ALLOW_MOCK_CATALOGUE=1` in a non-production local test. The live
+  vehicles, companies, availability, and reservations services never call it.
 
-Services call live first when an API URL is configured, via `withMockFallback`.
-Mock JSON is used **only** when `NEXT_PUBLIC_ENV=local` **and** `NODE_ENV` is
-not `production`, and the live API is unset or unreachable (network / DNS /
-timeout / browser CORS `Failed to fetch`). Staging, production, and any
-`NODE_ENV=production` build fail loudly — they never substitute
-`public/mock-data` stock photos. HTTP 4xx and 5xx from a reachable API are
-surfaced as `ApiError`. Unset `NEXT_PUBLIC_ENV` defaults to `production` when
-`NODE_ENV=production` so a missed Vercel var cannot revive mock cars. List
-responses are `{ data, page }` (`unwrapList` reads `response.data`; raw arrays
-remain a fallback). Mappers accept marketplace aliases (`brand`, `type`,
-`pricePerDay`, `fuel`, `unavailableDates`) and admin names (`make`, `category`,
-`dailyRate`, `fuelType`, `{ available, conflicts }`).
+Services call the live public API. If `API_ORIGIN` / `NEXT_PUBLIC_API_URL` is
+unset, or the API is unreachable (network / DNS / timeout / CORS
+`Failed to fetch`), the UI shows its error or empty state — never Denver Cars
+or `/mock-data/cars/*.jpg`. `NEXT_PUBLIC_ENV=local` does **not** enable mock
+catalogue data. HTTP 4xx and 5xx from a reachable API are surfaced as
+`ApiError`. Unset `NEXT_PUBLIC_ENV` defaults to `production` when
+`NODE_ENV=production`. List responses are `{ data, page }` (`unwrapList` reads
+`response.data`; raw arrays remain a fallback). Mappers accept marketplace
+aliases (`brand`, `type`, `pricePerDay`, `fuel`, `unavailableDates`) and admin
+names (`make`, `category`, `dailyRate`, `fuelType`, `{ available, conflicts }`).
 
 
 ## Per-tenant branding

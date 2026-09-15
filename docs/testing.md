@@ -120,9 +120,12 @@ languages.forEach((lang) => {
 
 ## Network mocking
 
-- Prefer **MSW** handlers (shared with dev and unit tests).
+- Prefer **MSW** handlers (shared with unit tests) once scaffolded.
 - Fall back to `page.route()` for per-test overrides.
 - Test both success and error scenarios (drive the UI error state).
+- Never point Playwright at `public/mock-data` as a stand-in catalogue. Isolated
+  unit tests may opt into those fixtures with `BENWER_ALLOW_MOCK_CATALOGUE=1`;
+  the running marketplace never does.
 
 ---
 

@@ -1,6 +1,7 @@
 import createClient, { type Middleware } from "openapi-fetch";
 import { env } from "@/env";
 import {
+  assertMockCatalogueAllowed,
   collapseDuplicateV1Path,
   normalizeApiBaseUrl,
   resolveBrowserApiBaseUrl,
@@ -109,6 +110,10 @@ let cached:
 
 export function getOpenApiClient() {
   const baseUrl = liveApiBaseUrl();
+  if (!baseUrl) {
+    throw new ApiError(0, "network", [], "Live API is not configured");
+  }
+
   if (cached && cached.baseUrl === baseUrl) {
     return cached.client;
   }
@@ -133,6 +138,8 @@ function mockUrl(path: string): string {
 
 export const mockClient = {
   get<T>(path: string): Promise<T> {
+    assertMockCatalogueAllowed(env.NEXT_PUBLIC_ENV, process.env.NODE_ENV);
+
     return fetch(mockUrl(path), { cache: "no-store" }).then((response) => {
       if (!response.ok) {
         throw new ApiError(response.status, "unknown");

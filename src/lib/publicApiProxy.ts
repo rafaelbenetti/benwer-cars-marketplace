@@ -55,15 +55,28 @@ export function resolveBrowserApiBaseUrl(
   return base;
 }
 
+export const MOCK_CATALOGUE_OPT_IN_ENV = "BENWER_ALLOW_MOCK_CATALOGUE";
+
 export function shouldUseMockFallback(
   publicEnv: "local" | "staging" | "production",
   nodeEnv = process.env.NODE_ENV,
+  mockCatalogueOptIn = process.env[MOCK_CATALOGUE_OPT_IN_ENV],
 ): boolean {
   if (nodeEnv === "production") {
     return false;
   }
 
-  return publicEnv === "local";
+  return mockCatalogueOptIn === "1" && publicEnv === "local";
+}
+
+export function assertMockCatalogueAllowed(
+  publicEnv: "local" | "staging" | "production",
+  nodeEnv = process.env.NODE_ENV,
+  mockCatalogueOptIn = process.env[MOCK_CATALOGUE_OPT_IN_ENV],
+): void {
+  if (!shouldUseMockFallback(publicEnv, nodeEnv, mockCatalogueOptIn)) {
+    throw new Error("Mock catalogue is disabled");
+  }
 }
 
 export function isAllowedPublicApiProxyPath(method: string, path: string): boolean {
