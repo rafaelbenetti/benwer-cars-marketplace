@@ -67,9 +67,13 @@ docker compose -f docker-compose-local.yml up --build
 ```
 
 Confirm: `curl -s http://localhost:8080/healthz`
-Confirm seed: `curl -s http://localhost:8080/v1/public/companies` — expect live
-seed companies (for example `med-rentacar`, `benetti-cars`), not Denver Cars
-from `public/mock-data`.
+Confirm seed (`benwer-cars-api` `main` at `dda5afd` and later):
+`curl -s http://localhost:8080/v1/public/companies` — **6 public companies**
+with locations and `vehicleCount`, and **37 public vehicles** whose photos are
+LocalStack URLs (`http://localhost:4566/...`, rewritten to `/localstack/...`).
+If that catalogue is missing, reseed the **local** API — never point this app
+at production. Denver Cars / `/mock-data/cars/*.jpg` means the marketplace is
+still on the old mock path (this must not happen).
 
 ### 2. Start the marketplace
 

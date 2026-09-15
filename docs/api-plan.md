@@ -60,16 +60,17 @@ Response: `{ data: Company[], page: { total, nextCursor } }`
 
 Query params: `?q=` (search by name/location), `?location=&from=&to=`, `?cursor=&limit=`.
 
-Returns companies where `isPublic = true`. The current API seed exposes **3 `isPublic` companies** (2 in Málaga
-province). A sparse marketplace directory is expected until more companies
-are published — not a client filter bug. Seed companies for
-`location=malaga` include `med-rentacar` and `benetti-cars`.
+Returns companies where `isPublic = true`. Local `benwer-cars-api` seed
+(`main` at `dda5afd` and later) exposes **6 public companies** with locations
+and `vehicleCount`, plus **37 public vehicles** with LocalStack photo URLs.
+Do not point the marketplace at production to fill that catalogue — reseed
+the local API if counts or photos are wrong.
 
 Company fields include `slug`, branding, `location` / `locationSlug`, optional
 `latitude` / `longitude`, and `vehicleCount`. The marketplace map prefers API
 coordinates and falls back to `src/data/malagaCityCoordinates.ts` city
-centroids when lat/lng are omitted. The mock layer still derives `vehicleCount`
-from listed vehicles (and the current `from`/`to` window).
+centroids when lat/lng are omitted. The live API is the only catalogue source;
+`vehicleCount` comes from the public companies payload, not mock JSON.
 
 ---
 
@@ -222,9 +223,11 @@ Allow the marketplace origins: `marketplace.benwer.es`, `*.benwer.es`, and
 the same attachments (`kind=vehicle_photo`) + stock_photo fallback admin uses,
 maps invalid `type=car` to economy/sedan/other, and fixes CORS 403 on
 `/v1/public/*` for `marketplace.benwer.es`. Until it ships, public vehicles may
-still return `photos: []`. **Never run `db/seed/seed.sql` on production** (it
-truncates). Image upload only: `./db/seed/upload-seed-images-to-s3.sh` per the
-API `db/seed/README.md`.
+**Never run `db/seed/seed.sql` on production** (it truncates). Image upload
+only: `./db/seed/upload-seed-images-to-s3.sh` per the API `db/seed/README.md`.
+Local seed on API `main` (`dda5afd+`) already has 6 public companies and 37
+vehicles with LocalStack photo URLs — reseed locally if that is missing; do
+not call production APIs from this app.
 
 The marketplace always uses the live API (`API_ORIGIN` / `NEXT_PUBLIC_API_URL`).
 Local needs `benwer-cars-api` running with seed data — the app will not fake a
@@ -235,7 +238,7 @@ catalogue. If those URLs are unset or the API is unreachable (network / CORS
 | Contract | Marketplace handling |
 | --- | --- |
 | List endpoints return `{ data, page }`, not raw arrays. | `unwrapList` reads `payload.data` first. Raw arrays (older deploys) still unwrap. Isolated-test fixtures under `public/mock-data/*.json` use the same envelope but are not read by the running app. |
-| Companies accept `location`, `from`/`to`, `q`, cursor pagination. Fields include `slug`, branding, `location`/`locationSlug`, optional lat/lng, `vehicleCount`. `location=malaga` seeds include `med-rentacar` and `benetti-cars`. | Live client sends those query params, including province-wide `malaga`. Client-side city filtering skips `malaga`. Map pins prefer API coordinates. |
+| Companies accept `location`, `from`/`to`, `q`, cursor pagination. Fields include `slug`, branding, `location`/`locationSlug`, optional lat/lng, `vehicleCount`. Local seed (`dda5afd+`) has 6 public companies with those fields and 37 vehicles with LocalStack photo URLs. | Live client sends those query params, including province-wide `malaga`. Client-side city filtering skips `malaga`. Map pins prefer API coordinates. Never fill gaps from production or `public/mock-data`. |
 | Vehicle `type`/`category` query values are `economy\|sedan\|suv\|minivan\|van\|other`. `type=car` is invalid on current API (empty list). | Marketplace never sends `type=car`. UI “Car” omits the query and filters economy/sedan/other/`car` client-side after mapping. SUV/van send `suv`/`van`. |
 | Vehicles expose aliases `brand`, `type`, `pricePerDay`, `fuel` plus admin names (`make`, `category`, `dailyRate`, `fuelType`). Photos may be `photos[]`, `photoUrl`, or attachments `kind=vehicle_photo` (stock_photo fallback). CDN/S3 URLs, protocol-relative hosts, signed URLs, or object keys. | Mapper prefers marketplace aliases, then admin names. Attachment `vehicle_photo` wins over `stock_photo`. `http(s)` and `//host/...` photo URLs are passed to `next/image`. Bare keys and `s3://bucket/key` are prefixed with `NEXT_PUBLIC_MEDIA_ORIGIN` when set; otherwise they are dropped and the UI shows the photo empty-state (never a mock Corolla/SUV/Tesla jpg). LocalStack hosts (`localhost:4566`, `127.0.0.1:4566`) are rewritten to same-origin `/localstack/...`. |
 | Empty public fleets (`is_public=false` on vehicles) are expected. Admin still cannot set that flag on create/update. | Company page is not an error: empty state explains the fleet is not public yet. |
