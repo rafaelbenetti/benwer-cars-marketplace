@@ -1,19 +1,19 @@
 {
   "home": {
     "title": "Encuentra tu coche perfecto",
-    "subtitle": "Compara flotas locales y continúa en la web de la empresa de alquiler.",
+    "subtitle": "Compara coches de empresas de alquiler asociadas y continúa en la web de la empresa.",
     "searchPlaceholder": "¿A dónde vas?",
     "eyebrow": "Málaga · Costa del Sol",
     "companiesHeading": "Empresas destacadas",
-    "companiesSubtitle": "Operadores locales de confianza en la provincia de Málaga",
-    "trustLocal": "Empresas locales",
+    "companiesSubtitle": "Empresas de alquiler asociadas en la provincia de Málaga — flotas con las que colaboramos, no anuncios sin verificar",
+    "trustLocal": "Empresas asociadas",
     "trustGuest": "Alquila en la web de la empresa",
     "trustArea": "Provincia de Málaga",
     "viewAllCompanies": "Ver todas las empresas"
   },
   "featuredCars": {
     "title": "Coches populares",
-    "subtitle": "Anuncios en vivo de flotas públicas: los mismos coches que las empresas gestionan en administración.",
+    "subtitle": "Anuncios en vivo de flotas asociadas: los mismos coches que las empresas gestionan en administración.",
     "viewAll": "Buscar todos los coches",
     "emptyTitle": "Aún no hay coches",
     "emptyHint": "Las flotas públicas aparecerán aquí cuando las empresas las publiquen."
@@ -36,37 +36,54 @@
     }
   },
   "faq": {
-    "title": "Preguntas frecuentes",
-    "subtitle": "Cómo funciona el alquiler y el listado en Benwer Cars.",
+    "title": "Antes de reservar",
+    "subtitle": "Flotas asociadas, cómo funciona la reserva y qué hace Benwer — y qué no.",
     "items": {
+      "partners": {
+        "question": "¿Estos coches son de empresas de alquiler reales?",
+        "answer": "Sí. Cada anuncio es un coche público de un socio de Benwer: una empresa de alquiler con la que colaboramos, no un anuncio privado sin verificar. Si una empresa o un coche no está publicado en la plataforma, no aparece aquí."
+      },
       "booking": {
         "question": "¿Reservo y pago en Benwer?",
-        "answer": "No. Aquí comparas flotas públicas y continúas en la web de la empresa de alquiler para confirmar el contrato, el depósito y la recogida. Benwer no cobra en este marketplace."
+        "answer": "No. Aquí comparas flotas asociadas y continúas en la web de la empresa de alquiler para confirmar el contrato, el depósito y la recogida. Benwer no cobra en este marketplace."
+      },
+      "photos": {
+        "question": "¿Puedo fiarme de las fotos y la disponibilidad?",
+        "answer": "Los anuncios usan las fotos y la disponibilidad públicas que publica la empresa asociada: el mismo catálogo que gestiona en administración. Si un coche aún no tiene foto pública, mostramos un estado vacío, no la foto de stock de otro coche. La disponibilidad final se confirma en la web de la empresa."
       },
       "account": {
         "question": "¿Necesito una cuenta?",
         "answer": "No hace falta cuenta para buscar. Si nos escribes, solo usamos esos datos para responder."
       },
-      "photos": {
-        "question": "¿Las fotos son de los coches de la empresa?",
-        "answer": "Sí: los anuncios usan los campos de imagen públicos de la API compartida, la misma flota que las empresas gestionan en administración. Si un coche aún no tiene foto pública, mostramos un estado vacío, no la foto de stock de otro coche."
-      },
-      "companies": {
-        "question": "¿Qué obtienen las empresas de alquiler?",
-        "answer": "Un escaparate público en el marketplace, un sistema de administración completo para la flota y una aplicación móvil para el equipo. Los días vacíos pueden convertirse en reservas de viajeros que ya buscan en Málaga."
-      },
       "safety": {
         "question": "¿Quién es responsable del alquiler?",
-        "answer": "El contrato es entre tú y la empresa de alquiler. Lee sus condiciones antes de confirmar. Benwer te ayuda a encontrar un coche; no alquila vehículos ni cobra aquí."
+        "answer": "El contrato es entre tú y la empresa de alquiler asociada. Lee sus condiciones antes de confirmar. Benwer te ayuda a encontrar un coche de una flota asociada; no alquila vehículos ni cobra aquí."
       }
+    }
+  },
+  "appBanner": {
+    "eyebrow": "En tu teléfono",
+    "title": "La app de Benwer Cars",
+    "comingSoon": "Próximamente",
+    "description": "Busca flotas asociadas sobre la marcha y ten a mano los detalles de tu viaje, para continuar en el teléfono donde lo dejaste. Los enlaces a las tiendas se abrirán aquí cuando la app esté disponible.",
+    "scanToDownload": "Escanea para descargar",
+    "appStore": {
+      "prefix": "Descárgala en",
+      "name": "App Store",
+      "aria": "Descargar en App Store, próximamente"
+    },
+    "googlePlay": {
+      "prefix": "Disponible en",
+      "name": "Google Play",
+      "aria": "Disponible en Google Play, próximamente"
     }
   },
   "partners": {
     "eyebrow": "Para empresas de alquiler de coches",
     "title": "Convierte los días vacíos en reservas",
     "description": "Los viajeros ya buscan coches en Benwer en Málaga. Publica tu flota una vez y llena los días que, de otro modo, quedarían vacíos.",
-    "cta": "Ver planes",
-    "ctaAria": "Ver planes en el sitio de Benwer (se abre en una pestaña nueva)",
+    "cta": "Saber más",
+    "ctaAria": "Saber más en el sitio de Benwer (se abre en una pestaña nueva)",
     "demo": "Ver demo en vivo",
     "demoAria": "Ver la demo en vivo (se abre en una pestaña nueva)"
   },
@@ -89,14 +106,14 @@
   },
   "howItWorks": {
     "title": "Cómo funciona",
-    "subtitle": "Busca flotas reales en la provincia de Málaga, compara coches públicos y termina el alquiler con la empresa — sin cuenta en Benwer.",
+    "subtitle": "Busca coches de empresas de alquiler asociadas en la provincia de Málaga, compara flotas públicas y termina el alquiler con la empresa — sin cuenta en Benwer.",
     "stepLabel": "Paso {number}",
     "searchTitle": "Busca fechas y lugar",
-    "searchBody": "Elige una ciudad de la Costa del Sol y los días que necesitas el coche. Los resultados salen de empresas que han publicado su flota.",
+    "searchBody": "Elige una ciudad de la Costa del Sol y los días que necesitas el coche. Cada resultado proviene de un socio de Benwer que ha publicado su flota, no de anuncios privados sin verificar.",
     "compareTitle": "Compara coches reales",
-    "compareBody": "Consulta marca, modelo, plazas, transmisión y tarifa diaria. Abre un anuncio para ver fotos, ficha y disponibilidad del mismo catálogo que la empresa gestiona en administración.",
+    "compareBody": "Consulta marca, modelo, plazas, transmisión y tarifa diaria. Abre un anuncio para ver fotos, ficha y disponibilidad del mismo catálogo que la empresa asociada gestiona en administración.",
     "continueTitle": "Reserva con la empresa",
-    "continueBody": "Continúa en la web de la empresa de alquiler para confirmar recogida, seguro y pago. Benwer te ayuda a encontrar el coche; la empresa formaliza el alquiler."
+    "continueBody": "Continúa en la web de la empresa de alquiler para confirmar recogida, seguro y pago. Benwer te ayuda a encontrar un coche de una flota asociada; la empresa formaliza el alquiler."
   },
   "search": {
     "locationLabel": "Lugar de recogida",
@@ -345,7 +362,7 @@
   },
   "companies": {
     "title": "Empresas de alquiler",
-    "subtitle": "Explora operadores locales de confianza en Málaga — en el mapa o en la lista",
+    "subtitle": "Explora empresas de alquiler asociadas en Málaga — en el mapa o en la lista",
     "searchPlaceholder": "Buscar empresas…",
     "noResults": "No se encontraron empresas",
     "noResultsHint": "Prueba otra ubicación en la provincia de Málaga.",
