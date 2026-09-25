@@ -17,6 +17,16 @@ per-company branded storefronts (tenant subdomains) and a global multi-company
 marketplace. **Frontend only** — the API and other clients live in separate
 repositories.
 
+## Token efficiency (read first)
+
+Follow [`docs/agent-token-efficiency.md`](./docs/agent-token-efficiency.md).
+Repo-specific, high-impact rules:
+
+- **Tests:** run one suite at a time; never the full suite to check one test.
+- **Never** read `src/services/api/generated/**`, `coverage/`, or `.next/`.
+- Scratch files go in the agent store — never in `scripts/`.
+- Search before reading — never `Read` a large file whole.
+
 ## Before you code
 
 **Do not write or edit code until these are read.** Nested docs are the source of
