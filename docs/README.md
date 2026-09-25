@@ -17,6 +17,7 @@ here conflicts with older code, the docs win and the code should be migrated.
 | [tech-decisions.md](./tech-decisions.md) | Libraries we use (and rejected) and why |
 | [api-plan.md](./api-plan.md) | Public API contract the marketplace expects from the backend |
 | [testing.md](./testing.md) | How we test (Playwright e2e + Vitest unit) |
+| [cicd.md](./cicd.md) | Vercel branches, promote/rollback |
 
 ## The 10-second version
 
