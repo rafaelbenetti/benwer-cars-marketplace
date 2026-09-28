@@ -29,16 +29,16 @@ operators and have no account. The experience must be simple, visual, and fast.
 
 ## Pages
 
-| Page | Mode | Purpose |
-| --- | --- | --- |
-| **Home** | Tenant | Company hero + car grid + date search |
-| **Home** | Marketplace | Company search + featured listings |
-| **Companies** | Marketplace | Browse participating companies on a Málaga-province map and list |
-| **Company page** | Marketplace | One company's car grid (same layout as tenant home) |
-| **Car detail** | Both | Photos, specs, price, availability calendar, booking CTA |
-| **Book** | Both | Guest booking form (name, email, phone, dates) |
-| **Booking confirmation** | Both | Post-booking summary + confirmation token |
-| **Booking status** | Both | Reservation lookup via token from confirmation email |
+| Page                     | Mode        | Purpose                                                          |
+| ------------------------ | ----------- | ---------------------------------------------------------------- |
+| **Home**                 | Tenant      | Company hero + car grid + date search                            |
+| **Home**                 | Marketplace | Company search + featured listings                               |
+| **Companies**            | Marketplace | Browse participating companies on a Málaga-province map and list |
+| **Company page**         | Marketplace | One company's car grid (same layout as tenant home)              |
+| **Car detail**           | Both        | Photos, specs, price, availability calendar, booking CTA         |
+| **Book**                 | Both        | Guest booking form (name, email, phone, dates)                   |
+| **Booking confirmation** | Both        | Post-booking summary + confirmation token                        |
+| **Booking status**       | Both        | Reservation lookup via token from confirmation email             |
 
 ## Guest booking flow
 

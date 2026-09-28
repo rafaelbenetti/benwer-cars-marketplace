@@ -1,7 +1,13 @@
 import { ChevronDown } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
-const FAQ_ITEMS = ["partners", "booking", "photos", "account", "safety"] as const;
+const FAQ_ITEMS = [
+  "partners",
+  "booking",
+  "photos",
+  "account",
+  "safety",
+] as const;
 
 export async function MarketplaceFaq() {
   const t = await getTranslations("faq");

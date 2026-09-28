@@ -9,7 +9,9 @@ export function FilterGroup({
 }) {
   return (
     <fieldset className="min-w-0">
-      <legend className="mb-2 text-xs font-medium text-muted-foreground">{legend}</legend>
+      <legend className="mb-2 text-xs font-medium text-muted-foreground">
+        {legend}
+      </legend>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </fieldset>
   );

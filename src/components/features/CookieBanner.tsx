@@ -19,7 +19,9 @@ function readConsent(): CookieChoice | null {
 
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
-  const [choice, setChoice] = useState<CookieChoice | null>(() => readConsent());
+  const [choice, setChoice] = useState<CookieChoice | null>(() =>
+    readConsent(),
+  );
 
   if (choice !== null) {
     return null;
@@ -50,7 +52,10 @@ export function CookieBanner() {
           >
             {t("necessary")}
           </Button>
-          <Button className="min-h-11 w-full sm:w-auto" onClick={() => accept("all")}>
+          <Button
+            className="min-h-11 w-full sm:w-auto"
+            onClick={() => accept("all")}
+          >
             {t("accept")}
           </Button>
         </div>

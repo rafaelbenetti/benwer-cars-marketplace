@@ -44,7 +44,9 @@ export function Sheet({
                   {description}
                 </Dialog.Description>
               ) : (
-                <Dialog.Description className="sr-only">{title}</Dialog.Description>
+                <Dialog.Description className="sr-only">
+                  {title}
+                </Dialog.Description>
               )}
             </div>
             <Dialog.Close asChild>

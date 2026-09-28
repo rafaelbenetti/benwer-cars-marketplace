@@ -3,7 +3,8 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
-const LOCALSTACK_ORIGIN = process.env.LOCALSTACK_ORIGIN ?? "http://localhost:4566";
+const LOCALSTACK_ORIGIN =
+  process.env.LOCALSTACK_ORIGIN ?? "http://localhost:4566";
 
 function extraMediaRemotePattern(): {
   protocol: "http" | "https";

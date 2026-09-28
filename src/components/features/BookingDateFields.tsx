@@ -10,7 +10,12 @@ import { enGB, es } from "react-day-picker/locale";
 import { Field } from "@/components/ui/Field";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { BookingFormValues } from "@/lib/bookingSchema";
-import { formatLongDate, parseIsoDate, startOfToday, toIsoDate } from "@/lib/dates";
+import {
+  formatLongDate,
+  parseIsoDate,
+  startOfToday,
+  toIsoDate,
+} from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import "react-day-picker/style.css";
 
@@ -43,8 +48,12 @@ export function BookingDateFields() {
     }
 
     const nextFrom = toIsoDate(range.from);
-    const nextTo = range.to && range.to >= range.from ? toIsoDate(range.to) : "";
-    setValue("startDate", nextFrom, { shouldValidate: true, shouldDirty: true });
+    const nextTo =
+      range.to && range.to >= range.from ? toIsoDate(range.to) : "";
+    setValue("startDate", nextFrom, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
     setValue("endDate", nextTo, { shouldValidate: true, shouldDirty: true });
 
     if (nextFrom && nextTo) {
@@ -68,7 +77,9 @@ export function BookingDateFields() {
               open={open}
               placeholder={t("addDate")}
               value={fromDate ? formatLongDate(fromDate, locale) : ""}
-              ariaLabel={fromDate ? formatLongDate(fromDate, locale) : t("selectDates")}
+              ariaLabel={
+                fromDate ? formatLongDate(fromDate, locale) : t("selectDates")
+              }
               onClick={() => setOpen(true)}
             />
           </Field>
@@ -83,7 +94,9 @@ export function BookingDateFields() {
               open={open}
               placeholder={t("addDate")}
               value={toDate ? formatLongDate(toDate, locale) : ""}
-              ariaLabel={toDate ? formatLongDate(toDate, locale) : t("selectDates")}
+              ariaLabel={
+                toDate ? formatLongDate(toDate, locale) : t("selectDates")
+              }
               onClick={() => setOpen(true)}
             />
           </Field>
@@ -149,8 +162,17 @@ function DateTrigger({
         open && "ring-2 ring-ring",
       )}
     >
-      <Calendar size={16} className="shrink-0 text-muted-foreground" aria-hidden />
-      <span className={cn("truncate", value ? "text-foreground" : "text-subtle-foreground")}>
+      <Calendar
+        size={16}
+        className="shrink-0 text-muted-foreground"
+        aria-hidden
+      />
+      <span
+        className={cn(
+          "truncate",
+          value ? "text-foreground" : "text-subtle-foreground",
+        )}
+      >
         {value || placeholder}
       </span>
     </button>

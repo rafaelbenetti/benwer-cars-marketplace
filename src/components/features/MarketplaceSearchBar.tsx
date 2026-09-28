@@ -86,7 +86,8 @@ function MarketplaceSearchForm({
     router.push(`${NavRoutes.CARS}?${next.toString()}`);
   }
 
-  const dateHint = requireDates && showDateHint && !hasDates ? t("datesRequired") : null;
+  const dateHint =
+    requireDates && showDateHint && !hasDates ? t("datesRequired") : null;
 
   return (
     <form

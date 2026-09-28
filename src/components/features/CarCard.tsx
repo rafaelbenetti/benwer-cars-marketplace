@@ -1,7 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Bike, Bus, Car, CarFront, ChevronRight, Fuel, Truck, Users, Zap } from "lucide-react";
+import {
+  Bike,
+  Bus,
+  Car,
+  CarFront,
+  ChevronRight,
+  Fuel,
+  Truck,
+  Users,
+  Zap,
+} from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
@@ -67,7 +77,10 @@ export function CarCard({
           priority={priority}
           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 100vw"
           fallback={
-            <CarPhotoFallback type={vehicle.type} emptyLabel={tDetail("photoEmpty")} />
+            <CarPhotoFallback
+              type={vehicle.type}
+              emptyLabel={tDetail("photoEmpty")}
+            />
           }
         />
         <Badge
@@ -80,7 +93,9 @@ export function CarCard({
 
       <div className="flex min-w-0 flex-1 flex-col gap-3 p-4">
         <div className="min-w-0">
-          <h3 className="text-base font-semibold leading-tight text-foreground">{name}</h3>
+          <h3 className="text-base font-semibold leading-tight text-foreground">
+            {name}
+          </h3>
           <p className="mt-0.5 text-xs text-muted-foreground">
             {vehicle.year} &middot; {t(`types.${vehicle.type}`)}
           </p>
@@ -89,7 +104,9 @@ export function CarCard({
         {company ? (
           <p className="flex min-w-0 items-center gap-2">
             <CompanyMark company={company} size="sm" />
-            <span className="truncate text-xs text-muted-foreground">{company.name}</span>
+            <span className="truncate text-xs text-muted-foreground">
+              {company.name}
+            </span>
           </p>
         ) : null}
 
@@ -113,7 +130,9 @@ export function CarCard({
             <span className="text-lg font-semibold tabular-nums text-foreground">
               {formatPrice(vehicle.pricePerDay, vehicle.currency, locale)}
             </span>
-            <span className="text-sm text-muted-foreground">{t("perDaySuffix")}</span>
+            <span className="text-sm text-muted-foreground">
+              {t("perDaySuffix")}
+            </span>
           </p>
           <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
             {t("viewDetails")}

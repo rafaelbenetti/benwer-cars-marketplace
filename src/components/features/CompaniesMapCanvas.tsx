@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import L from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import { CompanyMapPinCard } from "./CompanyMapPinCard";
@@ -26,8 +33,7 @@ const DARK_BASE_TILES =
   "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}";
 const DARK_LABEL_TILES =
   "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}";
-const TILE_ATTRIBUTION =
-  "Tiles © Esri — Esri, HERE, Garmin, FAO, NOAA, USGS";
+const TILE_ATTRIBUTION = "Tiles © Esri — Esri, HERE, Garmin, FAO, NOAA, USGS";
 
 interface CompaniesMapCanvasProps {
   pins: CompanyMapPin[];
@@ -211,7 +217,8 @@ export function CompaniesMapCanvas({
   const locale = useLocale();
   const selectedPin = pins.find((pin) => pin.slug === selectedSlug) ?? null;
   const isDark =
-    typeof document !== "undefined" && document.documentElement.classList.contains("dark");
+    typeof document !== "undefined" &&
+    document.documentElement.classList.contains("dark");
 
   return (
     <MapContainer

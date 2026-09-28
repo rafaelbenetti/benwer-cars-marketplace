@@ -55,7 +55,7 @@ npm run test:e2e   # Playwright
 
 ## Local development (mandatory for agents)
 
-This marketplace talks to **`benwer-cars-api`** on `http://localhost:8080/v1`.
+This marketplace talks to **`benwer-cars-api`** on `http://localhost:8081/v1`.
 Local **requires** that API plus its seed. The marketplace will not substitute
 `public/mock-data` cars, companies, or photos when the API is down or empty.
 
@@ -66,9 +66,9 @@ cd ../benwer-cars-api
 docker compose -f docker-compose-local.yml up --build
 ```
 
-Confirm: `curl -s http://localhost:8080/healthz`
+Confirm: `curl -s http://localhost:8081/health`
 Confirm seed (`benwer-cars-api` `main` at `dda5afd` and later):
-`curl -s http://localhost:8080/v1/public/companies` — **6 public companies**
+`curl -s http://localhost:8081/v1/public/companies` — **6 public companies**
 with locations and `vehicleCount`, and **37 public vehicles** whose photos are
 LocalStack URLs (`http://localhost:4566/...`, rewritten to `/localstack/...`).
 If that catalogue is missing, reseed the **local** API — never point this app
@@ -86,7 +86,7 @@ Open `http://localhost:3002`. Copy `.env.example` → `.env.local`. Sample:
 
 ```bash
 NEXT_PUBLIC_API_URL=http://localhost:3002/api
-API_ORIGIN=http://localhost:8080
+API_ORIGIN=http://localhost:8081
 LOCALSTACK_ORIGIN=http://localhost:4566
 NEXT_PUBLIC_APP_URL=http://localhost:3002
 NEXT_PUBLIC_MARKETPLACE_DOMAIN=benwer.es
@@ -102,11 +102,11 @@ mode** (no subdomain). To test tenant mode locally, set a custom `hosts` entry:
 
 ### When to rebuild what
 
-| You changed… | Do this |
-| --- | --- |
-| API Go code / migrations | `docker compose … up --build` in `benwer-cars-api` |
-| API routes / swagger | `make swag` in API, then `npm run generate:api` here |
-| Marketplace UI only | `npm run dev` (API can stay running) |
+| You changed…             | Do this                                              |
+| ------------------------ | ---------------------------------------------------- |
+| API Go code / migrations | `docker compose … up --build` in `benwer-cars-api`   |
+| API routes / swagger     | `make swag` in API, then `npm run generate:api` here |
+| Marketplace UI only      | `npm run dev` (API can stay running)                 |
 
 ## Not yet scaffolded — build before importing
 

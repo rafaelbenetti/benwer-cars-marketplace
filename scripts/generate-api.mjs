@@ -9,9 +9,9 @@ const outFile = path.join(root, "src/services/api/schema.d.ts");
 const candidates = [
   process.env.API_SWAGGER_URL,
   process.env.API_ORIGIN
-    ? `${process.env.API_ORIGIN.replace(/\/$/, "")}/swagger/doc.json`
+    ? `${process.env.API_ORIGIN.replace(/\/$/, "")}/docs-json`
     : null,
-  "http://localhost:8080/swagger/doc.json",
+  "http://localhost:8081/docs-json",
 ].filter(Boolean);
 
 async function resolveSpecInput() {
@@ -23,8 +23,11 @@ async function resolveSpecInput() {
       }
 
       const spec = await response.json();
-      const paths = spec && typeof spec === "object" && "paths" in spec ? spec.paths : {};
-      const hasPublic = Object.keys(paths ?? {}).some((route) => route.includes("/public/"));
+      const paths =
+        spec && typeof spec === "object" && "paths" in spec ? spec.paths : {};
+      const hasPublic = Object.keys(paths ?? {}).some((route) =>
+        route.includes("/public/"),
+      );
       if (hasPublic) {
         return url;
       }
@@ -37,11 +40,10 @@ async function resolveSpecInput() {
 }
 
 const input = await resolveSpecInput();
-const result = spawnSync(
-  "npx",
-  ["openapi-typescript", input, "-o", outFile],
-  { stdio: "inherit", cwd: root },
-);
+const result = spawnSync("npx", ["openapi-typescript", input, "-o", outFile], {
+  stdio: "inherit",
+  cwd: root,
+});
 
 if (result.status !== 0) {
   process.exit(result.status ?? 1);

@@ -3,7 +3,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { reservationsApi } from "@/services/api";
 import { logError } from "@/lib/logger";
-import type { CreateGuestReservationPayload, GuestReservation } from "@/types/reservation";
+import type {
+  CreateGuestReservationPayload,
+  GuestReservation,
+} from "@/types/reservation";
 
 interface UseCreateReservationOptions {
   companySlug: string;

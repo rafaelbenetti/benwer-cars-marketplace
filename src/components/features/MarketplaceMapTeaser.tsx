@@ -28,8 +28,12 @@ export async function MarketplaceMapTeaser() {
             <MapPinned size={20} aria-hidden />
           </span>
           <div className="flex flex-col gap-1">
-            <h2 className="text-xl font-semibold text-foreground">{t("teaserTitle")}</h2>
-            <p className="text-sm text-muted-foreground">{t("teaserSubtitle")}</p>
+            <h2 className="text-xl font-semibold text-foreground">
+              {t("teaserTitle")}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {t("teaserSubtitle")}
+            </p>
           </div>
           <Link
             href={buildCompaniesMapHref()}

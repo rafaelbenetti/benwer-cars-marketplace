@@ -70,7 +70,9 @@ function CarListViewContent({
   function handleChange(next: typeof filters) {
     const params = applyVehicleFilters(searchParams, next);
     const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    router.replace(query ? `${pathname}?${query}` : pathname, {
+      scroll: false,
+    });
   }
 
   function buildHref(vehicle: Vehicle): string {
@@ -153,10 +155,14 @@ function CarListViewContent({
             companyFor={(vehicle) => resolveCardCompany(vehicle, directory)}
             onClearFilters={hasFilters ? clearAdvancedFilters : undefined}
             emptyActionLabel={
-              hasFilters || !showDirectoryEmptyAction ? undefined : t("browseCompanies")
+              hasFilters || !showDirectoryEmptyAction
+                ? undefined
+                : t("browseCompanies")
             }
             emptyActionHref={
-              hasFilters || !showDirectoryEmptyAction ? undefined : NavRoutes.COMPANIES
+              hasFilters || !showDirectoryEmptyAction
+                ? undefined
+                : NavRoutes.COMPANIES
             }
             className={RESULTS_GRID_CLASS}
           />
@@ -167,13 +173,19 @@ function CarListViewContent({
         onOpenChange={setFiltersOpen}
         title={t("filters.title")}
         description={
-          appliedCount ? t("filters.appliedCount", { count: appliedCount }) : undefined
+          appliedCount
+            ? t("filters.appliedCount", { count: appliedCount })
+            : undefined
         }
         closeLabel={t("filters.close")}
         footer={
           <div className="flex items-center justify-between gap-3">
             {hasFilters ? (
-              <Button type="button" variant="ghost" onClick={clearAdvancedFilters}>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={clearAdvancedFilters}
+              >
                 {t("clearFilters")}
               </Button>
             ) : (

@@ -23,7 +23,13 @@ type BadgeProps = React.HTMLAttributes<HTMLSpanElement> &
     dot?: boolean;
   };
 
-export function Badge({ className, variant, dot, children, ...props }: BadgeProps) {
+export function Badge({
+  className,
+  variant,
+  dot,
+  children,
+  ...props
+}: BadgeProps) {
   return (
     <span className={cn(badge({ variant }), className)} {...props}>
       {dot ? (
@@ -49,14 +55,20 @@ const RESERVATION_STATUS_VARIANT = {
   active: "success",
   completed: "default",
   cancelled: "danger",
-} as const satisfies Record<ReservationStatus, VariantProps<typeof badge>["variant"]>;
+} as const satisfies Record<
+  ReservationStatus,
+  VariantProps<typeof badge>["variant"]
+>;
 
 const VEHICLE_STATUS_VARIANT = {
   available: "success",
   reserved: "info",
   rented: "warning",
   maintenance: "danger",
-} as const satisfies Record<VehicleStatus, VariantProps<typeof badge>["variant"]>;
+} as const satisfies Record<
+  VehicleStatus,
+  VariantProps<typeof badge>["variant"]
+>;
 
 interface StatusBadgeProps {
   status: ReservationStatus | VehicleStatus;
@@ -66,8 +78,18 @@ interface StatusBadgeProps {
 
 export function StatusBadge({ status, label, className }: StatusBadgeProps) {
   const variant =
-    (RESERVATION_STATUS_VARIANT as Record<string, VariantProps<typeof badge>["variant"]>)[status] ??
-    (VEHICLE_STATUS_VARIANT as Record<string, VariantProps<typeof badge>["variant"]>)[status] ??
+    (
+      RESERVATION_STATUS_VARIANT as Record<
+        string,
+        VariantProps<typeof badge>["variant"]
+      >
+    )[status] ??
+    (
+      VEHICLE_STATUS_VARIANT as Record<
+        string,
+        VariantProps<typeof badge>["variant"]
+      >
+    )[status] ??
     "default";
 
   return (

@@ -56,8 +56,8 @@ export function CityCombobox({ value, onChange, from, to }: CityComboboxProps) {
 
   const selectedName = isProvinceWideLocation(value)
     ? t("allLocations")
-    : inventory.find((location) => location.slug === value)?.label ??
-      locationLabelFromSlug(value, locale);
+    : (inventory.find((location) => location.slug === value)?.label ??
+      locationLabelFromSlug(value, locale));
 
   useEffect(() => {
     optionRefs.current[highlightedIndex]?.scrollIntoView({ block: "nearest" });
@@ -79,7 +79,9 @@ export function CityCombobox({ value, onChange, from, to }: CityComboboxProps) {
   function handleInputKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setHighlightedIndex((index) => Math.min(index + 1, Math.max(options.length - 1, 0)));
+      setHighlightedIndex((index) =>
+        Math.min(index + 1, Math.max(options.length - 1, 0)),
+      );
       return;
     }
 
@@ -204,7 +206,11 @@ export function CityCombobox({ value, onChange, from, to }: CityComboboxProps) {
                       ) : null}
                     </span>
                     {isSelected ? (
-                      <Check size={16} className="shrink-0 text-primary" aria-hidden />
+                      <Check
+                        size={16}
+                        className="shrink-0 text-primary"
+                        aria-hidden
+                      />
                     ) : null}
                   </li>
                 );

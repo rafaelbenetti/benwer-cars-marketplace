@@ -68,7 +68,11 @@ export function BookingWidget({
       : null
     : handoffHref;
 
-  const priceFormatted = formatMoney(vehicle.pricePerDay, vehicle.currency, locale);
+  const priceFormatted = formatMoney(
+    vehicle.pricePerDay,
+    vehicle.currency,
+    locale,
+  );
   const totalFormatted = total
     ? formatMoney(total, vehicle.currency, locale)
     : null;
@@ -103,7 +107,9 @@ export function BookingWidget({
         <dl className="flex flex-col gap-3">
           <DateSummaryRow
             label={t("startDate")}
-            value={fromDate ? formatLongDate(fromDate, locale) : tDetail("addDate")}
+            value={
+              fromDate ? formatLongDate(fromDate, locale) : tDetail("addDate")
+            }
             isPlaceholder={!fromDate}
           />
           <DateSummaryRow
@@ -131,7 +137,9 @@ export function BookingWidget({
         ) : null}
 
         {!isTenant ? (
-          <p className="text-xs text-muted-foreground">{tDetail("handoffHint")}</p>
+          <p className="text-xs text-muted-foreground">
+            {tDetail("handoffHint")}
+          </p>
         ) : null}
 
         <BookingCta

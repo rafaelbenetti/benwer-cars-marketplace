@@ -48,7 +48,10 @@ export function CarPhoto({
         priority={priority}
         sizes={sizes}
         unoptimized={unoptimized}
-        className={cn("h-auto w-auto max-h-full max-w-full object-contain", className)}
+        className={cn(
+          "h-auto w-auto max-h-full max-w-full object-contain",
+          className,
+        )}
         style={
           measured
             ? { maxWidth: measured.width, maxHeight: measured.height }

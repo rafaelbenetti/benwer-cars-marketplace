@@ -153,7 +153,11 @@ export function CompanyCombobox({
             >
               <span>{t("allCompanies")}</span>
               {!value ? (
-                <Check size={16} className="shrink-0 text-primary" aria-hidden />
+                <Check
+                  size={16}
+                  className="shrink-0 text-primary"
+                  aria-hidden
+                />
               ) : null}
             </li>
             {matches.map((company, index) => {
@@ -184,7 +188,11 @@ export function CompanyCombobox({
                     <span className="truncate">{company.name}</span>
                   </span>
                   {isSelected ? (
-                    <Check size={16} className="shrink-0 text-primary" aria-hidden />
+                    <Check
+                      size={16}
+                      className="shrink-0 text-primary"
+                      aria-hidden
+                    />
                   ) : null}
                 </li>
               );

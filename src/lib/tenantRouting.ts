@@ -8,7 +8,9 @@ export function isTenantInternalPath(pathname: string): boolean {
 }
 
 export function isTenantHostPublicPath(pathname: string): boolean {
-  return pathname === "/" || pathname === "/cars" || pathname.startsWith("/cars/");
+  return (
+    pathname === "/" || pathname === "/cars" || pathname.startsWith("/cars/")
+  );
 }
 
 export function toTenantInternalPath(pathname: string): string {

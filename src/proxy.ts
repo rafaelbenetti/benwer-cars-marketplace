@@ -7,7 +7,8 @@ import {
 
 export function proxy(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
-  const marketplaceDomain = process.env.NEXT_PUBLIC_MARKETPLACE_DOMAIN ?? "benwer.es";
+  const marketplaceDomain =
+    process.env.NEXT_PUBLIC_MARKETPLACE_DOMAIN ?? "benwer.es";
 
   const isLocalhost = host.includes("localhost") || host.includes("127.0.0.1");
   const companySlug = resolveCompanySlug(host, marketplaceDomain, isLocalhost);
@@ -58,7 +59,9 @@ function resolveCompanySlug(
     return null;
   }
 
-  const subdomainMatch = host.match(new RegExp(`^([^.]+)\\.${domain.replace(".", "\\.")}$`));
+  const subdomainMatch = host.match(
+    new RegExp(`^([^.]+)\\.${domain.replace(".", "\\.")}$`),
+  );
   if (subdomainMatch?.[1]) {
     return subdomainMatch[1];
   }

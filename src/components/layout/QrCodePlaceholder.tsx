@@ -2,7 +2,12 @@ const MODULE_COUNT = 21;
 const FINDER_SIZE = 7;
 const QUIET_ZONE = 2;
 
-function inFinderBlock(x: number, y: number, originX: number, originY: number): boolean {
+function inFinderBlock(
+  x: number,
+  y: number,
+  originX: number,
+  originY: number,
+): boolean {
   return (
     x >= originX &&
     x < originX + FINDER_SIZE &&
@@ -11,10 +16,16 @@ function inFinderBlock(x: number, y: number, originX: number, originY: number): 
   );
 }
 
-function isFinderDark(x: number, y: number, originX: number, originY: number): boolean {
+function isFinderDark(
+  x: number,
+  y: number,
+  originX: number,
+  originY: number,
+): boolean {
   const dx = x - originX;
   const dy = y - originY;
-  const onBorder = dx === 0 || dy === 0 || dx === FINDER_SIZE - 1 || dy === FINDER_SIZE - 1;
+  const onBorder =
+    dx === 0 || dy === 0 || dx === FINDER_SIZE - 1 || dy === FINDER_SIZE - 1;
   const inCenter = dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4;
   return onBorder || inCenter;
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { VehicleType } from "@/enums";
-import { toPublicVehicleListQuery, toPublicVehicleTypeQuery } from "./vehicleFilters";
+import { toPublicVehicleTypeQuery } from "./vehicleFilters";
 
 describe("toPublicVehicleTypeQuery", () => {
   it("never sends type=car to the public API", () => {
@@ -18,22 +18,5 @@ describe("toPublicVehicleTypeQuery", () => {
     expect(toPublicVehicleTypeQuery("other")).toBe("other");
     expect(toPublicVehicleTypeQuery(VehicleType.TRUCK)).toBeUndefined();
     expect(toPublicVehicleTypeQuery(VehicleType.MOTORCYCLE)).toBeUndefined();
-  });
-});
-
-describe("toPublicVehicleListQuery", () => {
-  it("omits type and category when the UI filter is car", () => {
-    expect(toPublicVehicleListQuery({ type: VehicleType.CAR })).toMatchObject({
-      type: undefined,
-      category: undefined,
-    });
-  });
-
-  it("mirrors a valid type onto category", () => {
-    expect(toPublicVehicleListQuery({ type: VehicleType.SUV, seats: 5 })).toMatchObject({
-      type: "suv",
-      category: "suv",
-      seats: 5,
-    });
   });
 });

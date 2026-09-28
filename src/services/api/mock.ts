@@ -12,7 +12,10 @@ import {
   dateRangesOverlap,
   listingRangeDates,
 } from "@/lib/dates";
-import type { AvailabilityQuery, AvailabilityRange } from "@/types/availability";
+import type {
+  AvailabilityQuery,
+  AvailabilityRange,
+} from "@/types/availability";
 import type { Company, CompanyListFilters } from "@/types/company";
 import type {
   CreateGuestReservationPayload,
@@ -59,7 +62,8 @@ function isVehicleFree(
   reservations: GuestReservation[],
 ): boolean {
   const bookedDates = new Set(
-    availability.find((row) => row.vehicleId === vehicleId)?.unavailableDates ?? [],
+    availability.find((row) => row.vehicleId === vehicleId)?.unavailableDates ??
+      [],
   );
   const requested = listingRangeDates(from, to);
   if (requested.some((date) => bookedDates.has(date))) {
@@ -86,12 +90,16 @@ async function loadCompanies(): Promise<Company[]> {
 
 async function loadVehicles(): Promise<Vehicle[]> {
   ensureMockCatalogueAllowed();
-  return mockClient.get<unknown>(MOCK_VEHICLES).then((payload) => mapVehicleList(payload));
+  return mockClient
+    .get<unknown>(MOCK_VEHICLES)
+    .then((payload) => mapVehicleList(payload));
 }
 
 async function loadAvailability(): Promise<AvailabilityRange[]> {
   ensureMockCatalogueAllowed();
-  const rows = await mockClient.get<unknown>(MOCK_AVAILABILITY).then(mapAvailabilityList);
+  const rows = await mockClient
+    .get<unknown>(MOCK_AVAILABILITY)
+    .then(mapAvailabilityList);
   const window = availabilityCalendarWindow();
 
   return rows.map((row) => ({
@@ -109,9 +117,7 @@ async function loadSeedReservations(): Promise<GuestReservation[]> {
   if (!seedReservationsPromise) {
     seedReservationsPromise = mockClient
       .get<unknown>(MOCK_RESERVATIONS)
-      .then((payload) =>
-        unwrapList(payload).map((row) => mapReservation(row)),
-      )
+      .then((payload) => unwrapList(payload).map((row) => mapReservation(row)))
       .catch(() => []);
   }
 
@@ -132,12 +138,9 @@ async function allReservations(): Promise<GuestReservation[]> {
 
 export const mockCompaniesApi = {
   async getAll(filters?: CompanyListFilters): Promise<Company[]> {
-    const [companies, vehicles, availability, reservations] = await Promise.all([
-      loadCompanies(),
-      loadVehicles(),
-      loadAvailability(),
-      allReservations(),
-    ]);
+    const [companies, vehicles, availability, reservations] = await Promise.all(
+      [loadCompanies(), loadVehicles(), loadAvailability(), allReservations()],
+    );
 
     return companies
       .filter((company) => {
@@ -182,7 +185,10 @@ export const mockCompaniesApi = {
       .map((company) => ({
         ...company,
         vehicleCount: vehicles.filter((vehicle) => {
-          if (vehicle.companySlug !== company.slug || !isListedVehicle(vehicle)) {
+          if (
+            vehicle.companySlug !== company.slug ||
+            !isListedVehicle(vehicle)
+          ) {
             return false;
           }
 
@@ -217,7 +223,10 @@ export const mockCompaniesApi = {
 };
 
 export const mockVehiclesApi = {
-  async getByCompany(companySlug: string, filters?: VehicleFilters): Promise<Vehicle[]> {
+  async getByCompany(
+    companySlug: string,
+    filters?: VehicleFilters,
+  ): Promise<Vehicle[]> {
     const [vehicles, availability, reservations] = await Promise.all([
       loadVehicles(),
       loadAvailability(),
@@ -236,7 +245,13 @@ export const mockVehiclesApi = {
       if (
         filters?.from &&
         filters?.to &&
-        !isVehicleFree(vehicle.id, filters.from, filters.to, availability, reservations)
+        !isVehicleFree(
+          vehicle.id,
+          filters.from,
+          filters.to,
+          availability,
+          reservations,
+        )
       ) {
         return false;
       }
@@ -262,17 +277,16 @@ export const mockVehiclesApi = {
   async searchMarketplace(
     filters?: MarketplaceSearchFilters,
   ): Promise<MarketplaceVehicle[]> {
-    const [companies, vehicles, availability, reservations] = await Promise.all([
-      loadCompanies(),
-      loadVehicles(),
-      loadAvailability(),
-      allReservations(),
-    ]);
+    const [companies, vehicles, availability, reservations] = await Promise.all(
+      [loadCompanies(), loadVehicles(), loadAvailability(), allReservations()],
+    );
     const location =
       filters?.location && !isProvinceWideLocation(filters.location)
         ? filters.location
         : undefined;
-    const companiesBySlug = new Map(companies.map((company) => [company.slug, company]));
+    const companiesBySlug = new Map(
+      companies.map((company) => [company.slug, company]),
+    );
 
     const filtered = vehicles.filter((vehicle) => {
       if (!isListedVehicle(vehicle)) {
@@ -304,7 +318,13 @@ export const mockVehiclesApi = {
       if (
         filters?.from &&
         filters?.to &&
-        !isVehicleFree(vehicle.id, filters.from, filters.to, availability, reservations)
+        !isVehicleFree(
+          vehicle.id,
+          filters.from,
+          filters.to,
+          availability,
+          reservations,
+        )
       ) {
         return false;
       }
@@ -320,7 +340,10 @@ export const mockVehiclesApi = {
 };
 
 export const mockAvailabilityApi = {
-  async check(companySlug: string, params: AvailabilityQuery): Promise<AvailabilityRange[]> {
+  async check(
+    companySlug: string,
+    params: AvailabilityQuery,
+  ): Promise<AvailabilityRange[]> {
     const [vehicles, availability] = await Promise.all([
       loadVehicles(),
       loadAvailability(),
@@ -328,7 +351,10 @@ export const mockAvailabilityApi = {
 
     const companyVehicleIds = new Set(
       vehicles
-        .filter((vehicle) => vehicle.companySlug === companySlug && isListedVehicle(vehicle))
+        .filter(
+          (vehicle) =>
+            vehicle.companySlug === companySlug && isListedVehicle(vehicle),
+        )
         .map((vehicle) => vehicle.id),
     );
 
@@ -437,9 +463,7 @@ async function hydrateReservation(
           .catch(() => null),
     reservation.company
       ? Promise.resolve(reservation.company)
-      : mockCompaniesApi
-          .getBySlug(reservation.companySlug)
-          .catch(() => null),
+      : mockCompaniesApi.getBySlug(reservation.companySlug).catch(() => null),
   ]);
 
   return { ...reservation, vehicle, company };

@@ -18,7 +18,9 @@ const PUBLIC_VEHICLE_TYPE_QUERY = [
 
 export type PublicVehicleTypeQuery = (typeof PUBLIC_VEHICLE_TYPE_QUERY)[number];
 
-const PUBLIC_VEHICLE_TYPE_QUERY_SET = new Set<string>(PUBLIC_VEHICLE_TYPE_QUERY);
+const PUBLIC_VEHICLE_TYPE_QUERY_SET = new Set<string>(
+  PUBLIC_VEHICLE_TYPE_QUERY,
+);
 
 export function toPublicVehicleTypeQuery(
   type: string | undefined,
@@ -42,30 +44,17 @@ export function toPublicVehicleTypeQuery(
   return undefined;
 }
 
-export function toPublicVehicleListQuery(filters?: VehicleFilters) {
-  const type = toPublicVehicleTypeQuery(filters?.type);
-
-  return {
-    q: filters?.q,
-    type,
-    category: type,
-    seats: filters?.seats,
-    transmission: filters?.transmission,
-    from: filters?.from,
-    to: filters?.to,
-    sort: filters?.sort,
-    cursor: filters?.cursor,
-    limit: filters?.limit,
-  };
-}
-
 export const FILTER_SEAT_OPTIONS = [4, 5, 7] as const;
 
 const VEHICLE_TYPE_VALUES = new Set<string>(Object.values(VehicleType));
 const TRANSMISSION_VALUES = new Set<string>(Object.values(TransmissionType));
 const SEAT_VALUES = new Set<number>(FILTER_SEAT_OPTIONS);
 
-function setOrDelete(params: URLSearchParams, key: string, value: string | undefined) {
+function setOrDelete(
+  params: URLSearchParams,
+  key: string,
+  value: string | undefined,
+) {
   if (value) {
     params.set(key, value);
   } else {
@@ -106,7 +95,9 @@ export function serializeCompanySlugs(slugs: string[]): string {
   return [...new Set(slugs.filter(Boolean))].sort().join(",");
 }
 
-export function parseCompanySlugsParam(value: string | null): string[] | undefined {
+export function parseCompanySlugsParam(
+  value: string | null,
+): string[] | undefined {
   if (!value) {
     return undefined;
   }
@@ -122,7 +113,9 @@ export function parseCompanySlugsParam(value: string | null): string[] | undefin
 export function parseCompanySlugs(
   searchParams: Pick<URLSearchParams, "get">,
 ): string[] | undefined {
-  const fromList = parseCompanySlugsParam(searchParams.get(SearchParams.COMPANIES));
+  const fromList = parseCompanySlugsParam(
+    searchParams.get(SearchParams.COMPANIES),
+  );
   if (fromList) {
     return fromList;
   }
@@ -131,7 +124,10 @@ export function parseCompanySlugs(
   return legacy ? [legacy] : undefined;
 }
 
-function applyCompanySlugs(params: URLSearchParams, slugs: string[] | undefined) {
+function applyCompanySlugs(
+  params: URLSearchParams,
+  slugs: string[] | undefined,
+) {
   params.delete(SearchParams.COMPANIES);
   params.delete(SearchParams.COMPANY_SLUG);
 
@@ -151,7 +147,9 @@ export function parseVehicleFilters(
   return {
     type: parseVehicleType(searchParams.get(SearchParams.TYPE)),
     seats: parseSeats(searchParams.get(SearchParams.SEATS)),
-    transmission: parseTransmission(searchParams.get(SearchParams.TRANSMISSION)),
+    transmission: parseTransmission(
+      searchParams.get(SearchParams.TRANSMISSION),
+    ),
     from,
     to,
     q,
@@ -172,7 +170,11 @@ export function applyVehicleFilters(
   setOrDelete(next, SearchParams.SEATS, filters.seats?.toString());
   setOrDelete(next, SearchParams.TRANSMISSION, filters.transmission);
   setOrDelete(next, SearchParams.Q, filters.q);
-  applyCompanySlugs(next, filters.companySlugs ?? (filters.companySlug ? [filters.companySlug] : undefined));
+  applyCompanySlugs(
+    next,
+    filters.companySlugs ??
+      (filters.companySlug ? [filters.companySlug] : undefined),
+  );
 
   return next;
 }
@@ -180,23 +182,23 @@ export function applyVehicleFilters(
 export function hasActiveVehicleFilters(filters: VehicleFilters): boolean {
   return Boolean(
     filters.type ||
-      filters.seats ||
-      filters.transmission ||
-      filters.from ||
-      filters.to ||
-      filters.q ||
-      filters.companySlug ||
-      filters.companySlugs?.length,
+    filters.seats ||
+    filters.transmission ||
+    filters.from ||
+    filters.to ||
+    filters.q ||
+    filters.companySlug ||
+    filters.companySlugs?.length,
   );
 }
 
 export function hasActiveAdvancedFilters(filters: VehicleFilters): boolean {
   return Boolean(
     filters.type ||
-      filters.seats ||
-      filters.transmission ||
-      filters.q ||
-      filters.companySlugs?.length,
+    filters.seats ||
+    filters.transmission ||
+    filters.q ||
+    filters.companySlugs?.length,
   );
 }
 

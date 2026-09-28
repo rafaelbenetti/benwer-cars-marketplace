@@ -13,11 +13,15 @@ export type MappableMalagaCity = MalagaCity & CityCoordinates;
 
 export const DEFAULT_CITY_SLUG = "malaga";
 
-export function isProvinceWideLocation(slug: string | null | undefined): boolean {
+export function isProvinceWideLocation(
+  slug: string | null | undefined,
+): boolean {
   return !slug || slug === DEFAULT_CITY_SLUG;
 }
 
-export function toApiLocation(slug: string | null | undefined): string | undefined {
+export function toApiLocation(
+  slug: string | null | undefined,
+): string | undefined {
   if (!slug || isProvinceWideLocation(slug)) {
     return undefined;
   }
@@ -43,8 +47,16 @@ export const MALAGA_CITIES: MalagaCity[] = [
   { slug: "alfarnatejo", nameEn: "Alfarnatejo", nameEs: "Alfarnatejo" },
   { slug: "algarrobo", nameEn: "Algarrobo", nameEs: "Algarrobo" },
   { slug: "algatocin", nameEn: "Algatocin", nameEs: "Algatocín" },
-  { slug: "alhaurin-de-la-torre", nameEn: "Alhaurin de la Torre", nameEs: "Alhaurín de la Torre" },
-  { slug: "alhaurin-el-grande", nameEn: "Alhaurin el Grande", nameEs: "Alhaurín el Grande" },
+  {
+    slug: "alhaurin-de-la-torre",
+    nameEn: "Alhaurin de la Torre",
+    nameEs: "Alhaurín de la Torre",
+  },
+  {
+    slug: "alhaurin-el-grande",
+    nameEn: "Alhaurin el Grande",
+    nameEs: "Alhaurín el Grande",
+  },
   { slug: "almachar", nameEn: "Almachar", nameEs: "Almáchar" },
   { slug: "almargen", nameEn: "Almargen", nameEs: "Almargen" },
   { slug: "almogia", nameEn: "Almogia", nameEs: "Almogía" },
@@ -69,9 +81,21 @@ export const MALAGA_CITIES: MalagaCity[] = [
   { slug: "el-borge", nameEn: "El Borge", nameEs: "El Borge" },
   { slug: "el-burgo", nameEn: "El Burgo", nameEs: "El Burgo" },
   { slug: "campillos", nameEn: "Campillos", nameEs: "Campillos" },
-  { slug: "canillas-de-aceituno", nameEn: "Canillas de Aceituno", nameEs: "Canillas de Aceituno" },
-  { slug: "canillas-de-albaida", nameEn: "Canillas de Albaida", nameEs: "Canillas de Albaida" },
-  { slug: "canete-la-real", nameEn: "Canete la Real", nameEs: "Cañete la Real" },
+  {
+    slug: "canillas-de-aceituno",
+    nameEn: "Canillas de Aceituno",
+    nameEs: "Canillas de Aceituno",
+  },
+  {
+    slug: "canillas-de-albaida",
+    nameEn: "Canillas de Albaida",
+    nameEs: "Canillas de Albaida",
+  },
+  {
+    slug: "canete-la-real",
+    nameEn: "Canete la Real",
+    nameEs: "Cañete la Real",
+  },
   { slug: "carratraca", nameEn: "Carratraca", nameEs: "Carratraca" },
   { slug: "cartajima", nameEn: "Cartajima", nameEs: "Cartajima" },
   { slug: "cartama", nameEn: "Cartama", nameEs: "Cártama" },
@@ -82,16 +106,32 @@ export const MALAGA_CITIES: MalagaCity[] = [
   { slug: "colmenar", nameEn: "Colmenar", nameEs: "Colmenar" },
   { slug: "comares", nameEn: "Comares", nameEs: "Comares" },
   { slug: "competa", nameEn: "Competa", nameEs: "Cómpeta" },
-  { slug: "cortes-de-la-frontera", nameEn: "Cortes de la Frontera", nameEs: "Cortes de la Frontera" },
+  {
+    slug: "cortes-de-la-frontera",
+    nameEn: "Cortes de la Frontera",
+    nameEs: "Cortes de la Frontera",
+  },
   { slug: "cuevas-bajas", nameEn: "Cuevas Bajas", nameEs: "Cuevas Bajas" },
-  { slug: "cuevas-de-san-marcos", nameEn: "Cuevas de San Marcos", nameEs: "Cuevas de San Marcos" },
-  { slug: "cuevas-del-becerro", nameEn: "Cuevas del Becerro", nameEs: "Cuevas del Becerro" },
+  {
+    slug: "cuevas-de-san-marcos",
+    nameEn: "Cuevas de San Marcos",
+    nameEs: "Cuevas de San Marcos",
+  },
+  {
+    slug: "cuevas-del-becerro",
+    nameEn: "Cuevas del Becerro",
+    nameEs: "Cuevas del Becerro",
+  },
   { slug: "cutar", nameEn: "Cutar", nameEs: "Cútar" },
   { slug: "estepona", nameEn: "Estepona", nameEs: "Estepona" },
   { slug: "farajan", nameEn: "Farajan", nameEs: "Faraján" },
   { slug: "frigiliana", nameEn: "Frigiliana", nameEs: "Frigiliana" },
   { slug: "fuengirola", nameEn: "Fuengirola", nameEs: "Fuengirola" },
-  { slug: "fuente-de-piedra", nameEn: "Fuente de Piedra", nameEs: "Fuente de Piedra" },
+  {
+    slug: "fuente-de-piedra",
+    nameEn: "Fuente de Piedra",
+    nameEs: "Fuente de Piedra",
+  },
   { slug: "gaucin", nameEn: "Gaucin", nameEs: "Gaucín" },
   { slug: "genalguacil", nameEn: "Genalguacil", nameEs: "Genalguacil" },
   { slug: "guaro", nameEn: "Guaro", nameEs: "Guaro" },
@@ -99,7 +139,11 @@ export const MALAGA_CITIES: MalagaCity[] = [
   { slug: "igualeja", nameEn: "Igualeja", nameEs: "Igualeja" },
   { slug: "istan", nameEn: "Istan", nameEs: "Istán" },
   { slug: "iznate", nameEn: "Iznate", nameEs: "Iznate" },
-  { slug: "jimera-de-libar", nameEn: "Jimera de Libar", nameEs: "Jimera de Líbar" },
+  {
+    slug: "jimera-de-libar",
+    nameEn: "Jimera de Libar",
+    nameEs: "Jimera de Líbar",
+  },
   { slug: "jubrique", nameEn: "Jubrique", nameEs: "Jubrique" },
   { slug: "juzcar", nameEn: "Juzcar", nameEs: "Júzcar" },
   { slug: "macharaviaya", nameEn: "Macharaviaya", nameEs: "Macharaviaya" },
@@ -118,26 +162,58 @@ export const MALAGA_CITIES: MalagaCity[] = [
   { slug: "periana", nameEn: "Periana", nameEs: "Periana" },
   { slug: "pizarra", nameEn: "Pizarra", nameEs: "Pizarra" },
   { slug: "pujerra", nameEn: "Pujerra", nameEs: "Pujerra" },
-  { slug: "rincon-de-la-victoria", nameEn: "Rincon de la Victoria", nameEs: "Rincón de la Victoria" },
+  {
+    slug: "rincon-de-la-victoria",
+    nameEn: "Rincon de la Victoria",
+    nameEs: "Rincón de la Victoria",
+  },
   { slug: "riogordo", nameEn: "Riogordo", nameEs: "Riogordo" },
   { slug: "ronda", nameEn: "Ronda", nameEs: "Ronda" },
   { slug: "salares", nameEn: "Salares", nameEs: "Salares" },
   { slug: "sayalonga", nameEn: "Sayalonga", nameEs: "Sayalonga" },
   { slug: "sedella", nameEn: "Sedella", nameEs: "Sedella" },
   { slug: "serrato", nameEn: "Serrato", nameEs: "Serrato" },
-  { slug: "sierra-de-yeguas", nameEn: "Sierra de Yeguas", nameEs: "Sierra de Yeguas" },
+  {
+    slug: "sierra-de-yeguas",
+    nameEn: "Sierra de Yeguas",
+    nameEs: "Sierra de Yeguas",
+  },
   { slug: "teba", nameEn: "Teba", nameEs: "Teba" },
   { slug: "tolox", nameEn: "Tolox", nameEs: "Tolox" },
   { slug: "torremolinos", nameEn: "Torremolinos", nameEs: "Torremolinos" },
   { slug: "torrox", nameEn: "Torrox", nameEs: "Torrox" },
   { slug: "totalan", nameEn: "Totalan", nameEs: "Totalán" },
-  { slug: "valle-de-abdalajis", nameEn: "Valle de Abdalajis", nameEs: "Valle de Abdalajís" },
+  {
+    slug: "valle-de-abdalajis",
+    nameEn: "Valle de Abdalajis",
+    nameEs: "Valle de Abdalajís",
+  },
   { slug: "velez-malaga", nameEn: "Velez-Malaga", nameEs: "Vélez-Málaga" },
-  { slug: "villanueva-de-algaidas", nameEn: "Villanueva de Algaidas", nameEs: "Villanueva de Algaidas" },
-  { slug: "villanueva-de-la-concepcion", nameEn: "Villanueva de la Concepcion", nameEs: "Villanueva de la Concepción" },
-  { slug: "villanueva-de-tapia", nameEn: "Villanueva de Tapia", nameEs: "Villanueva de Tapia" },
-  { slug: "villanueva-del-rosario", nameEn: "Villanueva del Rosario", nameEs: "Villanueva del Rosario" },
-  { slug: "villanueva-del-trabuco", nameEn: "Villanueva del Trabuco", nameEs: "Villanueva del Trabuco" },
+  {
+    slug: "villanueva-de-algaidas",
+    nameEn: "Villanueva de Algaidas",
+    nameEs: "Villanueva de Algaidas",
+  },
+  {
+    slug: "villanueva-de-la-concepcion",
+    nameEn: "Villanueva de la Concepcion",
+    nameEs: "Villanueva de la Concepción",
+  },
+  {
+    slug: "villanueva-de-tapia",
+    nameEn: "Villanueva de Tapia",
+    nameEs: "Villanueva de Tapia",
+  },
+  {
+    slug: "villanueva-del-rosario",
+    nameEn: "Villanueva del Rosario",
+    nameEs: "Villanueva del Rosario",
+  },
+  {
+    slug: "villanueva-del-trabuco",
+    nameEn: "Villanueva del Trabuco",
+    nameEs: "Villanueva del Trabuco",
+  },
   { slug: "vinuela", nameEn: "Vinuela", nameEs: "Viñuela" },
   { slug: "yunquera", nameEn: "Yunquera", nameEs: "Yunquera" },
 ];
@@ -150,7 +226,9 @@ export function getCityBySlug(slug: string): MalagaCity | null {
   return MALAGA_CITIES.find((city) => city.slug === slug) ?? null;
 }
 
-export function getCityByName(value: string | null | undefined): MalagaCity | null {
+export function getCityByName(
+  value: string | null | undefined,
+): MalagaCity | null {
   if (!value) {
     return null;
   }

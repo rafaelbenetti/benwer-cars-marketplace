@@ -14,6 +14,9 @@ export function useAvailability(
     queryKey: availabilityQueryKey(companySlug, params),
     queryFn: () => availabilityApi.check(companySlug, params),
     enabled:
-      enabled && Boolean(companySlug) && Boolean(params.from) && Boolean(params.to),
+      enabled &&
+      Boolean(companySlug) &&
+      Boolean(params.from) &&
+      Boolean(params.to),
   });
 }

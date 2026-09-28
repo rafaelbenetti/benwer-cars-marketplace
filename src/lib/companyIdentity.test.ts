@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { resolveCardCompany } from "./companyIdentity";
-import { FuelType, TransmissionType, VehicleStatus, VehicleType } from "@/enums";
+import {
+  FuelType,
+  TransmissionType,
+  VehicleStatus,
+  VehicleType,
+} from "@/enums";
 import type { Company } from "@/types/company";
 import type { MarketplaceVehicle } from "@/types/vehicle";
 
@@ -56,9 +61,9 @@ describe("resolveCardCompany", () => {
       },
     };
 
-    expect(resolveCardCompany(marketplaceVehicle, [listed])?.branding.logoUrl).toBe(
-      "/localstack/public-benwer-cars/seed/logos/med-rentacar.svg",
-    );
+    expect(
+      resolveCardCompany(marketplaceVehicle, [listed])?.branding.logoUrl,
+    ).toBe("/localstack/public-benwer-cars/seed/logos/med-rentacar.svg");
     expect(resolveCardCompany(marketplaceVehicle, [listed])?.name).toBe(
       "Autoalquiler Mediterráneo",
     );

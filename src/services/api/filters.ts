@@ -62,7 +62,8 @@ export function applyVehicleListFilters(
 ): Vehicle[] {
   return sortVehicles(
     vehicles.filter(
-      (vehicle) => isListedVehicle(vehicle) && matchesVehicleFilters(vehicle, filters),
+      (vehicle) =>
+        isListedVehicle(vehicle) && matchesVehicleFilters(vehicle, filters),
     ),
     filters?.sort,
   );

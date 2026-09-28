@@ -4,7 +4,9 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     API_ORIGIN: z.string().url().optional(),
-    NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+    NODE_ENV: z
+      .enum(["development", "production", "test"])
+      .default("development"),
   },
   client: {
     NEXT_PUBLIC_API_URL: z.string().url().optional(),
@@ -13,7 +15,10 @@ export const env = createEnv({
     NEXT_PUBLIC_ENV: z
       .enum(["local", "staging", "production"])
       .default(process.env.NODE_ENV === "production" ? "production" : "local"),
-    NEXT_PUBLIC_MARKETING_URL: z.string().url().default("https://cars.benwer.es"),
+    NEXT_PUBLIC_MARKETING_URL: z
+      .string()
+      .url()
+      .default("https://cars.benwer.es"),
     NEXT_PUBLIC_ADMIN_DEMO_URL: z.string().url().optional(),
     NEXT_PUBLIC_MEDIA_ORIGIN: z.string().url().optional(),
   },

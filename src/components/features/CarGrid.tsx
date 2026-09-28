@@ -34,7 +34,9 @@ export function CarGridSkeleton({ count = 8, className }: CarGridLoadingProps) {
 interface CarGridProps {
   vehicles: Vehicle[];
   buildHref: (vehicle: Vehicle) => string;
-  companyFor?: (vehicle: Vehicle) => Pick<Company, "name" | "slug" | "branding"> | null;
+  companyFor?: (
+    vehicle: Vehicle,
+  ) => Pick<Company, "name" | "slug" | "branding"> | null;
   onClearFilters?: () => void;
   emptyTitle?: string;
   emptyHint?: string;
@@ -60,8 +62,12 @@ export function CarGrid({
     return (
       <EmptyState
         icon={<Car size={28} />}
-        title={emptyTitle ?? (onClearFilters ? t("noResults") : t("emptyTitle"))}
-        description={emptyHint ?? (onClearFilters ? t("noResultsHint") : t("emptyHint"))}
+        title={
+          emptyTitle ?? (onClearFilters ? t("noResults") : t("emptyTitle"))
+        }
+        description={
+          emptyHint ?? (onClearFilters ? t("noResultsHint") : t("emptyHint"))
+        }
         actionLabel={
           emptyActionLabel ?? (onClearFilters ? t("clearFilters") : undefined)
         }
@@ -98,7 +104,9 @@ interface CarGridViewProps {
   error?: unknown;
   onRetry: () => void;
   buildHref: (vehicle: Vehicle) => string;
-  companyFor?: (vehicle: Vehicle) => Pick<Company, "name" | "slug" | "branding"> | null;
+  companyFor?: (
+    vehicle: Vehicle,
+  ) => Pick<Company, "name" | "slug" | "branding"> | null;
   onClearFilters?: () => void;
   emptyTitle?: string;
   emptyHint?: string;

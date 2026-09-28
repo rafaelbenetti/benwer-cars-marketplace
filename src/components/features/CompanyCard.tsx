@@ -58,7 +58,9 @@ export function CompanyCard({
 
         <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-4">
           {fleetHint ? (
-            <p className="min-w-0 truncate text-sm text-muted-foreground">{fleetHint}</p>
+            <p className="min-w-0 truncate text-sm text-muted-foreground">
+              {fleetHint}
+            </p>
           ) : (
             <span />
           )}

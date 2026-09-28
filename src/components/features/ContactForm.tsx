@@ -11,7 +11,10 @@ import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useContact } from "@/hooks/useContact";
-import { createContactSchema, type ContactFormValues } from "@/lib/contactSchema";
+import {
+  createContactSchema,
+  type ContactFormValues,
+} from "@/lib/contactSchema";
 import { getErrorKey } from "@/lib/errors";
 
 export function ContactForm() {
@@ -54,7 +57,12 @@ export function ContactForm() {
         });
       })}
     >
-      <Field label={t("name")} htmlFor="name" error={errors.name?.message} required>
+      <Field
+        label={t("name")}
+        htmlFor="name"
+        error={errors.name?.message}
+        required
+      >
         <Input
           id="name"
           type="text"
@@ -63,7 +71,12 @@ export function ContactForm() {
           {...register("name")}
         />
       </Field>
-      <Field label={t("email")} htmlFor="email" error={errors.email?.message} required>
+      <Field
+        label={t("email")}
+        htmlFor="email"
+        error={errors.email?.message}
+        required
+      >
         <Input
           id="email"
           type="email"
@@ -80,7 +93,12 @@ export function ContactForm() {
         error={errors.subject?.message}
         required
       >
-        <Input id="subject" type="text" className="h-11" {...register("subject")} />
+        <Input
+          id="subject"
+          type="text"
+          className="h-11"
+          {...register("subject")}
+        />
       </Field>
       <Field
         label={t("message")}
@@ -90,7 +108,12 @@ export function ContactForm() {
       >
         <Textarea id="message" rows={6} {...register("message")} />
       </Field>
-      <Button type="submit" size="lg" isLoading={contact.isPending} className="w-full sm:w-auto">
+      <Button
+        type="submit"
+        size="lg"
+        isLoading={contact.isPending}
+        className="w-full sm:w-auto"
+      >
         {t("submit")}
       </Button>
       <p className="text-sm text-muted-foreground">

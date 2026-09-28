@@ -36,8 +36,9 @@ export async function generateTenantMetadata(): Promise<Metadata> {
 
   try {
     const company = await companiesApi.getBySlug(slug);
-    const description = company.description
-      ?? (company.location
+    const description =
+      company.description ??
+      (company.location
         ? tMeta("companyDescription", {
             name: company.name,
             location: company.location,

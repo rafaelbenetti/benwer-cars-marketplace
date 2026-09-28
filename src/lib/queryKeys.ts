@@ -27,7 +27,10 @@ export function companiesQueryKey(filters?: CompanyListFilters) {
   return [QueryKeys.COMPANIES, compact] as const;
 }
 
-export function vehiclesQueryKey(companySlug: string, filters?: VehicleFilters) {
+export function vehiclesQueryKey(
+  companySlug: string,
+  filters?: VehicleFilters,
+) {
   const compact = compactQueryFilters(filters);
   if (!compact) {
     return [QueryKeys.VEHICLES, companySlug] as const;
@@ -36,7 +39,9 @@ export function vehiclesQueryKey(companySlug: string, filters?: VehicleFilters) 
   return [QueryKeys.VEHICLES, companySlug, compact] as const;
 }
 
-export function marketplaceVehiclesQueryKey(filters?: MarketplaceSearchFilters) {
+export function marketplaceVehiclesQueryKey(
+  filters?: MarketplaceSearchFilters,
+) {
   const compact = compactQueryFilters(filters);
   if (!compact) {
     return [QueryKeys.VEHICLES, "marketplace"] as const;

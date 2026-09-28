@@ -12,14 +12,20 @@ describe("query keys", () => {
     expect(companiesQueryKey({ location: undefined })).toEqual(["companies"]);
     expect(JSON.stringify(companiesQueryKey())).toBe('["companies"]');
 
-    expect(vehiclesQueryKey("denver-cars")).toEqual(["vehicles", "denver-cars"]);
+    expect(vehiclesQueryKey("denver-cars")).toEqual([
+      "vehicles",
+      "denver-cars",
+    ]);
     expect(vehiclesQueryKey("denver-cars", undefined)).toEqual([
       "vehicles",
       "denver-cars",
     ]);
 
     expect(marketplaceVehiclesQueryKey()).toEqual(["vehicles", "marketplace"]);
-    expect(marketplaceVehiclesQueryKey({})).toEqual(["vehicles", "marketplace"]);
+    expect(marketplaceVehiclesQueryKey({})).toEqual([
+      "vehicles",
+      "marketplace",
+    ]);
   });
 
   it("keeps defined filter values in the key", () => {

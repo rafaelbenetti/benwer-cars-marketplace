@@ -29,6 +29,8 @@ describe("buildCompanySiteHref", () => {
         from: "2026-09-20",
         to: "2026-09-24",
       }),
-    ).toBe("https://denver-cars.benwer.es/cars/v1?from=2026-09-20&to=2026-09-24");
+    ).toBe(
+      "https://denver-cars.benwer.es/cars/v1?from=2026-09-20&to=2026-09-24",
+    );
   });
 });

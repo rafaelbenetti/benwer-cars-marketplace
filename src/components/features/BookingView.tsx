@@ -125,9 +125,15 @@ export function BookingView({
         guestPhone: values.guestPhone,
       });
     } catch (error) {
-      if (mapReservationErrors(error, (field, fieldError) => {
-        form.setError(field, fieldError);
-      }, tRoot)) {
+      if (
+        mapReservationErrors(
+          error,
+          (field, fieldError) => {
+            form.setError(field, fieldError);
+          },
+          tRoot,
+        )
+      ) {
         toast.error(tRoot(getErrorKey(error)));
         return;
       }
@@ -167,7 +173,9 @@ export function BookingView({
 
         {days <= 0 ? (
           <div className="rounded-xl border border-dashed border-border bg-surface-muted/60 px-4 py-3 lg:hidden">
-            <p className="text-sm font-medium text-foreground">{t("datesMissingTitle")}</p>
+            <p className="text-sm font-medium text-foreground">
+              {t("datesMissingTitle")}
+            </p>
             <p className="mt-1 text-sm text-muted-foreground">
               {t("datesMissingDescription")}
             </p>

@@ -35,8 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   try {
     const company = await companiesApi.getBySlug(slug);
-    const description = company.description
-      ?? (company.location
+    const description =
+      company.description ??
+      (company.location
         ? tMeta("companyDescription", {
             name: company.name,
             location: company.location,
@@ -130,7 +131,8 @@ async function CompanyPage({ params, searchParams }: Props) {
         phone={company.phone}
         contactLabel={t("contact")}
         backHref={appendSearchParams(NavRoutes.COMPANIES, {
-          location: typeof query.location === "string" ? query.location : undefined,
+          location:
+            typeof query.location === "string" ? query.location : undefined,
         })}
         backLabel={t("backToList")}
       />

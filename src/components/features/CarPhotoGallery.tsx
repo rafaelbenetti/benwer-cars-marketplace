@@ -13,7 +13,11 @@ interface CarPhotoGalleryProps {
   className?: string;
 }
 
-export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps) {
+export function CarPhotoGallery({
+  photos,
+  alt,
+  className,
+}: CarPhotoGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const t = useTranslations("carDetail");
@@ -38,7 +42,12 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
   const activePhoto = photos[activeIndex];
 
   return (
-    <div className={cn("mx-auto flex w-full min-w-0 max-w-3xl flex-col gap-3", className)}>
+    <div
+      className={cn(
+        "mx-auto flex w-full min-w-0 max-w-3xl flex-col gap-3",
+        className,
+      )}
+    >
       <div className="group relative flex min-h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-surface-muted px-3 py-4">
         <CarPhoto
           key={activePhoto}
@@ -60,7 +69,9 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
           <>
             <IconButton
               label={t("previousPhoto")}
-              onClick={() => setActiveIndex((i) => (i - 1 + photos.length) % photos.length)}
+              onClick={() =>
+                setActiveIndex((i) => (i - 1 + photos.length) % photos.length)
+              }
               className="absolute left-3 top-1/2 -translate-y-1/2 bg-background/80 opacity-0 transition-opacity hover:bg-background group-hover:opacity-100"
             >
               <ChevronLeft size={16} aria-hidden />
@@ -73,7 +84,10 @@ export function CarPhotoGallery({ photos, alt, className }: CarPhotoGalleryProps
               <ChevronRight size={16} aria-hidden />
             </IconButton>
             <span className="absolute bottom-3 right-3 rounded-full bg-background/80 px-2 py-0.5 text-xs tabular-nums text-foreground">
-              {t("photoIndex", { current: activeIndex + 1, total: photos.length })}
+              {t("photoIndex", {
+                current: activeIndex + 1,
+                total: photos.length,
+              })}
             </span>
           </>
         ) : null}

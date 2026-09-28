@@ -1,7 +1,15 @@
 import { addDays, addMonths } from "date-fns";
 import { QueryKeys } from "@/enums";
-import { listingRangeDates, parseIsoDate, startOfToday, toIsoDate } from "@/lib/dates";
-import type { AvailabilityQuery, AvailabilityRange } from "@/types/availability";
+import {
+  listingRangeDates,
+  parseIsoDate,
+  startOfToday,
+  toIsoDate,
+} from "@/lib/dates";
+import type {
+  AvailabilityQuery,
+  AvailabilityRange,
+} from "@/types/availability";
 
 export const AVAILABILITY_WINDOW_MONTHS = 3;
 
@@ -32,13 +40,13 @@ export function unavailableDatesForVehicle(
   ranges: AvailabilityRange[] | undefined,
   vehicleId: string,
 ): string[] {
-  return ranges?.find((row) => row.vehicleId === vehicleId)?.unavailableDates ?? [];
+  return (
+    ranges?.find((row) => row.vehicleId === vehicleId)?.unavailableDates ?? []
+  );
 }
 
 export function parseUnavailableDates(dates: string[]): Date[] {
-  return dates
-    .map(parseIsoDate)
-    .filter((date): date is Date => date !== null);
+  return dates.map(parseIsoDate).filter((date): date is Date => date !== null);
 }
 
 export function rangeIncludesUnavailable(

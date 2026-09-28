@@ -79,7 +79,10 @@ export function assertMockCatalogueAllowed(
   }
 }
 
-export function isAllowedPublicApiProxyPath(method: string, path: string): boolean {
+export function isAllowedPublicApiProxyPath(
+  method: string,
+  path: string,
+): boolean {
   const normalized = path.replace(/^\/+/, "");
   const verb = method.toUpperCase();
 

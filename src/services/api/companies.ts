@@ -3,7 +3,9 @@ import { getOpenApiClient } from "./client";
 import { applyCompanyListFilters } from "./filters";
 import { mapCompany, mapCompanyList } from "./mappers";
 
-async function fetchLiveCompanies(filters?: CompanyListFilters): Promise<Company[]> {
+async function fetchLiveCompanies(
+  filters?: CompanyListFilters,
+): Promise<Company[]> {
   const { data } = await getOpenApiClient().GET("/v1/public/companies", {
     params: {
       query: {
@@ -31,9 +33,12 @@ async function enrichMissingLogos(companies: Company[]): Promise<Company[]> {
       }
 
       try {
-        const { data } = await getOpenApiClient().GET("/v1/public/companies/{slug}", {
-          params: { path: { slug: company.slug } },
-        });
+        const { data } = await getOpenApiClient().GET(
+          "/v1/public/companies/{slug}",
+          {
+            params: { path: { slug: company.slug } },
+          },
+        );
         const detail = mapCompany(data);
         return detail.branding.logoUrl ? detail : company;
       } catch {
