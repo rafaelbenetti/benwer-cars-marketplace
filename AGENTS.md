@@ -32,6 +32,11 @@ truth; do not start from generic Next/React memory.
    - [`docs/product.md`](./docs/product.md) — what & why, two modes, guest booking flow.
    - [`docs/testing.md`](./docs/testing.md) — Playwright e2e + Vitest unit.
 
+## Mobile app (when touching `benwer-cars-admin-mobile`)
+
+Read that repo’s `AGENTS.md` and `docs/mobile-guidelines.md`. **Hard rule:** respect
+system bars — no buttons or footers under the home indicator or Android nav bar.
+
 ## Hard rules (the short list)
 
 - **Server Components by default**; `"use client"` only when truly needed, at the leaves.
@@ -55,7 +60,7 @@ npm run test:e2e   # Playwright
 
 ## Local development (mandatory for agents)
 
-This marketplace talks to **`benwer-cars-api`** on `http://localhost:8081/v1`.
+This marketplace talks to **`benwer-cars-api`** on `http://localhost:8080/v1`.
 Local **requires** that API plus its seed. The marketplace will not substitute
 `public/mock-data` cars, companies, or photos when the API is down or empty.
 
@@ -66,9 +71,9 @@ cd ../benwer-cars-api
 docker compose -f docker-compose-local.yml up --build
 ```
 
-Confirm: `curl -s http://localhost:8081/health`
+Confirm: `curl -s http://localhost:8080/health`
 Confirm seed (`benwer-cars-api` `main` at `dda5afd` and later):
-`curl -s http://localhost:8081/v1/public/companies` — **6 public companies**
+`curl -s http://localhost:8080/v1/public/companies` — **6 public companies**
 with locations and `vehicleCount`, and **37 public vehicles** whose photos are
 LocalStack URLs (`http://localhost:4566/...`, rewritten to `/localstack/...`).
 If that catalogue is missing, reseed the **local** API — never point this app
@@ -86,7 +91,7 @@ Open `http://localhost:3002`. Copy `.env.example` → `.env.local`. Sample:
 
 ```bash
 NEXT_PUBLIC_API_URL=http://localhost:3002/api
-API_ORIGIN=http://localhost:8081
+API_ORIGIN=http://localhost:8080
 LOCALSTACK_ORIGIN=http://localhost:4566
 NEXT_PUBLIC_APP_URL=http://localhost:3002
 NEXT_PUBLIC_MARKETPLACE_DOMAIN=benwer.es

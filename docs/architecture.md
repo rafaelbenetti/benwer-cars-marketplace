@@ -134,7 +134,7 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
   (`npm run generate:api`). No credentials middleware; public routes only.
   The server prefers `API_ORIGIN`. The browser uses `NEXT_PUBLIC_API_URL`
   when it is same-origin (`/api` or the marketplace host). Both must be the
-  **API origin only** (`https://cars-api.benwer.es` or `http://localhost:8081`)
+  **API origin only** (`https://cars-api.benwer.es` or `http://localhost:8080`)
   if they point at the API — never `…/v1`. `openapi-fetch` concatenates
   `baseUrl + "/v1/public/..."`, so a `/v1` suffix produces
   `/v1/v1/public/...` (404). `normalizeApiBaseUrl` strips trailing `/v1`
