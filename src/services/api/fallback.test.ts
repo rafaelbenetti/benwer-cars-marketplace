@@ -77,7 +77,9 @@ describe("withMockFallback", () => {
   });
 
   it("does not treat a production CORS failure as mock stock photos", async () => {
-    const mock = vi.fn(async () => [{ id: "v-med-1", photos: ["/mock-data/cars/corolla.jpg"] }]);
+    const mock = vi.fn(async () => [
+      { id: "v-med-1", photos: ["/mock-data/cars/corolla.jpg"] },
+    ]);
 
     await expect(
       withMockFallback(

@@ -1,8 +1,7 @@
 import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
-interface SearchFieldSegmentProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface SearchFieldSegmentProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon: React.ReactNode;
   label: string;
   value: string;

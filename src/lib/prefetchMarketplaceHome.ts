@@ -1,7 +1,10 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { companiesApi, vehiclesApi } from "@/services/api";
 import { logError } from "@/lib/logger";
-import { companiesQueryKey, marketplaceVehiclesQueryKey } from "@/lib/queryKeys";
+import {
+  companiesQueryKey,
+  marketplaceVehiclesQueryKey,
+} from "@/lib/queryKeys";
 import type { Company } from "@/types/company";
 
 export async function prefetchMarketplaceHomeState() {

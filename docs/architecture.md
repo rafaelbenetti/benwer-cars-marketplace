@@ -44,6 +44,7 @@ distinguish subdomain requests from the main marketplace host.
 ## Route map
 
 ### Tenant subdomain (`denver-cars.benwer.es`)
+
 ```
 /                         Company home — hero + car grid
 /cars/[id]                Car detail + availability calendar + booking CTA
@@ -52,6 +53,7 @@ distinguish subdomain requests from the main marketplace host.
 ```
 
 ### Global marketplace (`marketplace.benwer.es`)
+
 ```
 /                         Company search + featured listings
 /cars                     Mixed-fleet search results (all companies)
@@ -127,6 +129,7 @@ Component  →  React Query hook (src/hooks)  →  API service (src/services/api
 ### Current client
 
 `src/services/api/client.ts` exposes:
+
 - `getOpenApiClient()` — `openapi-fetch` client typed from `schema.d.ts`
   (`npm run generate:api`). No credentials middleware; public routes only.
   The server prefers `API_ORIGIN`. The browser uses `NEXT_PUBLIC_API_URL`
@@ -154,7 +157,6 @@ catalogue data. HTTP 4xx and 5xx from a reachable API are surfaced as
 aliases (`brand`, `type`, `pricePerDay`, `fuel`, `unavailableDates`) and admin
 names (`make`, `category`, `dailyRate`, `fuelType`, `{ available, conflicts }`).
 
-
 ## Per-tenant branding
 
 In tenant subdomain mode the root layout fetches the company's branding and applies it
@@ -165,9 +167,11 @@ as CSS custom properties on `<html>`:
 const company = await companiesApi.getBySlug(slug);
 return (
   <html
-    style={{
-      "--primary": company.branding.primaryColor,
-    } as React.CSSProperties}
+    style={
+      {
+        "--primary": company.branding.primaryColor,
+      } as React.CSSProperties
+    }
   >
     …
   </html>

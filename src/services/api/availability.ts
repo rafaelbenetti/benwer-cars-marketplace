@@ -1,4 +1,7 @@
-import type { AvailabilityQuery, AvailabilityRange } from "@/types/availability";
+import type {
+  AvailabilityQuery,
+  AvailabilityRange,
+} from "@/types/availability";
 import { getOpenApiClient } from "./client";
 import { mapAvailabilityList } from "./mappers";
 
@@ -6,6 +9,10 @@ async function fetchLiveAvailability(
   companySlug: string,
   params: AvailabilityQuery,
 ): Promise<AvailabilityRange[]> {
+  if (!params.vehicleId) {
+    return [];
+  }
+
   const { data } = await getOpenApiClient().GET(
     "/v1/public/companies/{slug}/availability",
     {
@@ -24,7 +31,10 @@ async function fetchLiveAvailability(
 }
 
 export const availabilityApi = {
-  check(companySlug: string, params: AvailabilityQuery): Promise<AvailabilityRange[]> {
+  check(
+    companySlug: string,
+    params: AvailabilityQuery,
+  ): Promise<AvailabilityRange[]> {
     return fetchLiveAvailability(companySlug, params);
   },
 };

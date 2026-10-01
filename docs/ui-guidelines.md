@@ -48,15 +48,15 @@ Never hardcode a color. Components never branch on theme in JS.
 
 **Typography.** Font: Inter. Same scale as admin web:
 
-| Role | Classes |
-| --- | --- |
-| Page title (h1) | `text-3xl font-semibold tracking-tight` |
-| Section title (h2) | `text-xl font-semibold` |
-| Card title (h3) | `text-base font-semibold` |
-| Body | `text-sm` |
-| Secondary / labels | `text-sm text-muted-foreground` |
-| Meta / captions | `text-xs text-subtle-foreground` |
-| Price | `text-lg font-semibold tabular-nums` |
+| Role               | Classes                                 |
+| ------------------ | --------------------------------------- |
+| Page title (h1)    | `text-3xl font-semibold tracking-tight` |
+| Section title (h2) | `text-xl font-semibold`                 |
+| Card title (h3)    | `text-base font-semibold`               |
+| Body               | `text-sm`                               |
+| Secondary / labels | `text-sm text-muted-foreground`         |
+| Meta / captions    | `text-xs text-subtle-foreground`        |
+| Price              | `text-lg font-semibold tabular-nums`    |
 
 **Spacing.** More generous than admin: `gap-6` within a section, `gap-8`/`gap-12`
 between sections. Page padding `px-4 md:px-6 lg:px-8`.
@@ -112,43 +112,43 @@ Same approach as admin web: `cva` for variants, `cn` for class merge.
 
 ### Shared primitives (`src/components/ui`)
 
-| Component | Notes |
-| --- | --- |
+| Component                   | Notes                                                      |
+| --------------------------- | ---------------------------------------------------------- |
 | **Button** / **IconButton** | Variants: primary, secondary, ghost. Sizes: sm/md/lg/icon. |
-| **Badge** / **StatusBadge** | Status pill. Same enum → token mapping as admin web. |
-| **Input**, **Field** | `Field` wraps label + input + hint + error. |
-| **Skeleton** | Token-driven shimmer. Match the final layout shape. |
-| **EmptyState** | Icon + title + description + optional action. |
-| **ErrorState** | Message + retry button. |
-| **Toast** | Sonner-based. Success/error feedback after booking. |
-| **Dialog** | Radix. Confirmations only. |
+| **Badge** / **StatusBadge** | Status pill. Same enum → token mapping as admin web.       |
+| **Input**, **Field**        | `Field` wraps label + input + hint + error.                |
+| **Skeleton**                | Token-driven shimmer. Match the final layout shape.        |
+| **EmptyState**              | Icon + title + description + optional action.              |
+| **ErrorState**              | Message + retry button.                                    |
+| **Toast**                   | Sonner-based. Success/error feedback after booking.        |
+| **Dialog**                  | Radix. Confirmations only.                                 |
 
 ### Layout (`src/components/layout`)
 
-| Component | Notes |
-| --- | --- |
-| **MarketplaceHeader** | Global marketplace header with Benwer Cars branding. |
-| **TenantHeader** | Per-company header; reads company name/logo from context. |
-| **Footer** | Links, locale switcher. |
-| **CompanyBanner** | Hero strip with company name, location, optional tagline. |
+| Component             | Notes                                                     |
+| --------------------- | --------------------------------------------------------- |
+| **MarketplaceHeader** | Global marketplace header with Benwer Cars branding.      |
+| **TenantHeader**      | Per-company header; reads company name/logo from context. |
+| **Footer**            | Links, locale switcher.                                   |
+| **CompanyBanner**     | Hero strip with company name, location, optional tagline. |
 
 ### Feature components (`src/components/features`)
 
-| Component | Notes |
-| --- | --- |
-| **CarCard** | Car photo, brand/model/year, price/day, specs badges, "View details" CTA. |
-| **CarGrid** | Responsive grid of `CarCard`s. Handles loading (skeleton grid), empty, error. |
-| **FilterBar** | Date range, vehicle type, seats, transmission. URL-synced via `nuqs`. |
-| **CarPhotoGallery** | Main photo + thumbnail strip. Lightbox on click. |
-| **SpecsTable** | Type, fuel, transmission, seats in a clean grid. |
-| **AvailabilityCalendar** | Highlight unavailable dates; user selects a range. |
-| **BookingForm** | react-hook-form + zod; name, email, phone, dates, submit. |
-| **BookingSummary** | Read-only summary card shown beside the form. |
-| **ReservationStatus** | Token-based status display; shows vehicle, dates, total, status badge. |
-| **CompanyCard** | Company name, location, fleet size, "View fleet" CTA. |
-| **CompanyGrid** | Responsive grid of `CompanyCard`s. |
-| **CompaniesMap** | Leaflet map of company pins for the current location/date filters. |
-| **CompanyDirectory** | Companies page map + list (side-by-side on desktop, toggle on mobile). |
+| Component                | Notes                                                                         |
+| ------------------------ | ----------------------------------------------------------------------------- |
+| **CarCard**              | Car photo, brand/model/year, price/day, specs badges, "View details" CTA.     |
+| **CarGrid**              | Responsive grid of `CarCard`s. Handles loading (skeleton grid), empty, error. |
+| **FilterBar**            | Date range, vehicle type, seats, transmission. URL-synced via `nuqs`.         |
+| **CarPhotoGallery**      | Main photo + thumbnail strip. Lightbox on click.                              |
+| **SpecsTable**           | Type, fuel, transmission, seats in a clean grid.                              |
+| **AvailabilityCalendar** | Highlight unavailable dates; user selects a range.                            |
+| **BookingForm**          | react-hook-form + zod; name, email, phone, dates, submit.                     |
+| **BookingSummary**       | Read-only summary card shown beside the form.                                 |
+| **ReservationStatus**    | Token-based status display; shows vehicle, dates, total, status badge.        |
+| **CompanyCard**          | Company name, location, fleet size, "View fleet" CTA.                         |
+| **CompanyGrid**          | Responsive grid of `CompanyCard`s.                                            |
+| **CompaniesMap**         | Leaflet map of company pins for the current location/date filters.            |
+| **CompanyDirectory**     | Companies page map + list (side-by-side on desktop, toggle on mobile).        |
 
 ---
 
@@ -175,13 +175,13 @@ return <CarGrid vehicles={data} />;
 
 Same enum → semantic token mapping as admin web. Labels come from i18n.
 
-| Reservation | Token |
-| --- | --- |
-| `draft` | `muted` |
-| `confirmed` | `info` |
-| `active` | `success` |
-| `completed` | neutral |
-| `cancelled` | `danger` |
+| Reservation | Token     |
+| ----------- | --------- |
+| `draft`     | `muted`   |
+| `confirmed` | `info`    |
+| `active`    | `success` |
+| `completed` | neutral   |
+| `cancelled` | `danger`  |
 
 ---
 
@@ -222,7 +222,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const vehicle = await vehiclesApi.getById(params.companySlug, params.id);
   return {
     title: `${vehicle.brand} ${vehicle.model} — ${company.name}`,
-    description: vehicle.description ?? `Rent a ${vehicle.brand} ${vehicle.model}`,
+    description:
+      vehicle.description ?? `Rent a ${vehicle.brand} ${vehicle.model}`,
     openGraph: {
       title: `${vehicle.brand} ${vehicle.model}`,
       images: vehicle.photos[0] ? [vehicle.photos[0]] : [],

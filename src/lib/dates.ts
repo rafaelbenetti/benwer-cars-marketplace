@@ -1,4 +1,11 @@
-import { addDays, differenceInCalendarDays, format, isValid, parseISO, startOfDay } from "date-fns";
+import {
+  addDays,
+  differenceInCalendarDays,
+  format,
+  isValid,
+  parseISO,
+  startOfDay,
+} from "date-fns";
 import { enGB, es } from "date-fns/locale";
 
 const DATE_LOCALES = {
@@ -41,12 +48,14 @@ export function toIsoDate(date: Date): string {
 }
 
 export function formatSearchDate(date: Date, locale: string): string {
-  const dateLocale = locale === "es-ES" ? DATE_LOCALES["es-ES"] : DATE_LOCALES["en-GB"];
+  const dateLocale =
+    locale === "es-ES" ? DATE_LOCALES["es-ES"] : DATE_LOCALES["en-GB"];
   return format(date, "d MMM", { locale: dateLocale });
 }
 
 export function formatLongDate(date: Date, locale: string): string {
-  const dateLocale = locale === "es-ES" ? DATE_LOCALES["es-ES"] : DATE_LOCALES["en-GB"];
+  const dateLocale =
+    locale === "es-ES" ? DATE_LOCALES["es-ES"] : DATE_LOCALES["en-GB"];
   return format(date, "d MMMM yyyy", { locale: dateLocale });
 }
 

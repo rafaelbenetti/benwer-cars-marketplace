@@ -61,11 +61,11 @@ wrong without it.
 
 ## 4. No hardcoding — colors, text, business strings
 
-| Never hardcode | Use instead | Source |
-| --- | --- | --- |
-| Colors (`#fff`, `rgb()`) | Semantic Tailwind tokens (`bg-primary`, `text-foreground`) | [ui-guidelines.md](./ui-guidelines.md#theming--tokens) |
-| User-facing text | `t("some.key")` from i18n | `messages/<locale>/{common,marketplace}.json` |
-| Business strings (statuses, query keys) | Enums/constants | `src/enums` |
+| Never hardcode                          | Use instead                                                | Source                                                 |
+| --------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ |
+| Colors (`#fff`, `rgb()`)                | Semantic Tailwind tokens (`bg-primary`, `text-foreground`) | [ui-guidelines.md](./ui-guidelines.md#theming--tokens) |
+| User-facing text                        | `t("some.key")` from i18n                                  | `messages/<locale>/{common,marketplace}.json`          |
+| Business strings (statuses, query keys) | Enums/constants                                            | `src/enums`                                            |
 
 i18n uses **next-intl** with ICU messages:
 
@@ -144,6 +144,7 @@ return <CarGrid vehicles={data} />;
 ```
 
 Query-key conventions:
+
 - Arrays, namespaced by entity: `[QueryKeys.VEHICLES, slug]`, `[QueryKeys.VEHICLE, slug, id]`.
 - Include every dependency that changes the result.
 - Add reusable keys to the `QueryKeys` enum.
@@ -181,8 +182,10 @@ i18n key:
 // messages/en-GB/common.json
 {
   "errors": {
-    "reservation": { "overlap": "This vehicle is already booked for those dates." }
-  }
+    "reservation": {
+      "overlap": "This vehicle is already booked for those dates.",
+    },
+  },
 }
 ```
 

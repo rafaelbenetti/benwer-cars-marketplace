@@ -22,9 +22,9 @@ function loadFixture(name: string): unknown {
 
 describe("unwrapList", () => {
   it("reads response.data from a page envelope", () => {
-    expect(unwrapList({ data: [{ id: "1" }], page: { total: 1, nextCursor: null } })).toEqual([
-      { id: "1" },
-    ]);
+    expect(
+      unwrapList({ data: [{ id: "1" }], page: { total: 1, nextCursor: null } }),
+    ).toEqual([{ id: "1" }]);
   });
 
   it("falls back to a raw array", () => {
@@ -99,7 +99,8 @@ describe("mapCompany", () => {
       name: "Autoalquiler Mediterráneo",
       branding: {
         primaryColor: "#7c3aed",
-        logoUrl: "http://localhost:4566/public-benwer-cars/seed/logos/med-rentacar.svg",
+        logoUrl:
+          "http://localhost:4566/public-benwer-cars/seed/logos/med-rentacar.svg",
       },
     });
 
@@ -179,7 +180,9 @@ describe("mapVehicleList", () => {
   });
 
   it("treats a null vehicle list as empty", () => {
-    expect(mapVehicleList(loadFixture("vehicles.filtered-type-car.json"))).toEqual([]);
+    expect(
+      mapVehicleList(loadFixture("vehicles.filtered-type-car.json")),
+    ).toEqual([]);
   });
 
   it("reads photo objects and photoUrl fallbacks", () => {
@@ -215,9 +218,13 @@ describe("mapVehicleList", () => {
   });
 
   it("maps economy, sedan, and other categories to car for display", () => {
-    expect(mapVehicle({ id: "1", category: "economy" }).type).toBe(VehicleType.CAR);
+    expect(mapVehicle({ id: "1", category: "economy" }).type).toBe(
+      VehicleType.CAR,
+    );
     expect(mapVehicle({ id: "2", type: "sedan" }).type).toBe(VehicleType.CAR);
-    expect(mapVehicle({ id: "3", category: "other" }).type).toBe(VehicleType.CAR);
+    expect(mapVehicle({ id: "3", category: "other" }).type).toBe(
+      VehicleType.CAR,
+    );
   });
 
   it("reads vehicle_photo attachments before stock_photo", () => {
@@ -397,7 +404,9 @@ describe("mapReservation", () => {
 
     expect(reservation.token).toBe("nested-token");
     expect(reservation.vehicle?.brand).toBe("Peugeot");
-    expect(reservation.vehicle?.photos).toEqual(["https://cdn.example/car.jpg"]);
+    expect(reservation.vehicle?.photos).toEqual([
+      "https://cdn.example/car.jpg",
+    ]);
     expect(reservation.company?.slug).toBe("med-rentacar");
     expect(reservation.company?.latitude).toBe(36.72);
     expect(reservation.companySlug).toBe("med-rentacar");

@@ -1,4 +1,9 @@
-import type { VehicleStatus, VehicleType, TransmissionType, FuelType } from "@/enums";
+import type {
+  VehicleStatus,
+  VehicleType,
+  TransmissionType,
+  FuelType,
+} from "@/enums";
 import type { Company } from "./company";
 
 export interface Vehicle {

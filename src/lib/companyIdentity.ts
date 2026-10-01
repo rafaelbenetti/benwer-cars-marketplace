@@ -5,7 +5,8 @@ export function resolveCardCompany(
   vehicle: Vehicle,
   companies?: Company[] | null,
 ): Pick<Company, "name" | "slug" | "branding"> | null {
-  const nested = "company" in vehicle ? (vehicle as MarketplaceVehicle).company : null;
+  const nested =
+    "company" in vehicle ? (vehicle as MarketplaceVehicle).company : null;
   const listed =
     companies?.find((company) => company.slug === vehicle.companySlug) ?? null;
 

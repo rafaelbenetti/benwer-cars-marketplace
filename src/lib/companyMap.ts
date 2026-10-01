@@ -14,7 +14,10 @@ export interface CompanyMapPin {
 
 const PIN_OFFSET_DEGREES = 0.012;
 
-function offsetForIndex(index: number, total: number): { lat: number; lng: number } {
+function offsetForIndex(
+  index: number,
+  total: number,
+): { lat: number; lng: number } {
   if (total <= 1) {
     return { lat: 0, lng: 0 };
   }

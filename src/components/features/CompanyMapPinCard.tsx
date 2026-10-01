@@ -12,14 +12,20 @@ interface CompanyMapPinCardProps {
   onClose: () => void;
 }
 
-export function CompanyMapPinCard({ pin, locale, onClose }: CompanyMapPinCardProps) {
+export function CompanyMapPinCard({
+  pin,
+  locale,
+  onClose,
+}: CompanyMapPinCardProps) {
   const t = useTranslations("map");
   const cityName = getCityDisplayName(pin.city, locale);
 
   return (
     <article className="flex w-64 flex-col gap-3 p-4">
       <div className="min-w-0">
-        <h3 className="truncate text-base font-semibold text-foreground">{pin.name}</h3>
+        <h3 className="truncate text-base font-semibold text-foreground">
+          {pin.name}
+        </h3>
         <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
           <MapPin size={12} aria-hidden />
           {cityName}

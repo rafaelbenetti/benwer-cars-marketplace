@@ -6,8 +6,7 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary:
-          "bg-primary text-primary-foreground hover:bg-primary-hover",
+        primary: "bg-primary text-primary-foreground hover:bg-primary-hover",
         secondary:
           "bg-surface text-foreground border border-border hover:bg-surface-hover",
         ghost:
@@ -58,7 +57,12 @@ type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
 };
 
-export function IconButton({ label, className, children, ...props }: IconButtonProps) {
+export function IconButton({
+  label,
+  className,
+  children,
+  ...props
+}: IconButtonProps) {
   return (
     <button
       aria-label={label}

@@ -38,11 +38,7 @@ export function CompanyBanner({
     name,
     branding: { primaryColor: "", logoUrl: logoUrl ?? null },
   };
-  const contactHref = email
-    ? `mailto:${email}`
-    : phone
-      ? `tel:${phone}`
-      : null;
+  const contactHref = email ? `mailto:${email}` : phone ? `tel:${phone}` : null;
 
   return (
     <section
@@ -90,7 +86,10 @@ export function CompanyBanner({
               {websiteHref && websiteLabel ? (
                 <a
                   href={websiteHref}
-                  className={cn(buttonVariants({ variant: "primary" }), "w-full sm:w-auto")}
+                  className={cn(
+                    buttonVariants({ variant: "primary" }),
+                    "w-full sm:w-auto",
+                  )}
                 >
                   {websiteLabel}
                   <ArrowUpRight size={16} aria-hidden />
@@ -99,9 +98,16 @@ export function CompanyBanner({
               {contactHref && contactLabel ? (
                 <a
                   href={contactHref}
-                  className={cn(buttonVariants({ variant: "secondary" }), "w-full sm:w-auto")}
+                  className={cn(
+                    buttonVariants({ variant: "secondary" }),
+                    "w-full sm:w-auto",
+                  )}
                 >
-                  {email ? <Mail size={16} aria-hidden /> : <Phone size={16} aria-hidden />}
+                  {email ? (
+                    <Mail size={16} aria-hidden />
+                  ) : (
+                    <Phone size={16} aria-hidden />
+                  )}
                   {contactLabel}
                 </a>
               ) : null}

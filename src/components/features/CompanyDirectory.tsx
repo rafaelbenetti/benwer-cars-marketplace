@@ -45,7 +45,8 @@ export function CompanyDirectory({
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [highlightedSlug, setHighlightedSlug] = useState<string | null>(null);
 
-  const showMapPane = isDesktop || searchParams.get(SearchParams.VIEW) === "map";
+  const showMapPane =
+    isDesktop || searchParams.get(SearchParams.VIEW) === "map";
   const cityLabel =
     location && !isProvinceWideLocation(location)
       ? locationLabelFromSlug(location, locale)
@@ -70,9 +71,12 @@ export function CompanyDirectory({
     }
 
     const query = params.toString();
-    router.replace(query ? `${NavRoutes.COMPANIES}?${query}` : NavRoutes.COMPANIES, {
-      scroll: false,
-    });
+    router.replace(
+      query ? `${NavRoutes.COMPANIES}?${query}` : NavRoutes.COMPANIES,
+      {
+        scroll: false,
+      },
+    );
   }
 
   function companyHref(company: Company): string {
@@ -92,7 +96,9 @@ export function CompanyDirectory({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-muted-foreground">{isPending ? t("loading") : resultsLabel}</p>
+        <p className="text-sm text-muted-foreground">
+          {isPending ? t("loading") : resultsLabel}
+        </p>
         <div
           className="grid grid-cols-2 rounded-lg border border-border bg-surface p-1 lg:hidden"
           role="group"
@@ -163,9 +169,7 @@ export function CompanyDirectory({
               }
               viewFleetLabel={tCompanies("viewFleet")}
               onClearFilters={
-                location
-                  ? () => router.replace(NavRoutes.COMPANIES)
-                  : undefined
+                location ? () => router.replace(NavRoutes.COMPANIES) : undefined
               }
               className="lg:grid-cols-1"
             />

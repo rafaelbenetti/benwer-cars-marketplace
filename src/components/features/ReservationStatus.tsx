@@ -100,7 +100,9 @@ export function ReservationStatus({
             <p className="mt-0.5 font-mono text-sm font-medium tracking-wide text-foreground">
               {data.token.slice(0, 8).toUpperCase()}
             </p>
-            <p className="mt-1 text-xs text-subtle-foreground">{t("referenceHint")}</p>
+            <p className="mt-1 text-xs text-subtle-foreground">
+              {t("referenceHint")}
+            </p>
           </div>
           <StatusBadge status={data.status} label={t(`status.${statusKey}`)} />
         </div>
@@ -123,16 +125,23 @@ export function ReservationStatus({
             value={toDate ? formatLongDate(toDate, locale) : data.endDate}
           />
           {days > 0 ? (
-            <StatusRow label={t("dates")} value={tBooking("nights", { count: days })} />
+            <StatusRow
+              label={t("dates")}
+              value={tBooking("nights", { count: days })}
+            />
           ) : null}
-          {companyName ? <StatusRow label={t("company")} value={companyName} /> : null}
+          {companyName ? (
+            <StatusRow label={t("company")} value={companyName} />
+          ) : null}
           <StatusRow label={t("guest")} value={data.guestName} />
           <StatusRow label={t("email")} value={data.guestEmail} />
           <StatusRow label={t("phone")} value={data.guestPhone} />
         </dl>
 
         <div className="flex items-center justify-between border-t border-border pt-4">
-          <span className="text-sm font-medium text-foreground">{t("total")}</span>
+          <span className="text-sm font-medium text-foreground">
+            {t("total")}
+          </span>
           <span className="text-lg font-semibold tabular-nums text-foreground">
             {total}
           </span>
@@ -140,14 +149,24 @@ export function ReservationStatus({
       </div>
 
       <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface-muted/60 p-5">
-        <h2 className="text-sm font-semibold text-foreground">{t("nextTitle")}</h2>
+        <h2 className="text-sm font-semibold text-foreground">
+          {t("nextTitle")}
+        </h2>
         <ol className="flex flex-col gap-3">
           <li className="flex items-start gap-3 text-sm text-muted-foreground">
-            <Mail size={16} className="mt-0.5 shrink-0 text-primary" aria-hidden />
+            <Mail
+              size={16}
+              className="mt-0.5 shrink-0 text-primary"
+              aria-hidden
+            />
             <span>{t("nextEmail", { email: data.guestEmail })}</span>
           </li>
           <li className="flex items-start gap-3 text-sm text-muted-foreground">
-            <CalendarDays size={16} className="mt-0.5 shrink-0 text-primary" aria-hidden />
+            <CalendarDays
+              size={16}
+              className="mt-0.5 shrink-0 text-primary"
+              aria-hidden
+            />
             <span>{t("nextPickup")}</span>
           </li>
         </ol>
@@ -164,7 +183,9 @@ export function ReservationStatus({
             {t("trustPickup")}
           </li>
         </ul>
-        <p className="max-w-md text-sm text-muted-foreground">{t("trustCopy")}</p>
+        <p className="max-w-md text-sm text-muted-foreground">
+          {t("trustCopy")}
+        </p>
         <Link
           href={fleetHref}
           className="inline-flex h-11 cursor-pointer items-center justify-center rounded-md border border-border bg-surface px-6 text-sm font-medium text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -193,7 +214,11 @@ export function ReservationStatusSkeleton() {
         <Skeleton className="h-9 w-56" />
         <Skeleton className="h-4 w-72" />
       </div>
-      <div className={cn("flex flex-col gap-6 rounded-2xl border border-border bg-surface p-6")}>
+      <div
+        className={cn(
+          "flex flex-col gap-6 rounded-2xl border border-border bg-surface p-6",
+        )}
+      >
         <div className="flex items-start justify-between">
           <div className="flex flex-col gap-1.5">
             <Skeleton className="h-3 w-16" />

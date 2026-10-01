@@ -5,43 +5,43 @@ decisions and differences.
 
 ## Core (in repo)
 
-| Area | Choice | Version |
-| --- | --- | --- |
-| Framework | Next.js (App Router, non-standard build) | 16 |
-| UI runtime | React | 19 |
-| Language | TypeScript (strict) | 5 |
-| Styling | Tailwind CSS v4 + semantic CSS-variable tokens | 4 |
-| Primitives | Radix UI + `cva`/`cn` | — |
-| Server state | TanStack React Query | 5 |
-| Icons | lucide-react | current |
-| i18n | next-intl + ICU messages | current |
-| Toasts | sonner | 2 |
-| Maps | Leaflet + react-leaflet | 1.9 / 5 |
+| Area         | Choice                                         | Version |
+| ------------ | ---------------------------------------------- | ------- |
+| Framework    | Next.js (App Router, non-standard build)       | 16      |
+| UI runtime   | React                                          | 19      |
+| Language     | TypeScript (strict)                            | 5       |
+| Styling      | Tailwind CSS v4 + semantic CSS-variable tokens | 4       |
+| Primitives   | Radix UI + `cva`/`cn`                          | —       |
+| Server state | TanStack React Query                           | 5       |
+| Icons        | lucide-react                                   | current |
+| i18n         | next-intl + ICU messages                       | current |
+| Toasts       | sonner                                         | 2       |
+| Maps         | Leaflet + react-leaflet                        | 1.9 / 5 |
 
 ## Planned additions
 
-| Need | Choice | Why |
-| --- | --- | --- |
-| Forms + validation | react-hook-form + zod | Same as admin web. |
-| Date picker | react-day-picker (or built on Radix) | Availability calendar needs a range picker with disabled dates. |
-| List/filter URL state | nuqs | Filters, dates, sort live in the URL — shareable, bookmarkable. |
-| Dates | date-fns + date-fns-tz | ISO 8601 UTC transport, format at the edge. |
-| API mocking | MSW | Real client runs everywhere; MSW intercepts in dev + tests. |
-| Unit tests | Vitest + @testing-library/react | Modern, fast, ESM-native. |
-| a11y | @axe-core/playwright + eslint-plugin-jsx-a11y | Regression coverage. |
-| Error monitoring | Sentry via `@/lib/logger` | Swap-able; call sites never import the vendor. |
-| Env validation | @t3-oss/env-nextjs + zod | Fail fast on missing env at boot. |
-| Typed API client | openapi-fetch (generated from API spec) | No hand-written DTOs; same spec as admin + mobile. |
+| Need                  | Choice                                        | Why                                                             |
+| --------------------- | --------------------------------------------- | --------------------------------------------------------------- |
+| Forms + validation    | react-hook-form + zod                         | Same as admin web.                                              |
+| Date picker           | react-day-picker (or built on Radix)          | Availability calendar needs a range picker with disabled dates. |
+| List/filter URL state | nuqs                                          | Filters, dates, sort live in the URL — shareable, bookmarkable. |
+| Dates                 | date-fns + date-fns-tz                        | ISO 8601 UTC transport, format at the edge.                     |
+| API mocking           | MSW                                           | Real client runs everywhere; MSW intercepts in dev + tests.     |
+| Unit tests            | Vitest + @testing-library/react               | Modern, fast, ESM-native.                                       |
+| a11y                  | @axe-core/playwright + eslint-plugin-jsx-a11y | Regression coverage.                                            |
+| Error monitoring      | Sentry via `@/lib/logger`                     | Swap-able; call sites never import the vendor.                  |
+| Env validation        | @t3-oss/env-nextjs + zod                      | Fail fast on missing env at boot.                               |
+| Typed API client      | openapi-fetch (generated from API spec)       | No hand-written DTOs; same spec as admin + mobile.              |
 
 ## Do NOT use (rejected)
 
-| Rejected | Use instead | Reason |
-| --- | --- | --- |
-| sweetalert2 | sonner (toasts) + Radix Dialog | Off-brand, heavy. |
-| Raw `fetch()` in components | hook → service → client | Breaks the layered data flow. |
-| Redux / MobX | React Query + URL + local state | No global store need. |
-| CSS-in-JS / inline `style={{theme.colors}}` | Tailwind semantic tokens | Runtime cost, no `hover:`/`dark:` states. |
-| Moment.js | date-fns | Unmaintained, heavy, mutable. |
+| Rejected                                    | Use instead                     | Reason                                    |
+| ------------------------------------------- | ------------------------------- | ----------------------------------------- |
+| sweetalert2                                 | sonner (toasts) + Radix Dialog  | Off-brand, heavy.                         |
+| Raw `fetch()` in components                 | hook → service → client         | Breaks the layered data flow.             |
+| Redux / MobX                                | React Query + URL + local state | No global store need.                     |
+| CSS-in-JS / inline `style={{theme.colors}}` | Tailwind semantic tokens        | Runtime cost, no `hover:`/`dark:` states. |
+| Moment.js                                   | date-fns                        | Unmaintained, heavy, mutable.             |
 
 ## Marketplace-specific decisions
 

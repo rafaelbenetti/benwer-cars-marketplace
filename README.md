@@ -34,10 +34,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 `NEXT_PUBLIC_API_URL` and `API_ORIGIN` must be the **API origin only** — no
 `/v1` path prefix. Generated client paths already start with `/v1/public/...`.
 
-| Env | Wrong | Right |
-| --- | --- | --- |
+| Env                   | Wrong                           | Right                        |
+| --------------------- | ------------------------------- | ---------------------------- |
 | `NEXT_PUBLIC_API_URL` | `https://cars-api.benwer.es/v1` | `https://cars-api.benwer.es` |
-| `API_ORIGIN` | `https://cars-api.benwer.es/v1` | `https://cars-api.benwer.es` |
+| `API_ORIGIN`          | `https://cars-api.benwer.es/v1` | `https://cars-api.benwer.es` |
 
 A `/v1` suffix is concatenated onto `/v1/public/...` and the browser calls
 `/v1/v1/public/companies/...` (HTTP 404). That used to trip mock fallback

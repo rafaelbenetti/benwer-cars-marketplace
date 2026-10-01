@@ -43,7 +43,10 @@ interface MapErrorBoundaryState {
   hasError: boolean;
 }
 
-class MapErrorBoundary extends Component<MapErrorBoundaryProps, MapErrorBoundaryState> {
+class MapErrorBoundary extends Component<
+  MapErrorBoundaryProps,
+  MapErrorBoundaryState
+> {
   public override state: MapErrorBoundaryState = { hasError: false };
 
   public static getDerivedStateFromError(): MapErrorBoundaryState {

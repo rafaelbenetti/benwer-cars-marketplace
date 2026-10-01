@@ -1,7 +1,11 @@
 import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 
-export function AvailabilityCalendarSkeleton({ className }: { className?: string }) {
+export function AvailabilityCalendarSkeleton({
+  className,
+}: {
+  className?: string;
+}) {
   return (
     <div className={cn("flex flex-col gap-4", className)}>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

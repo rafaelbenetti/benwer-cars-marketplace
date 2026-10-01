@@ -1,5 +1,4 @@
 import { ApiError } from "@/lib/errors";
-import { toPublicVehicleListQuery } from "@/lib/vehicleFilters";
 import type {
   MarketplaceSearchFilters,
   MarketplaceVehicle,
@@ -28,7 +27,6 @@ async function fetchLiveVehicles(
     {
       params: {
         path: { slug: companySlug },
-        query: toPublicVehicleListQuery(filters),
       },
     },
   );
@@ -78,7 +76,10 @@ async function fetchLiveVehicle(
 }
 
 export const vehiclesApi = {
-  getByCompany(companySlug: string, filters?: VehicleFilters): Promise<Vehicle[]> {
+  getByCompany(
+    companySlug: string,
+    filters?: VehicleFilters,
+  ): Promise<Vehicle[]> {
     return fetchLiveVehicles(companySlug, filters);
   },
 

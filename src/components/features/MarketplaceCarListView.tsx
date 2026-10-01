@@ -12,12 +12,13 @@ import { FilterRail, FilterRailSkeleton } from "./FilterRail";
 import { Button } from "@/components/ui/Button";
 import { Sheet } from "@/components/ui/Sheet";
 import { Skeleton } from "@/components/ui/Skeleton";
-import {
-  isProvinceWideLocation,
-  resolveCitySlug,
-} from "@/data/malagaCities";
+import { isProvinceWideLocation, resolveCitySlug } from "@/data/malagaCities";
 import { NavRoutes, SearchParams } from "@/enums";
-import { formatSearchDate, hasCompleteSearchDates, parseIsoDate } from "@/lib/dates";
+import {
+  formatSearchDate,
+  hasCompleteSearchDates,
+  parseIsoDate,
+} from "@/lib/dates";
 import { resolveCardCompany } from "@/lib/companyIdentity";
 import { locationLabelFromSlug } from "@/lib/locationOptions";
 import { appendSearchParams } from "@/lib/marketplaceSearch";
@@ -92,17 +93,20 @@ function MarketplaceCarListContent() {
       params.set(SearchParams.LOCATION, location);
     }
     const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    router.replace(query ? `${pathname}?${query}` : pathname, {
+      scroll: false,
+    });
   }
 
   function buildHref(vehicle: Vehicle): string {
     return appendSearchParams(
       `${NavRoutes.COMPANIES}/${encodeURIComponent(vehicle.companySlug)}/cars/${encodeURIComponent(vehicle.id)}`,
       {
-      location,
-      from: browse.from,
-      to: browse.to,
-    });
+        location,
+        from: browse.from,
+        to: browse.to,
+      },
+    );
   }
 
   function companyFor(vehicle: Vehicle) {
@@ -116,10 +120,7 @@ function MarketplaceCarListContent() {
     });
   }
 
-  const filterRail = (
-    prefix: string,
-    className?: string,
-  ) => (
+  const filterRail = (prefix: string, className?: string) => (
     <FilterRail
       filters={filters}
       onChange={handleChange}
@@ -176,7 +177,9 @@ function MarketplaceCarListContent() {
               companyFor={companyFor}
               emptyTitle={t("searchEmptyTitle")}
               emptyHint={t("searchEmptyHint")}
-              emptyActionLabel={hasFilters ? t("clearFilters") : t("browseCompanies")}
+              emptyActionLabel={
+                hasFilters ? t("clearFilters") : t("browseCompanies")
+              }
               emptyActionHref={hasFilters ? undefined : NavRoutes.COMPANIES}
               onClearFilters={hasFilters ? clearAdvancedFilters : undefined}
               className={RESULTS_GRID_CLASS}
@@ -195,7 +198,9 @@ function MarketplaceCarListContent() {
         onOpenChange={setFiltersOpen}
         title={t("filters.title")}
         description={
-          appliedCount ? t("filters.appliedCount", { count: appliedCount }) : undefined
+          appliedCount
+            ? t("filters.appliedCount", { count: appliedCount })
+            : undefined
         }
         closeLabel={t("filters.close")}
         footer={

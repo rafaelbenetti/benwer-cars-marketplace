@@ -39,15 +39,15 @@ export function buildPageMetadata({
   noIndex = false,
 }: PageMetadataInput): Metadata {
   const url = absoluteUrl(path);
-  const ogImages = images
-    ?.filter(Boolean)
-    .map((image) => ({ url: image }));
+  const ogImages = images?.filter(Boolean).map((image) => ({ url: image }));
 
   return {
     title,
     description,
     alternates: { canonical: url },
-    robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
+    robots: noIndex
+      ? { index: false, follow: false }
+      : { index: true, follow: true },
     openGraph: {
       title,
       description,

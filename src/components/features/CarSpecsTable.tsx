@@ -20,7 +20,11 @@ export function CarSpecsTable({ vehicle, className }: CarSpecsTableProps) {
     vehicle.year > 0
       ? { label: t("year"), value: String(vehicle.year), titleCase: false }
       : null,
-    { label: t("type"), value: tCars(`types.${vehicle.type}`), titleCase: false },
+    {
+      label: t("type"),
+      value: tCars(`types.${vehicle.type}`),
+      titleCase: false,
+    },
     vehicle.category && vehicle.category !== vehicle.type
       ? { label: t("category"), value: vehicle.category, titleCase: true }
       : null,
@@ -33,7 +37,11 @@ export function CarSpecsTable({ vehicle, className }: CarSpecsTableProps) {
       ),
       titleCase: false,
     },
-    { label: t("fuel"), value: tCars(`fuel.${vehicle.fuel}`), titleCase: false },
+    {
+      label: t("fuel"),
+      value: tCars(`fuel.${vehicle.fuel}`),
+      titleCase: false,
+    },
     vehicle.seats > 0
       ? {
           label: t("seats"),

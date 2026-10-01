@@ -6,7 +6,9 @@ import {
 } from "./locationOptions";
 import type { Company } from "@/types/company";
 
-function company(partial: Partial<Company> & Pick<Company, "slug" | "name">): Company {
+function company(
+  partial: Partial<Company> & Pick<Company, "slug" | "name">,
+): Company {
   return {
     id: partial.id ?? partial.slug,
     slug: partial.slug,
@@ -73,12 +75,12 @@ describe("inventoryLocationsFromCompanies", () => {
       "torremolinos",
       "valencia",
     ]);
-    expect(locations.find((location) => location.slug === "valencia")?.label).toBe(
-      "Valencia",
-    );
-    expect(locations.find((location) => location.slug === "bilbao")?.label).toBe(
-      "Bilbao",
-    );
+    expect(
+      locations.find((location) => location.slug === "valencia")?.label,
+    ).toBe("Valencia");
+    expect(
+      locations.find((location) => location.slug === "bilbao")?.label,
+    ).toBe("Bilbao");
   });
 
   it("filters by label or slug", () => {
@@ -87,9 +89,9 @@ describe("inventoryLocationsFromCompanies", () => {
       { slug: "torremolinos", label: "Torremolinos" },
     ];
 
-    expect(filterInventoryLocations(options, "valen").map((item) => item.slug)).toEqual([
-      "valencia",
-    ]);
+    expect(
+      filterInventoryLocations(options, "valen").map((item) => item.slug),
+    ).toEqual(["valencia"]);
   });
 });
 

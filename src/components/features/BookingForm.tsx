@@ -30,7 +30,9 @@ export function BookingForm({ carHref }: BookingFormProps) {
       </Link>
 
       <div>
-        <h2 className="text-xl font-semibold text-foreground">{t("details")}</h2>
+        <h2 className="text-xl font-semibold text-foreground">
+          {t("details")}
+        </h2>
         <p className="mt-1 text-sm text-muted-foreground">{t("detailsHint")}</p>
       </div>
 

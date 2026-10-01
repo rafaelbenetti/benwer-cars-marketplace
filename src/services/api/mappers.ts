@@ -9,7 +9,10 @@ import {
 } from "@/enums";
 import { listingRangeDates } from "@/lib/dates";
 import { toPublicMediaSrc } from "@/lib/media";
-import type { AvailabilityQuery, AvailabilityRange } from "@/types/availability";
+import type {
+  AvailabilityQuery,
+  AvailabilityRange,
+} from "@/types/availability";
 import type { Company } from "@/types/company";
 import type { GuestReservation } from "@/types/reservation";
 import type { Vehicle } from "@/types/vehicle";
@@ -31,7 +34,9 @@ function readId(value: unknown): string | undefined {
 }
 
 function readNumber(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+  return typeof value === "number" && Number.isFinite(value)
+    ? value
+    : undefined;
 }
 
 function readBoolean(value: unknown): boolean | undefined {
@@ -43,7 +48,9 @@ function readStringArray(value: unknown): string[] | undefined {
     return undefined;
   }
 
-  return value.filter((item): item is string => typeof item === "string" && item.length > 0);
+  return value.filter(
+    (item): item is string => typeof item === "string" && item.length > 0,
+  );
 }
 
 export function unwrapList<T>(payload: unknown): T[] {
@@ -114,7 +121,10 @@ function mapVehicleStatus(
   status: string | undefined,
   available: boolean | undefined,
 ): VehicleStatus {
-  if (status && Object.values(VehicleStatus).includes(status as VehicleStatus)) {
+  if (
+    status &&
+    Object.values(VehicleStatus).includes(status as VehicleStatus)
+  ) {
     return status as VehicleStatus;
   }
 
@@ -122,7 +132,10 @@ function mapVehicleStatus(
 }
 
 function mapReservationStatus(status: string | undefined): ReservationStatus {
-  if (status && Object.values(ReservationStatus).includes(status as ReservationStatus)) {
+  if (
+    status &&
+    Object.values(ReservationStatus).includes(status as ReservationStatus)
+  ) {
     return status as ReservationStatus;
   }
 
@@ -156,18 +169,19 @@ function toPublicPhotoSrc(value: string): string | undefined {
 }
 
 function readPhotoUrl(value: unknown): string | undefined {
-  const raw = typeof value === "string" && value.trim()
-    ? value.trim()
-    : isRecord(value)
-      ? readString(value.url) ??
-        readString(value.src) ??
-        readString(value.href) ??
-        readString(value.photoUrl) ??
-        readString(value.publicUrl) ??
-        readString(value.signedUrl) ??
-        readString(value.key) ??
-        readString(value.path)
-      : undefined;
+  const raw =
+    typeof value === "string" && value.trim()
+      ? value.trim()
+      : isRecord(value)
+        ? (readString(value.url) ??
+          readString(value.src) ??
+          readString(value.href) ??
+          readString(value.photoUrl) ??
+          readString(value.publicUrl) ??
+          readString(value.signedUrl) ??
+          readString(value.key) ??
+          readString(value.path))
+        : undefined;
 
   return raw ? toPublicPhotoSrc(raw) : undefined;
 }
@@ -252,10 +266,7 @@ function readPhotos(row: Record<string, unknown>): string[] {
 export function mapCompany(raw: unknown): Company {
   const row = isRecord(raw) ? raw : {};
   const branding = isRecord(row.branding) ? row.branding : {};
-  const location =
-    readString(row.location) ??
-    readString(row.city) ??
-    null;
+  const location = readString(row.location) ?? readString(row.city) ?? null;
   const locationSlug = inferLocationSlug(
     readString(row.locationSlug) ?? readString(row.citySlug),
     location ?? undefined,
@@ -270,7 +281,8 @@ export function mapCompany(raw: unknown): Company {
     locationSlug,
     latitude: readNumber(row.latitude) ?? readNumber(row.lat) ?? null,
     longitude: readNumber(row.longitude) ?? readNumber(row.lng) ?? null,
-    vehicleCount: readNumber(row.vehicleCount) ?? readNumber(row.fleetSize) ?? null,
+    vehicleCount:
+      readNumber(row.vehicleCount) ?? readNumber(row.fleetSize) ?? null,
     isPublic: readBoolean(row.isPublic) ?? true,
     websiteUrl:
       readString(row.websiteUrl) ??
@@ -301,9 +313,14 @@ export interface VehicleMapOptions {
   currency?: string;
 }
 
-export function mapVehicle(raw: unknown, options?: VehicleMapOptions | string): Vehicle {
-  const fallbackSlug = typeof options === "string" ? options : options?.companySlug;
-  const fallbackCurrency = typeof options === "string" ? undefined : options?.currency;
+export function mapVehicle(
+  raw: unknown,
+  options?: VehicleMapOptions | string,
+): Vehicle {
+  const fallbackSlug =
+    typeof options === "string" ? options : options?.companySlug;
+  const fallbackCurrency =
+    typeof options === "string" ? undefined : options?.currency;
   const row = isRecord(raw) ? raw : {};
 
   return {
@@ -318,7 +335,10 @@ export function mapVehicle(raw: unknown, options?: VehicleMapOptions | string): 
     seats: readNumber(row.seats) ?? 5,
     pricePerDay: readNumber(row.pricePerDay) ?? readNumber(row.dailyRate) ?? 0,
     currency: readString(row.currency) || fallbackCurrency || "EUR",
-    status: mapVehicleStatus(readString(row.status), readBoolean(row.available)),
+    status: mapVehicleStatus(
+      readString(row.status),
+      readBoolean(row.available),
+    ),
     isPublic: readBoolean(row.isPublic) ?? true,
     photos: readPhotos(row),
     description: readString(row.description) ?? null,
@@ -333,7 +353,10 @@ export function mapVehicle(raw: unknown, options?: VehicleMapOptions | string): 
   };
 }
 
-export function mapReservation(raw: unknown, fallbackSlug?: string): GuestReservation {
+export function mapReservation(
+  raw: unknown,
+  fallbackSlug?: string,
+): GuestReservation {
   const row = isRecord(raw) ? raw : {};
   const customer = isRecord(row.customer) ? row.customer : {};
   const companySlug =
@@ -366,7 +389,10 @@ export function mapReservation(raw: unknown, fallbackSlug?: string): GuestReserv
     companySlug,
     createdAt: readString(row.createdAt) ?? new Date().toISOString(),
     vehicle: row.vehicle
-      ? mapVehicle(row.vehicle, { companySlug, currency: readString(row.currency) })
+      ? mapVehicle(row.vehicle, {
+          companySlug,
+          currency: readString(row.currency),
+        })
       : readString(row.vehicleMake) || readString(row.vehicleModel)
         ? mapVehicle(
             {
@@ -452,7 +478,11 @@ export function mapAvailabilityList(
   payload: unknown,
   range?: Pick<AvailabilityQuery, "from" | "to">,
 ): AvailabilityRange[] {
-  if (isRecord(payload) && !Array.isArray(payload) && !Array.isArray(payload.data)) {
+  if (
+    isRecord(payload) &&
+    !Array.isArray(payload) &&
+    !Array.isArray(payload.data)
+  ) {
     const row = mapAvailability(payload, range);
     return row.vehicleId ? [row] : [];
   }

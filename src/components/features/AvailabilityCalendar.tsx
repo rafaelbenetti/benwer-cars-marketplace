@@ -16,7 +16,12 @@ import {
   parseUnavailableDates,
   rangeIncludesUnavailable,
 } from "@/lib/availability";
-import { formatLongDate, parseIsoDate, startOfToday, toIsoDate } from "@/lib/dates";
+import {
+  formatLongDate,
+  parseIsoDate,
+  startOfToday,
+  toIsoDate,
+} from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import "react-day-picker/style.css";
 
@@ -90,8 +95,7 @@ export function AvailabilityCalendar({
     }
 
     const nextFrom = toIsoDate(range.from);
-    const nextTo =
-      range.to && range.to > range.from ? toIsoDate(range.to) : "";
+    const nextTo = range.to && range.to > range.from ? toIsoDate(range.to) : "";
 
     if (
       nextFrom &&
@@ -163,9 +167,7 @@ export function AvailabilityCalendar({
             className="marketplace-day-picker w-full"
             aria-label={t("calendarLabel")}
           />
-          <CalendarLegend
-            hasUnavailable={unavailableDateObjects.length > 0}
-          />
+          <CalendarLegend hasUnavailable={unavailableDateObjects.length > 0} />
         </>
       ) : null}
     </section>
@@ -211,7 +213,10 @@ function LegendSwatch({
     <li className="flex items-center gap-1.5">
       <span
         aria-hidden
-        className={cn("flex h-4 w-4 items-center justify-center rounded-sm", className)}
+        className={cn(
+          "flex h-4 w-4 items-center justify-center rounded-sm",
+          className,
+        )}
       />
       {label}
     </li>
@@ -219,7 +224,11 @@ function LegendSwatch({
 }
 
 function availabilityEndMonth(today: Date): Date {
-  return new Date(today.getFullYear(), today.getMonth() + AVAILABILITY_WINDOW_MONTHS, 1);
+  return new Date(
+    today.getFullYear(),
+    today.getMonth() + AVAILABILITY_WINDOW_MONTHS,
+    1,
+  );
 }
 
 function rangeStatus(

@@ -32,8 +32,12 @@ export async function HowItWorks() {
                   {t("stepLabel", { number: index + 1 })}
                 </p>
               </div>
-              <p className="text-base font-semibold text-foreground">{step.title}</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+              <p className="text-base font-semibold text-foreground">
+                {step.title}
+              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                {step.body}
+              </p>
             </li>
           );
         })}

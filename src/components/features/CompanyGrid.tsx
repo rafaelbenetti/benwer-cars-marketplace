@@ -48,15 +48,21 @@ export function CompanyGrid({
     return (
       <EmptyState
         icon={<Building2 size={28} />}
-        title={emptyTitle ?? (onClearFilters ? t("noResults") : t("emptyTitle"))}
+        title={
+          emptyTitle ?? (onClearFilters ? t("noResults") : t("emptyTitle"))
+        }
         description={
-          emptyHint ?? (onClearFilters ? t("noResultsHint") : t("emptyDescription"))
+          emptyHint ??
+          (onClearFilters ? t("noResultsHint") : t("emptyDescription"))
         }
         actionLabel={
-          emptyActionLabel ?? (onClearFilters ? t("clearFilters") : t("browseCars"))
+          emptyActionLabel ??
+          (onClearFilters ? t("clearFilters") : t("browseCars"))
         }
         onAction={onClearFilters}
-        actionHref={onClearFilters ? undefined : (emptyActionHref ?? NavRoutes.CARS)}
+        actionHref={
+          onClearFilters ? undefined : (emptyActionHref ?? NavRoutes.CARS)
+        }
       />
     );
   }

@@ -54,7 +54,10 @@ export function CompanyFilterGroup({
   return (
     <div className="min-w-0" role="group" aria-labelledby={`${idPrefix}-label`}>
       <div className="mb-2 flex items-center justify-between gap-2">
-        <p id={`${idPrefix}-label`} className="text-xs font-medium text-muted-foreground">
+        <p
+          id={`${idPrefix}-label`}
+          className="text-xs font-medium text-muted-foreground"
+        >
           {t("filters.company")}
         </p>
         {selectedSlugs.length ? (
@@ -105,7 +108,9 @@ export function CompanyFilterGroup({
                 <Checkbox.Root
                   id={checkboxId}
                   checked={isSelected}
-                  onCheckedChange={(value) => toggleCompany(company.slug, value === true)}
+                  onCheckedChange={(value) =>
+                    toggleCompany(company.slug, value === true)
+                  }
                   className={cn(
                     "flex h-4 w-4 shrink-0 cursor-pointer items-center justify-center rounded-sm border border-border-strong bg-surface",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -117,7 +122,9 @@ export function CompanyFilterGroup({
                   </Checkbox.Indicator>
                 </Checkbox.Root>
                 <CompanyMark company={company} size="sm" />
-                <span className="min-w-0 truncate text-foreground">{company.name}</span>
+                <span className="min-w-0 truncate text-foreground">
+                  {company.name}
+                </span>
               </label>
             </li>
           );

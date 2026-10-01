@@ -42,6 +42,11 @@ truth; do not start from generic Next/React memory.
    - [`docs/product.md`](./docs/product.md) — what & why, two modes, guest booking flow.
    - [`docs/testing.md`](./docs/testing.md) — Playwright e2e + Vitest unit.
 
+## Mobile app (when touching `benwer-cars-admin-mobile`)
+
+Read that repo’s `AGENTS.md` and `docs/mobile-guidelines.md`. **Hard rule:** respect
+system bars — no buttons or footers under the home indicator or Android nav bar.
+
 ## Hard rules (the short list)
 
 - **Server Components by default**; `"use client"` only when truly needed, at the leaves.
@@ -76,7 +81,7 @@ cd ../benwer-cars-api
 docker compose -f docker-compose-local.yml up --build
 ```
 
-Confirm: `curl -s http://localhost:8080/healthz`
+Confirm: `curl -s http://localhost:8080/health`
 Confirm seed (`benwer-cars-api` `main` at `dda5afd` and later):
 `curl -s http://localhost:8080/v1/public/companies` — **6 public companies**
 with locations and `vehicleCount`, and **37 public vehicles** whose photos are
@@ -112,11 +117,11 @@ mode** (no subdomain). To test tenant mode locally, set a custom `hosts` entry:
 
 ### When to rebuild what
 
-| You changed… | Do this |
-| --- | --- |
-| API Go code / migrations | `docker compose … up --build` in `benwer-cars-api` |
-| API routes / swagger | `make swag` in API, then `npm run generate:api` here |
-| Marketplace UI only | `npm run dev` (API can stay running) |
+| You changed…             | Do this                                              |
+| ------------------------ | ---------------------------------------------------- |
+| API Go code / migrations | `docker compose … up --build` in `benwer-cars-api`   |
+| API routes / swagger     | `make swag` in API, then `npm run generate:api` here |
+| Marketplace UI only      | `npm run dev` (API can stay running)                 |
 
 ## Not yet scaffolded — build before importing
 

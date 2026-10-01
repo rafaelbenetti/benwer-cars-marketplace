@@ -47,10 +47,12 @@ describe("joinApiUrl", () => {
         "https://cars-api.benwer.es/v1",
         "/v1/public/companies/med-rentacar/vehicles",
       ),
-    ).toBe("https://cars-api.benwer.es/v1/public/companies/med-rentacar/vehicles");
-    expect(joinApiUrl("https://cars-api.benwer.es", "/v1/public/companies")).toBe(
-      "https://cars-api.benwer.es/v1/public/companies",
+    ).toBe(
+      "https://cars-api.benwer.es/v1/public/companies/med-rentacar/vehicles",
     );
+    expect(
+      joinApiUrl("https://cars-api.benwer.es", "/v1/public/companies"),
+    ).toBe("https://cars-api.benwer.es/v1/public/companies");
   });
 
   it("collapses a concatenated /v1/v1 path", () => {
@@ -74,9 +76,12 @@ describe("joinApiUrl", () => {
       },
     });
 
-    await client.GET("/v1/public/companies/{slug}" as never, {
-      params: { path: { slug: "med-rentacar" } },
-    } as never);
+    await client.GET(
+      "/v1/public/companies/{slug}" as never,
+      {
+        params: { path: { slug: "med-rentacar" } },
+      } as never,
+    );
 
     expect(seen[0]).toBe(
       "https://cars-api.benwer.es/v1/public/companies/med-rentacar",
@@ -96,10 +101,7 @@ describe("resolveBrowserApiBaseUrl", () => {
 
   it("strips /v1 when no page origin is available", () => {
     expect(
-      resolveBrowserApiBaseUrl(
-        "https://cars-api.benwer.es/v1",
-        "production",
-      ),
+      resolveBrowserApiBaseUrl("https://cars-api.benwer.es/v1", "production"),
     ).toBe("https://cars-api.benwer.es");
   });
 
@@ -114,9 +116,9 @@ describe("resolveBrowserApiBaseUrl", () => {
   });
 
   it("uses the BFF in production even when the public API URL is unset", () => {
-    expect(
-      resolveBrowserApiBaseUrl("", "production"),
-    ).toBe(SAME_ORIGIN_API_PREFIX);
+    expect(resolveBrowserApiBaseUrl("", "production")).toBe(
+      SAME_ORIGIN_API_PREFIX,
+    );
   });
 
   it("does not invent a BFF URL in local when no API URL is configured", () => {
@@ -124,7 +126,9 @@ describe("resolveBrowserApiBaseUrl", () => {
   });
 
   it("treats a relative /api base as same-origin", () => {
-    expect(isSameOriginApiBase("/api", "https://marketplace.benwer.es")).toBe(true);
+    expect(isSameOriginApiBase("/api", "https://marketplace.benwer.es")).toBe(
+      true,
+    );
   });
 });
 
@@ -155,15 +159,22 @@ describe("assertMockCatalogueAllowed", () => {
     expect(() => assertMockCatalogueAllowed("local", "test")).toThrow(
       "Mock catalogue is disabled",
     );
-    expect(() => assertMockCatalogueAllowed("local", "test", "1")).not.toThrow();
+    expect(() =>
+      assertMockCatalogueAllowed("local", "test", "1"),
+    ).not.toThrow();
   });
 });
 
 describe("isAllowedPublicApiProxyPath", () => {
   it("allows public catalogue and guest booking paths", () => {
-    expect(isAllowedPublicApiProxyPath("GET", "v1/public/companies")).toBe(true);
+    expect(isAllowedPublicApiProxyPath("GET", "v1/public/companies")).toBe(
+      true,
+    );
     expect(
-      isAllowedPublicApiProxyPath("GET", "/v1/public/companies/med-rentacar/vehicles"),
+      isAllowedPublicApiProxyPath(
+        "GET",
+        "/v1/public/companies/med-rentacar/vehicles",
+      ),
     ).toBe(true);
     expect(
       isAllowedPublicApiProxyPath(
@@ -176,8 +187,12 @@ describe("isAllowedPublicApiProxyPath", () => {
 
   it("rejects authenticated or unknown API paths", () => {
     expect(isAllowedPublicApiProxyPath("GET", "v1/companies")).toBe(false);
-    expect(isAllowedPublicApiProxyPath("DELETE", "v1/public/companies")).toBe(false);
-    expect(isAllowedPublicApiProxyPath("POST", "v1/public/companies")).toBe(false);
+    expect(isAllowedPublicApiProxyPath("DELETE", "v1/public/companies")).toBe(
+      false,
+    );
+    expect(isAllowedPublicApiProxyPath("POST", "v1/public/companies")).toBe(
+      false,
+    );
   });
 });
 

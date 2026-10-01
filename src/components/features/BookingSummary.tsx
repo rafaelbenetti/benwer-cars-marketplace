@@ -44,15 +44,23 @@ export function BookingSummary({
         className,
       )}
     >
-      <h2 className="text-base font-semibold text-foreground">{t("summary")}</h2>
+      <h2 className="text-base font-semibold text-foreground">
+        {t("summary")}
+      </h2>
 
       <BookingVehiclePreview vehicle={vehicle} companyName={company?.name} />
 
       {!hasDates ? (
         <div className="flex flex-col gap-3 rounded-xl border border-dashed border-border bg-surface-muted/60 px-4 py-5">
-          <CalendarRange size={20} className="text-muted-foreground" aria-hidden />
+          <CalendarRange
+            size={20}
+            className="text-muted-foreground"
+            aria-hidden
+          />
           <div>
-            <p className="text-sm font-medium text-foreground">{t("datesMissingTitle")}</p>
+            <p className="text-sm font-medium text-foreground">
+              {t("datesMissingTitle")}
+            </p>
             <p className="mt-1 text-sm text-muted-foreground">
               {t("datesMissingDescription")}
             </p>
@@ -71,13 +79,16 @@ export function BookingSummary({
           ) : null}
           <SummaryRow
             label={t("startDate")}
-            value={fromDate ? formatLongDate(fromDate, locale) : from ?? ""}
+            value={fromDate ? formatLongDate(fromDate, locale) : (from ?? "")}
           />
           <SummaryRow
             label={t("endDate")}
-            value={toDate ? formatLongDate(toDate, locale) : to ?? ""}
+            value={toDate ? formatLongDate(toDate, locale) : (to ?? "")}
           />
-          <SummaryRow label={t("duration")} value={t("nights", { count: days })} />
+          <SummaryRow
+            label={t("duration")}
+            value={t("nights", { count: days })}
+          />
           <SummaryRow
             label={t("rate")}
             value={tCars("perDay", { price: rate })}
@@ -88,7 +99,9 @@ export function BookingSummary({
       {total ? (
         <div className="flex flex-col gap-1 border-t border-border pt-4">
           <div className="flex items-center justify-between gap-4">
-            <span className="text-sm font-medium text-foreground">{t("totalPrice")}</span>
+            <span className="text-sm font-medium text-foreground">
+              {t("totalPrice")}
+            </span>
             <span className="text-lg font-semibold tabular-nums text-foreground">
               {total}
             </span>
@@ -109,7 +122,9 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-4">
       <dt className="text-sm text-muted-foreground">{label}</dt>
-      <dd className="text-right text-sm font-medium text-foreground">{value}</dd>
+      <dd className="text-right text-sm font-medium text-foreground">
+        {value}
+      </dd>
     </div>
   );
 }

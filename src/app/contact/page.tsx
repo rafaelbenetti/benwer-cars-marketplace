@@ -31,11 +31,16 @@ async function ContactPage() {
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">
             {t("title")}
           </h1>
-          <p className="text-base leading-relaxed text-muted-foreground">{t("lede")}</p>
+          <p className="text-base leading-relaxed text-muted-foreground">
+            {t("lede")}
+          </p>
           <p className="text-sm text-muted-foreground">{t("bookingHint")}</p>
         </header>
         <ContactForm />
-        <nav className="flex flex-wrap gap-x-4 gap-y-2 text-sm" aria-label={tNav("footerAria")}>
+        <nav
+          className="flex flex-wrap gap-x-4 gap-y-2 text-sm"
+          aria-label={tNav("footerAria")}
+        >
           <Link
             href={NavRoutes.PRIVACY}
             className="text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"

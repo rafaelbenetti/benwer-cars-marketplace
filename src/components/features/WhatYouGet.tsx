@@ -29,8 +29,12 @@ export async function WhatYouGet() {
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <Icon size={18} aria-hidden />
               </span>
-              <p className="text-sm font-semibold text-foreground">{feature.title}</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
+              <p className="text-sm font-semibold text-foreground">
+                {feature.title}
+              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                {feature.body}
+              </p>
             </li>
           );
         })}

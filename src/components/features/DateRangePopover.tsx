@@ -8,7 +8,12 @@ import { DayPicker, type DateRange } from "react-day-picker";
 import { enGB, es } from "react-day-picker/locale";
 import { SearchFieldSegment } from "./SearchFieldSegment";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { formatSearchDate, parseIsoDate, startOfToday, toIsoDate } from "@/lib/dates";
+import {
+  formatSearchDate,
+  parseIsoDate,
+  startOfToday,
+  toIsoDate,
+} from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import "react-day-picker/style.css";
 
@@ -63,8 +68,12 @@ export function DateRangePopover({
       ? { from: fromDate ?? undefined, to: toDate ?? undefined }
       : undefined;
 
-  const fromValue = fromDate ? formatSearchDate(fromDate, locale) : t("pickupPlaceholder");
-  const toValue = toDate ? formatSearchDate(toDate, locale) : t("dropoffPlaceholder");
+  const fromValue = fromDate
+    ? formatSearchDate(fromDate, locale)
+    : t("pickupPlaceholder");
+  const toValue = toDate
+    ? formatSearchDate(toDate, locale)
+    : t("dropoffPlaceholder");
 
   function handleSelect(range: DateRange | undefined) {
     if (!range?.from) {
@@ -73,7 +82,8 @@ export function DateRangePopover({
     }
 
     const nextFrom = toIsoDate(range.from);
-    const nextTo = range.to && range.to >= range.from ? toIsoDate(range.to) : "";
+    const nextTo =
+      range.to && range.to >= range.from ? toIsoDate(range.to) : "";
     onChange({ from: nextFrom, to: nextTo });
 
     if (nextFrom && nextTo) {

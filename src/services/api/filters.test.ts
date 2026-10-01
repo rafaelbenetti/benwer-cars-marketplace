@@ -14,8 +14,16 @@ function company(overrides: Record<string, unknown>) {
 
 describe("applyCompanyListFilters", () => {
   const companies = [
-    company({ slug: "med-rentacar", locationSlug: "malaga", location: "Málaga" }),
-    company({ slug: "costa-wheels", locationSlug: "torremolinos", location: "Torremolinos" }),
+    company({
+      slug: "med-rentacar",
+      locationSlug: "malaga",
+      location: "Málaga",
+    }),
+    company({
+      slug: "costa-wheels",
+      locationSlug: "torremolinos",
+      location: "Torremolinos",
+    }),
   ];
 
   it("does not city-filter province-wide malaga", () => {
@@ -27,7 +35,9 @@ describe("applyCompanyListFilters", () => {
   });
 
   it("keeps a specific city filter", () => {
-    const filtered = applyCompanyListFilters(companies, { location: "torremolinos" });
+    const filtered = applyCompanyListFilters(companies, {
+      location: "torremolinos",
+    });
     expect(filtered.map((row) => row.slug)).toEqual(["costa-wheels"]);
   });
 });

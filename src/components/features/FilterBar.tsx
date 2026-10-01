@@ -80,20 +80,23 @@ export function FilterBar({ filters, onChange, className }: FilterBarProps) {
         </FilterGroup>
 
         <FilterGroup legend={t("filters.transmission")}>
-          {[TransmissionType.AUTOMATIC, TransmissionType.MANUAL].map((value) => (
-            <FilterChip
-              key={value}
-              pressed={filters.transmission === value}
-              onClick={() =>
-                onChange({
-                  ...filters,
-                  transmission: filters.transmission === value ? undefined : value,
-                })
-              }
-            >
-              {t(`transmission.${value}`)}
-            </FilterChip>
-          ))}
+          {[TransmissionType.AUTOMATIC, TransmissionType.MANUAL].map(
+            (value) => (
+              <FilterChip
+                key={value}
+                pressed={filters.transmission === value}
+                onClick={() =>
+                  onChange({
+                    ...filters,
+                    transmission:
+                      filters.transmission === value ? undefined : value,
+                  })
+                }
+              >
+                {t(`transmission.${value}`)}
+              </FilterChip>
+            ),
+          )}
         </FilterGroup>
 
         <FilterGroup legend={t("filters.seats")}>

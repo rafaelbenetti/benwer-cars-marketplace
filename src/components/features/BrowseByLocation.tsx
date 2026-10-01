@@ -25,7 +25,10 @@ export async function BrowseByLocation() {
         <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
       </div>
       {cities.length === 0 ? (
-        <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
+        <EmptyState
+          title={t("emptyTitle")}
+          description={t("emptyDescription")}
+        />
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {cities.map((city) => {

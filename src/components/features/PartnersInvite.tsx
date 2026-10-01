@@ -31,7 +31,10 @@ export async function PartnersInvite() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={t("ctaAria")}
-          className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
+          className={cn(
+            buttonVariants({ variant: "primary", size: "lg" }),
+            "w-full sm:w-auto",
+          )}
         >
           {t("cta")}
           <ArrowUpRight size={16} aria-hidden />

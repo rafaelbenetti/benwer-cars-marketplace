@@ -12,8 +12,15 @@ import { BookingView } from "@/components/features/BookingView";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { companiesApi, vehiclesApi } from "@/services/api";
 import { NavRoutes } from "@/enums";
-import { buildBookHref, buildCarDetailHref, buildFleetHref } from "@/lib/booking";
-import { buildCompanySiteHref, buildCompanySiteOrigin } from "@/lib/companySite";
+import {
+  buildBookHref,
+  buildCarDetailHref,
+  buildFleetHref,
+} from "@/lib/booking";
+import {
+  buildCompanySiteHref,
+  buildCompanySiteOrigin,
+} from "@/lib/companySite";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();

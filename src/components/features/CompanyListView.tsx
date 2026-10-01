@@ -75,7 +75,10 @@ export function CompanyListView({
 }: CompanyListViewProps) {
   if (!showSearchBar) {
     return (
-      <FeaturedCompanyResults limit={limit} initialCompanies={initialCompanies} />
+      <FeaturedCompanyResults
+        limit={limit}
+        initialCompanies={initialCompanies}
+      />
     );
   }
 

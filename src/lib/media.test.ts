@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  shouldSkipImageOptimization,
-  toPublicMediaSrc,
-} from "./media";
+import { shouldSkipImageOptimization, toPublicMediaSrc } from "./media";
 
 describe("toPublicMediaSrc", () => {
   it("rewrites live LocalStack SVG logo URLs to /localstack", () => {
@@ -31,20 +28,26 @@ describe("toPublicMediaSrc", () => {
       "/mock-data/logos/med-rentacar.svg",
     );
     expect(
-      toPublicMediaSrc("/localstack/public-benwer-cars/seed/logos/med-rentacar.svg"),
+      toPublicMediaSrc(
+        "/localstack/public-benwer-cars/seed/logos/med-rentacar.svg",
+      ),
     ).toBe("/localstack/public-benwer-cars/seed/logos/med-rentacar.svg");
   });
 
   it("keeps https CDN and S3 URLs, including protocol-relative hosts", () => {
-    expect(toPublicMediaSrc("https://d111111abcdef8.cloudfront.net/cars/7.jpg")).toBe(
-      "https://d111111abcdef8.cloudfront.net/cars/7.jpg",
-    );
+    expect(
+      toPublicMediaSrc("https://d111111abcdef8.cloudfront.net/cars/7.jpg"),
+    ).toBe("https://d111111abcdef8.cloudfront.net/cars/7.jpg");
     expect(
       toPublicMediaSrc(
         "https://public-benwer-cars.s3.eu-west-1.amazonaws.com/seed/cars/7.jpg",
       ),
-    ).toBe("https://public-benwer-cars.s3.eu-west-1.amazonaws.com/seed/cars/7.jpg");
-    expect(toPublicMediaSrc("//cdn.example/car.jpg")).toBe("https://cdn.example/car.jpg");
+    ).toBe(
+      "https://public-benwer-cars.s3.eu-west-1.amazonaws.com/seed/cars/7.jpg",
+    );
+    expect(toPublicMediaSrc("//cdn.example/car.jpg")).toBe(
+      "https://cdn.example/car.jpg",
+    );
   });
 
   it("prefixes bare object keys only when a media origin is configured", () => {
@@ -71,9 +74,9 @@ describe("shouldSkipImageOptimization", () => {
         "/localstack/public-benwer-cars/seed/logos/med-rentacar.svg",
       ),
     ).toBe(true);
-    expect(shouldSkipImageOptimization("/mock-data/logos/denver-cars.svg")).toBe(
-      true,
-    );
+    expect(
+      shouldSkipImageOptimization("/mock-data/logos/denver-cars.svg"),
+    ).toBe(true);
     expect(shouldSkipImageOptimization("https://cdn.example/logo.png")).toBe(
       false,
     );

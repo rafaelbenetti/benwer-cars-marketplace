@@ -17,8 +17,14 @@ export async function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 md:px-6 lg:px-8">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="flex max-w-xs flex-col gap-3">
-            <BrandLogo alt={tBrand("logoAlt")} variant="full" className="h-14 w-28" />
-            <p className="text-sm text-muted-foreground">{tFooter("tagline")}</p>
+            <BrandLogo
+              alt={tBrand("logoAlt")}
+              variant="full"
+              className="h-14 w-28"
+            />
+            <p className="text-sm text-muted-foreground">
+              {tFooter("tagline")}
+            </p>
             <p className="text-xs text-muted-foreground">
               {isTenant ? tFooter("poweredBy") : tFooter("trust")}
             </p>
@@ -27,24 +33,36 @@ export async function Footer() {
             <FooterGroup label={tFooter("explore")}>
               <FooterLink href={NavRoutes.HOME}>{tNav("home")}</FooterLink>
               {isTenant ? (
-                <FooterLink href={`${NavRoutes.HOME}#fleet`}>{tNav("cars")}</FooterLink>
+                <FooterLink href={`${NavRoutes.HOME}#fleet`}>
+                  {tNav("cars")}
+                </FooterLink>
               ) : (
                 <>
                   <FooterLink href={NavRoutes.CARS}>{tNav("cars")}</FooterLink>
-                  <FooterLink href={NavRoutes.COMPANIES}>{tNav("companies")}</FooterLink>
+                  <FooterLink href={NavRoutes.COMPANIES}>
+                    {tNav("companies")}
+                  </FooterLink>
                 </>
               )}
-              <FooterLink href={NavRoutes.CONTACT}>{tNav("contact")}</FooterLink>
+              <FooterLink href={NavRoutes.CONTACT}>
+                {tNav("contact")}
+              </FooterLink>
             </FooterGroup>
             <FooterGroup label={tFooter("legal")}>
-              <FooterLink href={NavRoutes.PRIVACY}>{tNav("privacy")}</FooterLink>
+              <FooterLink href={NavRoutes.PRIVACY}>
+                {tNav("privacy")}
+              </FooterLink>
               <FooterLink href={NavRoutes.TERMS}>{tNav("terms")}</FooterLink>
-              <FooterLink href={NavRoutes.COOKIES}>{tNav("cookies")}</FooterLink>
+              <FooterLink href={NavRoutes.COOKIES}>
+                {tNav("cookies")}
+              </FooterLink>
             </FooterGroup>
           </div>
           <LocaleSwitcher />
         </div>
-        <p className="text-xs text-subtle-foreground">{tFooter("copyright", { year })}</p>
+        <p className="text-xs text-subtle-foreground">
+          {tFooter("copyright", { year })}
+        </p>
       </div>
     </footer>
   );
@@ -67,13 +85,7 @@ function FooterGroup({
   );
 }
 
-function FooterLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: string;
-}) {
+function FooterLink({ href, children }: { href: string; children: string }) {
   return (
     <Link
       href={href}

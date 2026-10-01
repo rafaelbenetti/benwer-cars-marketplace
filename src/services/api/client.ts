@@ -44,9 +44,14 @@ export function isLiveApiConfigured(): boolean {
   return Boolean(liveApiBaseUrl());
 }
 
-function normalizeFieldError(error: { field?: string; code?: string }): FieldError {
+function normalizeFieldError(error: {
+  field?: string;
+  code?: string;
+}): FieldError {
   const field = error.field ? (FIELD_ALIASES[error.field] ?? error.field) : "";
-  const code = error.code ? (CODE_ALIASES[error.code] ?? error.code) : "unknown";
+  const code = error.code
+    ? (CODE_ALIASES[error.code] ?? error.code)
+    : "unknown";
   return { field, code };
 }
 
@@ -99,14 +104,18 @@ const problemMiddleware: Middleware = {
       return response;
     }
 
-    const body = (await response.clone().json().catch(() => ({}))) as ProblemBody;
+    const body = (await response
+      .clone()
+      .json()
+      .catch(() => ({}))) as ProblemBody;
     throwApiError(response.status, body);
   },
 };
 
-let cached:
-  | { baseUrl: string; client: ReturnType<typeof createClient<paths>> }
-  | null = null;
+let cached: {
+  baseUrl: string;
+  client: ReturnType<typeof createClient<paths>>;
+} | null = null;
 
 export function getOpenApiClient() {
   const baseUrl = liveApiBaseUrl();

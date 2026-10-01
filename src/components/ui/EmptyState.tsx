@@ -54,7 +54,9 @@ export function EmptyState({
           {title}
         </p>
         {description ? (
-          <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {description}
+          </p>
         ) : null}
       </div>
       {actionLabel && actionHref ? (

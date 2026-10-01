@@ -8,7 +8,9 @@ interface MarketplaceHeroSearchProps {
   className?: string;
 }
 
-export function MarketplaceHeroSearch({ className }: MarketplaceHeroSearchProps) {
+export function MarketplaceHeroSearch({
+  className,
+}: MarketplaceHeroSearchProps) {
   return (
     <Suspense fallback={<MarketplaceSearchBarFallback className={className} />}>
       <MarketplaceSearchBar className={className} />
